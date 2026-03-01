@@ -6,9 +6,8 @@ import os
 import uuid
 
 app = Flask(__name__)
-CORS(app)  # يسمح للموقع بالاتصال
+CORS(app)
 
-# اللغات المتاحة
 LANGUAGES = {
     'en': 'en-US-GuyNeural',
     'es': 'es-ES-ElviraNeural',
@@ -25,6 +24,10 @@ LANGUAGES = {
     'sv': 'sv-SE-MattiasNeural',
 }
 
+@app.route('/api/health')
+def health():
+    return jsonify({'status': 'ok'})
+
 @app.route('/api/dub', methods=['POST'])
 def dub():
     data = request.json
@@ -38,15 +41,10 @@ def dub():
     filename = f"dub_{uuid.uuid4().hex}.mp3"
     filepath = os.path.join(os.path.dirname(__file__), filename)
     
-    # توليد الصوت
     asyncio.run(generate_audio(text, voice, filepath))
     
     if os.path.exists(filepath):
-        return jsonify({
-            'success': True,
-            'file': filename,
-            'message': 'تم التوليد بنجاح'
-        })
+        return jsonify({'success': True, 'file': filename, 'message': 'تم التوليد بنجاح'})
     else:
         return jsonify({'error': 'فشل التوليد'}), 500
 
@@ -62,8 +60,4 @@ async def generate_audio(text, voice, output_file):
     await communicate.save(output_file)
 
 if __name__ == '__main__':
-    print("=" * 50)
-    print("🚀 سيرفر الدبلجة يعمل على:")
-    print("   http://localhost:5000")
-    print("=" * 50)
     app.run(debug=True, port=5000)
