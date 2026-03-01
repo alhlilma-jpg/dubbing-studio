@@ -281,7 +281,7 @@ const SAMP={'en-US':['The quick brown fox.','Welcome to AI!'],'ar-SA':['بسم �
 let L1='en-US',L2='en-US',voices=[],spk=false,pau=false,srtData=[],dubbing=false,dubCanc=false,resBlob=null,transLang='en',transBlob=null;
 
 // ✅ رابط السيرفر - بدون مسافات زائدة
-const SERVER_URL='https://dubbing-api.onrender.com';
+const SERVER_URL='https://dubbing-api-xyz123.onrender.com';
 
 function swTab(id,btn){document.querySelectorAll('.tc').forEach(t=>t.classList.remove('on'));document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));document.getElementById(id).classList.add('on');btn.classList.add('on');}
 function mkGrid(gid,cur,cb){const g=document.getElementById(gid);LANGS.forEach(l=>{const b=document.createElement('button');b.className='lb'+(l.c===cur?' on':'');b.dataset.c=l.c;b.innerHTML=`<span class="lf">${l.f}</span>${l.l}`;b.onclick=()=>{g.querySelectorAll('.lb').forEach(x=>x.classList.toggle('on',x.dataset.c===l.c));cb(l.c);};g.appendChild(b);});}
@@ -323,3 +323,4 @@ document.getElementById('rr1').oninput=e=>document.getElementById('rv1').textCon
 </script>
 </body>
 </html>
+
