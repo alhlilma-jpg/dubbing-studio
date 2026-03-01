@@ -41,8 +41,6 @@ def dub():
         
         voice = LANGUAGES.get(lang, 'ar-SA-HamedNeural')
         filename = f"dub_{uuid.uuid4().hex}.mp3"
-        
-        # ✅ استخدام مجلد مؤقت بدلاً من __file__
         filepath = os.path.join(tempfile.gettempdir(), filename)
         
         asyncio.run(generate_audio(text, voice, filepath))
@@ -50,7 +48,7 @@ def dub():
         if os.path.exists(filepath) and os.path.getsize(filepath) > 0:
             return jsonify({'success': True, 'file': filename, 'message': 'تم التوليد بنجاح'})
         else:
-            return jsonify({'error': 'فشل التوليد - الملف فارغ'}), 500
+            return jsonify({'error': 'فشل التوليد'}), 500
             
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -70,8 +68,8 @@ async def generate_audio(text, voice, output_file):
         communicate = edge_tts.Communicate(text, voice)
         await communicate.save(output_file)
     except Exception as e:
-        print(f"Error in generate_audio: {e}")
+        print(f"Error: {e}")
         raise
 
 if __name__ == '__main__':
-    app.run(debug=True, port=int(os.environ.get('PORT', 5000)))
+    app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
