@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>استوديو الدبلجة الاحترافي</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#0a0a1a;color:#e0e0ff;min-height:100vh;overflow-x:hidden}
+.bg{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at 20% 20%,#1a0533 0%,transparent 50%),radial-gradient(ellipse at 80% 80%,#001233 0%,transparent 50%),#0a0a1a}
+.wrap{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:24px 16px;display:grid;grid-template-columns:1fr;gap:24px}
+@media(min-width:1024px){.wrap{grid-template-columns:2fr 1fr;align-items:start}}
+header{text-align:center;margin-bottom:28px;grid-column:1/-1}
+.logo{font-size:2.6rem;animation:float 3s ease-in-out infinite;display:inline-block}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+h1{font-size:1.9rem;font-weight:800;background:linear-gradient(135deg,#a78bfa,#60a5fa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:5px}
+.sub{color:#6b7280;font-size:.9rem}
+.tabs{display:flex;gap:8px;margin-bottom:20px;border-bottom:1px solid rgba(255,255,255,.08)}
+.tb{padding:10px 20px;border:none;background:transparent;color:#6b7280;cursor:pointer;font-size:.88rem;font-family:inherit;border-bottom:2px solid transparent;transition:all .2s;font-weight:600}
+.tb.on{color:#a78bfa;border-bottom-color:#a78bfa}
+.tc{display:none}.tc.on{display:block}
+.card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:24px;backdrop-filter:blur(20px);box-shadow:0 20px 60px rgba(0,0,0,.5);margin-bottom:16px}
+.sh{display:flex;align-items:center;gap:10px;font-size:.95rem;font-weight:700;color:#e0e0ff;margin-bottom:16px}
+.sn{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#2563eb);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:800;color:#fff;flex-shrink:0}
+.lbl{font-size:.78rem;color:#a78bfa;margin-bottom:9px;font-weight:600;text-transform:uppercase;letter-spacing:1px;display:block}
+.lg{display:grid;grid-template-columns:repeat(auto-fill,minmax(108px,1fr));gap:7px;margin-bottom:16px}
+.lb{padding:8px 5px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:#c4b5fd;cursor:pointer;font-size:.75rem;transition:all .2s;text-align:center;font-family:inherit}
+.lb:hover{background:rgba(167,139,250,.15);border-color:rgba(167,139,250,.4);transform:translateY(-2px)}
+.lb.on{background:linear-gradient(135deg,rgba(167,139,250,.3),rgba(96,165,250,.3));border-color:#a78bfa;color:#fff;box-shadow:0 0 16px rgba(167,139,250,.3)}
+.lf{font-size:1.1rem;display:block;margin-bottom:2px}
+.tw{position:relative;margin-bottom:16px}
+textarea{width:100%;min-height:140px;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);border-radius:12px;color:#e0e0ff;font-size:.95rem;padding:14px;resize:vertical;font-family:inherit;transition:border-color .3s;outline:none;line-height:1.7}
+textarea:focus{border-color:#a78bfa;box-shadow:0 0 0 3px rgba(167,139,250,.12)}
+textarea::placeholder{color:#4b5563}
+.cc{position:absolute;bottom:9px;left:11px;font-size:.7rem;color:#4b5563}
+.ctrls{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.cg{display:flex;flex-direction:column;gap:4px;flex:1;min-width:90px}
+.cg label{font-size:.7rem;color:#6b7280;text-transform:uppercase;letter-spacing:.4px}
+input[type=range]{-webkit-appearance:none;width:100%;height:4px;border-radius:2px;background:rgba(255,255,255,.1);outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:linear-gradient(135deg,#a78bfa,#60a5fa);cursor:pointer}
+.rv{font-size:.75rem;color:#a78bfa;font-weight:600}
+.wv{display:flex;align-items:center;justify-content:center;gap:3px;height:34px;margin:12px 0;opacity:0;transition:opacity .3s}
+.wv.on{opacity:1}
+.wb{width:4px;border-radius:4px;background:linear-gradient(180deg,#a78bfa,#60a5fa);animation:wva 1.2s ease-in-out infinite}
+.wb:nth-child(1){height:16px;animation-delay:0s}.wb:nth-child(2){height:26px;animation-delay:.1s}.wb:nth-child(3){height:34px;animation-delay:.2s}.wb:nth-child(4){height:26px;animation-delay:.3s}.wb:nth-child(5){height:16px;animation-delay:.4s}.wb:nth-child(6){height:30px;animation-delay:.5s}.wb:nth-child(7){height:20px;animation-delay:.6s}.wb:nth-child(8){height:34px;animation-delay:.7s}.wb:nth-child(9){height:26px;animation-delay:.8s}.wb:nth-child(10){height:16px;animation-delay:.9s}
+@keyframes wva{0%,100%{transform:scaleY(.4)}50%{transform:scaleY(1)}}
+.br{display:flex;gap:9px;flex-wrap:wrap}
+.btn{padding:11px 20px;border-radius:11px;border:none;cursor:pointer;font-size:.85rem;font-weight:600;font-family:inherit;transition:all .2s;display:flex;align-items:center;gap:6px}
+.bs{background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;flex:1;justify-content:center;box-shadow:0 4px 16px rgba(124,58,237,.4)}
+.bs:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(124,58,237,.6)}
+.bsm{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#9ca3af}
+.bsm:hover{background:rgba(255,255,255,.1)}
+.st{text-align:center;font-size:.85rem;padding:9px;border-radius:8px;min-height:36px;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .3s;margin-top:12px}
+.st.i{color:#60a5fa;background:rgba(96,165,250,.07)}
+.st.ok{color:#34d399;background:rgba(52,211,153,.07)}
+.st.er{color:#f87171;background:rgba(248,113,113,.07)}
+.st.wn{color:#fbbf24;background:rgba(251,191,36,.07)}
+.ua{border:2px dashed rgba(96,165,250,.28);border-radius:12px;padding:22px;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:14px;position:relative}
+.ua:hover{border-color:rgba(96,165,250,.55);background:rgba(96,165,250,.04)}
+.ua input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
+.ui{font-size:1.9rem;margin-bottom:6px}
+.ut{color:#60a5fa;font-size:.85rem}
+.us{color:#4b5563;font-size:.72rem;margin-top:3px}
+.sl{max-height:260px;overflow-y:auto;margin-bottom:12px;scrollbar-width:thin;scrollbar-color:#a78bfa transparent}
+.sl::-webkit-scrollbar{width:4px}
+.sl::-webkit-scrollbar-thumb{background:#a78bfa;border-radius:4px}
+.si{display:flex;gap:8px;padding:9px 11px;border-radius:8px;margin-bottom:5px;border:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.02);align-items:flex-start;transition:all .15s}
+.si.hl{background:rgba(96,165,250,.12);border-color:rgba(96,165,250,.3)}
+.si.done{background:rgba(52,211,153,.12);border-color:rgba(52,211,153,.3)}
+.sin{color:#4b5563;font-size:.7rem;min-width:20px;padding-top:3px}
+.sit{color:#60a5fa;font-size:.68rem;min-width:130px;padding-top:3px;font-family:monospace}
+.sit2{color:#e0e0ff;font-size:.84rem;line-height:1.5;flex:1}
+.ib{background:rgba(96,165,250,.06);border:1px solid rgba(96,165,250,.15);border-radius:12px;padding:14px 16px;margin-bottom:18px}
+.ir{display:flex;align-items:flex-start;gap:8px;font-size:.8rem;color:#9ca3af;line-height:1.5;margin-bottom:5px}
+.ir:last-child{margin-bottom:0}
+.ir strong{color:#60a5fa}
+.gb{width:100%;padding:22px;border-radius:16px;border:none;cursor:pointer;background:linear-gradient(135deg,#059669,#0d9488);box-shadow:0 6px 28px rgba(5,150,105,.45);display:flex;flex-direction:column;align-items:center;gap:5px;transition:all .2s;font-family:inherit;position:relative;overflow:hidden;margin-bottom:0}
+.gb::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.1),transparent);animation:shm 2s infinite;background-size:200% 100%}
+@keyframes shm{0%{background-position:-200% 0}100%{background-position:200% 0}}
+.gb:hover{transform:translateY(-3px);box-shadow:0 10px 38px rgba(5,150,105,.65)}
+.gb:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.gi{font-size:2rem}.gl{font-size:1.1rem;font-weight:800;color:#fff}.gs{font-size:.75rem;color:rgba(255,255,255,.7)}
+.cb{text-align:center;background:rgba(0,0,0,.35);border-radius:14px;padding:22px 16px;margin-bottom:16px;border:1px solid rgba(255,255,255,.06)}
+.cr{display:flex;justify-content:center;gap:24px;margin-bottom:12px}
+.ci{text-align:center}
+.cl{font-size:.65rem;color:#6b7280;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px}
+.cv{font-size:1.6rem;font-weight:800;font-family:monospace;line-height:1}
+.cr1{background:linear-gradient(135deg,#a78bfa,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.cr2{color:#34d399}.cr3{color:#4b5563}
+.ph{display:flex;align-items:center;gap:8px;justify-content:center;margin-bottom:14px;font-size:.85rem}
+.pd{width:8px;height:8px;border-radius:50%;background:#fbbf24;animation:blk 1s ease-in-out infinite}
+@keyframes blk{0%,100%{opacity:1}50%{opacity:.2}}
+.pt{color:#fbbf24;font-weight:600}
+.pw{margin-bottom:14px}
+.pb{width:100%;height:8px;background:rgba(255,255,255,.08);border-radius:4px;overflow:hidden;margin-bottom:6px}
+.pf{height:100%;background:linear-gradient(90deg,#7c3aed,#2563eb,#34d399);border-radius:4px;transition:width .4s ease}
+.pm{display:flex;justify-content:space-between;font-size:.72rem;color:#6b7280;font-family:monospace}
+.cs{background:rgba(167,139,250,.07);border:1px solid rgba(167,139,250,.18);border-radius:10px;padding:11px 15px;font-size:.87rem;line-height:1.6;color:#c4b5fd;text-align:center;min-height:44px;margin-bottom:8px}
+.sc{text-align:center;font-size:.72rem;color:#4b5563;font-family:monospace;margin-bottom:12px}
+.rb{background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.2);border-radius:14px;padding:18px;margin-top:14px}
+.rt{color:#34d399;font-weight:700;font-size:.9rem;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.db{display:inline-flex;align-items:center;gap:6px;padding:12px 20px;background:linear-gradient(135deg,#059669,#0d9488);border-radius:10px;color:#fff;text-decoration:none;font-size:.88rem;font-weight:600;transition:all .2s;border:none;cursor:pointer;font-family:inherit;width:100%;justify-content:center}
+.db:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(5,150,105,.4)}
+.yh{font-size:.72rem;color:#6b7280;text-align:center;margin-top:10px;line-height:1.5}
+.sg{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:6px}
+.sbtn{padding:8px 10px;border-radius:9px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.02);color:#9ca3af;cursor:pointer;font-size:.76rem;text-align:right;transition:all .2s;font-family:inherit;line-height:1.4}
+.sbtn:hover{background:rgba(255,255,255,.06);color:#e0e0ff;border-color:rgba(167,139,250,.25)}
+footer{text-align:center;padding:18px;color:#374151;font-size:.75rem;grid-column:1/-1}
+.tp{border-top:4px solid #34d399}
+.tl{display:flex;flex-direction:column;gap:12px}
+.tg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tbtn{padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);color:#9ca3af;cursor:pointer;font-size:.8rem;transition:all .2s}
+.tbtn:hover{background:rgba(52,211,153,.1);color:#34d399;border-color:#34d399}
+.tbtn.on{background:#34d399;color:#000;font-weight:700}
+.trs{background:rgba(52,211,153,.05);border:1px solid rgba(52,211,153,.2);border-radius:12px;padding:16px}
+.trh{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.trt{color:#34d399;font-weight:700}
+.trc{font-size:.85rem;color:#d1d5db;line-height:1.6;white-space:pre-wrap;background:rgba(0,0,0,.2);padding:12px;border-radius:8px;max-height:300px;overflow-y:auto}
+.lbl-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}
+@media(max-width:600px){h1{font-size:1.5rem}.lg{grid-template-columns:repeat(3,1fr)}.sit{display:none}.cr{gap:12px}.cv{font-size:1.2rem}.tg{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="wrap">
+
+<header>
+  <div class="logo">🎙️🌍</div>
+  <h1>استوديو الدبلجة الاحترافي</h1>
+  <p class="sub">سيرفر Python + واجهة ويب · مجاني 100%</p>
+</header>
+
+<!-- RIGHT: TRANSLATION -->
+<div class="card tp">
+  <div class="sh"><span class="sn" style="background:linear-gradient(135deg,#10b981,#059669)">🌐</span> مترجم SRT</div>
+  <div class="lbl">1. اختر لغة الترجمة</div>
+  <div class="tg" id="transLangs"></div>
+  <div class="lbl-row">
+    <span class="lbl" style="margin-bottom:0">2. النص المصدر (SRT)</span>
+    <button class="btn bsm" style="padding:6px 12px;font-size:.75rem" onclick="pasteSrc()">📋 لصق</button>
+  </div>
+  <textarea id="srcSRT" placeholder="الصق محتوى SRT..." style="min-height:100px;font-family:monospace;font-size:.8rem"></textarea>
+  <button class="btn bs" style="background:linear-gradient(135deg,#10b981,#059669)" onclick="startTrans()">🚀 ترجمة</button>
+  <div id="transRes" style="display:none;margin-top:16px">
+    <div class="trs">
+      <div class="trh">
+        <span class="trt">✅ النتيجة</span>
+        <button class="btn bsm" style="padding:6px 12px;font-size:.75rem" onclick="copyResult()">📋 نسخ</button>
+      </div>
+      <div class="trc" id="transOut"></div>
+      <button class="db" style="margin-top:12px" onclick="dlTransSRT()">⬇️ تنزيل SRT</button>
+    </div>
+  </div>
+  <div class="st i" id="transSt" style="margin-top:12px">جاهز</div>
+</div>
+
+<!-- LEFT: DUBBING -->
+<div>
+  <div class="tabs">
+    <button class="tb on" onclick="swTab('t1',this)">✏️ نطق النص</button>
+    <button class="tb" onclick="swTab('t2',this)">🎬 دبلجة SRT</button>
+  </div>
+
+  <!-- TAB 1 -->
+  <div id="t1" class="tc on">
+    <div class="card">
+      <span class="lbl">اختر اللغة</span>
+      <div class="lg" id="g1"></div>
+      <span class="lbl">الصوت</span>
+      <select id="vs"></select>
+      <div class="tw"><textarea id="ti" placeholder="اكتب النص..."></textarea><span class="cc" id="cc">0</span></div>
+      <div class="ctrls">
+        <div class="cg"><label>السرعة <span class="rv" id="rv1">1.0x</span></label><input type="range" id="rr1" min=".5" max="2" step=".1" value="1"></div>
+        <div class="cg"><label>الطبقة <span class="rv" id="pv1">1.0</span></label><input type="range" id="pr1" min=".5" max="2" step=".1" value="1"></div>
+        <div class="cg"><label>الصوت <span class="rv" id="vv1">100%</span></label><input type="range" id="vr1" min="0" max="1" step=".05" value="1"></div>
+      </div>
+      <div class="wv" id="wv1"><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div></div>
+      <div class="br">
+        <button class="btn bs" id="sb" onclick="tSpeak()"><span id="si">▶</span><span id="st2">نطق</span></button>
+        <button class="btn bsm" onclick="tPause()">⏸</button>
+        <button class="btn bsm" onclick="clrTxt()">🗑</button>
+      </div>
+      <div class="st i" id="s1">👋 اكتب نصاً واضغط نطق</div>
+    </div>
+  </div>
+
+  <!-- TAB 2 -->
+  <div id="t2" class="tc">
+    <div class="card">
+      <div class="sh"><span class="sn">١</span> لغة الدبلجة</div>
+      <div class="lg" id="g2"></div>
+      <div class="ctrls" style="margin-bottom:0">
+        <div class="cg"><label>السرعة <span class="rv" id="rv2">1.0x</span></label><input type="range" id="rr2" min=".5" max="1" step=".05" value="1"></div>
+        <div class="cg"><label>الصوت <span class="rv" id="vv2">1.0</span></label><input type="range" id="vr2" min=".2" max="2" step=".1" value="1"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="sh"><span class="sn">٢</span> ملف SRT</div>
+      <div class="ua">
+        <input type="file" accept=".srt,.txt" onchange="ldSRT(event)">
+        <div class="ui">📂</div>
+        <div class="ut">اسحب أو اضغط</div>
+        <div class="us">.srt أو .txt</div>
+      </div>
+      <span class="lbl">أو الصق المحتوى</span>
+      <textarea id="srtP" placeholder="1&#10;00:00:00,000 --> 00:00:02,000&#10;النص..." style="min-height:70px;font-size:.78rem;font-family:monospace"></textarea>
+      <button class="btn bsm" style="margin-top:6px;font-size:.78rem" onclick="prsPaste()">📥 تحليل</button>
+      <div id="srtInfo" style="display:none;margin-top:14px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <span style="color:#34d399;font-size:.82rem;font-weight:700">✅ <span id="sCnt">0</span> جملة · <span id="sDur">0:00:00</span></span>
+          <button class="btn bsm" style="padding:4px 10px;font-size:.7rem" onclick="cpySRT()">📋</button>
+        </div>
+        <div class="sl" id="srtL"></div>
+      </div>
+    </div>
+
+    <div class="card" id="dubCard" style="display:none">
+      <div class="sh"><span class="sn">٣</span> التوليد</div>
+      <div class="ib">
+        <div class="ir">🔇 <span>معالجة <strong>صامتة</strong> عبر سيرفر Python</span></div>
+        <div class="ir">⏱️ <span>تزامن دقيق مع توقيتات SRT</span></div>
+        <div class="ir">📤 <span>ملف WAV لـ YouTube Dubbing</span></div>
+      </div>
+      <button class="gb" id="genBtn" onclick="stDub()">
+        <span class="gi">🎬</span>
+        <span class="gl">توليد الدبلجة</span>
+        <span class="gs">يتطلب سيرفر Python شغال</span>
+      </button>
+
+      <div id="dubP" style="display:none">
+        <div style="height:16px"></div>
+        <div class="ph"><div class="pd"></div><div class="pt" id="phTxt">جارٍ...</div></div>
+        <div class="cb">
+          <div class="cr">
+            <div class="ci"><div class="cl">المتبقي</div><div class="cv cr1" id="clkR">--:--:--</div></div>
+            <div class="ci"><div class="cl">مضى</div><div class="cv cr2" id="clkE">00:00:00</div></div>
+            <div class="ci"><div class="cl">المجموع</div><div class="cv cr3" id="clkT">--:--:--</div></div>
+          </div>
+          <div class="wv on" style="height:26px;margin:0"><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div></div>
+        </div>
+        <div class="pw">
+          <div class="pb"><div class="pf" id="pFill" style="width:0%"></div></div>
+          <div class="pm"><span id="pLbl">0/0</span><span id="pPct">0%</span></div>
+        </div>
+        <div class="cs" id="curS">جارٍ...</div>
+        <div class="sc" id="sntC"></div>
+        <button class="btn bsm" style="width:100%;justify-content:center" onclick="cnclDub()">⏹ إلغاء</button>
+      </div>
+
+      <div id="dubRes" style="display:none">
+        <div class="rb">
+          <div class="rt">🎉 جاهز</div>
+          <audio id="dubAu" controls style="width:100%;margin-bottom:12px;border-radius:8px"></audio>
+          <button class="db" onclick="dlRes()">⬇️ تنزيل WAV</button>
+          <div class="yh">📤 YouTube Studio → دبلجة</div>
+        </div>
+      </div>
+      <div class="st i" id="dubSt">تأكد سيرفر Python شغال ثم اضغط</div>
+    </div>
+  </div>
+</div>
+
+</div>
+<footer>استوديو الدبلجة · Python Flask + Edge TTS · مجاني 100%</footer>
+
+<script>
+// DATA
+const LANGS=[
+  {c:'en-US',g:'en',n:'English',f:'🇺🇸',l:'الإنجليزية',code:'en'},
+  {c:'es-ES',g:'es',n:'Español',f:'🇪🇸',l:'الإسبانية',code:'es'},
+  {c:'ru-RU',g:'ru',n:'Русский',f:'🇷🇺',l:'الروسية',code:'ru'},
+  {c:'tr-TR',g:'tr',n:'Türkçe',f:'🇹',l:'التركية',code:'tr'},
+  {c:'de-DE',g:'de',n:'Deutsch',f:'🇩🇪',l:'الألمانية',code:'de'},
+  {c:'zh-CN',g:'zh-CN',n:'中文',f:'🇨🇳',l:'الصينية',code:'zh'},
+  {c:'hi-IN',g:'hi',n:'हिन्दी',f:'🇮🇳',l:'الهندية',code:'hi'},
+  {c:'fa-IR',g:'fa',n:'فارسی',f:'🇮🇷',l:'الفارسية',code:'fa'},
+  {c:'fr-FR',g:'fr',n:'Français',f:'🇫🇷',l:'الفرنسية',code:'fr'},
+  {c:'sv-SE',g:'sv',n:'Svenska',f:'🇸🇪',l:'السويدية',code:'sv'},
+  {c:'it-IT',g:'it',n:'Italiano',f:'🇮🇹',l:'الإيطالية',code:'it'},
+  {c:'nl-NL',g:'nl',n:'Nederlands',f:'🇳🇱',l:'الهولندية',code:'nl'},
+  {c:'ar-SA',g:'ar',n:'العربية',f:'🇸🇦',l:'العربية',code:'ar'},
+];
+const SAMP={
+  'en-US':['The quick brown fox.','Welcome to AI!'],
+  'ar-SA':['بسم الله الرحمن الرحيم.','مرحباً بكم!'],
+  'es-ES':['El zorro marrón.','¡Bienvenido!'],
+  'fr-FR':['Le renard brun.','Bienvenue!'],
+  'de-DE':['Der schnelle Fuchs.','Willkommen!'],
+};
+
+// STATE
+let L1='en-US',L2='en-US';
+let voices=[],spk=false,pau=false;
+let srtData=[],dubbing=false,dubCanc=false,resBlob=null;
+let transLang='en',transBlob=null;
+const SERVER_URL='https://YOUR-APP.onrender.com';
+// TABS
+function swTab(id,btn){
+  document.querySelectorAll('.tc').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  btn.classList.add('on');
+}
+
+// GRIDS
+function mkGrid(gid,cur,cb){
+  const g=document.getElementById(gid);
+  LANGS.forEach(l=>{
+    const b=document.createElement('button');
+    b.className='lb'+(l.c===cur?' on':'');
+    b.dataset.c=l.c;
+    b.innerHTML=`<span class="lf">${l.f}</span>${l.l}`;
+    b.onclick=()=>{
+      g.querySelectorAll('.lb').forEach(x=>x.classList.toggle('on',x.dataset.c===l.c));
+      cb(l.c);
+    };
+    g.appendChild(b);
+  });
+}
+mkGrid('g1',L1,c=>{L1=c;updV();mkSamp();});
+mkGrid('g2',L2,c=>{L2=c;});
+
+// VOICES
+function ldV(){voices=window.speechSynthesis.getVoices();updV();}
+function updV(){
+  const s=document.getElementById('vs');
+  s.innerHTML='';
+  const px=L1.split('-')[0];
+  [...voices].sort((a,b)=>(a.lang===L1?0:a.lang.startsWith(px)?1:2)-(b.lang===L1?0:b.lang.startsWith(px)?1:2))
+    .forEach(v=>{
+      const o=document.createElement('option');
+      o.value=v.name;
+      o.textContent=v.name+' ('+v.lang+')';
+      if(v.lang.startsWith(px))o.style.color='#a78bfa';
+      s.appendChild(o);
+    });
+  if(!voices.length)s.innerHTML='<option>لا توجد أصوات</option>';
+}
+if(window.speechSynthesis){window.speechSynthesis.onvoiceschanged=ldV;ldV();}
+
+// TEXT SPEAK
+function tSpeak(){
+  if(spk){window.speechSynthesis.cancel();spk=false;pau=false;wv1(false);sSB(false);ss1('⏹ توقف','i');return;}
+  const raw=document.getElementById('ti').value.trim();
+  if(!raw){ss1('✏️ اكتب نصاً','er');return;}
+  const utt=new SpeechSynthesisUtterance(clnTxt(raw));
+  utt.lang=L1;
+  utt.rate=parseFloat(document.getElementById('rr1').value);
+  utt.pitch=parseFloat(document.getElementById('pr1').value);
+  utt.volume=parseFloat(document.getElementById('vr1').value);
+  const v=voices.find(x=>x.name===document.getElementById('vs').value);
+  if(v)utt.voice=v;
+  utt.onstart=()=>{spk=true;wv1(true);sSB(true);ss1('🔊 جارٍ...','ok');};
+  utt.onend=utt.onerror=()=>{spk=false;pau=false;wv1(false);sSB(false);ss1('✅ انتهى','ok');};
+  window.speechSynthesis.speak(utt);
+}
+function tPause(){
+  if(!spk)return;
+  if(!pau){window.speechSynthesis.pause();pau=true;wv1(false);ss1('⏸ متوقف','i');}
+  else{window.speechSynthesis.resume();pau=false;wv1(true);ss1('🔊 جارٍ...','ok');}
+}
+function clrTxt(){
+  window.speechSynthesis.cancel();spk=false;pau=false;
+  document.getElementById('ti').value='';
+  document.getElementById('cc').textContent='0';
+  wv1(false);sSB(false);ss1('🗑 تم المسح','i');
+}
+function wv1(on){document.getElementById('wv1').classList.toggle('on',on);}
+function sSB(on){
+  document.getElementById('si').textContent=on?'⏹':'▶';
+  document.getElementById('st2').textContent=on?'إيقاف':'نطق';
+}
+function ss1(m,t){const e=document.getElementById('s1');e.textContent=m;e.className='st '+t;}
+function ssDub(m,t){const e=document.getElementById('dubSt');if(e){e.textContent=m;e.className='st '+t;}}
+function ssTrans(m,t){const e=document.getElementById('transSt');if(e){e.textContent=m;e.className='st '+t;}}
+
+// CLEAN TEXT
+function clnTxt(r){
+  return r.replace(/<[^>]+>/g,'').replace(/\d{2}:\d{2}:\d{2}[,\.]\d{3}\s*-->\s*\d{2}:\d{2}:\d{2}[,\.]\d{3}/g,'')
+    .replace(/^\s*\d+\s*$/gm,'').replace(/-->/g,'').replace(/\[[^\]]*\]/g,'').replace(/\([^)]*\)/g,'')
+    .replace(/[#*_~`|\\^{}]/g,'').replace(/\s+/g,' ').trim();
+}
+
+// SAMPLES
+function mkSamp(){
+  const g=document.getElementById('smpG');
+  if(!g)return;
+  g.innerHTML='';
+  (SAMP[L1]||[]).forEach(s=>{
+    const b=document.createElement('button');
+    b.className='sbtn';
+    b.textContent=s;
+    b.onclick=()=>{document.getElementById('ti').value=s;document.getElementById('cc').textContent=s.length;};
+    g.appendChild(b);
+  });
+}
+mkSamp();
+
+// SRT
+function msT(t){const p=t.replace(',','.').split(':');return Math.round((+p[0]*3600+ +p[1]*60+parseFloat(p[2]))*1000);}
+function fmMs(ms){if(ms<0)ms=0;const s=Math.floor(ms/1000),m=Math.floor(s/60),h=Math.floor(m/60),p=n=>String(n).padStart(2,'0');return `${p(h)}:${p(m%60)}:${p(s%60)}`;}
+
+function prsSRT(txt){
+  return txt.trim().split(/\n\s*\n/).map(blk=>{
+    const ls=blk.trim().split('\n');
+    if(ls.length<2)return null;
+    const tm=ls[1].match(/(\d{2}:\d{2}:\d{2}[,\.]\d{3})\s*-->\s*(\d{2}:\d{2}:\d{2}[,\.]\d{3})/);
+    if(!tm)return null;
+    const raw=ls.slice(2).join(' ').replace(/<[^>]+>/g,'').trim();
+    if(!raw)return null;
+    return {i:parseInt(ls[0])||0,st:tm[1].replace(',','.'),en:tm[2].replace(',','.'),tx:raw,sp:clnTxt(raw)};
+  }).filter(Boolean);
+}
+function ldSRT(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{srtData=prsSRT(ev.target.result);rndrSRT();};r.readAsText(f,'UTF-8');}
+function prsPaste(){const t=document.getElementById('srtP').value.trim();if(!t)return;srtData=prsSRT(t);rndrSRT();}
+
+function rndrSRT(){
+  if(!srtData.length){ssDub('❌ ملف غير صحيح','er');return;}
+  document.getElementById('srtInfo').style.display='block';
+  document.getElementById('dubCard').style.display='block';
+  document.getElementById('sCnt').textContent=srtData.length;
+  const tot=msT(srtData[srtData.length-1].en);
+  document.getElementById('sDur').textContent=fmMs(tot);
+  document.getElementById('clkT').textContent=fmMs(tot);
+  const list=document.getElementById('srtL');
+  list.innerHTML='';
+  srtData.forEach((item,i)=>{
+    const d=document.createElement('div');
+    d.className='si';
+    d.id='si'+i;
+    d.innerHTML=`<span class="sin">${item.i}</span><span class="sit">${item.st}</span><span class="sit2">${item.tx}</span>`;
+    list.appendChild(d);
+  });
+  ssDub(`✅ ${srtData.length} جملة`,'ok');
+}
+function cpySRT(){navigator.clipboard.writeText(srtData.map(x=>x.tx).join('\n'));ssDub('📋 تم النسخ','ok');}
+
+// ═══ TRANSLATION ═══
+function initTransGrid(){
+  const g=document.getElementById('transLangs');
+  LANGS.filter(l=>l.c!=='ar-SA').forEach(l=>{
+    const b=document.createElement('button');
+    b.className='tbtn'+(l.code===transLang?' on':'');
+    b.textContent=l.f+' '+l.l;
+    b.onclick=()=>{
+      document.querySelectorAll('.tbtn').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on');
+      transLang=l.code;
+    };
+    g.appendChild(b);
+  });
+}
+initTransGrid();
+
+async function pasteSrc(){
+  try{
+    const txt=await navigator.clipboard.readText();
+    document.getElementById('srcSRT').value=txt;
+    ssTrans('✅ تم اللصق','ok');
+  }catch(e){ssTrans('❌ فشل اللصق','er');}
+}
+
+async function copyResult(){
+  const txt=document.getElementById('transOut').textContent;
+  if(!txt){ssTrans('⚠️ لا توجد نتيجة','wn');return;}
+  try{
+    await navigator.clipboard.writeText(txt);
+    ssTrans('✅ تم النسخ','ok');
+  }catch(e){ssTrans('❌ فشل','er');}
+}
+
+async function startTrans(){
+  const txt=document.getElementById('srcSRT').value.trim();
+  if(!txt){ssTrans('⚠️ الصق نص SRT','wn');return;}
+  ssTrans('🔄 جارٍ...','i');
+  document.getElementById('transRes').style.display='none';
+  const blocks=txt.trim().split(/\n\s*\n/);
+  let newSRT='';
+  let count=0;
+  for(let blk of blocks){
+    const ls=blk.trim().split('\n');
+    if(ls.length<2)continue;
+    const idx=ls[0],time=ls[1],text=ls.slice(2).join(' ');
+    if(!text){newSRT+=blk+'\n\n';continue;}
+    try{
+      const url=`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=ar|${transLang}`;
+      const res=await fetch(url);
+      const data=await res.json();
+      if(data.responseStatus===200){
+        newSRT+=`${idx}\n${time}\n${data.responseData.translatedText}\n\n`;
+      }else{
+        newSRT+=`${idx}\n${time}\n${text} [Failed]\n\n`;
+      }
+    }catch(e){
+      newSRT+=`${idx}\n${time}\n${text} [Error]\n\n`;
+    }
+    count++;
+    ssTrans(`جاري... ${count}/${blocks.length}`,'i');
+    await new Promise(r=>setTimeout(r,200));
+  }
+  document.getElementById('transOut').textContent=newSRT;
+  document.getElementById('transRes').style.display='block';
+  transBlob=new Blob([newSRT],{type:'text/plain'});
+  ssTrans(`✅ ${count} جملة`,'ok');
+}
+
+function dlTransSRT(){
+  if(!transBlob)return;
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(transBlob);
+  a.download=`translated_${transLang}.srt`;
+  a.click();
+}
+
+// ═══ DUBBING - PYTHON SERVER ═══
+async function stDub(){
+  if(!srtData.length){ssDub('⚠️ ارفع SRT أولاً','wn');return;}
+  
+  // Check server connection
+  try{
+    await fetch(SERVER_URL);
+  }catch(e){
+    ssDub('❌ سيرفر Python غير شغال! شغّله أولاً','er');
+    return;
+  }
+  
+  dubbing=true;dubCanc=false;resBlob=null;
+  const lang=LANGS.find(l=>l.c===L2)||LANGS[0];
+  const totalMs=msT(srtData[srtData.length-1].en)+2000;
+
+  document.getElementById('genBtn').style.display='none';
+  document.getElementById('dubP').style.display='block';
+  document.getElementById('dubRes').style.display='none';
+  setPh('🔍 جاري المعالجة...');
+  document.getElementById('clkT').textContent=fmMs(totalMs);
+
+  const t0=Date.now();
+  const audioFiles=[];
+  let done=0;
+
+  for(let i=0;i<srtData.length&&!dubCanc;i++){
+    const item=srtData[i];
+    if(!item.sp){done++;continue;}
+    
+    document.getElementById('curS').textContent=item.tx;
+    document.getElementById('sntC').textContent=`${done+1}/${srtData.length}`;
+    
+    const response=await fetch(`${SERVER_URL}/api/dub`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({text:item.sp,lang:lang.code})
+    });
+    
+    const result=await response.json();
+    if(result.success){
+      audioFiles.push(result.file);
+    }
+    
+    done++;
+    const pct=Math.round(done/srtData.length*100);
+    document.getElementById('pFill').style.width=pct+'%';
+    document.getElementById('pPct').textContent=pct+'%';
+    document.getElementById('pLbl').textContent=`${done}/${srtData.length}`;
+    
+    const el=document.getElementById('si'+i);
+    if(el)el.classList.add('done');
+  }
+
+  if(dubCanc){rstDub();ssDub('⏹ أُلغي','i');return;}
+
+  setPh('💾 جاري الدمج...');
+  
+  const audioContext=new(window.AudioContext||window.webkitAudioContext)();
+  const buffers=[];
+  
+  for(const file of audioFiles){
+    const res=await fetch(`${SERVER_URL}/api/download/${file}`);
+    const ab=await res.arrayBuffer();
+    const buf=await audioContext.decodeAudioData(ab);
+    buffers.push(buf);
+  }
+  
+  const totalSamples=buffers.reduce((sum,buf)=>sum+buf.length,0);
+  const merged=audioContext.createBuffer(1,totalSamples,audioContext.sampleRate);
+  let offset=0;
+  
+  buffers.forEach(buf=>{
+    merged.copyToChannel(buf.getChannelData(0),0,offset);
+    offset+=buf.length;
+  });
+  
+  resBlob=toWav(merged);
+  dubbing=false;
+  
+  const url=URL.createObjectURL(resBlob);
+  document.getElementById('dubAu').src=url;
+  document.getElementById('dubP').style.display='none';
+  document.getElementById('dubRes').style.display='block';
+  document.getElementById('genBtn').style.display='block';
+  
+  const sz=(resBlob.size/1024/1024).toFixed(2);
+  ssDub(`🎉 جاهز (${sz}MB)`,'ok');
+}
+
+function dlRes(){
+  if(!resBlob)return;
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(resBlob);
+  a.download='dubbing-'+Date.now()+'.wav';
+  a.click();
+}
+
+function cnclDub(){dubCanc=true;dubbing=false;rstDub();ssDub('⏹ أُلغي','i');}
+function rstDub(){
+  document.getElementById('dubP').style.display='none';
+  document.getElementById('genBtn').style.display='block';
+  document.getElementById('pFill').style.width='0%';
+  document.getElementById('pPct').textContent='0%';
+  document.getElementById('clkR').textContent='--:--:--';
+  document.getElementById('clkE').textContent='00:00:00';
+}
+function setPh(t){document.getElementById('phTxt').textContent=t;}
+
+// WAV ENCODER
+function toWav(buf){
+  const SR=buf.sampleRate;
+  const s=buf.getChannelData(0);
+  const dL=s.length*2;
+  const ab=new ArrayBuffer(44+dL);
+  const v=new DataView(ab);
+  const ws=(o,str)=>{for(let i=0;i<str.length;i++)v.setUint8(o+i,str.charCodeAt(i));};
+  ws(0,'RIFF');v.setUint32(4,36+dL,true);ws(8,'WAVE');ws(12,'fmt ');
+  v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);
+  v.setUint32(24,SR,true);v.setUint32(28,SR*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);
+  ws(36,'data');v.setUint32(40,dL,true);
+  let off=44;
+  for(let i=0;i<s.length;i++){
+    const x=Math.max(-1,Math.min(1,s[i]));
+    v.setInt16(off,x<0?x*0x8000:x*0x7FFF,true);
+    off+=2;
+  }
+  return new Blob([ab],{type:'audio/wav'});
+}
+
+// RANGE
+document.getElementById('rr1').oninput=e=>document.getElementById('rv1').textContent=parseFloat(e.target.value).toFixed(1)+'x';
+document.getElementById('pr1').oninput=e=>document.getElementById('pv1').textContent=parseFloat(e.target.value).toFixed(1);
+document.getElementById('vr1').oninput=e=>document.getElementById('vv1').textContent=Math.round(e.target.value*100)+'%';
+document.getElementById('ti').oninput=e=>document.getElementById('cc').textContent=e.target.value.length;
+document.getElementById('rr2').oninput=e=>document.getElementById('rv2').textContent=parseFloat(e.target.value).toFixed(2)+'x';
+document.getElementById('vr2').oninput=e=>document.getElementById('vv2').textContent=parseFloat(e.target.value).toFixed(1);
+</script>
+</body>
+</html>
