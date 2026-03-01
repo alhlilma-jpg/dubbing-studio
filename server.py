@@ -1,18 +1,18 @@
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 from gtts import gTTS
+from pydub import AudioSegment
+from pydub.effects import speedup
 import os
 import uuid
 import logging
 
-# إعداد logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 CORS(app)
 
-# لغات gTTS المدعومة
 LANGUAGES = {
     'en': 'en',
     'es': 'es',
@@ -31,7 +31,6 @@ LANGUAGES = {
 
 @app.route('/api/health')
 def health():
-    logger.info('Health check OK')
     return jsonify({'status': 'ok'})
 
 @app.route('/api/dub', methods=['POST'])
@@ -42,54 +41,63 @@ def dub():
             return jsonify({'error': 'Content-Type must be application/json'}), 400
         
         data = request.get_json()
-        if not data:
-            return jsonify({'error': 'Empty JSON'}), 400
-            
         text = data.get('text', '')
         lang = data.get('lang', 'ar')
+        duration = data.get('duration', 0)  # مدة الجملة بالميلي ثانية
         
-        logger.info(f'Text length: {len(text)}')
+        logger.info(f'Text: {text[:50]}...')
         logger.info(f'Language: {lang}')
+        logger(f'Duration: {duration}ms')
         
         if not text or len(text.strip()) == 0:
-            return jsonify({'error': 'No text provided'}), 400
+            return jsonify({'error': 'No text'}), 400
         
-        # الحصول على كود اللغة لـ gTTS
         lang_code = LANGUAGES.get(lang, 'ar')
-        logger.info(f'gTTS Language: {lang_code}')
-        
-        # إنشاء اسم الملف
         filename = f"dub_{uuid.uuid4().hex}.mp3"
         filepath = f"/tmp/{filename}"
-        logger.info(f'Output filepath: {filepath}')
         
-        # توليد الصوت باستخدام gTTS
-        logger.info('Starting gTTS generation...')
-        try:
-            tts = gTTS(text=text, lang=lang_code, slow=False)
-            tts.save(filepath)
-            logger.info('gTTS generation completed')
-        except Exception as tts_error:
-            logger.error(f'gTTS Error: {str(tts_error)}')
-            return jsonify({'error': f'TTS failed: {str(tts_error)}'}), 500
+        # توليد الصوت
+        logger.info('Generating TTS...')
+        tts = gTTS(text=text, lang=lang_code, slow=False)
+        tts.save(filepath)
+        
+        # ضبط السرعة لتطابق المدة
+        if duration > 0:
+            logger.info('Adjusting speed to match duration...')
+            try:
+                sound = AudioSegment.from_mp3(filepath)
+                original_duration = len(sound)
+                
+                # حساب نسبة السرعة المطلوبة
+                speed_ratio = original_duration / duration
+                
+                # حدود السرعة (لا تسرع أكثر من 2x ولا تبطئ أقل من 0.5x)
+                speed_ratio = max(0.5, min(2.0, speed_ratio))
+                
+                logger.info(f'Original: {original_duration}ms, Target: {duration}ms, Speed: {speed_ratio}x')
+                
+                # تطبيق تغيير السرعة
+                if speed_ratio != 1.0:
+                    faster_sound = speedup(sound, speed_ratio)
+                    faster_sound.export(filepath, format='mp3')
+                    logger.info('Speed adjusted successfully')
+                
+            except Exception as e:
+                logger.error(f'Speed adjustment error: {str(e)}')
         
         # التحقق من الملف
         if os.path.exists(filepath):
             file_size = os.path.getsize(filepath)
-            logger.info(f'File exists! Size: {file_size} bytes')
-            
             if file_size > 0:
-                logger.info(f'=== DUB SUCCESS: {filename} ===')
+                logger.info(f'=== DUB SUCCESS: {filename} ({file_size} bytes) ===')
                 return jsonify({
                     'success': True, 
                     'file': filename,
                     'size': file_size
                 })
             else:
-                logger.error('File exists but is EMPTY')
-                return jsonify({'error': 'Generated file is empty'}), 500
+                return jsonify({'error': 'File empty'}), 500
         else:
-            logger.error('File was NOT created')
             return jsonify({'error': 'File not created'}), 500
             
     except Exception as e:
@@ -98,31 +106,14 @@ def dub():
 
 @app.route('/api/download/<filename>')
 def download(filename):
-    logger.info(f'Download requested: {filename}')
     try:
         filepath = f"/tmp/{filename}"
-        
         if os.path.exists(filepath):
-            file_size = os.path.getsize(filepath)
-            logger.info(f'File found: {file_size} bytes')
-            
-            if file_size > 0:
-                return send_file(
-                    filepath, 
-                    as_attachment=True, 
-                    download_name=filename,
-                    mimetype='audio/mpeg'
-                )
-            else:
-                return jsonify({'error': 'File is empty'}), 500
-        else:
-            return jsonify({'error': 'File not found'}), 404
-            
+            return send_file(filepath, as_attachment=True, download_name=filename, mimetype='audio/mpeg')
+        return jsonify({'error': 'Not found'}), 404
     except Exception as e:
-        logger.error(f'Download error: {str(e)}')
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
-    logger.info(f'Server starting on port {port}')
     app.run(host='0.0.0.0', port=port, debug=False)
