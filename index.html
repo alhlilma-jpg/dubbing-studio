@@ -3,17 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>استوديو الدبلجة الاحترافي</title>
+<title>ALHASHMI للدبلجة والترجمة</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#0a0a1a;color:#e0e0ff;min-height:100vh;overflow-x:hidden}
 .bg{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at 20% 20%,#1a0533 0%,transparent 50%),radial-gradient(ellipse at 80% 80%,#001233 0%,transparent 50%),#0a0a1a}
 .wrap{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:24px 16px;display:grid;grid-template-columns:1fr;gap:24px}
-@media(min-width:1024px){.wrap{grid-template-columns:2fr 1fr;align-items:start}}
+@media(min-width:1024px){.wrap{grid-template-columns:320px 1fr;align-items:start}}
 header{text-align:center;margin-bottom:28px;grid-column:1/-1}
-.logo{font-size:2.6rem;animation:float 3s ease-in-out infinite;display:inline-block}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-h1{font-size:1.9rem;font-weight:800;background:linear-gradient(135deg,#a78bfa,#60a5fa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:5px}
+.logo-container{display:flex;flex-direction:column;align-items:center;gap:16px;margin-bottom:20px}
+.logo-img{width:120px;height:120px;border-radius:20px;overflow:hidden;box-shadow:0 10px 40px rgba(167,139,250,.3);background:linear-gradient(135deg,#1a0533,#001233);display:flex;align-items:center;justify-content:center;padding:10px;transition:transform .3s ease}
+.logo-img:hover{transform:scale(1.05) rotate(2deg)}
+.logo-img img{width:100%;height:100%;object-fit:contain}
+.logo-container h1{font-size:2.2rem;font-weight:900;background:linear-gradient(135deg,#a78bfa,#60a5fa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:5px;letter-spacing:2px}
 .sub{color:#6b7280;font-size:.9rem}
 .tabs{display:flex;gap:8px;margin-bottom:20px;border-bottom:1px solid rgba(255,255,255,.08)}
 .tb{padding:10px 20px;border:none;background:transparent;color:#6b7280;cursor:pointer;font-size:.88rem;font-family:inherit;border-bottom:2px solid transparent;transition:all .2s;font-weight:600}
@@ -117,186 +119,214 @@ footer{text-align:center;padding:18px;color:#374151;font-size:.75rem;grid-column
 .trt{color:#34d399;font-weight:700}
 .trc{font-size:.85rem;color:#d1d5db;line-height:1.6;white-space:pre-wrap;background:rgba(0,0,0,.2);padding:12px;border-radius:8px;max-height:300px;overflow-y:auto}
 .lbl-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}
+
+/* ✅ الفلاتر على اليسار - ثابتة */
+.filters-panel{position:sticky;top:24px}
+@media(max-width:1023px){.filters-panel{position:static}}
+
 @media(max-width:600px){h1{font-size:1.5rem}.lg{grid-template-columns:repeat(3,1fr)}.sit{display:none}.cr{gap:12px}.cv{font-size:1.2rem}.tg{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="bg"></div>
 <div class="wrap">
+
+<!-- ✅ Header مع الشعار -->
 <header>
-  <div class="logo">🎙️🌍</div>
-  <h1>استوديو الدبلجة الاحترافي</h1>
-  <p class="sub">سيرفر سحابي + واجهة ويب · مجاني 100%</p>
+  <div class="logo-container">
+    <div class="logo-img">
+      <img src="https://i.imgur.com/lKwDdho.png" alt="ALHASHMI Logo">
+    </div>
+    <div>
+      <h1>ALHASHMI</h1>
+      <p class="sub" style="font-size:1rem;color:#a78bfa;font-weight:600">للدبلجة والترجمة الاحترافية</p>
+    </div>
+  </div>
+  <p class="sub" style="color:#6b7280;font-size:.85rem">سيرفر سحابي + واجهة ويب · مجاني 100%</p>
 </header>
 
-<div class="card tp">
-  <div class="sh"><span class="sn" style="background:linear-gradient(135deg,#10b981,#059669)">🌐</span> مترجم SRT</div>
-  <div class="lbl">1. اختر لغة الترجمة</div>
-  <div class="tg" id="transLangs"></div>
-  <div class="lbl-row">
-    <span class="lbl" style="margin-bottom:0">2. النص المصدر (SRT)</span>
-    <button class="btn bsm" style="padding:6px 12px;font-size:.75rem" onclick="pasteSrc()">📋 لصق</button>
-  </div>
-  <textarea id="srcSRT" placeholder="الصق محتوى SRT..." style="min-height:100px;font-family:monospace;font-size:.8rem"></textarea>
-  <button class="btn bs" style="background:linear-gradient(135deg,#10b981,#059669)" onclick="startTrans()">🚀 ترجمة</button>
-  <div id="transRes" style="display:none;margin-top:16px">
-    <div class="trs">
-      <div class="trh">
-        <span class="trt">✅ النتيجة</span>
-        <button class="btn bsm" style="padding:6px 12px;font-size:.75rem" onclick="copyResult()">📋 نسخ</button>
-      </div>
-      <div class="trc" id="transOut"></div>
-      <button class="db" style="margin-top:12px" onclick="dlTransSRT()">⬇️ تنزيل SRT</button>
+<!-- ✅ الفلاتر على اليسار -->
+<div class="filters-panel">
+  <div class="card" id="filtersCard" style="display:none">
+    <div class="sh"><span class="sn">🎛️</span> الفلاتر الصوتية</div>
+    
+    <div class="lbl-row">
+      <span class="lbl" style="margin-bottom:0">السرعة (Speed)</span>
+      <span class="rv" id="speedVal">1.0x</span>
+    </div>
+    <input type="range" id="filterSpeed" min="0.5" max="2" step="0.1" value="1" style="width:100%;margin-bottom:16px" oninput="updateFilters()">
+    
+    <div class="lbl-row">
+      <span class="lbl" style="margin-bottom:0">الطبقة (Pitch)</span>
+      <span class="rv" id="pitchVal">1.0</span>
+    </div>
+    <input type="range" id="filterPitch" min="0.5" max="2" step="0.1" value="1" style="width:100%;margin-bottom:16px" oninput="updateFilters()">
+    
+    <div class="sh" style="margin-top:20px"><span class="sn">🎚️</span> معادل الترددات (EQ)</div>
+    
+    <div class="lbl-row">
+      <span class="lbl" style="margin-bottom:0">Bass (منخفضة)</span>
+      <span class="rv" id="bassVal">0dB</span>
+    </div>
+    <input type="range" id="eqBass" min="-20" max="20" step="1" value="0" style="width:100%;margin-bottom:16px" oninput="updateFilters()">
+    
+    <div class="lbl-row">
+      <span class="lbl" style="margin-bottom:0">Mid (متوسطة)</span>
+      <span class="rv" id="midVal">0dB</span>
+    </div>
+    <input type="range" id="eqMid" min="-20" max="20" step="1" value="0" style="width:100%;margin-bottom:16px" oninput="updateFilters()">
+    
+    <div class="lbl-row">
+      <span class="lbl" style="margin-bottom:0">Treble (عالية)</span>
+      <span class="rv" id="trebleVal">0dB</span>
+    </div>
+    <input type="range" id="eqTreble" min="-20" max="20" step="1" value="0" style="width:100%;margin-bottom:16px" oninput="updateFilters()">
+    
+    <button class="btn bsm" style="width:100%;justify-content:center;margin-top:12px" onclick="resetFilters()">🔄 إعادة تعيين الفلاتر</button>
+    
+    <!-- ✅ Presets جاهزة -->
+    <div class="sh" style="margin-top:20px"><span class="sn">⚡</span> إعدادات سريعة</div>
+    <div class="sg">
+      <button class="sbtn" onclick="applyPreset('male')">👨 صوت رجالي</button>
+      <button class="sbtn" onclick="applyPreset('radio')">📻 راديو</button>
+      <button class="sbtn" onclick="applyPreset('warm')">🌟 دافئ</button>
+      <button class="sbtn" onclick="applyPreset('fast')">⚡ سريع</button>
     </div>
   </div>
-  <div class="st i" id="transSt" style="margin-top:12px">جاهز</div>
 </div>
 
+<!-- ✅ المحتوى الرئيسي -->
 <div>
-  <div class="tabs">
-    <button class="tb on" onclick="swTab('t1',this)">✏️ نطق النص</button>
-    <button class="tb" onclick="swTab('t2',this)">🎬 دبلجة SRT</button>
-  </div>
-
-  <div id="t1" class="tc on">
-    <div class="card">
-      <span class="lbl">اختر اللغة</span>
-      <div class="lg" id="g1"></div>
-      <span class="lbl">الصوت</span>
-      <select id="vs"></select>
-      <div class="tw"><textarea id="ti" placeholder="اكتب النص..."></textarea><span class="cc" id="cc">0</span></div>
-      <div class="ctrls">
-        <div class="cg"><label>السرعة <span class="rv" id="rv1">1.0x</span></label><input type="range" id="rr1" min=".5" max="2" step=".1" value="1"></div>
-        <div class="cg"><label>الطبقة <span class="rv" id="pv1">1.0</span></label><input type="range" id="pr1" min=".5" max="2" step=".1" value="1"></div>
-        <div class="cg"><label>الصوت <span class="rv" id="vv1">100%</span></label><input type="range" id="vr1" min="0" max="1" step=".05" value="1"></div>
-      </div>
-      <div class="wv" id="wv1"><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div></div>
-      <div class="br">
-        <button class="btn bs" id="sb" onclick="tSpeak()"><span id="si">▶</span><span id="st2">نطق</span></button>
-        <button class="btn bsm" onclick="tPause()">⏸</button>
-        <button class="btn bsm" onclick="clrTxt()">🗑</button>
-      </div>
-      <div class="st i" id="s1">👋 اكتب نصاً واضغط نطق</div>
+  <div class="card tp">
+    <div class="sh"><span class="sn" style="background:linear-gradient(135deg,#10b981,#059669)">🌐</span> مترجم SRT</div>
+    <div class="lbl">1. اختر لغة الترجمة</div>
+    <div class="tg" id="transLangs"></div>
+    <div class="lbl-row">
+      <span class="lbl" style="margin-bottom:0">2. النص المصدر (SRT)</span>
+      <button class="btn bsm" style="padding:6px 12px;font-size:.75rem" onclick="pasteSrc()">📋 لصق</button>
     </div>
-  </div>
-
-  <div id="t2" class="tc">
-    <div class="card">
-      <div class="sh"><span class="sn">١</span> لغة الدبلجة</div>
-      <div class="lg" id="g2"></div>
-      <div class="ctrls" style="margin-bottom:0">
-        <div class="cg"><label>السرعة <span class="rv" id="rv2">1.0x</span></label><input type="range" id="rr2" min=".5" max="1" step=".05" value="1"></div>
-        <div class="cg"><label>الصوت <span class="rv" id="vv2">1.0</span></label><input type="range" id="vr2" min=".2" max="2" step=".1" value="1"></div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="sh"><span class="sn">٢</span> ملف SRT</div>
-      <div class="ua">
-        <input type="file" accept=".srt,.txt" onchange="ldSRT(event)">
-        <div class="ui">📂</div>
-        <div class="ut">اسحب أو اضغط</div>
-        <div class="us">.srt أو .txt</div>
-      </div>
-      <span class="lbl">أو الصق المحتوى</span>
-      <textarea id="srtP" placeholder="1&#10;00:00:00,000 --> 00:00:02,000&#10;النص..." style="min-height:70px;font-size:.78rem;font-family:monospace"></textarea>
-      <button class="btn bsm" style="margin-top:6px;font-size:.78rem" onclick="prsPaste()">📥 تحليل</button>
-      <div id="srtInfo" style="display:none;margin-top:14px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-          <span style="color:#34d399;font-size:.82rem;font-weight:700">✅ <span id="sCnt">0</span> جملة · <span id="sDur">0:00:00</span></span>
-          <button class="btn bsm" style="padding:4px 10px;font-size:.7rem" onclick="cpySRT()">📋</button>
+    <textarea id="srcSRT" placeholder="الصق محتوى SRT..." style="min-height:100px;font-family:monospace;font-size:.8rem"></textarea>
+    <button class="btn bs" style="background:linear-gradient(135deg,#10b981,#059669)" onclick="startTrans()">🚀 ترجمة</button>
+    <div id="transRes" style="display:none;margin-top:16px">
+      <div class="trs">
+        <div class="trh">
+          <span class="trt">✅ النتيجة</span>
+          <button class="btn bsm" style="padding:6px 12px;font-size:.75rem" onclick="copyResult()">📋 نسخ</button>
         </div>
-        <div class="sl" id="srtL"></div>
+        <div class="trc" id="transOut"></div>
+        <button class="db" style="margin-top:12px" onclick="dlTransSRT()">⬇️ تنزيل SRT</button>
+      </div>
+    </div>
+    <div class="st i" id="transSt" style="margin-top:12px">جاهز</div>
+  </div>
+
+  <div>
+    <div class="tabs">
+      <button class="tb on" onclick="swTab('t1',this)">✏️ نطق النص</button>
+      <button class="tb" onclick="swTab('t2',this)">🎬 دبلجة SRT</button>
+    </div>
+
+    <div id="t1" class="tc on">
+      <div class="card">
+        <span class="lbl">اختر اللغة</span>
+        <div class="lg" id="g1"></div>
+        <span class="lbl">الصوت</span>
+        <select id="vs"></select>
+        <div class="tw"><textarea id="ti" placeholder="اكتب النص..."></textarea><span class="cc" id="cc">0</span></div>
+        <div class="ctrls">
+          <div class="cg"><label>السرعة <span class="rv" id="rv1">1.0x</span></label><input type="range" id="rr1" min=".5" max="2" step=".1" value="1"></div>
+          <div class="cg"><label>الطبقة <span class="rv" id="pv1">1.0</span></label><input type="range" id="pr1" min=".5" max="2" step=".1" value="1"></div>
+          <div class="cg"><label>الصوت <span class="rv" id="vv1">100%</span></label><input type="range" id="vr1" min="0" max="1" step=".05" value="1"></div>
+        </div>
+        <div class="wv" id="wv1"><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div></div>
+        <div class="br">
+          <button class="btn bs" id="sb" onclick="tSpeak()"><span id="si">▶</span><span id="st2">نطق</span></button>
+          <button class="btn bsm" onclick="tPause()">⏸</button>
+          <button class="btn bsm" onclick="clrTxt()">🗑</button>
+        </div>
+        <div class="st i" id="s1">👋 اكتب نصاً واضغط نطق</div>
       </div>
     </div>
 
-    <!-- ✅ قسم الفلاتر -->
-    <div class="card" id="filtersCard" style="display:none">
-      <div class="sh"><span class="sn">🎛️</span> الفلاتر الصوتية</div>
-      
-      <div class="lbl-row">
-        <span class="lbl" style="margin-bottom:0">السرعة (Speed)</span>
-        <span class="rv" id="speedVal">1.0x</span>
+    <div id="t2" class="tc">
+      <div class="card">
+        <div class="sh"><span class="sn">١</span> لغة الدبلجة</div>
+        <div class="lg" id="g2"></div>
+        <div class="ctrls" style="margin-bottom:0">
+          <div class="cg"><label>السرعة <span class="rv" id="rv2">1.0x</span></label><input type="range" id="rr2" min=".5" max="1" step=".05" value="1"></div>
+          <div class="cg"><label>الصوت <span class="rv" id="vv2">1.0</span></label><input type="range" id="vr2" min=".2" max="2" step=".1" value="1"></div>
+        </div>
       </div>
-      <input type="range" id="filterSpeed" min="0.5" max="2" step="0.1" value="1" style="width:100%;margin-bottom:16px" oninput="document.getElementById('speedVal').textContent=this.value+'x';filterSpeed=parseFloat(this.value)">
-      
-      <div class="lbl-row">
-        <span class="lbl" style="margin-bottom:0">الطبقة (Pitch)</span>
-        <span class="rv" id="pitchVal">1.0</span>
-      </div>
-      <input type="range" id="filterPitch" min="0.5" max="2" step="0.1" value="1" style="width:100%;margin-bottom:16px" oninput="document.getElementById('pitchVal').textContent=this.value;filterPitch=parseFloat(this.value)">
-      
-      <div class="sh" style="margin-top:20px"><span class="sn">🎚️</span> معادل الترددات (EQ)</div>
-      
-      <div class="lbl-row">
-        <span class="lbl" style="margin-bottom:0">Bass (منخفضة)</span>
-        <span class="rv" id="bassVal">0dB</span>
-      </div>
-      <input type="range" id="eqBass" min="-20" max="20" step="1" value="0" style="width:100%;margin-bottom:16px" oninput="document.getElementById('bassVal').textContent=this.value+'dB';eqBass=parseFloat(this.value)">
-      
-      <div class="lbl-row">
-        <span class="lbl" style="margin-bottom:0">Mid (متوسطة)</span>
-        <span class="rv" id="midVal">0dB</span>
-      </div>
-      <input type="range" id="eqMid" min="-20" max="20" step="1" value="0" style="width:100%;margin-bottom:16px" oninput="document.getElementById('midVal').textContent=this.value+'dB';eqMid=parseFloat(this.value)">
-      
-      <div class="lbl-row">
-        <span class="lbl" style="margin-bottom:0">Treble (عالية)</span>
-        <span class="rv" id="trebleVal">0dB</span>
-      </div>
-      <input type="range" id="eqTreble" min="-20" max="20" step="1" value="0" style="width:100%;margin-bottom:16px" oninput="document.getElementById('trebleVal').textContent=this.value+'dB';eqTreble=parseFloat(this.value)">
-      
-      <button class="btn bsm" style="width:100%;justify-content:center;margin-top:12px" onclick="resetFilters()">🔄 إعادة تعيين الفلاتر</button>
-    </div>
 
-    <div class="card" id="dubCard" style="display:none">
-      <div class="sh"><span class="sn">٣</span> التوليد</div>
-      <div class="ib">
-        <div class="ir">🔇 <span>معالجة <strong>صامتة</strong> عبر سيرفر سحابي</span></div>
-        <div class="ir">⏱️ <span>تزامن دقيق مع توقيتات SRT</span></div>
-        <div class="ir">📤 <span>ملف WAV لـ YouTube Dubbing</span></div>
-      </div>
-      <button class="gb" id="genBtn" onclick="stDub()">
-        <span class="gi">🎬</span>
-        <span class="gl">توليد الدبلجة</span>
-        <span class="gs">يتطلب سيرفر Render شغال</span>
-      </button>
-
-      <div id="dubP" style="display:none">
-        <div style="height:16px"></div>
-        <div class="ph"><div class="pd"></div><div class="pt" id="phTxt">جارٍ...</div></div>
-        <div class="cb">
-          <div class="cr">
-            <div class="ci"><div class="cl">المتبقي</div><div class="cv cr1" id="clkR">--:--:--</div></div>
-            <div class="ci"><div class="cl">مضى</div><div class="cv cr2" id="clkE">00:00:00</div></div>
-            <div class="ci"><div class="cl">المجموع</div><div class="cv cr3" id="clkT">--:--:--</div></div>
+      <div class="card">
+        <div class="sh"><span class="sn">٢</span> ملف SRT</div>
+        <div class="ua">
+          <input type="file" accept=".srt,.txt" onchange="ldSRT(event)">
+          <div class="ui">📂</div>
+          <div class="ut">اسحب أو اضغط</div>
+          <div class="us">.srt أو .txt</div>
+        </div>
+        <span class="lbl">أو الصق المحتوى</span>
+        <textarea id="srtP" placeholder="1&#10;00:00:00,000 --> 00:00:02,000&#10;النص..." style="min-height:70px;font-size:.78rem;font-family:monospace"></textarea>
+        <button class="btn bsm" style="margin-top:6px;font-size:.78rem" onclick="prsPaste()">📥 تحليل</button>
+        <div id="srtInfo" style="display:none;margin-top:14px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <span style="color:#34d399;font-size:.82rem;font-weight:700">✅ <span id="sCnt">0</span> جملة · <span id="sDur">0:00:00</span></span>
+            <button class="btn bsm" style="padding:4px 10px;font-size:.7rem" onclick="cpySRT()">📋</button>
           </div>
-          <div class="wv on" style="height:26px;margin:0"><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div></div>
+          <div class="sl" id="srtL"></div>
         </div>
-        <div class="pw">
-          <div class="pb"><div class="pf" id="pFill" style="width:0%"></div></div>
-          <div class="pm"><span id="pLbl">0/0</span><span id="pPct">0%</span></div>
-        </div>
-        <div class="cs" id="curS">جارٍ...</div>
-        <div class="sc" id="sntC"></div>
-        <button class="btn bsm" style="width:100%;justify-content:center" onclick="cnclDub()">⏹ إلغاء</button>
       </div>
 
-      <div id="dubRes" style="display:none">
-        <div class="rb">
-          <div class="rt">🎉 جاهز</div>
-          <audio id="dubAu" controls style="width:100%;margin-bottom:12px;border-radius:8px"></audio>
-          <button class="db" onclick="dlRes()">⬇️ تنزيل WAV</button>
-          <div class="yh">📤 YouTube Studio → دبلجة</div>
+      <div class="card" id="dubCard" style="display:none">
+        <div class="sh"><span class="sn">٣</span> التوليد</div>
+        <div class="ib">
+          <div class="ir">🔇 <span>معالجة <strong>صامتة</strong> عبر سيرفر سحابي</span></div>
+          <div class="ir">⏱️ <span>تزامن دقيق مع توقيتات SRT</span></div>
+          <div class="ir">📤 <span>ملف WAV لـ YouTube Dubbing</span></div>
         </div>
+        <button class="gb" id="genBtn" onclick="stDub()">
+          <span class="gi">🎬</span>
+          <span class="gl">توليد الدبلجة</span>
+          <span class="gs">يتطلب سيرفر Render شغال</span>
+        </button>
+
+        <div id="dubP" style="display:none">
+          <div style="height:16px"></div>
+          <div class="ph"><div class="pd"></div><div class="pt" id="phTxt">جارٍ...</div></div>
+          <div class="cb">
+            <div class="cr">
+              <div class="ci"><div class="cl">المتبقي</div><div class="cv cr1" id="clkR">--:--:--</div></div>
+              <div class="ci"><div class="cl">مضى</div><div class="cv cr2" id="clkE">00:00:00</div></div>
+              <div class="ci"><div class="cl">المجموع</div><div class="cv cr3" id="clkT">--:--:--</div></div>
+            </div>
+            <div class="wv on" style="height:26px;margin:0"><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div></div>
+          </div>
+          <div class="pw">
+            <div class="pb"><div class="pf" id="pFill" style="width:0%"></div></div>
+            <div class="pm"><span id="pLbl">0/0</span><span id="pPct">0%</span></div>
+          </div>
+          <div class="cs" id="curS">جارٍ...</div>
+          <div class="sc" id="sntC"></div>
+          <button class="btn bsm" style="width:100%;justify-content:center" onclick="cnclDub()">⏹ إلغاء</button>
+        </div>
+
+        <div id="dubRes" style="display:none">
+          <div class="rb">
+            <div class="rt">🎉 جاهز</div>
+            <audio id="dubAu" controls style="width:100%;margin-bottom:12px;border-radius:8px"></audio>
+            <button class="db" onclick="dlRes()">⬇️ تنزيل WAV</button>
+            <div class="yh">📤 YouTube Studio → دبلجة</div>
+          </div>
+        </div>
+        <div class="st i" id="dubSt">تأكد سيرفر Render شغال ثم اضغط</div>
       </div>
-      <div class="st i" id="dubSt">تأكد سيرفر Render شغال ثم اضغط</div>
     </div>
   </div>
 </div>
 
 </div>
-<footer>استوديو الدبلجة · GitHub + Render · gTTS · مجاني 100%</footer>
+<footer>ALHASHMI للدبلجة والترجمة · GitHub + Render · gTTS · مجاني 100%</footer>
 
 <script>
 const LANGS=[
@@ -326,6 +356,67 @@ let eqMid = 0;
 let eqTreble = 0;
 
 const SERVER_URL='https://dubbing-api-v2.onrender.com';
+
+// ✅ تحديث الفلاتر
+function updateFilters(){
+  filterSpeed = parseFloat(document.getElementById('filterSpeed').value);
+  filterPitch = parseFloat(document.getElementById('filterPitch').value);
+  eqBass = parseFloat(document.getElementById('eqBass').value);
+  eqMid = parseFloat(document.getElementById('eqMid').value);
+  eqTreble = parseFloat(document.getElementById('eqTreble').value);
+  
+  document.getElementById('speedVal').textContent = filterSpeed.toFixed(1) + 'x';
+  document.getElementById('pitchVal').textContent = filterPitch.toFixed(1);
+  document.getElementById('bassVal').textContent = eqBass + 'dB';
+  document.getElementById('midVal').textContent = eqMid + 'dB';
+  document.getElementById('trebleVal').textContent = eqTreble + 'dB';
+}
+
+// ✅ إعادة تعيين الفلاتر
+function resetFilters(){
+  filterSpeed = 1.0;
+  filterPitch = 1.0;
+  eqBass = 0;
+  eqMid = 0;
+  eqTreble = 0;
+  
+  document.getElementById('filterSpeed').value = 1;
+  document.getElementById('filterPitch').value = 1;
+  document.getElementById('eqBass').value = 0;
+  document.getElementById('eqMid').value = 0;
+  document.getElementById('eqTreble').value = 0;
+  
+  updateFilters();
+  ssDub('🔄 تم إعادة تعيين الفلاتر','ok');
+}
+
+// ✅ Presets جاهزة
+function applyPreset(name){
+  const presets = {
+    'male': {speed:1.0, pitch:0.85, bass:3, mid:0, treble:-2},
+    'radio': {speed:1.0, pitch:1.0, bass:-5, mid:3, treble:5},
+    'warm': {speed:1.0, pitch:0.9, bass:5, mid:2, treble:-3},
+    'fast': {speed:1.3, pitch:1.0, bass:0, mid:0, treble:0}
+  };
+  
+  const p = presets[name];
+  if(!p) return;
+  
+  filterSpeed = p.speed;
+  filterPitch = p.pitch;
+  eqBass = p.bass;
+  eqMid = p.mid;
+  eqTreble = p.treble;
+  
+  document.getElementById('filterSpeed').value = p.speed;
+  document.getElementById('filterPitch').value = p.pitch;
+  document.getElementById('eqBass').value = p.bass;
+  document.getElementById('eqMid').value = p.mid;
+  document.getElementById('eqTreble').value = p.treble;
+  
+  updateFilters();
+  ssDub('✅ تم تطبيق الإعداد: ' + name,'ok');
+}
 
 function swTab(id,btn){document.querySelectorAll('.tc').forEach(t=>t.classList.remove('on'));document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));document.getElementById(id).classList.add('on');btn.classList.add('on');}
 function mkGrid(gid,cur,cb){const g=document.getElementById(gid);LANGS.forEach(l=>{const b=document.createElement('button');b.className='lb'+(l.c===cur?' on':'');b.dataset.c=l.c;b.innerHTML=`<span class="lf">${l.f}</span>${l.l}`;b.onclick=()=>{g.querySelectorAll('.lb').forEach(x=>x.classList.toggle('on',x.dataset.c===l.c));cb(l.c);};g.appendChild(b);});}
@@ -357,7 +448,6 @@ async function pasteSrc(){try{const txt=await navigator.clipboard.readText();doc
 async function copyResult(){const txt=document.getElementById('transOut').textContent;if(!txt){ssTrans('⚠️ لا توجد نتيجة','wn');return;}try{await navigator.clipboard.writeText(txt);ssTrans('✅ تم النسخ','ok');}catch(e){ssTrans('❌ فشل','er');}}
 async function startTrans(){const txt=document.getElementById('srcSRT').value.trim();if(!txt){ssTrans('⚠️ الصق نص SRT','wn');return;}ssTrans('🔄 جارٍ...','i');document.getElementById('transRes').style.display='none';const blocks=txt.trim().split(/\n\s*\n/);let newSRT='';let count=0;for(let blk of blocks){const ls=blk.trim().split('\n');if(ls.length<2)continue;const idx=ls[0],time=ls[1],text=ls.slice(2).join(' ');if(!text){newSRT+=blk+'\n\n';continue;}try{const url=`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=ar|${transLang}`;const res=await fetch(url);const data=await res.json();if(data.responseStatus===200){newSRT+=`${idx}\n${time}\n${data.responseData.translatedText}\n\n`;}else{newSRT+=`${idx}\n${time}\n${text} [Failed]\n\n`;}}catch(e){newSRT+=`${idx}\n${time}\n${text} [Error]\n\n`;}count++;ssTrans(`جاري... ${count}/${blocks.length}`,'i');await new Promise(r=>setTimeout(r,200));}document.getElementById('transOut').textContent=newSRT;document.getElementById('transRes').style.display='block';transBlob=new Blob([newSRT],{type:'text/plain'});ssTrans(`✅ ${count} جملة`,'ok');}
 function dlTransSRT(){if(!transBlob)return;const a=document.createElement('a');a.href=URL.createObjectURL(transBlob);a.download=`translated_${transLang}.srt`;a.click();}
-function resetFilters(){filterSpeed=1.0;filterPitch=1.0;eqBass=0;eqMid=0;eqTreble=0;document.getElementById('filterSpeed').value=1;document.getElementById('filterPitch').value=1;document.getElementById('eqBass').value=0;document.getElementById('eqMid').value=0;document.getElementById('eqTreble').value=0;document.getElementById('speedVal').textContent='1.0x';document.getElementById('pitchVal').textContent='1.0';document.getElementById('bassVal').textContent='0dB';document.getElementById('midVal').textContent='0dB';document.getElementById('trebleVal').textContent='0dB';ssDub('🔄 تم إعادة تعيين الفلاتر','ok');}
 async function stDub(){if(!srtData.length){ssDub('⚠️ ارفع SRT أولاً','wn');return;}try{await fetch(SERVER_URL+'/api/health');}catch(e){ssDub('❌ سيرفر Render غير شغال!','er');return;}dubbing=true;dubCanc=false;resBlob=null;const lang=LANGS.find(l=>l.c===L2)||LANGS[0];const totalMs=msT(srtData[srtData.length-1].en)+2000;document.getElementById('genBtn').style.display='none';document.getElementById('dubP').style.display='block';document.getElementById('dubRes').style.display='none';setPh('🔍 جاري المعالجة...');document.getElementById('clkT').textContent=fmMs(totalMs);const t0=Date.now();const audioFiles=[];let done=0;for(let i=0;i<srtData.length&&!dubCanc;i++){const item=srtData[i];if(!item.sp){done++;continue;}document.getElementById('curS').textContent=item.tx;document.getElementById('sntC').textContent=`${done+1}/${srtData.length}`;const itemDuration=msT(item.en)-msT(item.st);const response=await fetch(`${SERVER_URL}/api/dub`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:item.sp,lang:lang.code,duration:itemDuration,speed:filterSpeed,pitch:filterPitch,eq_bass:eqBass,eq_mid:eqMid,eq_treble:eqTreble})});const result=await response.json();if(result.success){audioFiles.push(result.file);}done++;const pct=Math.round(done/srtData.length*100);document.getElementById('pFill').style.width=pct+'%';document.getElementById('pPct').textContent=pct+'%';document.getElementById('pLbl').textContent=`${done}/${srtData.length}`;const el=document.getElementById('si'+i);if(el)el.classList.add('done');}if(dubCanc){rstDub();ssDub('⏹ أُلغي','i');return;}setPh('💾 جاري الدمج...');const audioContext=new(window.AudioContext||window.webkitAudioContext)();const buffers=[];for(const file of audioFiles){try{const res=await fetch(`${SERVER_URL}/api/download/${file}`,{method:'GET',headers:{'Accept':'audio/mpeg'}});if(!res.ok)throw new Error('Failed to download');const ab=await res.arrayBuffer();const buf=await audioContext.decodeAudioData(ab);buffers.push(buf);}catch(e){console.error('Error downloading file:',file,e);}}const totalSamples=buffers.reduce((sum,buf)=>sum+buf.length,0);const merged=audioContext.createBuffer(1,totalSamples,audioContext.sampleRate);let offset=0;buffers.forEach(buf=>{merged.copyToChannel(buf.getChannelData(0),0,offset);offset+=buf.length;});resBlob=toWav(merged);dubbing=false;const url=URL.createObjectURL(resBlob);document.getElementById('dubAu').src=url;document.getElementById('dubP').style.display='none';document.getElementById('dubRes').style.display='block';document.getElementById('genBtn').style.display='block';const sz=(resBlob.size/1024/1024).toFixed(2);ssDub(`🎉 جاهز (${sz}MB)`,'ok');}
 function dlRes(){if(!resBlob)return;const a=document.createElement('a');a.href=URL.createObjectURL(resBlob);a.download='dubbing-'+Date.now()+'.wav';a.click();}
 function cnclDub(){dubCanc=true;dubbing=false;rstDub();ssDub('⏹ أُلغي','i');}
