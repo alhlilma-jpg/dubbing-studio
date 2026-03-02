@@ -54,7 +54,7 @@ def dub():
         filename = f"dub_{uuid.uuid4().hex}.mp3"
         filepath = f"/tmp/{filename}"
         
-        logger.info(f'Generating TTS with gTTS...')
+        logger.info('Generating TTS with gTTS...')
         
         # توليد الصوت
         tts = gTTS(text=text, lang=lang_code, slow=False)
