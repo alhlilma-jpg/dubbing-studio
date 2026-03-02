@@ -1084,17 +1084,3 @@ document.addEventListener('click',function(e){
 </script>
 </body>
 </html>
-
-/* ✅ شعار متحرك بدون فيديو */
-.logo-img img{
-  animation: 
-    logoFloat 3s ease-in-out infinite,
-    logoGlow 2s ease-in-out infinite alternate,
-    logoHue 8s linear infinite;
-  filter: drop-shadow(0 0 15px rgba(167,139,250,.6));
-}
-
-@keyframes logoHue{
-  0%{filter:drop-shadow(0 0 15px rgba(167,139,250,.6)) hue-rotate(0deg)}
-  100%{filter:drop-shadow(0 0 15px rgba(167,139,250,.6)) hue-rotate(360deg)}
-}
