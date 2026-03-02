@@ -20,6 +20,21 @@ header{text-align:center;margin-bottom:32px;grid-column:1/-1}
 .logo-container .youtube-link{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(255,0,0,.1);border:1px solid rgba(255,0,0,.3);border-radius:20px;color:#ff4444;font-size:.75rem;font-weight:600;text-decoration:none;transition:all .3s;margin-top:8px}
 .logo-container .youtube-link:hover{background:rgba(255,0,0,.2);border-color:rgba(255,0,0,.5);transform:translateY(-2px);box-shadow:0 4px 12px rgba(255,0,0,.3)}
 .logo-container .youtube-link svg{width:18px;height:18px;fill:#ff4444}
+
+/* ✅ مبدّل اللغة */
+.lang-switcher{position:fixed;top:20px;left:20px;z-index:1000}
+.lang-btn{display:flex;align-items:center;gap:8px;padding:10px 16px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:12px;color:#e0e0ff;cursor:pointer;font-size:.8rem;font-weight:600;transition:all .3s;backdrop-filter:blur(10px)}
+.lang-btn:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);transform:translateY(-2px)}
+.lang-btn svg{width:20px;height:20px;fill:#e0e0ff}
+.lang-dropdown{position:absolute;top:100%;left:0;margin-top:8px;background:rgba(255,255,255,.95);border-radius:12px;box-shadow:0 10px 40px rgba(0,0,0,.5);min-width:200px;overflow:hidden;transform:scale(0);transform-origin:top left;transition:all .3s;opacity:0}
+.lang-dropdown.show{transform:scale(1);opacity:1}
+.lang-option{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;transition:all .2s;border-bottom:1px solid rgba(0,0,0,.05)}
+.lang-option:last-child{border-bottom:none}
+.lang-option:hover{background:rgba(167,139,250,.1)}
+.lang-option.active{background:rgba(167,139,250,.2)}
+.lang-flag{font-size:1.4rem;width:28px;text-align:center}
+.lang-name{color:#1a0533;font-size:.85rem;font-weight:600}
+
 .card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:20px;backdrop-filter:blur(20px);box-shadow:0 20px 60px rgba(0,0,0,.5);margin-bottom:16px}
 .card-header{display:flex;align-items:center;gap:10px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.08)}
 .card-icon{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#2563eb);display:flex;align-items:center;justify-content:center;font-size:1rem}
@@ -112,12 +127,9 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;heigh
 @keyframes blk{0%,100%{opacity:1}50%{opacity:.2}}
 .pt{color:#fbbf24;font-weight:600}
 footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:1/-1;border-top:1px solid rgba(255,255,255,.05);margin-top:24px}
-
-/* ✅ أداة حذف الفراغات */
 .clean-box{background:rgba(52,211,153,.05);border:1px solid rgba(52,211,153,.2);border-radius:12px;padding:14px;margin-top:14px}
 .clean-title{color:#34d399;font-weight:700;font-size:.8rem;margin-bottom:10px;display:flex;align-items:center;gap:6px}
 .clean-output{background:rgba(0,0,0,.25);border-radius:8px;padding:10px;font-size:.75rem;color:#d1d5db;line-height:1.6;max-height:200px;overflow-y:auto;white-space:pre-wrap;margin-bottom:10px}
-
 @media(max-width:1199px){.wrap{grid-template-columns:1fr}.card{margin-bottom:20px}}
 @media(max-width:600px){h1{font-size:1.4rem}.lg{grid-template-columns:repeat(3,1fr)}.sit{display:none}.cr{gap:10px}.cv{font-size:1rem}.tg{grid-template-columns:1fr}.lb{padding:8px 4px}}
 </style>
@@ -125,6 +137,45 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
 <body>
 <div class="bg"></div>
 <div class="wrap">
+
+<!-- ✅ مبدّل اللغة -->
+<div class="lang-switcher">
+  <button class="lang-btn" onclick="toggleLang()">
+    <svg viewBox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg>
+    <span id="currentLang">العربية</span>
+    <svg viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+  </button>
+  <div class="lang-dropdown" id="langDropdown">
+    <div class="lang-option active" onclick="setLang('ar')" data-lang="ar">
+      <span class="lang-flag">🇸🇦</span>
+      <span class="lang-name">العربية</span>
+    </div>
+    <div class="lang-option" onclick="setLang('en')" data-lang="en">
+      <span class="lang-flag">🇺🇸</span>
+      <span class="lang-name">English</span>
+    </div>
+    <div class="lang-option" onclick="setLang('ru')" data-lang="ru">
+      <span class="lang-flag">🇷🇺</span>
+      <span class="lang-name">Русский</span>
+    </div>
+    <div class="lang-option" onclick="setLang('tr')" data-lang="tr">
+      <span class="lang-flag">🇹🇷</span>
+      <span class="lang-name">Türkçe</span>
+    </div>
+    <div class="lang-option" onclick="setLang('fr')" data-lang="fr">
+      <span class="lang-flag">🇫🇷</span>
+      <span class="lang-name">Français</span>
+    </div>
+    <div class="lang-option" onclick="setLang('de')" data-lang="de">
+      <span class="lang-flag">🇩🇪</span>
+      <span class="lang-name">Deutsch</span>
+    </div>
+    <div class="lang-option" onclick="setLang('es')" data-lang="es">
+      <span class="lang-flag">🇪🇸</span>
+      <span class="lang-name">Español</span>
+    </div>
+  </div>
+</div>
 
 <header>
   <div class="logo-container">
@@ -308,7 +359,6 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
       <button class="btn bsm" style="padding:6px 10px;font-size:.7rem" onclick="pasteClean()">📋 لصق</button>
     </div>
     <textarea id="cleanInput" placeholder="الصق النص هنا..." style="min-height:80px;font-family:monospace;font-size:.75rem;margin-bottom:10px"></textarea>
-    
     <div class="ctrls" style="margin-bottom:10px">
       <label class="tbtn" style="font-size:.7rem">
         <input type="checkbox" id="removeNumbers" style="display:none" checked>
@@ -323,9 +373,7 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
         🗑️ حذف الأسطر الفارغة
       </label>
     </div>
-    
     <button class="btn bs" style="background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#000" onclick="cleanText()">🧹 تنظيف النص</button>
-    
     <div id="cleanResult" style="display:none">
       <div class="clean-box">
         <div class="clean-title">✨ النص بعد التنظيف</div>
@@ -344,6 +392,55 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
 <footer>ALHASHMI للدبلجة والترجمة · GitHub + Render · gTTS · مجاني 100%</footer>
 
 <script>
+// ✅ إعدادات اللغة
+let currentLanguage='ar';
+const translations={
+  ar:{title:'نطق النص',dub:'لغة الدبلجة',srt:'ملف SRT',translate:'مترجم SRT',clean:'تنظيف النص'},
+  en:{title:'Text to Speech',dub:'Dubbing Language',srt:'SRT File',translate:'SRT Translator',clean:'Text Cleaner'},
+  ru:{title:'Текст в речь',dub:'Язык дубляжа',srt:'SRT файл',translate:'Переводчик SRT',clean:'Очистка текста'},
+  tr:{title:'Metin Okuma',dub:'Dublaj Dili',srt:'SRT Dosyası',translate:'SRT Çeviri',clean:'Metin Temizleme'},
+  fr:{title:'Synthèse vocale',dub:'Langue de doublage',srt:'Fichier SRT',translate:'Traducteur SRT',clean:'Nettoyage de texte'},
+  de:{title:'Text zu Sprache',dub:'Synchronisationssprache',srt:'SRT-Datei',translate:'SRT-Übersetzer',clean:'Textbereinigung'},
+  es:{title:'Texto a voz',dub:'Idioma de doblaje',srt:'Archivo SRT',translate:'Traductor SRT',clean:'Limpieza de texto'}
+};
+
+function toggleLang(){
+  document.getElementById('langDropdown').classList.toggle('show');
+}
+
+function setLang(lang){
+  currentLanguage=lang;
+  document.getElementById('currentLang').textContent=document.querySelector(`[data-lang="${lang}"] .lang-name`).textContent;
+  document.querySelectorAll('.lang-option').forEach(opt=>opt.classList.remove('active'));
+  document.querySelector(`[data-lang="${lang}"]`).classList.add('active');
+  document.getElementById('langDropdown').classList.remove('show');
+  
+  // تغيير اتجاه الصفحة للعربية
+  if(lang==='ar'){
+    document.documentElement.dir='rtl';
+  }else{
+    document.documentElement.dir='ltr';
+  }
+  
+  // تحديث العناوين
+  updateTranslations();
+}
+
+function updateTranslations(){
+  const t=translations[currentLanguage];
+  if(!t)return;
+  // يمكن إضافة المزيد من الترجمات هنا
+  console.log('Language changed to:',currentLanguage);
+}
+
+// إغلاق القائمة عند النقر خارجها
+document.addEventListener('click',function(e){
+  const langSwitcher=document.querySelector('.lang-switcher');
+  if(!langSwitcher.contains(e.target)){
+    document.getElementById('langDropdown').classList.remove('show');
+  }
+});
+
 const LANGS=[
   {c:'en-US',g:'en',n:'English',f:'🇺🇸',l:'الإنجليزية',code:'en'},
   {c:'es-ES',g:'es',n:'Español',f:'🇪🇸',l:'الإسبانية',code:'es'},
@@ -428,50 +525,23 @@ async function copyResult(){const txt=document.getElementById('transOut').textCo
 async function copyClean(){const txt=document.getElementById('cleanOutput').textContent;if(!txt){ssClean('⚠️ لا توجد نتيجة','wn');return;}try{await navigator.clipboard.writeText(txt);ssClean('✅ تم النسخ','ok');}catch(e){ssClean('❌ فشل','er');}}
 async function startTrans(){const txt=document.getElementById('srcSRT').value.trim();if(!txt){ssTrans('⚠️ الصق نص SRT','wn');return;}ssTrans('🔄 جارٍ...','i');document.getElementById('transRes').style.display='none';const blocks=txt.trim().split(/\n\s*\n/);let newSRT='';let count=0;for(let blk of blocks){const ls=blk.trim().split('\n');if(ls.length<2)continue;const idx=ls[0],time=ls[1],text=ls.slice(2).join(' ');if(!text){newSRT+=blk+'\n\n';continue;}try{const url=`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=ar|${transLang}`;const res=await fetch(url);const data=await res.json();if(data.responseStatus===200){newSRT+=`${idx}\n${time}\n${data.responseData.translatedText}\n\n`;}else{newSRT+=`${idx}\n${time}\n${text} [Failed]\n\n`;}}catch(e){newSRT+=`${idx}\n${time}\n${text} [Error]\n\n`;}count++;ssTrans(`جاري... ${count}/${blocks.length}`,'i');await new Promise(r=>setTimeout(r,200));}document.getElementById('transOut').textContent=newSRT;document.getElementById('transRes').style.display='block';transBlob=new Blob([newSRT],{type:'text/plain'});ssTrans(`✅ ${count} جملة`,'ok');}
 function dlTransSRT(){if(!transBlob)return;const a=document.createElement('a');a.href=URL.createObjectURL(transBlob);a.download=`translated_${transLang}.srt`;a.click();}
-
-// ✅ دالة تنظيف النص
 function cleanText(){
   const input=document.getElementById('cleanInput').value.trim();
   if(!input){ssClean('⚠️ الصق نصاً أولاً','wn');return;}
-  
   const removeNum=document.getElementById('removeNumbers').checked;
   const removeTime=document.getElementById('removeTime').checked;
   const removeEmpty=document.getElementById('removeEmpty').checked;
-  
   let result=input;
-  
-  // حذف التوقيتات
-  if(removeTime){
-    result=result.replace(/\d{2}:\d{2}:\d{2}[,\.]\d{3}\s*-->\s*\d{2}:\d{2}:\d{2}[,\.]\d{3}/g,'');
-  }
-  
-  // حذف الأرقام المنفردة (أرقام الترقيم)
-  if(removeNum){
-    result=result.replace(/^\s*\d+\s*$/gm,'');
-  }
-  
-  // حذف الأسطر الفارغة
-  if(removeEmpty){
-    result=result.split('\n').filter(line=>line.trim()!=='').join('\n');
-  }
-  
-  // تنظيف إضافي
+  if(removeTime){result=result.replace(/\d{2}:\d{2}:\d{2}[,\.]\d{3}\s*-->\s*\d{2}:\d{2}:\d{2}[,\.]\d{3}/g,'');}
+  if(removeNum){result=result.replace(/^\s*\d+\s*$/gm,'');}
+  if(removeEmpty){result=result.split('\n').filter(line=>line.trim()!=='').join('\n');}
   result=result.replace(/-->/g,'').replace(/\[[^\]]*\]/g,'').replace(/\([^)]*\)/g,'').replace(/\s+/g,' ').trim();
-  
   document.getElementById('cleanOutput').textContent=result;
   document.getElementById('cleanResult').style.display='block';
   cleanBlob=new Blob([result],{type:'text/plain'});
   ssClean('✅ تم التنظيف','ok');
 }
-
-function dlClean(){
-  if(!cleanBlob)return;
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(cleanBlob);
-  a.download='cleaned-text.txt';
-  a.click();
-}
-
+function dlClean(){if(!cleanBlob)return;const a=document.createElement('a');a.href=URL.createObjectURL(cleanBlob);a.download='cleaned-text.txt';a.click();}
 async function stDub(){if(!srtData.length){ssDub('⚠️ ارفع SRT أولاً','wn');return;}try{await fetch(SERVER_URL+'/api/health');}catch(e){ssDub('❌ سيرفر Render غير شغال!','er');return;}dubbing=true;dubCanc=false;resBlob=null;const lang=LANGS.find(l=>l.c===L2)||LANGS[0];const totalMs=msT(srtData[srtData.length-1].en)+2000;document.getElementById('genBtn').style.display='none';document.getElementById('dubP').style.display='block';document.getElementById('dubRes').style.display='none';setPh('🔍 جاري المعالجة...');document.getElementById('clkT').textContent=fmMs(totalMs);const t0=Date.now();const audioFiles=[];let done=0;for(let i=0;i<srtData.length&&!dubCanc;i++){const item=srtData[i];if(!item.sp){done++;continue;}document.getElementById('curS').textContent=item.tx;document.getElementById('sntC').textContent=`${done+1}/${srtData.length}`;const itemDuration=msT(item.en)-msT(item.st);const response=await fetch(`${SERVER_URL}/api/dub`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:item.sp,lang:lang.code,duration:itemDuration,speed:filterSpeed,pitch:filterPitch,eq_bass:eqBass,eq_mid:eqMid,eq_treble:eqTreble})});const result=await response.json();if(result.success){audioFiles.push(result.file);}done++;const pct=Math.round(done/srtData.length*100);document.getElementById('pFill').style.width=pct+'%';document.getElementById('pPct').textContent=pct+'%';document.getElementById('pLbl').textContent=`${done}/${srtData.length}`;const el=document.getElementById('si'+i);if(el)el.classList.add('done');}if(dubCanc){rstDub();ssDub('⏹ أُلغي','i');return;}setPh('💾 جاري الدمج...');const audioContext=new(window.AudioContext||window.webkitAudioContext)();const buffers=[];for(const file of audioFiles){try{const res=await fetch(`${SERVER_URL}/api/download/${file}`,{method:'GET',headers:{'Accept':'audio/mpeg'}});if(!res.ok)throw new Error('Failed to download');const ab=await res.arrayBuffer();const buf=await audioContext.decodeAudioData(ab);buffers.push(buf);}catch(e){console.error('Error downloading file:',file,e);}}const totalSamples=buffers.reduce((sum,buf)=>sum+buf.length,0);const merged=audioContext.createBuffer(1,totalSamples,audioContext.sampleRate);let offset=0;buffers.forEach(buf=>{merged.copyToChannel(buf.getChannelData(0),0,offset);offset+=buf.length;});resBlob=toWav(merged);dubbing=false;const url=URL.createObjectURL(resBlob);document.getElementById('dubAu').src=url;document.getElementById('dubP').style.display='none';document.getElementById('dubRes').style.display='block';document.getElementById('genBtn').style.display='block';const sz=(resBlob.size/1024/1024).toFixed(2);ssDub(`🎉 جاهز (${sz}MB)`,'ok');}
 function dlRes(){if(!resBlob)return;const a=document.createElement('a');a.href=URL.createObjectURL(resBlob);a.download='dubbing-'+Date.now()+'.wav';a.click();}
 function cnclDub(){dubCanc=true;dubbing=false;rstDub();ssDub('⏹ أُلغي','i');}
