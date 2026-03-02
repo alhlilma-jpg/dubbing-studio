@@ -17,6 +17,9 @@ header{text-align:center;margin-bottom:32px;grid-column:1/-1}
 .logo-img img{width:100%;height:100%;object-fit:contain}
 .logo-container h1{font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,#a78bfa,#60a5fa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:3px}
 .logo-container .subtitle{color:#a78bfa;font-size:.85rem;font-weight:600}
+.logo-container .youtube-link{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(255,0,0,.1);border:1px solid rgba(255,0,0,.3);border-radius:20px;color:#ff4444;font-size:.75rem;font-weight:600;text-decoration:none;transition:all .3s;margin-top:8px}
+.logo-container .youtube-link:hover{background:rgba(255,0,0,.2);border-color:rgba(255,0,0,.5);transform:translateY(-2px);box-shadow:0 4px 12px rgba(255,0,0,.3)}
+.logo-container .youtube-link svg{width:18px;height:18px;fill:#ff4444}
 .card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:20px;backdrop-filter:blur(20px);box-shadow:0 20px 60px rgba(0,0,0,.5);margin-bottom:16px}
 .card-header{display:flex;align-items:center;gap:10px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.08)}
 .card-icon{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#2563eb);display:flex;align-items:center;justify-content:center;font-size:1rem}
@@ -125,47 +128,53 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
     <div>
       <h1>ALHASHMI</h1>
       <p class="subtitle">للدبلجة والترجمة الاحترافية</p>
+      <!-- ✅ رابط YouTube -->
+      <a href="https://www.youtube.com/@-photosho" target="_blank" class="youtube-link" title="اشترك في القناة">
+        <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        <span>اشترك في القناة</span>
+      </a>
     </div>
   </div>
 </header>
 
+<!-- ✅ العمود 1: نطق النص -->
 <div>
   <div class="card">
     <div class="card-header">
       <div class="card-icon">✏️</div>
       <span class="card-title">نطق النص</span>
     </div>
-    <span class="lbl">اختر اللغة</span>
-    <div class="lg" id="g1"></div>
-    <span class="lbl">الصوت</span>
-    <select id="vs" style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:rgba(0,0,0,.3);color:#e0e0ff;font-size:.8rem;margin-bottom:12px"></select>
-    <div class="tw"><textarea id="ti" placeholder="اكتب النص..."></textarea><span class="cc" id="cc">0</span></div>
-    <div class="ctrls">
-      <div class="cg"><label>السرعة <span class="rv" id="rv1">1.0x</span></label><input type="range" id="rr1" min=".5" max="2" step=".1" value="1"></div>
-      <div class="cg"><label>الطبقة <span class="rv" id="pv1">1.0</span></label><input type="range" id="pr1" min=".5" max="2" step=".1" value="1"></div>
-      <div class="cg"><label>الصوت <span class="rv" id="vv1">100%</span></label><input type="range" id="vr1" min="0" max="1" step=".05" value="1"></div>
+    <div class="lbl-row"><span class="lbl" style="margin-bottom:0">اختر اللغة</span></div>
+    <div class="lg" id="g1" style="margin-bottom:10px"></div>
+    <div class="lbl-row"><span class="lbl" style="margin-bottom:0">الصوت</span></div>
+    <select id="vs" style="width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:rgba(0,0,0,.3);color:#e0e0ff;font-size:.75rem;margin-bottom:10px"></select>
+    <div class="tw"><textarea id="ti" placeholder="اكتب النص..." style="min-height:80px;font-size:.8rem"></textarea><span class="cc" id="cc">0</span></div>
+    <div class="ctrls" style="margin-bottom:10px">
+      <div class="cg"><label style="font-size:.55rem">السرعة <span class="rv" id="rv1">1.0x</span></label><input type="range" id="rr1" min=".5" max="2" step=".1" value="1"></div>
+      <div class="cg"><label style="font-size:.55rem">الطبقة <span class="rv" id="pv1">1.0</span></label><input type="range" id="pr1" min=".5" max="2" step=".1" value="1"></div>
+      <div class="cg"><label style="font-size:.55rem">الصوت <span class="rv" id="vv1">100%</span></label><input type="range" id="vr1" min="0" max="1" step=".05" value="1"></div>
     </div>
-    <div class="wv" id="wv1"><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div></div>
+    <div class="wv" id="wv1" style="height:20px;margin:8px 0"><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div></div>
     <div class="br">
-      <button class="btn bs" id="sb" onclick="tSpeak()"><span id="si">▶</span><span id="st2">نطق</span></button>
-      <button class="btn bsm" onclick="tPause()">⏸</button>
-      <button class="btn bsm" onclick="clrTxt()">🗑</button>
+      <button class="btn bs" id="sb" onclick="tSpeak()" style="padding:8px 12px;font-size:.75rem"><span id="si">▶</span><span id="st2">نطق</span></button>
+      <button class="btn bsm" onclick="tPause()" style="padding:8px 10px;font-size:.75rem">⏸</button>
+      <button class="btn bsm" onclick="clrTxt()" style="padding:8px 10px;font-size:.75rem">🗑</button>
     </div>
-    <div class="st i" id="s1">👋 اكتب نصاً واضغط نطق</div>
+    <div class="st i" id="s1" style="margin-top:8px;font-size:.7rem">👋 اكتب نصاً واضغط نطق</div>
   </div>
   <div class="filters-card" id="filtersCard" style="display:none">
     <div class="fc-title"><span>🎛️</span> الفلاتر الصوتية</div>
     <div class="lbl-row"><span class="lbl" style="margin-bottom:0">السرعة</span><span class="rv" id="speedVal">1.0x</span></div>
-    <input type="range" id="filterSpeed" min="0.5" max="2" step="0.1" value="1" style="width:100%;margin-bottom:12px" oninput="updateFilters()">
+    <input type="range" id="filterSpeed" min="0.5" max="2" step="0.1" value="1" style="width:100%;margin-bottom:10px" oninput="updateFilters()">
     <div class="lbl-row"><span class="lbl" style="margin-bottom:0">الطبقة</span><span class="rv" id="pitchVal">1.0</span></div>
-    <input type="range" id="filterPitch" min="0.5" max="2" step="0.1" value="1" style="width:100%;margin-bottom:12px" oninput="updateFilters()">
+    <input type="range" id="filterPitch" min="0.5" max="2" step="0.1" value="1" style="width:100%;margin-bottom:10px" oninput="updateFilters()">
     <div class="lbl-row"><span class="lbl" style="margin-bottom:0">Bass</span><span class="rv" id="bassVal">0dB</span></div>
-    <input type="range" id="eqBass" min="-20" max="20" step="1" value="0" style="width:100%;margin-bottom:12px" oninput="updateFilters()">
+    <input type="range" id="eqBass" min="-20" max="20" step="1" value="0" style="width:100%;margin-bottom:10px" oninput="updateFilters()">
     <div class="lbl-row"><span class="lbl" style="margin-bottom:0">Mid</span><span class="rv" id="midVal">0dB</span></div>
-    <input type="range" id="eqMid" min="-20" max="20" step="1" value="0" style="width:100%;margin-bottom:12px" oninput="updateFilters()">
+    <input type="range" id="eqMid" min="-20" max="20" step="1" value="0" style="width:100%;margin-bottom:10px" oninput="updateFilters()">
     <div class="lbl-row"><span class="lbl" style="margin-bottom:0">Treble</span><span class="rv" id="trebleVal">0dB</span></div>
-    <input type="range" id="eqTreble" min="-20" max="20" step="1" value="0" style="width:100%;margin-bottom:12px" oninput="updateFilters()">
-    <button class="btn bsm" style="width:100%;justify-content:center;margin-top:10px;font-size:.7rem" onclick="resetFilters()">🔄 إعادة تعيين</button>
+    <input type="range" id="eqTreble" min="-20" max="20" step="1" value="0" style="width:100%;margin-bottom:10px" oninput="updateFilters()">
+    <button class="btn bsm" style="width:100%;justify-content:center;margin-top:8px;font-size:.7rem;padding:6px" onclick="resetFilters()">🔄 إعادة تعيين</button>
     <div class="sg">
       <button class="sbtn" onclick="applyPreset('male')">👨 رجالي</button>
       <button class="sbtn" onclick="applyPreset('radio')">📻 راديو</button>
@@ -175,6 +184,7 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
   </div>
 </div>
 
+<!-- ✅ العمود 2: دبلجة SRT -->
 <div>
   <div class="card">
     <div class="card-header">
@@ -254,6 +264,7 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
   </div>
 </div>
 
+<!-- ✅ العمود 3: مترجم SRT -->
 <div>
   <div class="card tp" style="border-top:4px solid #34d399">
     <div class="card-header">
