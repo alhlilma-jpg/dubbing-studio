@@ -123,7 +123,6 @@ footer{text-align:center;padding:18px;color:#374151;font-size:.75rem;grid-column
 <body>
 <div class="bg"></div>
 <div class="wrap">
-
 <header>
   <div class="logo">🎙️🌍</div>
   <h1>استوديو الدبلجة الاحترافي</h1>
@@ -258,7 +257,7 @@ footer{text-align:center;padding:18px;color:#374151;font-size:.75rem;grid-column
 </div>
 
 </div>
-<footer>استوديو الدبلجة · GitHub + Render · Edge TTS · مجاني 100%</footer>
+<footer>استوديو الدبلجة · GitHub + Render · gTTS · مجاني 100%</footer>
 
 <script>
 const LANGS=[
@@ -313,7 +312,6 @@ async function copyResult(){const txt=document.getElementById('transOut').textCo
 async function startTrans(){const txt=document.getElementById('srcSRT').value.trim();if(!txt){ssTrans('⚠️ الصق نص SRT','wn');return;}ssTrans('🔄 جارٍ...','i');document.getElementById('transRes').style.display='none';const blocks=txt.trim().split(/\n\s*\n/);let newSRT='';let count=0;for(let blk of blocks){const ls=blk.trim().split('\n');if(ls.length<2)continue;const idx=ls[0],time=ls[1],text=ls.slice(2).join(' ');if(!text){newSRT+=blk+'\n\n';continue;}try{const url=`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=ar|${transLang}`;const res=await fetch(url);const data=await res.json();if(data.responseStatus===200){newSRT+=`${idx}\n${time}\n${data.responseData.translatedText}\n\n`;}else{newSRT+=`${idx}\n${time}\n${text} [Failed]\n\n`;}}catch(e){newSRT+=`${idx}\n${time}\n${text} [Error]\n\n`;}count++;ssTrans(`جاري... ${count}/${blocks.length}`,'i');await new Promise(r=>setTimeout(r,200));}document.getElementById('transOut').textContent=newSRT;document.getElementById('transRes').style.display='block';transBlob=new Blob([newSRT],{type:'text/plain'});ssTrans(`✅ ${count} جملة`,'ok');}
 function dlTransSRT(){if(!transBlob)return;const a=document.createElement('a');a.href=URL.createObjectURL(transBlob);a.download=`translated_${transLang}.srt`;a.click();}
 
-// ✅ دالة الدبلجة المُعدّلة - ترسل المدة للسيرفر
 async function stDub(){
   if(!srtData.length){ssDub('⚠️ ارفع SRT أولاً','wn');return;}
   try{await fetch(SERVER_URL+'/api/health');}catch(e){ssDub('❌ سيرفر Render غير شغال!','er');return;}
@@ -339,7 +337,6 @@ async function stDub(){
     document.getElementById('curS').textContent=item.tx;
     document.getElementById('sntC').textContent=`${done+1}/${srtData.length}`;
     
-    // ✅ حساب مدة الجملة بالميلي ثانية وإرسالها للسيرفر
     const itemDuration=msT(item.en)-msT(item.st);
     
     const response=await fetch(`${SERVER_URL}/api/dub`,{
