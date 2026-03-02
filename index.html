@@ -210,6 +210,45 @@ footer{text-align:center;padding:18px;color:#374151;font-size:.75rem;grid-column
       </div>
     </div>
 
+    <!-- ✅ قسم الفلاتر -->
+    <div class="card" id="filtersCard" style="display:none">
+      <div class="sh"><span class="sn">🎛️</span> الفلاتر الصوتية</div>
+      
+      <div class="lbl-row">
+        <span class="lbl" style="margin-bottom:0">السرعة (Speed)</span>
+        <span class="rv" id="speedVal">1.0x</span>
+      </div>
+      <input type="range" id="filterSpeed" min="0.5" max="2" step="0.1" value="1" style="width:100%;margin-bottom:16px" oninput="document.getElementById('speedVal').textContent=this.value+'x';filterSpeed=parseFloat(this.value)">
+      
+      <div class="lbl-row">
+        <span class="lbl" style="margin-bottom:0">الطبقة (Pitch)</span>
+        <span class="rv" id="pitchVal">1.0</span>
+      </div>
+      <input type="range" id="filterPitch" min="0.5" max="2" step="0.1" value="1" style="width:100%;margin-bottom:16px" oninput="document.getElementById('pitchVal').textContent=this.value;filterPitch=parseFloat(this.value)">
+      
+      <div class="sh" style="margin-top:20px"><span class="sn">🎚️</span> معادل الترددات (EQ)</div>
+      
+      <div class="lbl-row">
+        <span class="lbl" style="margin-bottom:0">Bass (منخفضة)</span>
+        <span class="rv" id="bassVal">0dB</span>
+      </div>
+      <input type="range" id="eqBass" min="-20" max="20" step="1" value="0" style="width:100%;margin-bottom:16px" oninput="document.getElementById('bassVal').textContent=this.value+'dB';eqBass=parseFloat(this.value)">
+      
+      <div class="lbl-row">
+        <span class="lbl" style="margin-bottom:0">Mid (متوسطة)</span>
+        <span class="rv" id="midVal">0dB</span>
+      </div>
+      <input type="range" id="eqMid" min="-20" max="20" step="1" value="0" style="width:100%;margin-bottom:16px" oninput="document.getElementById('midVal').textContent=this.value+'dB';eqMid=parseFloat(this.value)">
+      
+      <div class="lbl-row">
+        <span class="lbl" style="margin-bottom:0">Treble (عالية)</span>
+        <span class="rv" id="trebleVal">0dB</span>
+      </div>
+      <input type="range" id="eqTreble" min="-20" max="20" step="1" value="0" style="width:100%;margin-bottom:16px" oninput="document.getElementById('trebleVal').textContent=this.value+'dB';eqTreble=parseFloat(this.value)">
+      
+      <button class="btn bsm" style="width:100%;justify-content:center;margin-top:12px" onclick="resetFilters()">🔄 إعادة تعيين الفلاتر</button>
+    </div>
+
     <div class="card" id="dubCard" style="display:none">
       <div class="sh"><span class="sn">٣</span> التوليد</div>
       <div class="ib">
@@ -279,6 +318,13 @@ const SAMP={'en-US':['The quick brown fox.','Welcome to AI!'],'ar-SA':['بسم �
 
 let L1='en-US',L2='en-US',voices=[],spk=false,pau=false,srtData=[],dubbing=false,dubCanc=false,resBlob=null,transLang='en',transBlob=null;
 
+// ✅ متغيرات الفلاتر
+let filterSpeed = 1.0;
+let filterPitch = 1.0;
+let eqBass = 0;
+let eqMid = 0;
+let eqTreble = 0;
+
 const SERVER_URL='https://dubbing-api-v2.onrender.com';
 
 function swTab(id,btn){document.querySelectorAll('.tc').forEach(t=>t.classList.remove('on'));document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));document.getElementById(id).classList.add('on');btn.classList.add('on');}
@@ -303,7 +349,7 @@ function fmMs(ms){if(ms<0)ms=0;const s=Math.floor(ms/1000),m=Math.floor(s/60),h=
 function prsSRT(txt){return txt.trim().split(/\n\s*\n/).map(blk=>{const ls=blk.trim().split('\n');if(ls.length<2)return null;const tm=ls[1].match(/(\d{2}:\d{2}:\d{2}[,\.]\d{3})\s*-->\s*(\d{2}:\d{2}:\d{2}[,\.]\d{3})/);if(!tm)return null;const raw=ls.slice(2).join(' ').replace(/<[^>]+>/g,'').trim();if(!raw)return null;return {i:parseInt(ls[0])||0,st:tm[1].replace(',','.'),en:tm[2].replace(',','.'),tx:raw,sp:clnTxt(raw)};}).filter(Boolean);}
 function ldSRT(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{srtData=prsSRT(ev.target.result);rndrSRT();};r.readAsText(f,'UTF-8');}
 function prsPaste(){const t=document.getElementById('srtP').value.trim();if(!t)return;srtData=prsSRT(t);rndrSRT();}
-function rndrSRT(){if(!srtData.length){ssDub('❌ ملف غير صحيح','er');return;}document.getElementById('srtInfo').style.display='block';document.getElementById('dubCard').style.display='block';document.getElementById('sCnt').textContent=srtData.length;const tot=msT(srtData[srtData.length-1].en);document.getElementById('sDur').textContent=fmMs(tot);document.getElementById('clkT').textContent=fmMs(tot);const list=document.getElementById('srtL');list.innerHTML='';srtData.forEach((item,i)=>{const d=document.createElement('div');d.className='si';d.id='si'+i;d.innerHTML=`<span class="sin">${item.i}</span><span class="sit">${item.st}</span><span class="sit2">${item.tx}</span>`;list.appendChild(d);});ssDub(`✅ ${srtData.length} جملة`,'ok');}
+function rndrSRT(){if(!srtData.length){ssDub('❌ ملف غير صحيح','er');return;}document.getElementById('srtInfo').style.display='block';document.getElementById('dubCard').style.display='block';document.getElementById('filtersCard').style.display='block';document.getElementById('sCnt').textContent=srtData.length;const tot=msT(srtData[srtData.length-1].en);document.getElementById('sDur').textContent=fmMs(tot);document.getElementById('clkT').textContent=fmMs(tot);const list=document.getElementById('srtL');list.innerHTML='';srtData.forEach((item,i)=>{const d=document.createElement('div');d.className='si';d.id='si'+i;d.innerHTML=`<span class="sin">${item.i}</span><span class="sit">${item.st}</span><span class="sit2">${item.tx}</span>`;list.appendChild(d);});ssDub(`✅ ${srtData.length} جملة`,'ok');}
 function cpySRT(){navigator.clipboard.writeText(srtData.map(x=>x.tx).join('\n'));ssDub('📋 تم النسخ','ok');}
 function initTransGrid(){const g=document.getElementById('transLangs');LANGS.filter(l=>l.c!=='ar-SA').forEach(l=>{const b=document.createElement('button');b.className='tbtn'+(l.code===transLang?' on':'');b.textContent=l.f+' '+l.l;b.onclick=()=>{document.querySelectorAll('.tbtn').forEach(x=>x.classList.remove('on'));b.classList.add('on');transLang=l.code;};g.appendChild(b);});}
 initTransGrid();
@@ -311,90 +357,8 @@ async function pasteSrc(){try{const txt=await navigator.clipboard.readText();doc
 async function copyResult(){const txt=document.getElementById('transOut').textContent;if(!txt){ssTrans('⚠️ لا توجد نتيجة','wn');return;}try{await navigator.clipboard.writeText(txt);ssTrans('✅ تم النسخ','ok');}catch(e){ssTrans('❌ فشل','er');}}
 async function startTrans(){const txt=document.getElementById('srcSRT').value.trim();if(!txt){ssTrans('⚠️ الصق نص SRT','wn');return;}ssTrans('🔄 جارٍ...','i');document.getElementById('transRes').style.display='none';const blocks=txt.trim().split(/\n\s*\n/);let newSRT='';let count=0;for(let blk of blocks){const ls=blk.trim().split('\n');if(ls.length<2)continue;const idx=ls[0],time=ls[1],text=ls.slice(2).join(' ');if(!text){newSRT+=blk+'\n\n';continue;}try{const url=`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=ar|${transLang}`;const res=await fetch(url);const data=await res.json();if(data.responseStatus===200){newSRT+=`${idx}\n${time}\n${data.responseData.translatedText}\n\n`;}else{newSRT+=`${idx}\n${time}\n${text} [Failed]\n\n`;}}catch(e){newSRT+=`${idx}\n${time}\n${text} [Error]\n\n`;}count++;ssTrans(`جاري... ${count}/${blocks.length}`,'i');await new Promise(r=>setTimeout(r,200));}document.getElementById('transOut').textContent=newSRT;document.getElementById('transRes').style.display='block';transBlob=new Blob([newSRT],{type:'text/plain'});ssTrans(`✅ ${count} جملة`,'ok');}
 function dlTransSRT(){if(!transBlob)return;const a=document.createElement('a');a.href=URL.createObjectURL(transBlob);a.download=`translated_${transLang}.srt`;a.click();}
-
-async function stDub(){
-  if(!srtData.length){ssDub('⚠️ ارفع SRT أولاً','wn');return;}
-  try{await fetch(SERVER_URL+'/api/health');}catch(e){ssDub('❌ سيرفر Render غير شغال!','er');return;}
-  
-  dubbing=true;dubCanc=false;resBlob=null;
-  const lang=LANGS.find(l=>l.c===L2)||LANGS[0];
-  const totalMs=msT(srtData[srtData.length-1].en)+2000;
-
-  document.getElementById('genBtn').style.display='none';
-  document.getElementById('dubP').style.display='block';
-  document.getElementById('dubRes').style.display='none';
-  setPh('🔍 جاري المعالجة...');
-  document.getElementById('clkT').textContent=fmMs(totalMs);
-
-  const t0=Date.now();
-  const audioFiles=[];
-  let done=0;
-
-  for(let i=0;i<srtData.length&&!dubCanc;i++){
-    const item=srtData[i];
-    if(!item.sp){done++;continue;}
-    
-    document.getElementById('curS').textContent=item.tx;
-    document.getElementById('sntC').textContent=`${done+1}/${srtData.length}`;
-    
-    const itemDuration=msT(item.en)-msT(item.st);
-    
-    const response=await fetch(`${SERVER_URL}/api/dub`,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        text:item.sp,
-        lang:lang.code,
-        duration:itemDuration
-      })
-    });
-    
-    const result=await response.json();
-    if(result.success){audioFiles.push(result.file);}
-    
-    done++;
-    const pct=Math.round(done/srtData.length*100);
-    document.getElementById('pFill').style.width=pct+'%';
-    document.getElementById('pPct').textContent=pct+'%';
-    document.getElementById('pLbl').textContent=`${done}/${srtData.length}`;
-    
-    const el=document.getElementById('si'+i);
-    if(el)el.classList.add('done');
-  }
-
-  if(dubCanc){rstDub();ssDub('⏹ أُلغي','i');return;}
-
-  setPh('💾 جاري الدمج...');
-  const audioContext=new(window.AudioContext||window.webkitAudioContext)();
-  const buffers=[];
-  for(const file of audioFiles){
-    try{
-      const res=await fetch(`${SERVER_URL}/api/download/${file}`,{method:'GET',headers:{'Accept':'audio/mpeg'}});
-      if(!res.ok)throw new Error('Failed to download');
-      const ab=await res.arrayBuffer();
-      const buf=await audioContext.decodeAudioData(ab);
-      buffers.push(buf);
-    }catch(e){console.error('Error downloading file:',file,e);}
-  }
-  
-  const totalSamples=buffers.reduce((sum,buf)=>sum+buf.length,0);
-  const merged=audioContext.createBuffer(1,totalSamples,audioContext.sampleRate);
-  let offset=0;
-  buffers.forEach(buf=>{merged.copyToChannel(buf.getChannelData(0),0,offset);offset+=buf.length;});
-  
-  resBlob=toWav(merged);
-  dubbing=false;
-  
-  const url=URL.createObjectURL(resBlob);
-  document.getElementById('dubAu').src=url;
-  document.getElementById('dubP').style.display='none';
-  document.getElementById('dubRes').style.display='block';
-  document.getElementById('genBtn').style.display='block';
-  
-  const sz=(resBlob.size/1024/1024).toFixed(2);
-  ssDub(`🎉 جاهز (${sz}MB)`,'ok');
-}
-
+function resetFilters(){filterSpeed=1.0;filterPitch=1.0;eqBass=0;eqMid=0;eqTreble=0;document.getElementById('filterSpeed').value=1;document.getElementById('filterPitch').value=1;document.getElementById('eqBass').value=0;document.getElementById('eqMid').value=0;document.getElementById('eqTreble').value=0;document.getElementById('speedVal').textContent='1.0x';document.getElementById('pitchVal').textContent='1.0';document.getElementById('bassVal').textContent='0dB';document.getElementById('midVal').textContent='0dB';document.getElementById('trebleVal').textContent='0dB';ssDub('🔄 تم إعادة تعيين الفلاتر','ok');}
+async function stDub(){if(!srtData.length){ssDub('⚠️ ارفع SRT أولاً','wn');return;}try{await fetch(SERVER_URL+'/api/health');}catch(e){ssDub('❌ سيرفر Render غير شغال!','er');return;}dubbing=true;dubCanc=false;resBlob=null;const lang=LANGS.find(l=>l.c===L2)||LANGS[0];const totalMs=msT(srtData[srtData.length-1].en)+2000;document.getElementById('genBtn').style.display='none';document.getElementById('dubP').style.display='block';document.getElementById('dubRes').style.display='none';setPh('🔍 جاري المعالجة...');document.getElementById('clkT').textContent=fmMs(totalMs);const t0=Date.now();const audioFiles=[];let done=0;for(let i=0;i<srtData.length&&!dubCanc;i++){const item=srtData[i];if(!item.sp){done++;continue;}document.getElementById('curS').textContent=item.tx;document.getElementById('sntC').textContent=`${done+1}/${srtData.length}`;const itemDuration=msT(item.en)-msT(item.st);const response=await fetch(`${SERVER_URL}/api/dub`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:item.sp,lang:lang.code,duration:itemDuration,speed:filterSpeed,pitch:filterPitch,eq_bass:eqBass,eq_mid:eqMid,eq_treble:eqTreble})});const result=await response.json();if(result.success){audioFiles.push(result.file);}done++;const pct=Math.round(done/srtData.length*100);document.getElementById('pFill').style.width=pct+'%';document.getElementById('pPct').textContent=pct+'%';document.getElementById('pLbl').textContent=`${done}/${srtData.length}`;const el=document.getElementById('si'+i);if(el)el.classList.add('done');}if(dubCanc){rstDub();ssDub('⏹ أُلغي','i');return;}setPh('💾 جاري الدمج...');const audioContext=new(window.AudioContext||window.webkitAudioContext)();const buffers=[];for(const file of audioFiles){try{const res=await fetch(`${SERVER_URL}/api/download/${file}`,{method:'GET',headers:{'Accept':'audio/mpeg'}});if(!res.ok)throw new Error('Failed to download');const ab=await res.arrayBuffer();const buf=await audioContext.decodeAudioData(ab);buffers.push(buf);}catch(e){console.error('Error downloading file:',file,e);}}const totalSamples=buffers.reduce((sum,buf)=>sum+buf.length,0);const merged=audioContext.createBuffer(1,totalSamples,audioContext.sampleRate);let offset=0;buffers.forEach(buf=>{merged.copyToChannel(buf.getChannelData(0),0,offset);offset+=buf.length;});resBlob=toWav(merged);dubbing=false;const url=URL.createObjectURL(resBlob);document.getElementById('dubAu').src=url;document.getElementById('dubP').style.display='none';document.getElementById('dubRes').style.display='block';document.getElementById('genBtn').style.display='block';const sz=(resBlob.size/1024/1024).toFixed(2);ssDub(`🎉 جاهز (${sz}MB)`,'ok');}
 function dlRes(){if(!resBlob)return;const a=document.createElement('a');a.href=URL.createObjectURL(resBlob);a.download='dubbing-'+Date.now()+'.wav';a.click();}
 function cnclDub(){dubCanc=true;dubbing=false;rstDub();ssDub('⏹ أُلغي','i');}
 function rstDub(){document.getElementById('dubP').style.display='none';document.getElementById('genBtn').style.display='block';document.getElementById('pFill').style.width='0%';document.getElementById('pPct').textContent='0%';document.getElementById('clkR').textContent='--:--:--';document.getElementById('clkE').textContent='00:00:00';}
