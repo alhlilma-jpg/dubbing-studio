@@ -8,7 +8,7 @@
 <meta http-equiv="X-XSS-Protection" content="1; mode=block">
 <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<title>ALHASHMI للدبلجة والترجمة</title>
+<title>sl-Dubbing & Translation</title>
 
 <!-- ✅ Stripe.js - المفتاح العام فقط هنا -->
 <script src="https://js.stripe.com/v3/"></script>
@@ -30,9 +30,9 @@ header{text-align:center;margin-bottom:32px;grid-column:1/-1}
 @keyframes logoPulse{0%,100%{filter:drop-shadow(0 0 10px rgba(167,139,250,.5))}50%{filter:drop-shadow(0 0 20px rgba(167,139,250,.8))}}
 .logo-container h1{font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,#a78bfa,#60a5fa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:3px}
 .logo-container .subtitle{color:#a78bfa;font-size:.85rem;font-weight:600}
-.logo-container .youtube-link{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(255,0,0,.1);border:1px solid rgba(255,0,0,.3);border-radius:20px;color:#ff4444;font-size:.75rem;font-weight:600;text-decoration:none;transition:all .3s;margin-top:8px}
-.logo-container .youtube-link:hover{background:rgba(255,0,0,.2);border-color:rgba(255,0,0,.5);transform:translateY(-2px);box-shadow:0 4px 12px rgba(255,0,0,.3)}
-.logo-container .youtube-link svg{width:18px;height:18px;fill:#ff4444}
+
+
+
 .lang-switcher{position:fixed;top:20px;left:20px;z-index:1000}
 .lang-btn{display:flex;align-items:center;gap:8px;padding:10px 16px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:12px;color:#e0e0ff;cursor:pointer;font-size:.8rem;font-weight:600;transition:all .3s;backdrop-filter:blur(10px)}
 .lang-btn:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);transform:translateY(-2px)}
@@ -619,10 +619,10 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
           <div class="user-avatar-lg" id="userAvatarLg">?</div>
           <div class="user-details">
             <div class="user-email" id="userEmailDisplay">—</div>
-            <div class="user-plan" id="userPlanBadge">خطة مجانية</div>
+            <div class="user-plan" id="userPlanBadge" data-i18n="freePlan">خطة مجانية</div>
           </div>
         </div>
-        <div class="usage-title">📊 الاستخدام المجاني المتبقي</div>
+        <div class="usage-title" data-i18n="usageTitle">📊 الاستخدام المجاني المتبقي</div>
 
         <div class="usage-item">
           <div class="usage-row">
@@ -635,7 +635,7 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
         <div class="usage-item">
           <div class="usage-row">
             <span class="usage-label">🎬 الدبلجة</span>
-            <span class="usage-count" id="uc-dub">6/6</span>
+            <span class="usage-count" id="uc-dub">⏱️ 30 ث مجانية</span>
           </div>
           <div class="usage-bar-bg"><div class="usage-bar-fill dub" id="ub-dub" style="width:100%"></div></div>
         </div>
@@ -648,15 +648,15 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
           <div class="usage-bar-bg"><div class="usage-bar-fill srt" id="ub-srt" style="width:100%"></div></div>
         </div>
 
-        <button class="user-logout" onclick="logoutUser()">🚪 تسجيل الخروج</button>
+        <button class="user-logout" onclick="logoutUser()" data-i18n="logout">🚪 تسجيل الخروج</button>
       </div>
     </div>
 
     <!-- نموذج تسجيل الدخول / الإنشاء -->
     <div id="authForms">
       <div class="auth-tabs">
-        <button class="auth-tab on" id="tab-login" onclick="switchAuthTab('login')">تسجيل الدخول</button>
-        <button class="auth-tab"   id="tab-register" onclick="switchAuthTab('register')">إنشاء حساب</button>
+        <button class="auth-tab on" id="tab-login" onclick="switchAuthTab('login')" data-i18n="loginTab">تسجيل الدخول</button>
+        <button class="auth-tab"   id="tab-register" onclick="switchAuthTab('register')" data-i18n="registerTab">إنشاء حساب</button>
       </div>
 
       <!-- Login Form -->
@@ -671,7 +671,7 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
         </div>
         <button class="auth-submit" id="loginBtn" onclick="doLogin()">
           <div class="btn-spinner"></div>
-          <span class="btn-text">🔐 دخول</span>
+          <span class="btn-text" data-i18n="loginSubmit">🔐 دخول</span>
         </button>
         <div class="auth-msg" id="login-msg"></div>
       </div>
@@ -692,7 +692,7 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
         </div>
         <button class="auth-submit" id="registerBtn" onclick="doRegister()">
           <div class="btn-spinner"></div>
-          <span class="btn-text">🚀 إنشاء حساب مجاني</span>
+          <span class="btn-text" data-i18n="registerSubmit">🚀 إنشاء حساب مجاني</span>
         </button>
         <div class="auth-msg" id="register-msg"></div>
       </div>
@@ -704,13 +704,79 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
 
 
   <div class="logo-container">
-    <div class="logo-img">
-      <img src="logo.png" alt="ALHASHMI Logo" id="siteLogo" loading="lazy" onerror="this.style.display='none'">
+    <div class="logo-img" style="background:transparent;border:none;box-shadow:none;overflow:visible">
+      <!-- SL Interlocked Logo - gradient colored, no box -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 280" width="105" height="112" style="overflow:visible;filter:drop-shadow(0 0 18px rgba(167,139,250,.65))">
+        <defs>
+          <linearGradient id="slGr" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%"   stop-color="#a78bfa"/>
+            <stop offset="55%"  stop-color="#60a5fa"/>
+            <stop offset="100%" stop-color="#34d399"/>
+          </linearGradient>
+        </defs>
+
+        <!-- === S letter: two C-shaped arcs that form an S, interlocked with L === -->
+        <!-- Top arc of S (upper half) -->
+        <path fill="url(#slGr)" d="
+          M 162,36
+          C 162,16 144,4 120,6
+          C 94,8 66,26 60,52
+          C 54,74 66,94 88,106
+          L 100,113
+          L 88,113
+          C 62,101 46,78 50,52
+          C 56,20 90,0 122,2
+          C 150,4 170,20 168,44
+          C 166,54 158,60 150,58
+          C 142,56 138,48 142,40
+          C 146,34 154,32 162,36 Z
+        "/>
+        <!-- Bottom arc of S (lower half) - passes in FRONT of L base -->
+        <path fill="url(#slGr)" d="
+          M 98,167
+          L 110,167
+          C 136,179 152,202 148,228
+          C 142,258 110,276 82,272
+          C 54,268 36,248 40,224
+          C 42,214 50,208 58,210
+          C 66,212 70,220 68,228
+          C 66,238 56,244 46,240
+          C 50,258 68,270 88,268
+          C 112,266 134,250 138,228
+          C 142,208 128,188 106,178
+          Z
+        "/>
+
+        <!-- === L letter: vertical bar (tall, thin, serif) + horizontal foot === -->
+        <!-- Vertical stroke of L - sits ON TOP of S center (interlocking) -->
+        <rect fill="url(#slGr)" x="106" y="8" width="28" height="210" rx="8"/>
+        <!-- Top serif of L vertical -->
+        <rect fill="url(#slGr)" x="94"  y="8"  width="52" height="22" rx="6"/>
+        <!-- Horizontal foot of L -->
+        <path fill="url(#slGr)" d="
+          M 100,218
+          L 210,218
+          C 222,218 228,226 226,234
+          C 224,242 216,248 206,248
+          L 100,248
+          C 90,248 84,242 84,234
+          L 84,228
+          C 84,222 90,218 100,218 Z
+        "/>
+        <!-- Bottom-right serif curl on L foot -->
+        <path fill="url(#slGr)" d="
+          M 200,248
+          C 218,248 230,240 228,230
+          L 232,230
+          C 234,244 220,256 202,256
+          L 196,256
+          C 196,252 198,248 200,248 Z
+        "/>
+      </svg>
     </div>
     <div>
-      <h1>ALHASHMI</h1>
-      <p class="subtitle" data-i18n="subtitle">للدبلجة والترجمة الاحترافية</p>
-      <a href="https://www.youtube.com/@-photosho" target="_blank" rel="noopener noreferrer" class="youtube-link"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg><span data-i18n="subscribe">اشترك في القناة</span></a>
+      <h1>sl-Dubbing</h1>
+      <p class="subtitle"><span style="background:linear-gradient(135deg,#60a5fa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700">&amp; Translation</span> — <span data-i18n="subtitle">دبلجة وترجمة احترافية</span></p>
     </div>
   </div>
 </header>
@@ -718,17 +784,17 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
 <!-- ===== STRIPE PAYMENT SECTION ===== -->
 <div class="payment-section">
   <div class="payment-section-title">
-    <h2>🛒 المتجر — ترقية الحساب</h2>
-    <p>ادفع مرة واحدة واستمتع مدى الحياة · مدعوم بـ Stripe</p>
+    <h2 data-i18n="shopTitle">🛒 المتجر — ترقية الحساب</h2>
+    <p data-i18n="shopSub">ادفع مرة واحدة واستمتع مدى الحياة · مدعوم بـ Stripe</p>
   </div>
   <div class="payment-grid">
 
     <!-- بطاقة نطق النص -->
     <div class="payment-card tts">
-      <span class="payment-badge tts">✏️ نطق النص</span>
+      <span class="payment-badge tts" data-i18n="ttsBadge">✏️ نطق النص</span>
       <span class="payment-icon">🎙️</span>
-      <div class="payment-title">تفعيل النطق مدى الحياة</div>
-      <div class="payment-desc">نطق نصوص غير محدودة بأصوات متعددة اللغات دون قيود</div>
+      <div class="payment-title" data-i18n="ttsCardTitle">تفعيل النطق مدى الحياة</div>
+      <div class="payment-desc" data-i18n="ttsCardDesc">نطق نصوص غير محدودة بأصوات متعددة اللغات دون قيود</div>
       <ul class="payment-features">
         <li>أصوات متعددة اللغات (13+ لغة)</li>
         <li>تحكم في السرعة والطبقة والصوت</li>
@@ -737,21 +803,21 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
       </ul>
       <div class="price-display">
         <span class="price-amount tts">$10</span>
-        <span class="price-label">مدى الحياة</span>
+        <span class="price-label" data-i18n="lifetime">مدى الحياة</span>
       </div>
-      <button class="buy-btn tts" id="btn-tts" onclick="startCheckout('tts')">
+      <button class="buy-btn tts" id="btn-tts" onclick="startCheckout('tts')"><span data-i18n="buyNow">💳 شراء الآن</span>
         <div class="btn-spinner"></div>
         <span class="btn-text">💳 شراء الآن</span>
       </button>
-      <div class="payment-note">🔒 دفع آمن عبر Stripe</div>
+      <div class="payment-note" data-i18n="securePayment">🔒 دفع آمن عبر Stripe</div>
     </div>
 
     <!-- بطاقة الدبلجة -->
     <div class="payment-card dub">
-      <span class="payment-badge dub">🎬 دبلجة</span>
+      <span class="payment-badge dub" data-i18n="dubBadge">🎬 دبلجة</span>
       <span class="payment-icon">🚀</span>
-      <div class="payment-title">فتح الدبلجة مدى الحياة</div>
-      <div class="payment-desc">توليد دبلجة SRT كاملة مزامنة مع الفيديو لـ YouTube</div>
+      <div class="payment-title" data-i18n="dubCardTitle">فتح الدبلجة مدى الحياة</div>
+      <div class="payment-desc" data-i18n="dubCardDesc">دبلجة SRT كاملة بلا حدود — التجربة المجانية: أول 30 ثانية فقط</div>
       <ul class="payment-features">
         <li>دبلجة SRT بالكامل مع التزامن</li>
         <li>تصدير WAV لـ YouTube Dubbing</li>
@@ -762,19 +828,19 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
         <span class="price-amount dub">$50</span>
         <span class="price-label">مدى الحياة</span>
       </div>
-      <button class="buy-btn dub" id="btn-dub" onclick="startCheckout('dub')">
+      <button class="buy-btn dub" id="btn-dub" onclick="startCheckout('dub')"><span data-i18n="buyNow">💳 شراء الآن</span>
         <div class="btn-spinner"></div>
         <span class="btn-text">💳 شراء الآن</span>
       </button>
-      <div class="payment-note">🔒 دفع آمن عبر Stripe</div>
+      <div class="payment-note" data-i18n="securePayment">🔒 دفع آمن عبر Stripe</div>
     </div>
 
     <!-- بطاقة مترجم SRT -->
     <div class="payment-card srt">
-      <span class="payment-badge srt">🌐 مترجم</span>
+      <span class="payment-badge srt" data-i18n="srtBadge">🌐 مترجم</span>
       <span class="payment-icon">🌍</span>
-      <div class="payment-title">شراء المترجم مدى الحياة</div>
-      <div class="payment-desc">ترجمة ملفات SRT إلى أكثر من 13 لغة بنقرة واحدة</div>
+      <div class="payment-title" data-i18n="srtCardTitle">شراء المترجم مدى الحياة</div>
+      <div class="payment-desc" data-i18n="srtCardDesc">ترجمة ملفات SRT إلى أكثر من 13 لغة بنقرة واحدة</div>
       <ul class="payment-features">
         <li>ترجمة لـ 13+ لغة عالمية</li>
         <li>تنزيل SRT مترجم جاهز</li>
@@ -785,11 +851,11 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
         <span class="price-amount srt">$10</span>
         <span class="price-label">مدى الحياة</span>
       </div>
-      <button class="buy-btn srt" id="btn-srt" onclick="startCheckout('srt')">
+      <button class="buy-btn srt" id="btn-srt" onclick="startCheckout('srt')"><span data-i18n="buyNow">💳 شراء الآن</span>
         <div class="btn-spinner"></div>
         <span class="btn-text">💳 شراء الآن</span>
       </button>
-      <div class="payment-note">🔒 دفع آمن عبر Stripe</div>
+      <div class="payment-note" data-i18n="securePayment">🔒 دفع آمن عبر Stripe</div>
     </div>
   </div>
 </div>
@@ -803,7 +869,7 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
     <div class="lock-free-badge" id="lock-free-tts" style="display:none">🎁 <span id="lock-free-count-tts">6</span> استخدامات مجانية</div>
     <div class="lock-uses-left" id="lock-uses-tts" style="display:none">متبقي <strong id="lock-left-tts">0</strong> من 6 استخدامات</div>
     <div class="lock-sub" id="lock-sub-tts">سجّل دخولك للحصول على 6 استخدامات مجانية</div>
-    <button class="lock-buy-hint tts-btn" id="lock-action-tts" onclick="lockAction('tts')">👤 سجّل للاستخدام المجاني</button>
+    <button class="lock-buy-hint tts-btn" id="lock-action-tts" onclick="lockAction('tts')" data-i18n="lockSignup">👤 سجّل للاستخدام المجاني</button>
   </div>
   <div class="card">
     <div class="card-header"><div class="card-icon">✏️</div><span class="card-title" data-i18n="ttsTitle">نطق النص</span></div>
@@ -852,10 +918,10 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
   <div class="lock-overlay dub-lock" id="lock-dub">
     <div class="lock-icon" id="lock-icon-dub">🔒</div>
     <div class="lock-title" id="lock-title-dub">الدبلجة — مقفلة</div>
-    <div class="lock-free-badge" id="lock-free-dub" style="display:none">🎁 <span id="lock-free-count-dub">6</span> استخدامات مجانية</div>
+    <div class="lock-free-badge" id="lock-free-dub" style="display:none">🎁 تجربة مجانية: أول 30 ثانية</div>
     <div class="lock-uses-left" id="lock-uses-dub" style="display:none">متبقي <strong id="lock-left-dub">0</strong> من 6 استخدامات</div>
-    <div class="lock-sub" id="lock-sub-dub">سجّل دخولك للحصول على 6 استخدامات مجانية</div>
-    <button class="lock-buy-hint dub-btn" id="lock-action-dub" onclick="lockAction('dub')">👤 سجّل للاستخدام المجاني</button>
+    <div class="lock-sub" id="lock-sub-dub">سجّل للحصول على تجربة مجانية (30 ث) أو اشترِ للملف الكامل</div>
+    <button class="lock-buy-hint dub-btn" id="lock-action-dub" onclick="lockAction('dub')" data-i18n="lockSignup">👤 سجّل للاستخدام المجاني</button>
   </div>
   <div class="card">
     <div class="card-header"><div class="card-icon">🎬</div><span class="card-title" data-i18n="dubLang">لغة الدبلجة</span></div>
@@ -922,7 +988,7 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
     <div class="lock-free-badge" id="lock-free-srt" style="display:none">🎁 <span id="lock-free-count-srt">6</span> استخدامات مجانية</div>
     <div class="lock-uses-left" id="lock-uses-srt" style="display:none">متبقي <strong id="lock-left-srt">0</strong> من 6 استخدامات</div>
     <div class="lock-sub" id="lock-sub-srt">سجّل دخولك للحصول على 6 استخدامات مجانية</div>
-    <button class="lock-buy-hint srt-btn" id="lock-action-srt" onclick="lockAction('srt')">👤 سجّل للاستخدام المجاني</button>
+    <button class="lock-buy-hint srt-btn" id="lock-action-srt" onclick="lockAction('srt')" data-i18n="lockSignup">👤 سجّل للاستخدام المجاني</button>
   </div>
   <div class="card tp" style="border-top:4px solid #34d399">
     <div class="card-header"><div class="card-icon" style="background:linear-gradient(135deg,#10b981,#059669)">🌐</div><span class="card-title" data-i18n="srtTranslator">مترجم SRT</span></div>
@@ -966,7 +1032,7 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
 
 </div><!-- end .wrap -->
 
-<footer>ALHASHMI <span data-i18n="footer">للدبلجة والترجمة · GitHub + Render · gTTS · مجاني 100%</span></footer>
+<footer>sl-Dubbing &amp; Translation <span>· GitHub + Render · gTTS · مجاني 100%</span></footer>
 
 <!-- ===== STRIPE PAYMENT MODAL ===== -->
 <div class="modal-overlay" id="paymentModal" role="dialog" aria-modal="true" aria-label="نافذة الدفع">
@@ -1204,7 +1270,7 @@ function updateLockStates() {
       zone.classList.remove('unlocked');
       document.getElementById('lock-icon-' + f).textContent    = '🔒';
       document.getElementById('lock-title-' + f).textContent   = getLockTitle(f);
-      document.getElementById('lock-sub-'   + f).textContent   = 'سجّل دخولك للحصول على 6 استخدامات مجانية';
+      document.getElementById('lock-sub-'   + f).textContent   = f==='dub' ? 'سجّل للتجربة المجانية (30 ث) أو اشترِ للملف الكامل' : 'سجّل دخولك للحصول على 6 استخدامات مجانية';
       document.getElementById('lock-free-'  + f).style.display = 'none';
       document.getElementById('lock-uses-'  + f).style.display = 'none';
       const ab = document.getElementById('lock-action-' + f);
@@ -1540,7 +1606,14 @@ document.getElementById('paymentModal').addEventListener('click', function(e) {
 // =============================================================
 // ORIGINAL APP CODE (unchanged)
 // =============================================================
-const translations={ar:{subtitle:'للدبلجة والترجمة الاحترافية',subscribe:'اشترك في القناة',youtubeLink:'Subscribe to the channel',ttsTitle:'نطق النص',selectLanguage:'اختر اللغة',voice:'الصوت',typeText:'اكتب النص...',speed:'السرعة',pitch:'الطبقة',volume:'الصوت',speak:'نطق',typeAndSpeak:'👋 اكتب نصاً واضغط نطق',audioFilters:'الفلاتر الصوتية',resetFilters:'🔄 إعادة تعيين',presetMale:'👨 رجالي',presetRadio:'📻 راديو',presetWarm:'🌟 دافئ',presetFast:'⚡ سريع',dubLang:'لغة الدبلجة',srtFile:'ملف SRT',dragOrClick:'اسحب أو اضغط',srtOrTxt:'.srt أو .txt',orPaste:'أو الصق المحتوى',pasteSRT:'1\n00:00:00,000 --> 00:00:02,000\nالنص...',analyzeFile:'📥 تحليل الملف',sentences:'جملة',copy:'📋 نسخ',generate:'التوليد',silentProcessing:'معالجة <strong>صامتة</strong> عبر سيرفر سحابي',syncTiming:'تزامن دقيق مع توقيتات SRT',wavFile:'ملف WAV لـ YouTube Dubbing',generateDub:'توليد الدبلجة',requiresServer:'يتطلب سيرفر Render شغال',processing:'جارٍ...',remaining:'المتبقي',elapsed:'مضى',total:'المجموع',cancel:'⏹ إلغاء',ready:'جاهز',downloadWAV:'⬇️ تنزيل WAV',dubbing:'دبلجة',checkServer:'تأكد سيرفر Render شغال ثم اضغط',srtTranslator:'مترجم SRT',selectTransLang:'1. اختر لغة الترجمة',sourceText:'2. النص المصدر (SRT)',paste:'📋 لصق',pasteSRTContent:'الصق محتوى SRT...',translate:'🚀 ترجمة',result:'النتيجة',downloadSRT:'⬇️ تنزيل SRT',cleanText:'تنظيف النص من الفراغات',pasteSRTOrText:'الصق نص SRT أو أي نص',pasteTextHere:'الصق النص هنا...',removeNumbers:'حذف الأرقام',removeTimestamps:'حذف التوقيتات',removeEmptyLines:'حذف الأسطر الفارغة',cleanTextBtn:'🧹 تنظيف النص',textAfterClean:'النص بعد التنظيف',download:'⬇️ تنزيل',pasteAndClean:'الصق نصاً واضغط تنظيف',footer:'للدبلجة والترجمة · GitHub + Render · gTTS · مجاني 100%',lang_ar:'العربية',lang_en:'الإنجليزية',lang_ru:'الروسية',lang_tr:'التركية',lang_fr:'الفرنسية',lang_de:'الألمانية',lang_es:'الإسبانية',lang_zh:'الصينية',lang_hi:'الهندية',lang_fa:'الفارسية',lang_it:'الإيطالية',lang_nl:'الهولندية',lang_sv:'السويدية'},en:{subtitle:'For Professional Dubbing & Translation',subscribe:'Subscribe to the channel',youtubeLink:'Subscribe to the channel',ttsTitle:'Text to Speech',selectLanguage:'Select Language',voice:'Voice',typeText:'Type text...',speed:'Speed',pitch:'Pitch',volume:'Volume',speak:'Speak',typeAndSpeak:'👋 Type text and click Speak',audioFilters:'Audio Filters',resetFilters:'🔄 Reset Filters',presetMale:'👨 Male',presetRadio:'📻 Radio',presetWarm:'🌟 Warm',presetFast:'⚡ Fast',dubLang:'Dubbing Language',srtFile:'SRT File',dragOrClick:'Drag or Click',srtOrTxt:'.srt or .txt',orPaste:'Or paste content',pasteSRT:'1\n00:00:00,000 --> 00:00:02,000\nText...',analyzeFile:'📥 Analyze File',sentences:'sentences',copy:'📋 Copy',generate:'Generate',silentProcessing:'<strong>Silent</strong> processing via cloud server',syncTiming:'Precise sync with SRT timings',wavFile:'WAV file for YouTube Dubbing',generateDub:'Generate Dubbing',requiresServer:'Requires Render server running',processing:'Processing...',remaining:'Remaining',elapsed:'Elapsed',total:'Total',cancel:'⏹ Cancel',ready:'Ready',downloadWAV:'⬇️ Download WAV',dubbing:'Dubbing',checkServer:'Make sure Render server is running',srtTranslator:'SRT Translator',selectTransLang:'1. Select translation language',sourceText:'2. Source text (SRT)',paste:'📋 Paste',pasteSRTContent:'Paste SRT content...',translate:'🚀 Translate',result:'Result',downloadSRT:'⬇️ Download SRT',cleanText:'Text Cleaner',pasteSRTOrText:'Paste SRT or any text',pasteTextHere:'Paste text here...',removeNumbers:'Remove numbers',removeTimestamps:'Remove timestamps',removeEmptyLines:'Remove empty lines',cleanTextBtn:'🧹 Clean Text',textAfterClean:'Text after cleaning',download:'⬇️ Download',pasteAndClean:'Paste text and click Clean',footer:'for Dubbing & Translation · GitHub + Render · gTTS · 100% Free',lang_ar:'Arabic',lang_en:'English',lang_ru:'Russian',lang_tr:'Turkish',lang_fr:'French',lang_de:'German',lang_es:'Spanish',lang_zh:'Chinese',lang_hi:'Hindi',lang_fa:'Persian',lang_it:'Italian',lang_nl:'Dutch',lang_sv:'Swedish'}};
+const translations={
+ar:{subtitle:'دبلجة وترجمة احترافية',subscribe:'اشترك في القناة',ttsTitle:'نطق النص',selectLanguage:'اختر اللغة',voice:'الصوت',typeText:'اكتب النص...',speed:'السرعة',pitch:'الطبقة',volume:'الصوت',speak:'نطق',typeAndSpeak:'👋 اكتب نصاً واضغط نطق',audioFilters:'الفلاتر الصوتية',resetFilters:'🔄 إعادة تعيين',presetMale:'👨 رجالي',presetRadio:'📻 راديو',presetWarm:'🌟 دافئ',presetFast:'⚡ سريع',dubLang:'لغة الدبلجة',srtFile:'ملف SRT',dragOrClick:'اسحب أو اضغط',srtOrTxt:'.srt أو .txt',orPaste:'أو الصق المحتوى',pasteSRT:'1\n00:00:00,000 --> 00:00:02,000\nالنص...',analyzeFile:'📥 تحليل الملف',sentences:'جملة',copy:'📋 نسخ',generate:'التوليد',silentProcessing:'معالجة <strong>صامتة</strong> عبر سيرفر سحابي',syncTiming:'تزامن دقيق مع توقيتات SRT',wavFile:'ملف WAV لـ YouTube Dubbing',generateDub:'توليد الدبلجة',requiresServer:'يتطلب سيرفر Render شغال',processing:'جارٍ...',remaining:'المتبقي',elapsed:'مضى',total:'المجموع',cancel:'⏹ إلغاء',ready:'جاهز',downloadWAV:'⬇️ تنزيل WAV',dubbing:'دبلجة',checkServer:'تأكد سيرفر Render شغال ثم اضغط',srtTranslator:'مترجم SRT',selectTransLang:'1. اختر لغة الترجمة',sourceText:'2. النص المصدر (SRT)',paste:'📋 لصق',pasteSRTContent:'الصق محتوى SRT...',translate:'🚀 ترجمة',result:'النتيجة',downloadSRT:'⬇️ تنزيل SRT',cleanText:'تنظيف النص من الفراغات',pasteSRTOrText:'الصق نص SRT أو أي نص',pasteTextHere:'الصق النص هنا...',removeNumbers:'حذف الأرقام',removeTimestamps:'حذف التوقيتات',removeEmptyLines:'حذف الأسطر الفارغة',cleanTextBtn:'🧹 تنظيف النص',textAfterClean:'النص بعد التنظيف',download:'⬇️ تنزيل',pasteAndClean:'الصق نصاً واضغط تنظيف',footer:'للدبلجة والترجمة · GitHub + Render · gTTS · مجاني 100%',lang_ar:'العربية',lang_en:'الإنجليزية',lang_ru:'الروسية',lang_tr:'التركية',lang_fr:'الفرنسية',lang_de:'الألمانية',lang_es:'الإسبانية',lang_zh:'الصينية',lang_hi:'الهندية',lang_fa:'الفارسية',lang_it:'الإيطالية',lang_nl:'الهولندية',lang_sv:'السويدية',shopTitle:'🛒 المتجر — ترقية الحساب',shopSub:'ادفع مرة واحدة واستمتع مدى الحياة · مدعوم بـ Stripe',ttsBadge:'✏️ نطق النص',ttsCardTitle:'تفعيل النطق مدى الحياة',ttsCardDesc:'نطق نصوص غير محدودة بأصوات متعددة اللغات دون قيود',dubBadge:'🎬 دبلجة',dubCardTitle:'فتح الدبلجة مدى الحياة',dubCardDesc:'دبلجة SRT كاملة بلا حدود — التجربة المجانية: أول 30 ثانية فقط',srtBadge:'🌐 مترجم',srtCardTitle:'شراء المترجم مدى الحياة',srtCardDesc:'ترجمة ملفات SRT إلى أكثر من 13 لغة بنقرة واحدة',lifetime:'مدى الحياة',buyNow:'💳 شراء الآن',securePayment:'🔒 دفع آمن عبر Stripe',loginBtn:'تسجيل الدخول',loginTab:'تسجيل الدخول',registerTab:'إنشاء حساب',loginSubmit:'🔐 دخول',registerSubmit:'🚀 إنشاء حساب مجاني',logout:'🚪 تسجيل الخروج',usageTitle:'📊 الاستخدام المجاني المتبقي',freePlan:'خطة مجانية (6 استخدامات/ميزة)',lockSignup:'👤 سجّل للاستخدام المجاني',authBtnLabel:'تسجيل الدخول'},
+en:{subtitle:'Professional Dubbing & Translation',subscribe:'Subscribe',ttsTitle:'Text to Speech',selectLanguage:'Select Language',voice:'Voice',typeText:'Type text...',speed:'Speed',pitch:'Pitch',volume:'Volume',speak:'Speak',typeAndSpeak:'👋 Type text and click Speak',audioFilters:'Audio Filters',resetFilters:'🔄 Reset Filters',presetMale:'👨 Male',presetRadio:'📻 Radio',presetWarm:'🌟 Warm',presetFast:'⚡ Fast',dubLang:'Dubbing Language',srtFile:'SRT File',dragOrClick:'Drag or Click',srtOrTxt:'.srt or .txt',orPaste:'Or paste content',pasteSRT:'1\n00:00:00,000 --> 00:00:02,000\nText...',analyzeFile:'📥 Analyze File',sentences:'sentences',copy:'📋 Copy',generate:'Generate',silentProcessing:'<strong>Silent</strong> processing via cloud server',syncTiming:'Precise sync with SRT timings',wavFile:'WAV file for YouTube Dubbing',generateDub:'Generate Dubbing',requiresServer:'Requires Render server running',processing:'Processing...',remaining:'Remaining',elapsed:'Elapsed',total:'Total',cancel:'⏹ Cancel',ready:'Ready',downloadWAV:'⬇️ Download WAV',dubbing:'Dubbing',checkServer:'Make sure Render server is running',srtTranslator:'SRT Translator',selectTransLang:'1. Select translation language',sourceText:'2. Source text (SRT)',paste:'📋 Paste',pasteSRTContent:'Paste SRT content...',translate:'🚀 Translate',result:'Result',downloadSRT:'⬇️ Download SRT',cleanText:'Text Cleaner',pasteSRTOrText:'Paste SRT or any text',pasteTextHere:'Paste text here...',removeNumbers:'Remove numbers',removeTimestamps:'Remove timestamps',removeEmptyLines:'Remove empty lines',cleanTextBtn:'🧹 Clean Text',textAfterClean:'Text after cleaning',download:'⬇️ Download',pasteAndClean:'Paste text and click Clean',footer:'Dubbing & Translation · GitHub + Render · gTTS · 100% Free',lang_ar:'Arabic',lang_en:'English',lang_ru:'Russian',lang_tr:'Turkish',lang_fr:'French',lang_de:'German',lang_es:'Spanish',lang_zh:'Chinese',lang_hi:'Hindi',lang_fa:'Persian',lang_it:'Italian',lang_nl:'Dutch',lang_sv:'Swedish',shopTitle:'🛒 Store — Upgrade Account',shopSub:'Pay once · enjoy forever · powered by Stripe',ttsBadge:'✏️ Text to Speech',ttsCardTitle:'Activate TTS for Life',ttsCardDesc:'Unlimited TTS with multi-language voices, no limits',dubBadge:'🎬 Dubbing',dubCardTitle:'Unlock Dubbing for Life',dubCardDesc:'Full SRT dubbing — Free trial: first 30 seconds only',srtBadge:'🌐 Translator',srtCardTitle:'Buy SRT Translator for Life',srtCardDesc:'Translate SRT files to 13+ languages in one click',lifetime:'Lifetime',buyNow:'💳 Buy Now',securePayment:'🔒 Secure payment via Stripe',loginBtn:'Login',loginTab:'Login',registerTab:'Create Account',loginSubmit:'🔐 Sign In',registerSubmit:'🚀 Create Free Account',logout:'🚪 Sign Out',usageTitle:'📊 Free Usage Remaining',freePlan:'Free plan (6 uses/feature)',lockSignup:'👤 Sign up for free',authBtnLabel:'Login'},
+ru:{subtitle:'Профессиональный дубляж и перевод',subscribe:'Подписаться',ttsTitle:'Текст в речь',selectLanguage:'Выбрать язык',voice:'Голос',typeText:'Введите текст...',speed:'Скорость',pitch:'Тональность',volume:'Громкость',speak:'Говорить',typeAndSpeak:'👋 Введите текст и нажмите Говорить',audioFilters:'Аудио фильтры',resetFilters:'🔄 Сбросить',presetMale:'👨 Мужской',presetRadio:'📻 Радио',presetWarm:'🌟 Тёплый',presetFast:'⚡ Быстрый',dubLang:'Язык дубляжа',srtFile:'SRT файл',dragOrClick:'Перетащите или нажмите',srtOrTxt:'.srt или .txt',orPaste:'Или вставьте содержимое',analyzeFile:'📥 Анализировать',sentences:'предложений',copy:'📋 Копировать',generate:'Генерация',generateDub:'Создать дубляж',requiresServer:'Требуется сервер Render',processing:'Обработка...',remaining:'Осталось',elapsed:'Прошло',total:'Итого',cancel:'⏹ Отмена',ready:'Готово',downloadWAV:'⬇️ Скачать WAV',dubbing:'Дубляж',checkServer:'Убедитесь что сервер запущен',srtTranslator:'SRT переводчик',selectTransLang:'1. Выберите язык перевода',sourceText:'2. Исходный текст (SRT)',paste:'📋 Вставить',translate:'🚀 Перевести',result:'Результат',downloadSRT:'⬇️ Скачать SRT',cleanText:'Очистка текста',pasteSRTOrText:'Вставьте SRT или любой текст',pasteTextHere:'Вставьте текст...',removeNumbers:'Удалить номера',removeTimestamps:'Удалить временные метки',removeEmptyLines:'Удалить пустые строки',cleanTextBtn:'🧹 Очистить',textAfterClean:'Текст после очистки',download:'⬇️ Скачать',pasteAndClean:'Вставьте и нажмите Очистить',footer:'Дубляж и перевод · GitHub + Render · gTTS · 100% бесплатно',lang_ar:'Арабский',lang_en:'Английский',lang_ru:'Русский',lang_tr:'Турецкий',lang_fr:'Французский',lang_de:'Немецкий',lang_es:'Испанский',lang_sv:'Шведский',shopTitle:'🛒 Магазин — Улучшение',shopSub:'Платите один раз · пользуйтесь вечно · Stripe',ttsBadge:'✏️ Текст в речь',ttsCardTitle:'Активировать TTS навсегда',ttsCardDesc:'Безлимитный TTS с многоязычными голосами',dubBadge:'🎬 Дубляж',dubCardTitle:'Разблокировать дубляж навсегда',dubCardDesc:'Полный дубляж SRT — Пробная версия: первые 30 секунд',srtBadge:'🌐 Переводчик',srtCardTitle:'Купить SRT переводчик навсегда',srtCardDesc:'Перевод SRT файлов на 13+ языков',lifetime:'Навсегда',buyNow:'💳 Купить',securePayment:'🔒 Безопасный платёж через Stripe',loginBtn:'Войти',loginTab:'Войти',registerTab:'Создать аккаунт',loginSubmit:'🔐 Войти',registerSubmit:'🚀 Создать бесплатный аккаунт',logout:'🚪 Выйти',usageTitle:'📊 Осталось бесплатных использований',freePlan:'Бесплатный план (6 использований)',lockSignup:'👤 Зарегистрируйтесь бесплатно',authBtnLabel:'Войти'},
+tr:{subtitle:'Profesyonel Dublaj ve Çeviri',subscribe:'Abone ol',ttsTitle:'Metin Okuma',selectLanguage:'Dil Seç',voice:'Ses',typeText:'Metin girin...',speed:'Hız',pitch:'Perde',volume:'Ses',speak:'Oku',typeAndSpeak:'👋 Metin girin ve Oku\u2019ya t\u0131klay\u0131n',audioFilters:'Ses Filtreleri',resetFilters:'🔄 Sıfırla',presetMale:'👨 Erkek',presetRadio:'📻 Radyo',presetWarm:'🌟 Sıcak',presetFast:'⚡ Hızlı',dubLang:'Dublaj Dili',srtFile:'SRT Dosyası',dragOrClick:'Sürükleyin veya tıklayın',srtOrTxt:'.srt veya .txt',orPaste:'Veya içerik yapıştırın',analyzeFile:'📥 Dosyayı Analiz Et',sentences:'cümle',copy:'📋 Kopyala',generate:'Oluştur',generateDub:'Dublaj Oluştur',requiresServer:'Render sunucusu gerekiyor',processing:'İşleniyor...',remaining:'Kalan',elapsed:'Geçen',total:'Toplam',cancel:'⏹ İptal',ready:'Hazır',downloadWAV:'⬇️ WAV İndir',dubbing:'Dublaj',checkServer:'Sunucunun çalıştığından emin olun',srtTranslator:'SRT Çevirmen',selectTransLang:'1. Çeviri dilini seçin',sourceText:'2. Kaynak metin (SRT)',paste:'📋 Yapıştır',translate:'🚀 Çevir',result:'Sonuç',downloadSRT:'⬇️ SRT İndir',cleanText:'Metin Temizleyici',pasteSRTOrText:'SRT veya metin yapıştırın',pasteTextHere:'Metni buraya yapıştırın...',removeNumbers:'Numaraları kaldır',removeTimestamps:'Zaman damgalarını kaldır',removeEmptyLines:'Boş satırları kaldır',cleanTextBtn:'🧹 Temizle',textAfterClean:'Temizlendikten sonra',download:'⬇️ İndir',pasteAndClean:'Yapıştır ve Temizle',footer:'Dublaj ve Çeviri · GitHub + Render · gTTS · %100 Ücretsiz',lang_ar:'Arapça',lang_en:'İngilizce',lang_ru:'Rusça',lang_tr:'Türkçe',lang_fr:'Fransızca',lang_de:'Almanca',lang_es:'İspanyolca',lang_sv:'İsveççe',shopTitle:'🛒 Mağaza — Hesap Yükseltme',shopSub:'Bir kez öde · sonsuza kadar kullan · Stripe ile',ttsBadge:'✏️ Metin Okuma',ttsCardTitle:'TTS\u2019yi \u00d6m\u00fcr Boyu Etkinleştir',ttsCardDesc:'Çok dilli seslerle sınırsız metin okuma',dubBadge:'🎬 Dublaj',dubCardTitle:'Ömür Boyu Dublajı Aç',dubCardDesc:'Tam SRT dublaj — Ücretsiz deneme: ilk 30 saniye',srtBadge:'🌐 Çevirmen',srtCardTitle:'SRT Çevirmeni Ömür Boyu Al',srtCardDesc:'SRT dosyalarını 13+ dile çevir',lifetime:'Ömür Boyu',buyNow:'💳 Satın Al',securePayment:'🔒 Stripe ile güvenli ödeme',loginBtn:'Giriş Yap',loginTab:'Giriş Yap',registerTab:'Hesap Oluştur',loginSubmit:'🔐 Giriş Yap',registerSubmit:'🚀 Ücretsiz Hesap Oluştur',logout:'🚪 Çıkış Yap',usageTitle:'📊 Kalan Ücretsiz Kullanım',freePlan:'Ücretsiz plan (6 kullanım/özellik)',lockSignup:'👤 Ücretsiz kaydol',authBtnLabel:'Giriş Yap'},
+fr:{subtitle:'Doublage et traduction professionnels',subscribe:'S\u2019abonner',ttsTitle:'Synthèse vocale',selectLanguage:'Choisir la langue',voice:'Voix',typeText:'Saisissez du texte...',speed:'Vitesse',pitch:'Tonalité',volume:'Volume',speak:'Parler',typeAndSpeak:'👋 Saisissez du texte et cliquez Parler',audioFilters:'Filtres audio',resetFilters:'🔄 Réinitialiser',presetMale:'👨 Masculin',presetRadio:'📻 Radio',presetWarm:'🌟 Chaud',presetFast:'⚡ Rapide',dubLang:'Langue de doublage',srtFile:'Fichier SRT',dragOrClick:'Glisser ou cliquer',srtOrTxt:'.srt ou .txt',orPaste:'Ou coller le contenu',analyzeFile:'📥 Analyser le fichier',sentences:'phrases',copy:'📋 Copier',generate:'Générer',generateDub:'Générer le doublage',requiresServer:'Serveur Render requis',processing:'Traitement...',remaining:'Restant',elapsed:'Écoulé',total:'Total',cancel:'⏹ Annuler',ready:'Prêt',downloadWAV:'⬇️ Télécharger WAV',dubbing:'Doublage',checkServer:'Assurez-vous que le serveur fonctionne',srtTranslator:'Traducteur SRT',selectTransLang:'1. Choisir la langue cible',sourceText:'2. Texte source (SRT)',paste:'📋 Coller',translate:'🚀 Traduire',result:'Résultat',downloadSRT:'⬇️ Télécharger SRT',cleanText:'Nettoyeur de texte',pasteSRTOrText:'Collez SRT ou tout texte',pasteTextHere:'Collez le texte ici...',removeNumbers:'Supprimer les numéros',removeTimestamps:'Supprimer les horodatages',removeEmptyLines:'Supprimer les lignes vides',cleanTextBtn:'🧹 Nettoyer',textAfterClean:'Texte après nettoyage',download:'⬇️ Télécharger',pasteAndClean:'Collez et nettoyez',footer:'Doublage et traduction · GitHub + Render · gTTS · 100% gratuit',lang_ar:'Arabe',lang_en:'Anglais',lang_ru:'Russe',lang_tr:'Turc',lang_fr:'Français',lang_de:'Allemand',lang_es:'Espagnol',lang_sv:'Suédois',shopTitle:'🛒 Boutique — Mise à niveau',shopSub:'Payez une fois · profitez à vie · Stripe',ttsBadge:'✏️ Synthèse vocale',ttsCardTitle:'Activer TTS à vie',ttsCardDesc:'TTS illimité avec voix multilingues',dubBadge:'🎬 Doublage',dubCardTitle:'Débloquer le doublage à vie',dubCardDesc:'Doublage SRT complet — Essai: 30 premières secondes',srtBadge:'🌐 Traducteur',srtCardTitle:'Acheter le traducteur SRT à vie',srtCardDesc:'Traduire des fichiers SRT en 13+ langues',lifetime:'À vie',buyNow:'💳 Acheter',securePayment:'🔒 Paiement sécurisé via Stripe',loginBtn:'Connexion',loginTab:'Connexion',registerTab:'Créer un compte',loginSubmit:'🔐 Se connecter',registerSubmit:'🚀 Créer un compte gratuit',logout:'🚪 Déconnexion',usageTitle:'📊 Utilisations gratuites restantes',freePlan:'Plan gratuit (6 utilisations)',lockSignup:'👤 Inscription gratuite',authBtnLabel:'Connexion'},
+de:{subtitle:'Professionelle Synchronisation und Übersetzung',subscribe:'Abonnieren',ttsTitle:'Text zu Sprache',selectLanguage:'Sprache wählen',voice:'Stimme',typeText:'Text eingeben...',speed:'Geschwindigkeit',pitch:'Tonhöhe',volume:'Lautstärke',speak:'Sprechen',typeAndSpeak:'👋 Text eingeben und Sprechen klicken',audioFilters:'Audio-Filter',resetFilters:'🔄 Zurücksetzen',presetMale:'👨 Männlich',presetRadio:'📻 Radio',presetWarm:'🌟 Warm',presetFast:'⚡ Schnell',dubLang:'Synchronisationssprache',srtFile:'SRT-Datei',dragOrClick:'Ziehen oder klicken',srtOrTxt:'.srt oder .txt',orPaste:'Oder Inhalt einfügen',analyzeFile:'📥 Datei analysieren',sentences:'Sätze',copy:'📋 Kopieren',generate:'Generieren',generateDub:'Synchronisation erstellen',requiresServer:'Render-Server erforderlich',processing:'Verarbeitung...',remaining:'Verbleibend',elapsed:'Vergangen',total:'Gesamt',cancel:'⏹ Abbrechen',ready:'Bereit',downloadWAV:'⬇️ WAV herunterladen',dubbing:'Synchronisation',checkServer:'Stellen Sie sicher, dass der Server läuft',srtTranslator:'SRT-Übersetzer',selectTransLang:'1. Zielsprache wählen',sourceText:'2. Quelltext (SRT)',paste:'📋 Einfügen',translate:'🚀 Übersetzen',result:'Ergebnis',downloadSRT:'⬇️ SRT herunterladen',cleanText:'Textbereinigung',pasteSRTOrText:'SRT oder Text einfügen',pasteTextHere:'Text hier einfügen...',removeNumbers:'Nummern entfernen',removeTimestamps:'Zeitstempel entfernen',removeEmptyLines:'Leerzeilen entfernen',cleanTextBtn:'🧹 Bereinigen',textAfterClean:'Text nach Bereinigung',download:'⬇️ Herunterladen',pasteAndClean:'Einfügen und bereinigen',footer:'Synchronisation & Übersetzung · GitHub + Render · gTTS · 100% kostenlos',lang_ar:'Arabisch',lang_en:'Englisch',lang_ru:'Russisch',lang_tr:'Türkisch',lang_fr:'Französisch',lang_de:'Deutsch',lang_es:'Spanisch',lang_sv:'Schwedisch',shopTitle:'🛒 Shop — Account upgraden',shopSub:'Einmal zahlen · lebenslang nutzen · Stripe',ttsBadge:'✏️ Text zu Sprache',ttsCardTitle:'TTS lebenslang aktivieren',ttsCardDesc:'Unbegrenzte TTS mit mehrsprachigen Stimmen',dubBadge:'🎬 Synchronisation',dubCardTitle:'Synchronisation lebenslang freischalten',dubCardDesc:'Vollständige SRT-Synchronisation — Probe: erste 30 Sekunden',srtBadge:'🌐 Übersetzer',srtCardTitle:'SRT-Übersetzer lebenslang kaufen',srtCardDesc:'SRT-Dateien in 13+ Sprachen übersetzen',lifetime:'Lebenslang',buyNow:'💳 Kaufen',securePayment:'🔒 Sichere Zahlung über Stripe',loginBtn:'Anmelden',loginTab:'Anmelden',registerTab:'Konto erstellen',loginSubmit:'🔐 Anmelden',registerSubmit:'🚀 Kostenloses Konto erstellen',logout:'🚪 Abmelden',usageTitle:'📊 Verbleibende kostenlose Nutzungen',freePlan:'Kostenloser Plan (6 Nutzungen)',lockSignup:'👤 Kostenlos registrieren',authBtnLabel:'Anmelden'},
+es:{subtitle:'Doblaje y traducción profesional',subscribe:'Suscribirse',ttsTitle:'Texto a voz',selectLanguage:'Seleccionar idioma',voice:'Voz',typeText:'Escriba texto...',speed:'Velocidad',pitch:'Tono',volume:'Volumen',speak:'Hablar',typeAndSpeak:'👋 Escriba texto y haga clic en Hablar',audioFilters:'Filtros de audio',resetFilters:'🔄 Restablecer',presetMale:'👨 Masculino',presetRadio:'📻 Radio',presetWarm:'🌟 Cálido',presetFast:'⚡ Rápido',dubLang:'Idioma de doblaje',srtFile:'Archivo SRT',dragOrClick:'Arrastrar o hacer clic',srtOrTxt:'.srt o .txt',orPaste:'O pegar contenido',analyzeFile:'📥 Analizar archivo',sentences:'oraciones',copy:'📋 Copiar',generate:'Generar',generateDub:'Generar doblaje',requiresServer:'Se requiere servidor Render',processing:'Procesando...',remaining:'Restante',elapsed:'Transcurrido',total:'Total',cancel:'⏹ Cancelar',ready:'Listo',downloadWAV:'⬇️ Descargar WAV',dubbing:'Doblaje',checkServer:'Asegúrese de que el servidor funcione',srtTranslator:'Traductor SRT',selectTransLang:'1. Seleccionar idioma de traducción',sourceText:'2. Texto fuente (SRT)',paste:'📋 Pegar',translate:'🚀 Traducir',result:'Resultado',downloadSRT:'⬇️ Descargar SRT',cleanText:'Limpiador de texto',pasteSRTOrText:'Pegar SRT o cualquier texto',pasteTextHere:'Pegar texto aquí...',removeNumbers:'Eliminar números',removeTimestamps:'Eliminar marcas de tiempo',removeEmptyLines:'Eliminar líneas vacías',cleanTextBtn:'🧹 Limpiar',textAfterClean:'Texto después de limpiar',download:'⬇️ Descargar',pasteAndClean:'Pegar y limpiar',footer:'Doblaje y traducción · GitHub + Render · gTTS · 100% gratis',lang_ar:'Árabe',lang_en:'Inglés',lang_ru:'Ruso',lang_tr:'Turco',lang_fr:'Francés',lang_de:'Alemán',lang_es:'Español',lang_sv:'Sueco',shopTitle:'🛒 Tienda — Mejorar cuenta',shopSub:'Paga una vez · disfruta para siempre · Stripe',ttsBadge:'✏️ Texto a voz',ttsCardTitle:'Activar TTS de por vida',ttsCardDesc:'TTS ilimitado con voces en varios idiomas',dubBadge:'🎬 Doblaje',dubCardTitle:'Desbloquear doblaje de por vida',dubCardDesc:'Doblaje SRT completo — Prueba: primeros 30 segundos',srtBadge:'🌐 Traductor',srtCardTitle:'Comprar traductor SRT de por vida',srtCardDesc:'Traduce archivos SRT a 13+ idiomas',lifetime:'De por vida',buyNow:'💳 Comprar',securePayment:'🔒 Pago seguro con Stripe',loginBtn:'Iniciar sesión',loginTab:'Iniciar sesión',registerTab:'Crear cuenta',loginSubmit:'🔐 Iniciar sesión',registerSubmit:'🚀 Crear cuenta gratis',logout:'🚪 Cerrar sesión',usageTitle:'📊 Usos gratuitos restantes',freePlan:'Plan gratuito (6 usos/función)',lockSignup:'👤 Registrarse gratis',authBtnLabel:'Iniciar sesión'}}
 
 let currentLanguage='ar';
 const LANGS=[{c:'en-US',g:'en',n:'English',f:'🇺🇸',code:'en'},{c:'es-ES',g:'es',n:'Español',f:'🇪🇸',code:'es'},{c:'ru-RU',g:'ru',n:'Русский',f:'🇷🇺',code:'ru'},{c:'tr-TR',g:'tr',n:'Türkçe',f:'🇹🇷',code:'tr'},{c:'de-DE',g:'de',n:'Deutsch',f:'🇩🇪',code:'de'},{c:'zh-CN',g:'zh-CN',n:'中文',f:'🇨🇳',code:'zh'},{c:'hi-IN',g:'hi',n:'हिन्दी',f:'🇮🇳',code:'hi'},{c:'fa-IR',g:'fa',n:'فارسی',f:'🇮🇷',code:'fa'},{c:'fr-FR',g:'fr',n:'Français',f:'🇫🇷',code:'fr'},{c:'sv-SE',g:'sv',n:'Svenska',f:'🇸🇪',code:'sv'},{c:'it-IT',g:'it',n:'Italiano',f:'🇮🇹',code:'it'},{c:'nl-NL',g:'nl',n:'Nederlands',f:'🇳🇱',code:'nl'},{c:'ar-SA',g:'ar',n:'العربية',f:'🇸🇦',code:'ar'}];
@@ -1586,7 +1659,92 @@ async function startTrans(){const txt=document.getElementById('srcSRT').value.tr
 function dlTransSRT(){if(!transBlob)return;const a=document.createElement('a');a.href=URL.createObjectURL(transBlob);a.download=`translated_${transLang}.srt`;a.click();}
 function cleanText(){const input=document.getElementById('cleanInput').value.trim();if(!input){ssClean('⚠️ الصق نصاً أولاً','wn');return;}const removeNum=document.getElementById('removeNumbers').checked;const removeTime=document.getElementById('removeTime').checked;const removeEmpty=document.getElementById('removeEmpty').checked;let result=input;if(removeTime){result=result.replace(/\d{2}:\d{2}:\d{2}[,\.]\d{3}\s*-->\s*\d{2}:\d{2}:\d{2}[,\.]\d{3}/g,'');}if(removeNum){result=result.replace(/^\s*\d+\s*$/gm,'');}if(removeEmpty){result=result.split('\n').filter(line=>line.trim()!=='').join('\n');}result=result.replace(/-->/g,'').replace(/\[[^\]]*\]/g,'').replace(/\([^)]*\)/g,'').replace(/\s+/g,' ').trim();document.getElementById('cleanOutput').textContent=result;document.getElementById('cleanResult').style.display='block';cleanBlob=new Blob([result],{type:'text/plain'});ssClean('✅ تم التنظيف','ok');}
 function dlClean(){if(!cleanBlob)return;const a=document.createElement('a');a.href=URL.createObjectURL(cleanBlob);a.download='cleaned-text.txt';a.click();}
-async function stDub(){if(!srtData.length){ssDub('⚠️ ارفع SRT أولاً','wn');return;}try{await fetch(SERVER_URL+'/api/health');}catch(e){ssDub('❌ سيرفر Render غير شغال!','er');return;}dubbing=true;dubCanc=false;resBlob=null;const lang=LANGS.find(l=>l.c===L2)||LANGS[0];const totalMs=msT(srtData[srtData.length-1].en)+2000;document.getElementById('genBtn').style.display='none';document.getElementById('dubP').style.display='block';document.getElementById('dubRes').style.display='none';setPh('🔍 جاري المعالجة...');document.getElementById('clkT').textContent=fmMs(totalMs);const t0=Date.now();const audioFiles=[];let done=0;for(let i=0;i<srtData.length&&!dubCanc;i++){const item=srtData[i];if(!item.sp){done++;continue;}document.getElementById('curS').textContent=item.tx;document.getElementById('sntC').textContent=`${done+1}/${srtData.length}`;const itemDuration=msT(item.en)-msT(item.st);const response=await fetch(`${SERVER_URL}/api/dub`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:item.sp,lang:lang.code,duration:itemDuration,speed:filterSpeed,pitch:filterPitch,eq_bass:eqBass,eq_mid:eqMid,eq_treble:eqTreble})});const result=await response.json();if(result.success){audioFiles.push(result.file);}done++;const pct=Math.round(done/srtData.length*100);document.getElementById('pFill').style.width=pct+'%';document.getElementById('pPct').textContent=pct+'%';document.getElementById('pLbl').textContent=`${done}/${srtData.length}`;const el=document.getElementById('si'+i);if(el)el.classList.add('done');}if(dubCanc){rstDub();ssDub('⏹ أُلغي','i');return;}setPh('💾 جاري الدمج...');const audioContext=new(window.AudioContext||window.webkitAudioContext)();const buffers=[];for(const file of audioFiles){try{const res=await fetch(`${SERVER_URL}/api/download/${file}`,{method:'GET',headers:{'Accept':'audio/mpeg'}});if(!res.ok)throw new Error('Failed to download');const ab=await res.arrayBuffer();const buf=await audioContext.decodeAudioData(ab);buffers.push(buf);}catch(e){console.error('Error downloading file:',file,e);}}const totalSamples=buffers.reduce((sum,buf)=>sum+buf.length,0);const merged=audioContext.createBuffer(1,totalSamples,audioContext.sampleRate);let offset=0;buffers.forEach(buf=>{merged.copyToChannel(buf.getChannelData(0),0,offset);offset+=buf.length;});resBlob=toWav(merged);dubbing=false;const url=URL.createObjectURL(resBlob);document.getElementById('dubAu').src=url;document.getElementById('dubP').style.display='none';document.getElementById('dubRes').style.display='block';document.getElementById('genBtn').style.display='block';const sz=(resBlob.size/1024/1024).toFixed(2);ssDub(`🎉 جاهز (${sz}MB)`,'ok');}
+async function stDub(){
+  if(!srtData.length){ssDub('⚠️ ارفع SRT أولاً','wn');return;}
+  try{await fetch(SERVER_URL+'/api/health');}catch(e){ssDub('❌ سيرفر Render غير شغال!','er');return;}
+
+  // === 30-second free trial for dubbing ===
+  const FREE_DUB_MS = 30000; // 30 seconds
+  const dubUnlocked = (getUnlocked().dub) || (currentUser && getUserData(currentUser.email) && getUserData(currentUser.email).unlocked && getUserData(currentUser.email).unlocked.dub);
+  let workData = srtData;
+  let isTrial = false;
+  if(!dubUnlocked){
+    const totalDur = msT(srtData[srtData.length-1].en);
+    if(totalDur > FREE_DUB_MS){
+      workData = srtData.filter(item => msT(item.st) < FREE_DUB_MS);
+      isTrial = true;
+      showToast('⏱️ وضع التجربة: أول 30 ثانية فقط — اشترِ للاستخدام الكامل','wn');
+    }
+  }
+
+  dubbing=true;dubCanc=false;resBlob=null;
+  const lang=LANGS.find(l=>l.c===L2)||LANGS[0];
+  const totalMs=isTrial ? FREE_DUB_MS : (msT(srtData[srtData.length-1].en)+2000);
+  document.getElementById('genBtn').style.display='none';
+  document.getElementById('dubP').style.display='block';
+  document.getElementById('dubRes').style.display='none';
+  setPh(isTrial ? '🎁 تجربة مجانية (30 ث)...' : '🔍 جاري المعالجة...');
+  document.getElementById('clkT').textContent=fmMs(totalMs);
+  const audioFiles=[];let done=0;
+  for(let i=0;i<workData.length&&!dubCanc;i++){
+    const item=workData[i];
+    if(!item.sp){done++;continue;}
+    document.getElementById('curS').textContent=item.tx;
+    document.getElementById('sntC').textContent=`${done+1}/${workData.length}`;
+    const itemDuration=msT(item.en)-msT(item.st);
+    const response=await fetch(`${SERVER_URL}/api/dub`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:item.sp,lang:lang.code,duration:itemDuration,speed:filterSpeed,pitch:filterPitch,eq_bass:eqBass,eq_mid:eqMid,eq_treble:eqTreble})});
+    const result=await response.json();
+    if(result.success){audioFiles.push(result.file);}
+    done++;
+    const pct=Math.round(done/workData.length*100);
+    document.getElementById('pFill').style.width=pct+'%';
+    document.getElementById('pPct').textContent=pct+'%';
+    document.getElementById('pLbl').textContent=`${done}/${workData.length}`;
+    const origIdx=srtData.indexOf(item);
+    const el=document.getElementById('si'+origIdx);
+    if(el)el.classList.add('done');
+  }
+  if(dubCanc){rstDub();ssDub('⏹ أُلغي','i');return;}
+  setPh('💾 جاري الدمج...');
+  const audioContext=new(window.AudioContext||window.webkitAudioContext)();
+  const buffers=[];
+  for(const file of audioFiles){
+    try{
+      const res=await fetch(`${SERVER_URL}/api/download/${file}`,{method:'GET',headers:{'Accept':'audio/mpeg'}});
+      if(!res.ok)throw new Error('Failed');
+      const ab=await res.arrayBuffer();
+      const buf=await audioContext.decodeAudioData(ab);
+      buffers.push(buf);
+    }catch(e){console.error('Download error:',file,e);}
+  }
+  const totalSamples=buffers.reduce((sum,buf)=>sum+buf.length,0);
+  const merged=audioContext.createBuffer(1,totalSamples,audioContext.sampleRate);
+  let offset=0;
+  buffers.forEach(buf=>{merged.copyToChannel(buf.getChannelData(0),0,offset);offset+=buf.length;});
+  resBlob=toWav(merged);dubbing=false;
+  const url=URL.createObjectURL(resBlob);
+  document.getElementById('dubAu').src=url;
+  document.getElementById('dubP').style.display='none';
+  document.getElementById('dubRes').style.display='block';
+  document.getElementById('genBtn').style.display='block';
+  const sz=(resBlob.size/1024/1024).toFixed(2);
+  if(isTrial){
+    ssDub(`🎁 تجربة جاهزة (30 ث · ${sz}MB) — اشترِ للملف الكامل`,'wn');
+    // Show buy prompt after trial
+    setTimeout(()=>{
+      const trialBanner=document.createElement('div');
+      trialBanner.style.cssText='margin-top:10px;padding:12px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);border-radius:10px;text-align:center;font-size:.75rem;color:#fcd34d';
+      trialBanner.innerHTML="⚡ هذه تجربة مجانية (30 ث فقط)<br><button onclick=\"startCheckout('dub')\" style=\"margin-top:8px;padding:8px 16px;background:linear-gradient(135deg,#d97706,#f59e0b);border:none;border-radius:8px;color:white;font-weight:700;cursor:pointer;font-size:.75rem\">🚀 اشترِ الدبلجة الكاملة — $50</button>";
+      const dubRes=document.getElementById('dubRes');
+      const existing=dubRes.querySelector('.trial-banner');
+      if(existing)existing.remove();
+      trialBanner.className='trial-banner';
+      dubRes.appendChild(trialBanner);
+    },300);
+  } else {
+    ssDub(`🎉 جاهز (${sz}MB)`,'ok');
+  }
+}
 function dlRes(){if(!resBlob)return;const a=document.createElement('a');a.href=URL.createObjectURL(resBlob);a.download='dubbing-'+Date.now()+'.wav';a.click();}
 function cnclDub(){dubCanc=true;dubbing=false;rstDub();ssDub('⏹ أُلغي','i');}
 function rstDub(){document.getElementById('dubP').style.display='none';document.getElementById('genBtn').style.display='block';document.getElementById('pFill').style.width='0%';document.getElementById('pPct').textContent='0%';document.getElementById('clkR').textContent='--:--:--';document.getElementById('clkE').textContent='00:00:00';}
@@ -1594,8 +1752,60 @@ function setPh(t){document.getElementById('phTxt').textContent=t;}
 function toWav(buf){const SR=buf.sampleRate;const s=buf.getChannelData(0);const dL=s.length*2;const ab=new ArrayBuffer(44+dL);const v=new DataView(ab);const ws=(o,str)=>{for(let i=0;i<str.length;i++)v.setUint8(o+i,str.charCodeAt(i));};ws(0,'RIFF');v.setUint32(4,36+dL,true);ws(8,'WAVE');ws(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,SR,true);v.setUint32(28,SR*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);ws(36,'data');v.setUint32(40,dL,true);let off=44;for(let i=0;i<s.length;i++){const x=Math.max(-1,Math.min(1,s[i]));v.setInt16(off,x<0?x*0x8000:x*0x7FFF,true);off+=2;}return new Blob([ab],{type:'audio/wav'});}
 document.getElementById('rr1').oninput=e=>document.getElementById('rv1').textContent=parseFloat(e.target.value).toFixed(1)+'x';document.getElementById('pr1').oninput=e=>document.getElementById('pv1').textContent=parseFloat(e.target.value).toFixed(1);document.getElementById('vr1').oninput=e=>document.getElementById('vv1').textContent=Math.round(e.target.value*100)+'%';document.getElementById('ti').oninput=e=>document.getElementById('cc').textContent=e.target.value.length;document.getElementById('rr2').oninput=e=>document.getElementById('rv2').textContent=parseFloat(e.target.value).toFixed(2)+'x';document.getElementById('vr2').oninput=e=>document.getElementById('vv2').textContent=parseFloat(e.target.value).toFixed(1);
 function toggleLang(){document.getElementById('langDropdown').classList.toggle('show');}
-function setLang(lang){currentLanguage=lang;const langName=document.querySelector(`[data-lang="${lang}"] .lang-name`).textContent;document.getElementById('currentLang').textContent=langName;document.querySelectorAll('.lang-option').forEach(opt=>opt.classList.remove('active'));document.querySelector(`[data-lang="${lang}"]`).classList.add('active');document.getElementById('langDropdown').classList.remove('show');document.documentElement.dir=lang==='ar'?'rtl':'ltr';updateAllTranslations();mkGrid('g1',L1,c=>{L1=c;updV();mkSamp();});mkGrid('g2',L2,c=>{L2=c;});initTransGrid();}
-function updateAllTranslations(){const t=translations[currentLanguage];if(!t)return;document.querySelectorAll('[data-i18n]').forEach(el=>{const key=el.getAttribute('data-i18n');if(t[key])el.textContent=t[key].replace(/<[^>]+>/g,'');});document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{const key=el.getAttribute('data-i18n-placeholder');if(t[key])el.placeholder=t[key];});}
+
+function setLang(lang){
+  currentLanguage = lang;
+  const opt = document.querySelector('[data-lang="'+lang+'"] .lang-name');
+  if(opt) document.getElementById('currentLang').textContent = opt.textContent;
+  document.querySelectorAll('.lang-option').forEach(o => o.classList.remove('active'));
+  const active = document.querySelector('[data-lang="'+lang+'"]');
+  if(active) active.classList.add('active');
+  document.getElementById('langDropdown').classList.remove('show');
+  document.documentElement.dir = (lang==='ar'||lang==='fa') ? 'rtl' : 'ltr';
+  document.documentElement.lang = lang;
+  updateAllTranslations();
+  mkGrid('g1',L1,c=>{L1=c;updV();mkSamp();});
+  mkGrid('g2',L2,c=>{L2=c;});
+  initTransGrid();
+  updateLockStates();
+}
+
+function updateAllTranslations(){
+  const t = translations[currentLanguage];
+  if(!t) return;
+
+  // 1. All data-i18n elements (support HTML content)
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if(!t[key]) return;
+    // Use innerHTML for elements that may contain HTML tags
+    const val = t[key];
+    if(val.includes('<') ) el.innerHTML = val;
+    else el.textContent = val;
+  });
+
+  // 2. All placeholder attributes
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if(t[key]) el.placeholder = t[key];
+  });
+
+  // 3. Auth button label (only when logged out)
+  const authLabel = document.getElementById('authBtnLabel');
+  if(authLabel && !currentUser && t.authBtnLabel) authLabel.textContent = t.authBtnLabel;
+
+  // 4. Plan badge
+  const planBadge = document.getElementById('userPlanBadge');
+  if(planBadge && !planBadge.textContent.includes('مدفوع') && !planBadge.textContent.includes('paid') && t.freePlan){
+    planBadge.textContent = t.freePlan;
+  }
+
+  // 5. Auth field labels (email / password)
+  const emailLabels = document.querySelectorAll('.auth-field label');
+  const emailTexts = {ar:['البريد الإلكتروني','كلمة المرور','تأكيد كلمة المرور'],en:['Email','Password','Confirm Password'],ru:['Эл. почта','Пароль','Подтвердите пароль'],tr:['E-posta','Şifre','Şifreyi Onayla'],fr:['E-mail','Mot de passe','Confirmer'],de:['E-Mail','Passwort','Bestätigen'],es:['Correo','Contraseña','Confirmar']};
+  const et = emailTexts[currentLanguage] || emailTexts['en'];
+  emailLabels.forEach((lbl,i) => { if(et[i]) lbl.textContent = et[i]; });
+}
 // تهيئة النظام عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', () => {
   initAuth();
