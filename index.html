@@ -9,10 +9,8 @@
 <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>sl-Dubbing & Translation</title>
-
 <!-- ✅ Stripe.js - المفتاح العام فقط هنا -->
 <script src="https://js.stripe.com/v3/"></script>
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#0a0a1a;color:#e0e0ff;min-height:100vh;overflow-x:hidden}
@@ -22,17 +20,37 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#0a0a1a;
 @media(min-width:1200px){.wrap{grid-template-columns:1fr 1fr 1fr;align-items:start}}
 header{text-align:center;margin-bottom:32px;grid-column:1/-1}
 .logo-container{display:flex;flex-direction:column;align-items:center;gap:12px}
-.logo-img{width:100px;height:100px;border-radius:16px;overflow:hidden;box-shadow:0 10px 40px rgba(167,139,250,.4);background:transparent;display:flex;align-items:center;justify-content:center;padding:8px;animation:logoFloat 3s ease-in-out infinite,logoGlow 2s ease-in-out infinite alternate;transition:transform .3s ease}
-.logo-img:hover{transform:scale(1.1) rotate(5deg)}
-.logo-img img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 10px rgba(167,139,250,.5));animation:logoPulse 2s ease-in-out infinite}
+
+/* ✅ تم تعديل الشعار: إزالة الخلفية والمربع */
+.logo-img{
+    width: 120px; 
+    height: 120px; 
+    background: transparent; 
+    border: none; 
+    box-shadow: none; 
+    border-radius: 0; 
+    overflow: visible; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    padding: 0; 
+    animation: logoFloat 3s ease-in-out infinite; 
+    transition: transform .3s ease
+}
+.logo-img:hover{transform:scale(1.05)}
+.logo-img img{
+    width: 100%; 
+    height: 100%; 
+    object-fit: contain; 
+    filter: drop-shadow(0 0 15px rgba(167,139,250,.6)); 
+    animation: logoPulse 2s ease-in-out infinite
+}
+
 @keyframes logoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 @keyframes logoGlow{0%{box-shadow:0 10px 40px rgba(167,139,250,.4)}100%{box-shadow:0 10px 60px rgba(167,139,250,.8),0 0 20px rgba(167,139,250,.6)}}
 @keyframes logoPulse{0%,100%{filter:drop-shadow(0 0 10px rgba(167,139,250,.5))}50%{filter:drop-shadow(0 0 20px rgba(167,139,250,.8))}}
 .logo-container h1{font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,#a78bfa,#60a5fa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:3px}
 .logo-container .subtitle{color:#a78bfa;font-size:.85rem;font-weight:600}
-
-
-
 .lang-switcher{position:fixed;top:20px;left:20px;z-index:1000}
 .lang-btn{display:flex;align-items:center;gap:8px;padding:10px 16px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:12px;color:#e0e0ff;cursor:pointer;font-size:.8rem;font-weight:600;transition:all .3s;backdrop-filter:blur(10px)}
 .lang-btn:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);transform:translateY(-2px)}
@@ -143,186 +161,177 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
 .clean-output{background:rgba(0,0,0,.25);border-radius:8px;padding:10px;font-size:.75rem;color:#d1d5db;line-height:1.6;max-height:200px;overflow-y:auto;white-space:pre-wrap;margin-bottom:10px}
 @media(max-width:1199px){.wrap{grid-template-columns:1fr}.card{margin-bottom:20px}}
 @media(max-width:600px){h1{font-size:1.4rem}.lg{grid-template-columns:repeat(3,1fr)}.sit{display:none}.cr{gap:10px}.cv{font-size:1rem}.tg{grid-template-columns:1fr}.lb{padding:8px 4px}}
-
 /* ===== LOCK SYSTEM ===== */
 .feature-zone {
-  position: relative;
+position: relative;
 }
 .lock-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 50;
-  border-radius: 20px;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  cursor: pointer;
-  transition: all .3s;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+position: absolute;
+inset: 0;
+z-index: 50;
+border-radius: 20px;
+display: none;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+gap: 12px;
+cursor: pointer;
+transition: all .3s;
+backdrop-filter: blur(6px);
+-webkit-backdrop-filter: blur(6px);
 }
 .lock-overlay.active {
-  display: flex;
+display: flex;
 }
 .lock-overlay.tts-lock  { background: rgba(10,10,26,.82); border: 2px solid rgba(99,102,241,.35); border-radius: 20px; }
 .lock-overlay.dub-lock  { background: rgba(10,10,26,.82); border: 2px solid rgba(245,158,11,.35); border-radius: 20px; }
 .lock-overlay.srt-lock  { background: rgba(10,10,26,.82); border: 2px solid rgba(16,185,129,.35); border-radius: 20px; }
 .lock-overlay:hover { backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
 .lock-overlay:hover .lock-icon { transform: scale(1.1) rotate(-8deg); }
-
 .lock-icon {
-  font-size: 2.8rem;
-  transition: transform .3s;
-  filter: drop-shadow(0 0 12px rgba(167,139,250,.5));
-  animation: lockPulse 2.5s ease-in-out infinite;
+font-size: 2.8rem;
+transition: transform .3s;
+filter: drop-shadow(0 0 12px rgba(167,139,250,.5));
+animation: lockPulse 2.5s ease-in-out infinite;
 }
 @keyframes lockPulse {
-  0%,100% { filter: drop-shadow(0 0 8px rgba(167,139,250,.4)); }
-  50%      { filter: drop-shadow(0 0 20px rgba(167,139,250,.8)); }
+0%,100% { filter: drop-shadow(0 0 8px rgba(167,139,250,.4)); }
+50%      { filter: drop-shadow(0 0 20px rgba(167,139,250,.8)); }
 }
 .lock-title {
-  font-size: .95rem;
-  font-weight: 800;
-  color: #e0e0ff;
-  text-align: center;
+font-size: .95rem;
+font-weight: 800;
+color: #e0e0ff;
+text-align: center;
 }
 .lock-sub {
-  font-size: .7rem;
-  color: #6b7280;
-  text-align: center;
-  max-width: 200px;
-  line-height: 1.5;
+font-size: .7rem;
+color: #6b7280;
+text-align: center;
+max-width: 200px;
+line-height: 1.5;
 }
 .lock-buy-hint {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 18px;
-  border-radius: 10px;
-  font-size: .75rem;
-  font-weight: 700;
-  color: white;
-  border: none;
-  cursor: pointer;
-  font-family: inherit;
-  transition: all .2s;
-  margin-top: 4px;
+display: flex;
+align-items: center;
+gap: 6px;
+padding: 8px 18px;
+border-radius: 10px;
+font-size: .75rem;
+font-weight: 700;
+color: white;
+border: none;
+cursor: pointer;
+font-family: inherit;
+transition: all .2s;
+margin-top: 4px;
 }
 .lock-buy-hint.tts-btn { background: linear-gradient(135deg,#4f46e5,#6366f1); box-shadow: 0 4px 16px rgba(79,70,229,.4); }
 .lock-buy-hint.dub-btn { background: linear-gradient(135deg,#d97706,#f59e0b); box-shadow: 0 4px 16px rgba(217,119,6,.4); }
 .lock-buy-hint.srt-btn { background: linear-gradient(135deg,#059669,#10b981); box-shadow: 0 4px 16px rgba(5,150,105,.4); }
 .lock-buy-hint:hover { transform: translateY(-2px); filter: brightness(1.1); }
-
 /* unlocked state — content becomes interactive */
 .feature-zone .card { transition: all .4s; }
 .feature-zone.unlocked .lock-overlay { display: none !important; }
-
 /* unlock animation */
 @keyframes unlockPop {
-  0%   { transform: scale(.8); opacity: 0; }
-  60%  { transform: scale(1.05); }
-  100% { transform: scale(1); opacity: 1; }
+0%   { transform: scale(.8); opacity: 0; }
+60%  { transform: scale(1.05); }
+100% { transform: scale(1); opacity: 1; }
 }
 .feature-zone.unlocked .card { animation: unlockPop .5s ease forwards; }
-
 /* ===== STRIPE PAYMENT STYLES ===== */
 .payment-section {
-  grid-column: 1 / -1;
-  margin-top: 8px;
+grid-column: 1 / -1;
+margin-top: 8px;
 }
 .payment-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 16px;
-  margin-top: 16px;
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+gap: 16px;
+margin-top: 16px;
 }
 .payment-card {
-  background: rgba(255,255,255,.04);
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: 20px;
-  padding: 20px;
-  backdrop-filter: blur(20px);
-  box-shadow: 0 20px 60px rgba(0,0,0,.5);
-  position: relative;
-  overflow: hidden;
-  transition: transform .3s, box-shadow .3s;
+background: rgba(255,255,255,.04);
+border: 1px solid rgba(255,255,255,.08);
+border-radius: 20px;
+padding: 20px;
+backdrop-filter: blur(20px);
+box-shadow: 0 20px 60px rgba(0,0,0,.5);
+position: relative;
+overflow: hidden;
+transition: transform .3s, box-shadow .3s;
 }
 .payment-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 28px 70px rgba(0,0,0,.6);
+transform: translateY(-4px);
+box-shadow: 0 28px 70px rgba(0,0,0,.6);
 }
 .payment-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  border-radius: 20px 20px 0 0;
+content: '';
+position: absolute;
+top: 0; left: 0; right: 0;
+height: 3px;
+border-radius: 20px 20px 0 0;
 }
 .payment-card.tts::before { background: linear-gradient(90deg,#6366f1,#4f46e5); }
 .payment-card.dub::before { background: linear-gradient(90deg,#f59e0b,#d97706); }
 .payment-card.srt::before { background: linear-gradient(90deg,#10b981,#059669); }
-
 .payment-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: .65rem;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 20px;
-  margin-bottom: 12px;
-  text-transform: uppercase;
-  letter-spacing: .5px;
+display: inline-flex;
+align-items: center;
+gap: 6px;
+font-size: .65rem;
+font-weight: 700;
+padding: 4px 10px;
+border-radius: 20px;
+margin-bottom: 12px;
+text-transform: uppercase;
+letter-spacing: .5px;
 }
 .payment-badge.tts { background: rgba(99,102,241,.15); color: #818cf8; border: 1px solid rgba(99,102,241,.3); }
 .payment-badge.dub { background: rgba(245,158,11,.15); color: #fcd34d; border: 1px solid rgba(245,158,11,.3); }
 .payment-badge.srt { background: rgba(16,185,129,.15); color: #34d399; border: 1px solid rgba(16,185,129,.3); }
-
 .payment-icon { font-size: 2.2rem; margin-bottom: 10px; display: block; }
 .payment-title { font-size: 1.05rem; font-weight: 800; color: #e0e0ff; margin-bottom: 6px; }
 .payment-desc { font-size: .72rem; color: #9ca3af; line-height: 1.5; margin-bottom: 16px; }
 .payment-features { list-style: none; margin-bottom: 18px; }
 .payment-features li { font-size: .7rem; color: #c4b5fd; padding: 4px 0; display: flex; align-items: center; gap: 6px; }
 .payment-features li::before { content: '✓'; color: #34d399; font-weight: 900; font-size: .65rem; }
-
 .price-display {
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-  margin-bottom: 16px;
+display: flex;
+align-items: baseline;
+gap: 6px;
+margin-bottom: 16px;
 }
 .price-amount { font-size: 2rem; font-weight: 900; line-height: 1; }
 .price-amount.tts { background: linear-gradient(135deg,#6366f1,#818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .price-amount.dub { background: linear-gradient(135deg,#f59e0b,#fcd34d); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .price-amount.srt { background: linear-gradient(135deg,#10b981,#34d399); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .price-label { font-size: .7rem; color: #6b7280; }
-
 .buy-btn {
-  width: 100%;
-  padding: 13px 16px;
-  border-radius: 12px;
-  border: none;
-  color: white;
-  font-weight: 700;
-  font-size: .8rem;
-  cursor: pointer;
-  transition: all .25s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-family: inherit;
-  position: relative;
-  overflow: hidden;
+width: 100%;
+padding: 13px 16px;
+border-radius: 12px;
+border: none;
+color: white;
+font-weight: 700;
+font-size: .8rem;
+cursor: pointer;
+transition: all .25s;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 8px;
+font-family: inherit;
+position: relative;
+overflow: hidden;
 }
 .buy-btn::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(255,255,255,0);
-  transition: background .2s;
+content: '';
+position: absolute;
+inset: 0;
+background: rgba(255,255,255,0);
+transition: background .2s;
 }
 .buy-btn:hover::after { background: rgba(255,255,255,.08); }
 .buy-btn:active { transform: scale(.98); }
@@ -334,207 +343,195 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
 .buy-btn.tts:hover { box-shadow: 0 10px 32px rgba(79,70,229,.6); }
 .buy-btn.dub:hover { box-shadow: 0 10px 32px rgba(217,119,6,.6); }
 .buy-btn.srt:hover { box-shadow: 0 10px 32px rgba(5,150,105,.6); }
-
 .buy-btn .btn-spinner {
-  width: 14px; height: 14px;
-  border: 2px solid rgba(255,255,255,.3);
-  border-top-color: white;
-  border-radius: 50%;
-  animation: spin .7s linear infinite;
-  display: none;
+width: 14px; height: 14px;
+border: 2px solid rgba(255,255,255,.3);
+border-top-color: white;
+border-radius: 50%;
+animation: spin .7s linear infinite;
+display: none;
 }
 .buy-btn.loading .btn-spinner { display: block; }
 .buy-btn.loading .btn-text { opacity: .7; }
 @keyframes spin { to { transform: rotate(360deg); } }
-
 .payment-note {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: .62rem;
-  color: #4b5563;
-  margin-top: 10px;
-  justify-content: center;
+display: flex;
+align-items: center;
+gap: 5px;
+font-size: .62rem;
+color: #4b5563;
+margin-top: 10px;
+justify-content: center;
 }
 .payment-section-title {
-  text-align: center;
-  margin-bottom: 4px;
+text-align: center;
+margin-bottom: 4px;
 }
 .payment-section-title h2 {
-  font-size: 1.3rem;
-  font-weight: 800;
-  background: linear-gradient(135deg,#a78bfa,#60a5fa,#34d399);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+font-size: 1.3rem;
+font-weight: 800;
+background: linear-gradient(135deg,#a78bfa,#60a5fa,#34d399);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
 }
 .payment-section-title p {
-  font-size: .75rem;
-  color: #6b7280;
-  margin-top: 4px;
+font-size: .75rem;
+color: #6b7280;
+margin-top: 4px;
 }
-
 /* Payment Modal */
 .modal-overlay {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,.75);
-  backdrop-filter: blur(8px);
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .3s;
+position: fixed; inset: 0;
+background: rgba(0,0,0,.75);
+backdrop-filter: blur(8px);
+z-index: 9999;
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 16px;
+opacity: 0;
+pointer-events: none;
+transition: opacity .3s;
 }
 .modal-overlay.show { opacity: 1; pointer-events: all; }
 .modal-box {
-  background: #111128;
-  border: 1px solid rgba(255,255,255,.1);
-  border-radius: 20px;
-  padding: 28px 24px;
-  max-width: 420px;
-  width: 100%;
-  box-shadow: 0 30px 80px rgba(0,0,0,.8);
-  transform: translateY(20px);
-  transition: transform .3s;
+background: #111128;
+border: 1px solid rgba(255,255,255,.1);
+border-radius: 20px;
+padding: 28px 24px;
+max-width: 420px;
+width: 100%;
+box-shadow: 0 30px 80px rgba(0,0,0,.8);
+transform: translateY(20px);
+transition: transform .3s;
 }
 .modal-overlay.show .modal-box { transform: translateY(0); }
 .modal-title { font-size: 1rem; font-weight: 800; color: #e0e0ff; margin-bottom: 6px; }
 .modal-sub { font-size: .72rem; color: #6b7280; margin-bottom: 20px; }
 #card-element {
-  background: rgba(255,255,255,.05);
-  border: 1px solid rgba(255,255,255,.12);
-  border-radius: 10px;
-  padding: 14px 12px;
-  margin-bottom: 16px;
-  transition: border-color .3s;
+background: rgba(255,255,255,.05);
+border: 1px solid rgba(255,255,255,.12);
+border-radius: 10px;
+padding: 14px 12px;
+margin-bottom: 16px;
+transition: border-color .3s;
 }
 #card-element.focused { border-color: #a78bfa; }
 #card-errors { color: #f87171; font-size: .72rem; margin-bottom: 14px; min-height: 18px; }
 .modal-actions { display: flex; gap: 10px; }
 .modal-cancel {
-  flex: 1; padding: 12px; border-radius: 10px;
-  background: rgba(255,255,255,.06);
-  border: 1px solid rgba(255,255,255,.1);
-  color: #9ca3af; font-size: .8rem;
-  cursor: pointer; font-family: inherit;
-  transition: background .2s;
+flex: 1; padding: 12px; border-radius: 10px;
+background: rgba(255,255,255,.06);
+border: 1px solid rgba(255,255,255,.1);
+color: #9ca3af; font-size: .8rem;
+cursor: pointer; font-family: inherit;
+transition: background .2s;
 }
 .modal-cancel:hover { background: rgba(255,255,255,.1); }
 .modal-pay {
-  flex: 2; padding: 12px; border-radius: 10px;
-  background: linear-gradient(135deg,#7c3aed,#2563eb);
-  border: none; color: white; font-size: .8rem;
-  font-weight: 700; cursor: pointer; font-family: inherit;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  transition: all .2s;
+flex: 2; padding: 12px; border-radius: 10px;
+background: linear-gradient(135deg,#7c3aed,#2563eb);
+border: none; color: white; font-size: .8rem;
+font-weight: 700; cursor: pointer; font-family: inherit;
+display: flex; align-items: center; justify-content: center; gap: 8px;
+transition: all .2s;
 }
 .modal-pay:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(124,58,237,.5); }
 .modal-pay:disabled { opacity: .6; cursor: not-allowed; transform: none; }
 .modal-pay .btn-spinner { width:14px; height:14px; border:2px solid rgba(255,255,255,.3); border-top-color:white; border-radius:50%; animation:spin .7s linear infinite; display:none; }
 .modal-pay.loading .btn-spinner { display:block; }
 .modal-secure { display:flex; align-items:center; gap:5px; font-size:.62rem; color:#4b5563; margin-top:12px; justify-content:center; }
-
 /* ===== AUTH SYSTEM STYLES ===== */
 .auth-switcher { position:fixed; top:20px; right:20px; z-index:1000; }
-
 .auth-btn {
-  display:flex; align-items:center; gap:8px;
-  padding:10px 16px;
-  background:rgba(255,255,255,.1);
-  border:1px solid rgba(255,255,255,.2);
-  border-radius:12px; color:#e0e0ff;
-  cursor:pointer; font-size:.8rem; font-weight:600;
-  transition:all .3s; backdrop-filter:blur(10px);
-  font-family:inherit;
+display:flex; align-items:center; gap:8px;
+padding:10px 16px;
+background:rgba(255,255,255,.1);
+border:1px solid rgba(255,255,255,.2);
+border-radius:12px; color:#e0e0ff;
+cursor:pointer; font-size:.8rem; font-weight:600;
+transition:all .3s; backdrop-filter:blur(10px);
+font-family:inherit;
 }
 .auth-btn:hover { background:rgba(255,255,255,.15); border-color:rgba(255,255,255,.3); transform:translateY(-2px); }
 .auth-btn svg { width:20px; height:20px; fill:#e0e0ff; }
 .auth-btn .auth-avatar {
-  width:24px; height:24px; border-radius:50%;
-  background:linear-gradient(135deg,#a78bfa,#60a5fa);
-  display:flex; align-items:center; justify-content:center;
-  font-size:.75rem; font-weight:800; color:white;
+width:24px; height:24px; border-radius:50%;
+background:linear-gradient(135deg,#a78bfa,#60a5fa);
+display:flex; align-items:center; justify-content:center;
+font-size:.75rem; font-weight:800; color:white;
 }
-
 /* Auth Dropdown */
 .auth-dropdown {
-  position:absolute; top:100%; right:0;
-  margin-top:8px;
-  background:#111128;
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:16px;
-  box-shadow:0 16px 50px rgba(0,0,0,.7);
-  width:300px; overflow:hidden;
-  transform:scale(0); transform-origin:top right;
-  transition:all .3s; opacity:0;
+position:absolute; top:100%; right:0;
+margin-top:8px;
+background:#111128;
+border:1px solid rgba(255,255,255,.1);
+border-radius:16px;
+box-shadow:0 16px 50px rgba(0,0,0,.7);
+width:300px; overflow:hidden;
+transform:scale(0); transform-origin:top right;
+transition:all .3s; opacity:0;
 }
 .auth-dropdown.show { transform:scale(1); opacity:1; }
-
 /* Auth Tabs */
 .auth-tabs { display:flex; border-bottom:1px solid rgba(255,255,255,.08); }
 .auth-tab {
-  flex:1; padding:12px;
-  background:none; border:none; color:#6b7280;
-  font-size:.78rem; font-weight:700;
-  cursor:pointer; font-family:inherit;
-  transition:all .2s; position:relative;
+flex:1; padding:12px;
+background:none; border:none; color:#6b7280;
+font-size:.78rem; font-weight:700;
+cursor:pointer; font-family:inherit;
+transition:all .2s; position:relative;
 }
 .auth-tab.on { color:#a78bfa; }
 .auth-tab.on::after {
-  content:''; position:absolute; bottom:0; left:10%; right:10%;
-  height:2px; background:linear-gradient(90deg,#a78bfa,#60a5fa);
-  border-radius:2px;
+content:''; position:absolute; bottom:0; left:10%; right:10%;
+height:2px; background:linear-gradient(90deg,#a78bfa,#60a5fa);
+border-radius:2px;
 }
-
 /* Auth Form */
 .auth-form { padding:18px; }
 .auth-field { margin-bottom:12px; }
 .auth-field label { display:block; font-size:.65rem; color:#6b7280; text-transform:uppercase; letter-spacing:.5px; margin-bottom:5px; }
 .auth-field input {
-  width:100%; padding:10px 12px;
-  background:rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:9px; color:#e0e0ff;
-  font-size:.8rem; font-family:inherit;
-  outline:none; transition:border-color .2s;
+width:100%; padding:10px 12px;
+background:rgba(255,255,255,.05);
+border:1px solid rgba(255,255,255,.1);
+border-radius:9px; color:#e0e0ff;
+font-size:.8rem; font-family:inherit;
+outline:none; transition:border-color .2s;
 }
 .auth-field input:focus { border-color:#a78bfa; box-shadow:0 0 0 3px rgba(167,139,250,.1); }
-
 .auth-submit {
-  width:100%; padding:11px;
-  background:linear-gradient(135deg,#7c3aed,#2563eb);
-  border:none; border-radius:10px;
-  color:white; font-size:.8rem; font-weight:700;
-  cursor:pointer; font-family:inherit;
-  transition:all .2s; margin-top:4px;
-  display:flex; align-items:center; justify-content:center; gap:7px;
+width:100%; padding:11px;
+background:linear-gradient(135deg,#7c3aed,#2563eb);
+border:none; border-radius:10px;
+color:white; font-size:.8rem; font-weight:700;
+cursor:pointer; font-family:inherit;
+transition:all .2s; margin-top:4px;
+display:flex; align-items:center; justify-content:center; gap:7px;
 }
 .auth-submit:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(124,58,237,.5); }
 .auth-submit:disabled { opacity:.6; cursor:not-allowed; transform:none; }
 .auth-submit .btn-spinner { width:13px; height:13px; border:2px solid rgba(255,255,255,.3); border-top-color:white; border-radius:50%; animation:spin .7s linear infinite; display:none; }
 .auth-submit.loading .btn-spinner { display:block; }
-
 .auth-msg { font-size:.7rem; text-align:center; padding:6px 8px; border-radius:7px; margin-top:8px; min-height:24px; }
 .auth-msg.ok  { color:#34d399; background:rgba(52,211,153,.08); }
 .auth-msg.er  { color:#f87171; background:rgba(248,113,113,.08); }
-
 /* User Panel (logged in) */
 .user-panel { padding:16px 18px; }
 .user-info { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
 .user-avatar-lg {
-  width:40px; height:40px; border-radius:50%;
-  background:linear-gradient(135deg,#a78bfa,#60a5fa);
-  display:flex; align-items:center; justify-content:center;
-  font-size:1.1rem; font-weight:800; color:white;
-  flex-shrink:0;
+width:40px; height:40px; border-radius:50%;
+background:linear-gradient(135deg,#a78bfa,#60a5fa);
+display:flex; align-items:center; justify-content:center;
+font-size:1.1rem; font-weight:800; color:white;
+flex-shrink:0;
 }
 .user-details { flex:1; }
 .user-email { font-size:.78rem; color:#e0e0ff; font-weight:700; word-break:break-all; }
 .user-plan { font-size:.62rem; color:#6b7280; margin-top:2px; }
-
 /* Usage bars */
 .usage-title { font-size:.65rem; color:#6b7280; text-transform:uppercase; letter-spacing:.5px; margin-bottom:10px; }
 .usage-item { margin-bottom:10px; }
@@ -549,509 +546,415 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
 .usage-bar-fill.tts { background:linear-gradient(90deg,#6366f1,#818cf8); }
 .usage-bar-fill.dub { background:linear-gradient(90deg,#d97706,#f59e0b); }
 .usage-bar-fill.srt { background:linear-gradient(90deg,#059669,#34d399); }
-
 .user-logout {
-  width:100%; padding:9px;
-  background:rgba(248,113,113,.08);
-  border:1px solid rgba(248,113,113,.2);
-  border-radius:9px; color:#f87171;
-  font-size:.75rem; font-weight:600;
-  cursor:pointer; font-family:inherit;
-  transition:all .2s; margin-top:14px;
+width:100%; padding:9px;
+background:rgba(248,113,113,.08);
+border:1px solid rgba(248,113,113,.2);
+border-radius:9px; color:#f87171;
+font-size:.75rem; font-weight:600;
+cursor:pointer; font-family:inherit;
+transition:all .2s; margin-top:14px;
 }
 .user-logout:hover { background:rgba(248,113,113,.15); }
-
 /* Free badge on lock overlays */
 .lock-free-badge {
-  display:inline-flex; align-items:center; gap:5px;
-  padding:5px 12px;
-  background:rgba(167,139,250,.15);
-  border:1px solid rgba(167,139,250,.3);
-  border-radius:20px;
-  font-size:.68rem; font-weight:700; color:#c4b5fd;
-  margin-bottom:2px;
+display:inline-flex; align-items:center; gap:5px;
+padding:5px 12px;
+background:rgba(167,139,250,.15);
+border:1px solid rgba(167,139,250,.3);
+border-radius:20px;
+font-size:.68rem; font-weight:700; color:#c4b5fd;
+margin-bottom:2px;
 }
 .lock-uses-left {
-  font-size:.7rem; color:#6b7280;
-  text-align:center;
+font-size:.7rem; color:#6b7280;
+text-align:center;
 }
 .lock-uses-left strong { color:#fbbf24; }
-
 </style>
 </head>
 <body>
 <div class="bg"></div>
 <div class="wrap">
-
 <div class="lang-switcher">
-  <button class="lang-btn" onclick="toggleLang()" aria-label="Change language">
-    <svg viewBox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg>
-    <span id="currentLang">العربية</span>
-    <svg viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
-  </button>
-  <div class="lang-dropdown" id="langDropdown" role="menu">
-    <div class="lang-option active" onclick="setLang('ar')" data-lang="ar" role="menuitem"><span class="lang-flag">🇸🇦</span><span class="lang-name">العربية</span></div>
-    <div class="lang-option" onclick="setLang('en')" data-lang="en" role="menuitem"><span class="lang-flag">🇺🇸</span><span class="lang-name">English</span></div>
-    <div class="lang-option" onclick="setLang('ru')" data-lang="ru" role="menuitem"><span class="lang-flag">🇷🇺</span><span class="lang-name">Русский</span></div>
-    <div class="lang-option" onclick="setLang('tr')" data-lang="tr" role="menuitem"><span class="lang-flag">🇹🇷</span><span class="lang-name">Türkçe</span></div>
-    <div class="lang-option" onclick="setLang('fr')" data-lang="fr" role="menuitem"><span class="lang-flag">🇫🇷</span><span class="lang-name">Français</span></div>
-    <div class="lang-option" onclick="setLang('de')" data-lang="de" role="menuitem"><span class="lang-flag">🇩🇪</span><span class="lang-name">Deutsch</span></div>
-    <div class="lang-option" onclick="setLang('es')" data-lang="es" role="menuitem"><span class="lang-flag">🇪🇸</span><span class="lang-name">Español</span></div>
-  </div>
+<button class="lang-btn" onclick="toggleLang()" aria-label="Change language">
+<svg viewBox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg>
+<span id="currentLang">العربية</span>
+<svg viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+</button>
+<div class="lang-dropdown" id="langDropdown" role="menu">
+<div class="lang-option active" onclick="setLang('ar')" data-lang="ar" role="menuitem"><span class="lang-flag">🇸🇦</span><span class="lang-name">العربية</span></div>
+<div class="lang-option" onclick="setLang('en')" data-lang="en" role="menuitem"><span class="lang-flag">🇺🇸</span><span class="lang-name">English</span></div>
+<div class="lang-option" onclick="setLang('ru')" data-lang="ru" role="menuitem"><span class="lang-flag">🇷🇷</span><span class="lang-name">Русский</span></div>
+<div class="lang-option" onclick="setLang('tr')" data-lang="tr" role="menuitem"><span class="lang-flag">🇹🇷</span><span class="lang-name">Türkçe</span></div>
+<div class="lang-option" onclick="setLang('fr')" data-lang="fr" role="menuitem"><span class="lang-flag">🇫🇷</span><span class="lang-name">Français</span></div>
+<div class="lang-option" onclick="setLang('de')" data-lang="de" role="menuitem"><span class="lang-flag">🇩🇪</span><span class="lang-name">Deutsch</span></div>
+<div class="lang-option" onclick="setLang('es')" data-lang="es" role="menuitem"><span class="lang-flag">🇪🇸</span><span class="lang-name">Español</span></div>
 </div>
-
+</div>
 <!-- ===== AUTH BUTTON (top-right) ===== -->
 <div class="auth-switcher" id="authSwitcher">
-
-  <!-- زر تسجيل الدخول (قبل الدخول) -->
-  <button class="auth-btn" id="authToggleBtn" onclick="toggleAuthDropdown()">
-    <svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
-    <span id="authBtnLabel">تسجيل الدخول</span>
-    <svg viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
-  </button>
-
-  <div class="auth-dropdown" id="authDropdown">
-
-    <!-- لوحة المستخدم (بعد الدخول) -->
-    <div id="userPanel" style="display:none">
-      <div class="user-panel">
-        <div class="user-info">
-          <div class="user-avatar-lg" id="userAvatarLg">?</div>
-          <div class="user-details">
-            <div class="user-email" id="userEmailDisplay">—</div>
-            <div class="user-plan" id="userPlanBadge" data-i18n="freePlan">خطة مجانية</div>
-          </div>
-        </div>
-        <div class="usage-title" data-i18n="usageTitle">📊 الاستخدام المجاني المتبقي</div>
-
-        <div class="usage-item">
-          <div class="usage-row">
-            <span class="usage-label">✏️ نطق النص</span>
-            <span class="usage-count" id="uc-tts">6/6</span>
-          </div>
-          <div class="usage-bar-bg"><div class="usage-bar-fill tts" id="ub-tts" style="width:100%"></div></div>
-        </div>
-
-        <div class="usage-item">
-          <div class="usage-row">
-            <span class="usage-label">🎬 الدبلجة</span>
-            <span class="usage-count" id="uc-dub">⏱️ 30 ث مجانية</span>
-          </div>
-          <div class="usage-bar-bg"><div class="usage-bar-fill dub" id="ub-dub" style="width:100%"></div></div>
-        </div>
-
-        <div class="usage-item">
-          <div class="usage-row">
-            <span class="usage-label">🌐 مترجم SRT</span>
-            <span class="usage-count" id="uc-srt">6/6</span>
-          </div>
-          <div class="usage-bar-bg"><div class="usage-bar-fill srt" id="ub-srt" style="width:100%"></div></div>
-        </div>
-
-        <button class="user-logout" onclick="logoutUser()" data-i18n="logout">🚪 تسجيل الخروج</button>
-      </div>
-    </div>
-
-    <!-- نموذج تسجيل الدخول / الإنشاء -->
-    <div id="authForms">
-      <div class="auth-tabs">
-        <button class="auth-tab on" id="tab-login" onclick="switchAuthTab('login')" data-i18n="loginTab">تسجيل الدخول</button>
-        <button class="auth-tab"   id="tab-register" onclick="switchAuthTab('register')" data-i18n="registerTab">إنشاء حساب</button>
-      </div>
-
-      <!-- Login Form -->
-      <div class="auth-form" id="form-login">
-        <div class="auth-field">
-          <label>البريد الإلكتروني</label>
-          <input type="email" id="login-email" placeholder="you@example.com" autocomplete="email">
-        </div>
-        <div class="auth-field">
-          <label>كلمة المرور</label>
-          <input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password">
-        </div>
-        <button class="auth-submit" id="loginBtn" onclick="doLogin()">
-          <div class="btn-spinner"></div>
-          <span class="btn-text" data-i18n="loginSubmit">🔐 دخول</span>
-        </button>
-        <div class="auth-msg" id="login-msg"></div>
-      </div>
-
-      <!-- Register Form -->
-      <div class="auth-form" id="form-register" style="display:none">
-        <div class="auth-field">
-          <label>البريد الإلكتروني</label>
-          <input type="email" id="reg-email" placeholder="you@example.com" autocomplete="email">
-        </div>
-        <div class="auth-field">
-          <label>كلمة المرور</label>
-          <input type="password" id="reg-pass" placeholder="8 أحرف على الأقل" autocomplete="new-password">
-        </div>
-        <div class="auth-field">
-          <label>تأكيد كلمة المرور</label>
-          <input type="password" id="reg-pass2" placeholder="••••••••" autocomplete="new-password">
-        </div>
-        <button class="auth-submit" id="registerBtn" onclick="doRegister()">
-          <div class="btn-spinner"></div>
-          <span class="btn-text" data-i18n="registerSubmit">🚀 إنشاء حساب مجاني</span>
-        </button>
-        <div class="auth-msg" id="register-msg"></div>
-      </div>
-    </div>
-
-  </div>
+<!-- زر تسجيل الدخول (قبل الدخول) -->
+<button class="auth-btn" id="authToggleBtn" onclick="toggleAuthDropdown()">
+<svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+<span id="authBtnLabel">تسجيل الدخول</span>
+<svg viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+</button>
+<div class="auth-dropdown" id="authDropdown">
+<!-- لوحة المستخدم (بعد الدخول) -->
+<div id="userPanel" style="display:none">
+<div class="user-panel">
+<div class="user-info">
+<div class="user-avatar-lg" id="userAvatarLg">?</div>
+<div class="user-details">
+<div class="user-email" id="userEmailDisplay">—</div>
+<div class="user-plan" id="userPlanBadge" data-i18n="freePlan">خطة مجانية</div>
+</div>
+</div>
+<div class="usage-title" data-i18n="usageTitle">📊 الاستخدام المجاني المتبقي</div>
+<div class="usage-item">
+<div class="usage-row">
+<span class="usage-label">✏️ نطق النص</span>
+<span class="usage-count" id="uc-tts">6/6</span>
+</div>
+<div class="usage-bar-bg"><div class="usage-bar-fill tts" id="ub-tts" style="width:100%"></div></div>
+</div>
+<div class="usage-item">
+<div class="usage-row">
+<span class="usage-label">🎬 الدبلجة</span>
+<span class="usage-count" id="uc-dub">⏱️ 30 ث مجانية</span>
+</div>
+<div class="usage-bar-bg"><div class="usage-bar-fill dub" id="ub-dub" style="width:100%"></div></div>
+</div>
+<div class="usage-item">
+<div class="usage-row">
+<span class="usage-label">🌐 مترجم SRT</span>
+<span class="usage-count" id="uc-srt">6/6</span>
+</div>
+<div class="usage-bar-bg"><div class="usage-bar-fill srt" id="ub-srt" style="width:100%"></div></div>
+</div>
+<button class="user-logout" onclick="logoutUser()" data-i18n="logout">🚪 تسجيل الخروج</button>
+</div>
+</div>
+<!-- نموذج تسجيل الدخول / الإنشاء -->
+<div id="authForms">
+<div class="auth-tabs">
+<button class="auth-tab on" id="tab-login" onclick="switchAuthTab('login')" data-i18n="loginTab">تسجيل الدخول</button>
+<button class="auth-tab"   id="tab-register" onclick="switchAuthTab('register')" data-i18n="registerTab">إنشاء حساب</button>
+</div>
+<!-- Login Form -->
+<div class="auth-form" id="form-login">
+<div class="auth-field">
+<label>البريد الإلكتروني</label>
+<input type="email" id="login-email" placeholder="you@example.com" autocomplete="email">
+</div>
+<div class="auth-field">
+<label>كلمة المرور</label>
+<input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password">
+</div>
+<button class="auth-submit" id="loginBtn" onclick="doLogin()">
+<div class="btn-spinner"></div>
+<span class="btn-text" data-i18n="loginSubmit">🔐 دخول</span>
+</button>
+<div class="auth-msg" id="login-msg"></div>
+</div>
+<!-- Register Form -->
+<div class="auth-form" id="form-register" style="display:none">
+<div class="auth-field">
+<label>البريد الإلكتروني</label>
+<input type="email" id="reg-email" placeholder="you@example.com" autocomplete="email">
+</div>
+<div class="auth-field">
+<label>كلمة المرور</label>
+<input type="password" id="reg-pass" placeholder="8 أحرف على الأقل" autocomplete="new-password">
+</div>
+<div class="auth-field">
+<label>تأكيد كلمة المرور</label>
+<input type="password" id="reg-pass2" placeholder="••••••••" autocomplete="new-password">
+</div>
+<button class="auth-submit" id="registerBtn" onclick="doRegister()">
+<div class="btn-spinner"></div>
+<span class="btn-text" data-i18n="registerSubmit">🚀 إنشاء حساب مجاني</span>
+</button>
+<div class="auth-msg" id="register-msg"></div>
+</div>
+</div>
+</div>
 </div>
 <!-- ===== END AUTH BUTTON ===== -->
-
-
-  <div class="logo-container">
-    <div class="logo-img" style="background:transparent;border:none;box-shadow:none;overflow:visible">
-      <!-- SL Interlocked Logo - gradient colored, no box -->
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 280" width="105" height="112" style="overflow:visible;filter:drop-shadow(0 0 18px rgba(167,139,250,.65))">
-        <defs>
-          <linearGradient id="slGr" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%"   stop-color="#a78bfa"/>
-            <stop offset="55%"  stop-color="#60a5fa"/>
-            <stop offset="100%" stop-color="#34d399"/>
-          </linearGradient>
-        </defs>
-
-        <!-- === S letter: two C-shaped arcs that form an S, interlocked with L === -->
-        <!-- Top arc of S (upper half) -->
-        <path fill="url(#slGr)" d="
-          M 162,36
-          C 162,16 144,4 120,6
-          C 94,8 66,26 60,52
-          C 54,74 66,94 88,106
-          L 100,113
-          L 88,113
-          C 62,101 46,78 50,52
-          C 56,20 90,0 122,2
-          C 150,4 170,20 168,44
-          C 166,54 158,60 150,58
-          C 142,56 138,48 142,40
-          C 146,34 154,32 162,36 Z
-        "/>
-        <!-- Bottom arc of S (lower half) - passes in FRONT of L base -->
-        <path fill="url(#slGr)" d="
-          M 98,167
-          L 110,167
-          C 136,179 152,202 148,228
-          C 142,258 110,276 82,272
-          C 54,268 36,248 40,224
-          C 42,214 50,208 58,210
-          C 66,212 70,220 68,228
-          C 66,238 56,244 46,240
-          C 50,258 68,270 88,268
-          C 112,266 134,250 138,228
-          C 142,208 128,188 106,178
-          Z
-        "/>
-
-        <!-- === L letter: vertical bar (tall, thin, serif) + horizontal foot === -->
-        <!-- Vertical stroke of L - sits ON TOP of S center (interlocking) -->
-        <rect fill="url(#slGr)" x="106" y="8" width="28" height="210" rx="8"/>
-        <!-- Top serif of L vertical -->
-        <rect fill="url(#slGr)" x="94"  y="8"  width="52" height="22" rx="6"/>
-        <!-- Horizontal foot of L -->
-        <path fill="url(#slGr)" d="
-          M 100,218
-          L 210,218
-          C 222,218 228,226 226,234
-          C 224,242 216,248 206,248
-          L 100,248
-          C 90,248 84,242 84,234
-          L 84,228
-          C 84,222 90,218 100,218 Z
-        "/>
-        <!-- Bottom-right serif curl on L foot -->
-        <path fill="url(#slGr)" d="
-          M 200,248
-          C 218,248 230,240 228,230
-          L 232,230
-          C 234,244 220,256 202,256
-          L 196,256
-          C 196,252 198,248 200,248 Z
-        "/>
-      </svg>
-    </div>
-    <div>
-      <h1>sl-Dubbing</h1>
-      <p class="subtitle"><span style="background:linear-gradient(135deg,#60a5fa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700">&amp; Translation</span> — <span data-i18n="subtitle">دبلجة وترجمة احترافية</span></p>
-    </div>
-  </div>
+<div class="logo-container">
+<div class="logo-img">
+    <!-- ✅ تم استبدال SVG بصورة logo.png من GitHub -->
+    <!-- ⚠️ استبدل الرابط أدناه بالرابط الخام (Raw) من GitHub -->
+    <img src="logo.png" alt="sl-Dubbing Logo">
+</div>
+<div>
+<h1>sl-Dubbing</h1>
+<p class="subtitle"><span style="background:linear-gradient(135deg,#60a5fa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700">&amp; Translation</span> — <span data-i18n="subtitle">دبلجة وترجمة احترافية</span></p>
+</div>
+</div>
 </header>
-
 <!-- ===== STRIPE PAYMENT SECTION ===== -->
 <div class="payment-section">
-  <div class="payment-section-title">
-    <h2 data-i18n="shopTitle">🛒 المتجر — ترقية الحساب</h2>
-    <p data-i18n="shopSub">ادفع مرة واحدة واستمتع مدى الحياة · مدعوم بـ Stripe</p>
-  </div>
-  <div class="payment-grid">
-
-    <!-- بطاقة نطق النص -->
-    <div class="payment-card tts">
-      <span class="payment-badge tts" data-i18n="ttsBadge">✏️ نطق النص</span>
-      <span class="payment-icon">🎙️</span>
-      <div class="payment-title" data-i18n="ttsCardTitle">تفعيل النطق مدى الحياة</div>
-      <div class="payment-desc" data-i18n="ttsCardDesc">نطق نصوص غير محدودة بأصوات متعددة اللغات دون قيود</div>
-      <ul class="payment-features">
-        <li>أصوات متعددة اللغات (13+ لغة)</li>
-        <li>تحكم في السرعة والطبقة والصوت</li>
-        <li>فلاتر صوتية متقدمة</li>
-        <li>دفعة واحدة · بدون اشتراك</li>
-      </ul>
-      <div class="price-display">
-        <span class="price-amount tts">$10</span>
-        <span class="price-label" data-i18n="lifetime">مدى الحياة</span>
-      </div>
-      <button class="buy-btn tts" id="btn-tts" onclick="startCheckout('tts')"><span data-i18n="buyNow">💳 شراء الآن</span>
-        <div class="btn-spinner"></div>
-        <span class="btn-text">💳 شراء الآن</span>
-      </button>
-      <div class="payment-note" data-i18n="securePayment">🔒 دفع آمن عبر Stripe</div>
-    </div>
-
-    <!-- بطاقة الدبلجة -->
-    <div class="payment-card dub">
-      <span class="payment-badge dub" data-i18n="dubBadge">🎬 دبلجة</span>
-      <span class="payment-icon">🚀</span>
-      <div class="payment-title" data-i18n="dubCardTitle">فتح الدبلجة مدى الحياة</div>
-      <div class="payment-desc" data-i18n="dubCardDesc">دبلجة SRT كاملة بلا حدود — التجربة المجانية: أول 30 ثانية فقط</div>
-      <ul class="payment-features">
-        <li>دبلجة SRT بالكامل مع التزامن</li>
-        <li>تصدير WAV لـ YouTube Dubbing</li>
-        <li>معالجة سحابية صامتة</li>
-        <li>دفعة واحدة · بدون اشتراك</li>
-      </ul>
-      <div class="price-display">
-        <span class="price-amount dub">$50</span>
-        <span class="price-label">مدى الحياة</span>
-      </div>
-      <button class="buy-btn dub" id="btn-dub" onclick="startCheckout('dub')"><span data-i18n="buyNow">💳 شراء الآن</span>
-        <div class="btn-spinner"></div>
-        <span class="btn-text">💳 شراء الآن</span>
-      </button>
-      <div class="payment-note" data-i18n="securePayment">🔒 دفع آمن عبر Stripe</div>
-    </div>
-
-    <!-- بطاقة مترجم SRT -->
-    <div class="payment-card srt">
-      <span class="payment-badge srt" data-i18n="srtBadge">🌐 مترجم</span>
-      <span class="payment-icon">🌍</span>
-      <div class="payment-title" data-i18n="srtCardTitle">شراء المترجم مدى الحياة</div>
-      <div class="payment-desc" data-i18n="srtCardDesc">ترجمة ملفات SRT إلى أكثر من 13 لغة بنقرة واحدة</div>
-      <ul class="payment-features">
-        <li>ترجمة لـ 13+ لغة عالمية</li>
-        <li>تنزيل SRT مترجم جاهز</li>
-        <li>تنظيف النص التلقائي</li>
-        <li>دفعة واحدة · بدون اشتراك</li>
-      </ul>
-      <div class="price-display">
-        <span class="price-amount srt">$10</span>
-        <span class="price-label">مدى الحياة</span>
-      </div>
-      <button class="buy-btn srt" id="btn-srt" onclick="startCheckout('srt')"><span data-i18n="buyNow">💳 شراء الآن</span>
-        <div class="btn-spinner"></div>
-        <span class="btn-text">💳 شراء الآن</span>
-      </button>
-      <div class="payment-note" data-i18n="securePayment">🔒 دفع آمن عبر Stripe</div>
-    </div>
-  </div>
+<div class="payment-section-title">
+<h2 data-i18n="shopTitle">🛒 المتجر — ترقية الحساب</h2>
+<p data-i18n="shopSub">ادفع مرة واحدة واستمتع مدى الحياة · مدعوم بـ Stripe</p>
+</div>
+<div class="payment-grid">
+<!-- بطاقة نطق النص -->
+<div class="payment-card tts">
+<span class="payment-badge tts" data-i18n="ttsBadge">✏️ نطق النص</span>
+<span class="payment-icon">🎙️</span>
+<div class="payment-title" data-i18n="ttsCardTitle">تفعيل النطق مدى الحياة</div>
+<div class="payment-desc" data-i18n="ttsCardDesc">نطق نصوص غير محدودة بأصوات متعددة اللغات دون قيود</div>
+<ul class="payment-features">
+<li>أصوات متعددة اللغات (13+ لغة)</li>
+<li>تحكم في السرعة والطبقة والصوت</li>
+<li>فلاتر صوتية متقدمة</li>
+<li>دفعة واحدة · بدون اشتراك</li>
+</ul>
+<div class="price-display">
+<span class="price-amount tts">$10</span>
+<span class="price-label" data-i18n="lifetime">مدى الحياة</span>
+</div>
+<button class="buy-btn tts" id="btn-tts" onclick="startCheckout('tts')"><span data-i18n="buyNow">💳 شراء الآن</span>
+<div class="btn-spinner"></div>
+<span class="btn-text">💳 شراء الآن</span>
+</button>
+<div class="payment-note" data-i18n="securePayment">🔒 دفع آمن عبر Stripe</div>
+</div>
+<!-- بطاقة الدبلجة -->
+<div class="payment-card dub">
+<span class="payment-badge dub" data-i18n="dubBadge">🎬 دبلجة</span>
+<span class="payment-icon">🚀</span>
+<div class="payment-title" data-i18n="dubCardTitle">فتح الدبلجة مدى الحياة</div>
+<div class="payment-desc" data-i18n="dubCardDesc">دبلجة SRT كاملة بلا حدود — التجربة المجانية: أول 30 ثانية فقط</div>
+<ul class="payment-features">
+<li>دبلجة SRT بالكامل مع التزامن</li>
+<li>تصدير WAV لـ YouTube Dubbing</li>
+<li>معالجة سحابية صامتة</li>
+<li>دفعة واحدة · بدون اشتراك</li>
+</ul>
+<div class="price-display">
+<span class="price-amount dub">$50</span>
+<span class="price-label">مدى الحياة</span>
+</div>
+<button class="buy-btn dub" id="btn-dub" onclick="startCheckout('dub')"><span data-i18n="buyNow">💳 شراء الآن</span>
+<div class="btn-spinner"></div>
+<span class="btn-text">💳 شراء الآن</span>
+</button>
+<div class="payment-note" data-i18n="securePayment">🔒 دفع آمن عبر Stripe</div>
+</div>
+<!-- بطاقة مترجم SRT -->
+<div class="payment-card srt">
+<span class="payment-badge srt" data-i18n="srtBadge">🌐 مترجم</span>
+<span class="payment-icon">🌍</span>
+<div class="payment-title" data-i18n="srtCardTitle">شراء المترجم مدى الحياة</div>
+<div class="payment-desc" data-i18n="srtCardDesc">ترجمة ملفات SRT إلى أكثر من 13 لغة بنقرة واحدة</div>
+<ul class="payment-features">
+<li>ترجمة لـ 13+ لغة عالمية</li>
+<li>تنزيل SRT مترجم جاهز</li>
+<li>تنظيف النص التلقائي</li>
+<li>دفعة واحدة · بدون اشتراك</li>
+</ul>
+<div class="price-display">
+<span class="price-amount srt">$10</span>
+<span class="price-label">مدى الحياة</span>
+</div>
+<button class="buy-btn srt" id="btn-srt" onclick="startCheckout('srt')"><span data-i18n="buyNow">💳 شراء الآن</span>
+<div class="btn-spinner"></div>
+<span class="btn-text">💳 شراء الآن</span>
+</button>
+<div class="payment-note" data-i18n="securePayment">🔒 دفع آمن عبر Stripe</div>
+</div>
+</div>
 </div>
 <!-- ===== END PAYMENT SECTION ===== -->
-
 <div class="feature-zone" id="zone-tts">
-  <!-- قفل: نطق النص -->
-  <div class="lock-overlay tts-lock" id="lock-tts">
-    <div class="lock-icon" id="lock-icon-tts">🔒</div>
-    <div class="lock-title" id="lock-title-tts">نطق النص — مقفل</div>
-    <div class="lock-free-badge" id="lock-free-tts" style="display:none">🎁 <span id="lock-free-count-tts">6</span> استخدامات مجانية</div>
-    <div class="lock-uses-left" id="lock-uses-tts" style="display:none">متبقي <strong id="lock-left-tts">0</strong> من 6 استخدامات</div>
-    <div class="lock-sub" id="lock-sub-tts">سجّل دخولك للحصول على 6 استخدامات مجانية</div>
-    <button class="lock-buy-hint tts-btn" id="lock-action-tts" onclick="lockAction('tts')" data-i18n="lockSignup">👤 سجّل للاستخدام المجاني</button>
-  </div>
-  <div class="card">
-    <div class="card-header"><div class="card-icon">✏️</div><span class="card-title" data-i18n="ttsTitle">نطق النص</span></div>
-    <div class="lbl-row"><span class="lbl" style="margin-bottom:0" data-i18n="selectLanguage">اختر اللغة</span></div>
-    <div class="lg" id="g1" style="margin-bottom:10px"></div>
-    <div class="lbl-row"><span class="lbl" style="margin-bottom:0" data-i18n="voice">الصوت</span></div>
-    <select id="vs" style="width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:rgba(0,0,0,.3);color:#e0e0ff;font-size:.75rem;margin-bottom:10px"></select>
-    <div class="tw"><textarea id="ti" data-i18n-placeholder="typeText" placeholder="اكتب النص..." style="min-height:80px;font-size:.8rem"></textarea><span class="cc" id="cc">0</span></div>
-    <div class="ctrls" style="margin-bottom:10px">
-      <div class="cg"><label style="font-size:.55rem" data-i18n="speed">السرعة <span class="rv" id="rv1">1.0x</span></label><input type="range" id="rr1" min=".5" max="2" step=".1" value="1"></div>
-      <div class="cg"><label style="font-size:.55rem" data-i18n="pitch">الطبقة <span class="rv" id="pv1">1.0</span></label><input type="range" id="pr1" min=".5" max="2" step=".1" value="1"></div>
-      <div class="cg"><label style="font-size:.55rem" data-i18n="volume">الصوت <span class="rv" id="vv1">100%</span></label><input type="range" id="vr1" min="0" max="1" step=".05" value="1"></div>
-    </div>
-    <div class="wv" id="wv1" style="height:20px;margin:8px 0"><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div></div>
-    <div class="br">
-      <button class="btn bs" id="sb" onclick="guardedAction('tts', tSpeak)" style="padding:8px 12px;font-size:.75rem"><span id="si">▶</span><span id="st2" data-i18n="speak">نطق</span></button>
-      <button class="btn bsm" onclick="tPause()" style="padding:8px 10px;font-size:.75rem">⏸</button>
-      <button class="btn bsm" onclick="clrTxt()" style="padding:8px 10px;font-size:.75rem">🗑</button>
-    </div>
-    <div class="st i" id="s1" style="margin-top:8px;font-size:.7rem" data-i18n="typeAndSpeak">👋 اكتب نصاً واضغط نطق</div>
-  </div>
-  <div class="filters-card" id="filtersCard" style="display:none">
-    <div class="fc-title"><span>🎛️</span> <span data-i18n="audioFilters">الفلاتر الصوتية</span></div>
-    <div class="lbl-row"><span class="lbl" style="margin-bottom:0" data-i18n="speed">السرعة</span><span class="rv" id="speedVal">1.0x</span></div>
-    <input type="range" id="filterSpeed" min="0.5" max="2" step="0.1" value="1" style="width:100%;margin-bottom:10px" oninput="updateFilters()">
-    <div class="lbl-row"><span class="lbl" style="margin-bottom:0" data-i18n="pitch">الطبقة</span><span class="rv" id="pitchVal">1.0</span></div>
-    <input type="range" id="filterPitch" min="0.5" max="2" step="0.1" value="1" style="width:100%;margin-bottom:10px" oninput="updateFilters()">
-    <div class="lbl-row"><span class="lbl" style="margin-bottom:0">Bass</span><span class="rv" id="bassVal">0dB</span></div>
-    <input type="range" id="eqBass" min="-20" max="20" step="1" value="0" style="width:100%;margin-bottom:10px" oninput="updateFilters()">
-    <div class="lbl-row"><span class="lbl" style="margin-bottom:0">Mid</span><span class="rv" id="midVal">0dB</span></div>
-    <input type="range" id="eqMid" min="-20" max="20" step="1" value="0" style="width:100%;margin-bottom:10px" oninput="updateFilters()">
-    <div class="lbl-row"><span class="lbl" style="margin-bottom:0">Treble</span><span class="rv" id="trebleVal">0dB</span></div>
-    <input type="range" id="eqTreble" min="-20" max="20" step="1" value="0" style="width:100%;margin-bottom:10px" oninput="updateFilters()">
-    <button class="btn bsm" style="width:100%;justify-content:center;margin-top:8px;font-size:.7rem;padding:6px" data-i18n="resetFilters" onclick="resetFilters()">🔄 إعادة تعيين</button>
-    <div class="sg">
-      <button class="sbtn" onclick="applyPreset('male')" data-i18n="presetMale">👨 رجالي</button>
-      <button class="sbtn" onclick="applyPreset('radio')" data-i18n="presetRadio">📻 راديو</button>
-      <button class="sbtn" onclick="applyPreset('warm')" data-i18n="presetWarm">🌟 دافئ</button>
-      <button class="sbtn" onclick="applyPreset('fast')" data-i18n="presetFast">⚡ سريع</button>
-    </div>
-  </div>
+<!-- قفل: نطق النص -->
+<div class="lock-overlay tts-lock" id="lock-tts">
+<div class="lock-icon" id="lock-icon-tts">🔒</div>
+<div class="lock-title" id="lock-title-tts">نطق النص — مقفل</div>
+<div class="lock-free-badge" id="lock-free-tts" style="display:none">🎁 <span id="lock-free-count-tts">6</span> استخدامات مجانية</div>
+<div class="lock-uses-left" id="lock-uses-tts" style="display:none">متبقي <strong id="lock-left-tts">0</strong> من 6 استخدامات</div>
+<div class="lock-sub" id="lock-sub-tts">سجّل دخولك للحصول على 6 استخدامات مجانية</div>
+<button class="lock-buy-hint tts-btn" id="lock-action-tts" onclick="lockAction('tts')" data-i18n="lockSignup">👤 سجّل للاستخدام المجاني</button>
+</div>
+<div class="card">
+<div class="card-header"><div class="card-icon">✏️</div><span class="card-title" data-i18n="ttsTitle">نطق النص</span></div>
+<div class="lbl-row"><span class="lbl" style="margin-bottom:0" data-i18n="selectLanguage">اختر اللغة</span></div>
+<div class="lg" id="g1" style="margin-bottom:10px"></div>
+<div class="lbl-row"><span class="lbl" style="margin-bottom:0" data-i18n="voice">الصوت</span></div>
+<select id="vs" style="width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:rgba(0,0,0,.3);color:#e0e0ff;font-size:.75rem;margin-bottom:10px"></select>
+<div class="tw"><textarea id="ti" data-i18n-placeholder="typeText" placeholder="اكتب النص..." style="min-height:80px;font-size:.8rem"></textarea><span class="cc" id="cc">0</span></div>
+<div class="ctrls" style="margin-bottom:10px">
+<div class="cg"><label style="font-size:.55rem" data-i18n="speed">السرعة <span class="rv" id="rv1">1.0x</span></label><input type="range" id="rr1" min=".5" max="2" step=".1" value="1"></div>
+<div class="cg"><label style="font-size:.55rem" data-i18n="pitch">الطبقة <span class="rv" id="pv1">1.0</span></label><input type="range" id="pr1" min=".5" max="2" step=".1" value="1"></div>
+<div class="cg"><label style="font-size:.55rem" data-i18n="volume">الصوت <span class="rv" id="vv1">100%</span></label><input type="range" id="vr1" min="0" max="1" step=".05" value="1"></div>
+</div>
+<div class="wv" id="wv1" style="height:20px;margin:8px 0"><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div></div>
+<div class="br">
+<button class="btn bs" id="sb" onclick="guardedAction('tts', tSpeak)" style="padding:8px 12px;font-size:.75rem"><span id="si">▶</span><span id="st2" data-i18n="speak">نطق</span></button>
+<button class="btn bsm" onclick="tPause()" style="padding:8px 10px;font-size:.75rem">⏸</button>
+<button class="btn bsm" onclick="clrTxt()" style="padding:8px 10px;font-size:.75rem">🗑</button>
+</div>
+<div class="st i" id="s1" style="margin-top:8px;font-size:.7rem" data-i18n="typeAndSpeak">👋 اكتب نصاً واضغط نطق</div>
+</div>
+<div class="filters-card" id="filtersCard" style="display:none">
+<div class="fc-title"><span>🎛️</span> <span data-i18n="audioFilters">الفلاتر الصوتية</span></div>
+<div class="lbl-row"><span class="lbl" style="margin-bottom:0" data-i18n="speed">السرعة</span><span class="rv" id="speedVal">1.0x</span></div>
+<input type="range" id="filterSpeed" min="0.5" max="2" step="0.1" value="1" style="width:100%;margin-bottom:10px" oninput="updateFilters()">
+<div class="lbl-row"><span class="lbl" style="margin-bottom:0" data-i18n="pitch">الطبقة</span><span class="rv" id="pitchVal">1.0</span></div>
+<input type="range" id="filterPitch" min="0.5" max="2" step="0.1" value="1" style="width:100%;margin-bottom:10px" oninput="updateFilters()">
+<div class="lbl-row"><span class="lbl" style="margin-bottom:0">Bass</span><span class="rv" id="bassVal">0dB</span></div>
+<input type="range" id="eqBass" min="-20" max="20" step="1" value="0" style="width:100%;margin-bottom:10px" oninput="updateFilters()">
+<div class="lbl-row"><span class="lbl" style="margin-bottom:0">Mid</span><span class="rv" id="midVal">0dB</span></div>
+<input type="range" id="eqMid" min="-20" max="20" step="1" value="0" style="width:100%;margin-bottom:10px" oninput="updateFilters()">
+<div class="lbl-row"><span class="lbl" style="margin-bottom:0">Treble</span><span class="rv" id="trebleVal">0dB</span></div>
+<input type="range" id="eqTreble" min="-20" max="20" step="1" value="0" style="width:100%;margin-bottom:10px" oninput="updateFilters()">
+<button class="btn bsm" style="width:100%;justify-content:center;margin-top:8px;font-size:.7rem;padding:6px" data-i18n="resetFilters" onclick="resetFilters()">🔄 إعادة تعيين</button>
+<div class="sg">
+<button class="sbtn" onclick="applyPreset('male')" data-i18n="presetMale">👨 رجالي</button>
+<button class="sbtn" onclick="applyPreset('radio')" data-i18n="presetRadio">📻 راديو</button>
+<button class="sbtn" onclick="applyPreset('warm')" data-i18n="presetWarm">🌟 دافئ</button>
+<button class="sbtn" onclick="applyPreset('fast')" data-i18n="presetFast">⚡ سريع</button>
+</div>
+</div>
 </div><!-- end zone-tts -->
-
 <div class="feature-zone" id="zone-dub">
-  <!-- قفل: الدبلجة -->
-  <div class="lock-overlay dub-lock" id="lock-dub">
-    <div class="lock-icon" id="lock-icon-dub">🔒</div>
-    <div class="lock-title" id="lock-title-dub">الدبلجة — مقفلة</div>
-    <div class="lock-free-badge" id="lock-free-dub" style="display:none">🎁 تجربة مجانية: أول 30 ثانية</div>
-    <div class="lock-uses-left" id="lock-uses-dub" style="display:none">متبقي <strong id="lock-left-dub">0</strong> من 6 استخدامات</div>
-    <div class="lock-sub" id="lock-sub-dub">سجّل للحصول على تجربة مجانية (30 ث) أو اشترِ للملف الكامل</div>
-    <button class="lock-buy-hint dub-btn" id="lock-action-dub" onclick="lockAction('dub')" data-i18n="lockSignup">👤 سجّل للاستخدام المجاني</button>
-  </div>
-  <div class="card">
-    <div class="card-header"><div class="card-icon">🎬</div><span class="card-title" data-i18n="dubLang">لغة الدبلجة</span></div>
-    <div class="lg" id="g2"></div>
-    <div class="ctrls" style="margin-bottom:0">
-      <div class="cg"><label data-i18n="speed">السرعة <span class="rv" id="rv2">1.0x</span></label><input type="range" id="rr2" min=".5" max="1" step=".05" value="1"></div>
-      <div class="cg"><label data-i18n="volume">الصوت <span class="rv" id="vv2">1.0</span></label><input type="range" id="vr2" min=".2" max="2" step=".1" value="1"></div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-header"><div class="card-icon">📂</div><span class="card-title" data-i18n="srtFile">ملف SRT</span></div>
-    <div class="ua"><input type="file" accept=".srt,.txt" onchange="ldSRT(event)" aria-label="Upload SRT file"><div class="ui">📁</div><div class="ut" data-i18n="dragOrClick">اسحب أو اضغط</div><div class="us" data-i18n="srtOrTxt">.srt أو .txt</div></div>
-    <span class="lbl" data-i18n="orPaste">أو الصق المحتوى</span>
-    <textarea id="srtP" data-i18n-placeholder="pasteSRT" placeholder="1&#10;00:00:00,000 --> 00:00:02,000&#10;النص..." style="min-height:60px;font-size:.75rem;font-family:monospace"></textarea>
-    <button class="btn bsm" style="margin-top:6px;font-size:.7rem;width:100%;justify-content:center" data-i18n="analyzeFile" onclick="prsPaste()">📥 تحليل الملف</button>
-    <div id="srtInfo" style="display:none;margin-top:12px">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-        <span style="color:#34d399;font-size:.75rem;font-weight:700">✅ <span id="sCnt">0</span> <span data-i18n="sentences">جملة</span> · <span id="sDur">0:00:00</span></span>
-        <button class="btn bsm" style="padding:4px 8px;font-size:.65rem" data-i18n="copy" onclick="cpySRT()">📋</button>
-      </div>
-      <div class="sl" id="srtL"></div>
-    </div>
-  </div>
-  <div class="card" id="dubCard" style="display:none">
-    <div class="card-header"><div class="card-icon">⚡</div><span class="card-title" data-i18n="generate">التوليد</span></div>
-    <div class="ib">
-      <div class="ir">🔇 <span data-i18n="silentProcessing">معالجة <strong>صامتة</strong> عبر سيرفر سحابي</span></div>
-      <div class="ir">⏱️ <span data-i18n="syncTiming">تزامن دقيق مع توقيتات SRT</span></div>
-      <div class="ir">📤 <span data-i18n="wavFile">ملف WAV لـ YouTube Dubbing</span></div>
-    </div>
-    <button class="gb" id="genBtn" onclick="guardedAction('dub', stDub)"><span class="gi">🎬</span><span class="gl" data-i18n="generateDub">توليد الدبلجة</span><span class="gs" data-i18n="requiresServer">يتطلب سيرفر Render شغال</span></button>
-    <div id="dubP" style="display:none">
-      <div class="ph"><div class="pd"></div><div class="pt" id="phTxt" data-i18n="processing">جارٍ...</div></div>
-      <div class="cb">
-        <div class="cr">
-          <div class="ci"><div class="cl" data-i18n="remaining">المتبقي</div><div class="cv cr1" id="clkR">--:--:--</div></div>
-          <div class="ci"><div class="cl" data-i18n="elapsed">مضى</div><div class="cv cr2" id="clkE">00:00:00</div></div>
-          <div class="ci"><div class="cl" data-i18n="total">المجموع</div><div class="cv cr3" id="clkT">--:--:--</div></div>
-        </div>
-        <div class="wv on" style="height:22px;margin:0"><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div></div>
-      </div>
-      <div class="pw"><div class="pb"><div class="pf" id="pFill" style="width:0%"></div></div><div class="pm"><span id="pLbl">0/0</span><span id="pPct">0%</span></div></div>
-      <div class="cs" id="curS" style="background:rgba(167,139,250,.07);border:1px solid rgba(167,139,250,.18);border-radius:8px;padding:8px 12px;font-size:.75rem;line-height:1.5;color:#c4b5fd;text-align:center;min-height:36px;margin-bottom:6px" data-i18n="processing">جارٍ...</div>
-      <div class="sc" id="sntC" style="text-align:center;font-size:.65rem;color:#4b5563;font-family:monospace;margin-bottom:10px"></div>
-      <button class="btn bsm" style="width:100%;justify-content:center" data-i18n="cancel" onclick="cnclDub()">⏹ إلغاء</button>
-    </div>
-    <div id="dubRes" style="display:none">
-      <div class="rb">
-        <div class="rt">🎉 <span data-i18n="ready">جاهز</span></div>
-        <audio id="dubAu" controls style="width:100%;margin-bottom:10px;border-radius:8px"></audio>
-        <button class="db" data-i18n="downloadWAV" onclick="dlRes()">⬇️ تنزيل WAV</button>
-        <div class="yh" style="font-size:.65rem;color:#6b7280;text-align:center;margin-top:8px">📤 YouTube Studio → <span data-i18n="dubbing">دبلجة</span></div>
-      </div>
-    </div>
-    <div class="st i" id="dubSt" style="margin-top:12px" data-i18n="checkServer">تأكد سيرفر Render شغال ثم اضغط</div>
-  </div>
+<!-- قفل: الدبلجة -->
+<div class="lock-overlay dub-lock" id="lock-dub">
+<div class="lock-icon" id="lock-icon-dub">🔒</div>
+<div class="lock-title" id="lock-title-dub">الدبلجة — مقفلة</div>
+<div class="lock-free-badge" id="lock-free-dub" style="display:none">🎁 تجربة مجانية: أول 30 ثانية</div>
+<div class="lock-uses-left" id="lock-uses-dub" style="display:none">متبقي <strong id="lock-left-dub">0</strong> من 6 استخدامات</div>
+<div class="lock-sub" id="lock-sub-dub">سجّل للحصول على تجربة مجانية (30 ث) أو اشترِ للملف الكامل</div>
+<button class="lock-buy-hint dub-btn" id="lock-action-dub" onclick="lockAction('dub')" data-i18n="lockSignup">👤 سجّل للاستخدام المجاني</button>
+</div>
+<div class="card">
+<div class="card-header"><div class="card-icon">🎬</div><span class="card-title" data-i18n="dubLang">لغة الدبلجة</span></div>
+<div class="lg" id="g2"></div>
+<div class="ctrls" style="margin-bottom:0">
+<div class="cg"><label data-i18n="speed">السرعة <span class="rv" id="rv2">1.0x</span></label><input type="range" id="rr2" min=".5" max="1" step=".05" value="1"></div>
+<div class="cg"><label data-i18n="volume">الصوت <span class="rv" id="vv2">1.0</span></label><input type="range" id="vr2" min=".2" max="2" step=".1" value="1"></div>
+</div>
+</div>
+<div class="card">
+<div class="card-header"><div class="card-icon">📂</div><span class="card-title" data-i18n="srtFile">ملف SRT</span></div>
+<div class="ua"><input type="file" accept=".srt,.txt" onchange="ldSRT(event)" aria-label="Upload SRT file"><div class="ui">📁</div><div class="ut" data-i18n="dragOrClick">اسحب أو اضغط</div><div class="us" data-i18n="srtOrTxt">.srt أو .txt</div></div>
+<span class="lbl" data-i18n="orPaste">أو الصق المحتوى</span>
+<textarea id="srtP" data-i18n-placeholder="pasteSRT" placeholder="1&#10;00:00:00,000 --> 00:00:02,000&#10;النص..." style="min-height:60px;font-size:.75rem;font-family:monospace"></textarea>
+<button class="btn bsm" style="margin-top:6px;font-size:.7rem;width:100%;justify-content:center" data-i18n="analyzeFile" onclick="prsPaste()">📥 تحليل الملف</button>
+<div id="srtInfo" style="display:none;margin-top:12px">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+<span style="color:#34d399;font-size:.75rem;font-weight:700">✅ <span id="sCnt">0</span> <span data-i18n="sentences">جملة</span> · <span id="sDur">0:00:00</span></span>
+<button class="btn bsm" style="padding:4px 8px;font-size:.65rem" data-i18n="copy" onclick="cpySRT()">📋</button>
+</div>
+<div class="sl" id="srtL"></div>
+</div>
+</div>
+<div class="card" id="dubCard" style="display:none">
+<div class="card-header"><div class="card-icon">⚡</div><span class="card-title" data-i18n="generate">التوليد</span></div>
+<div class="ib">
+<div class="ir">🔇 <span data-i18n="silentProcessing">معالجة <strong>صامتة</strong> عبر سيرفر سحابي</span></div>
+<div class="ir">⏱️ <span data-i18n="syncTiming">تزامن دقيق مع توقيتات SRT</span></div>
+<div class="ir">📤 <span data-i18n="wavFile">ملف WAV لـ YouTube Dubbing</span></div>
+</div>
+<button class="gb" id="genBtn" onclick="guardedAction('dub', stDub)"><span class="gi">🎬</span><span class="gl" data-i18n="generateDub">توليد الدبلجة</span><span class="gs" data-i18n="requiresServer">يتطلب سيرفر Render شغال</span></button>
+<div id="dubP" style="display:none">
+<div class="ph"><div class="pd"></div><div class="pt" id="phTxt" data-i18n="processing">جارٍ...</div></div>
+<div class="cb">
+<div class="cr">
+<div class="ci"><div class="cl" data-i18n="remaining">المتبقي</div><div class="cv cr1" id="clkR">--:--:--</div></div>
+<div class="ci"><div class="cl" data-i18n="elapsed">مضى</div><div class="cv cr2" id="clkE">00:00:00</div></div>
+<div class="ci"><div class="cl" data-i18n="total">المجموع</div><div class="cv cr3" id="clkT">--:--:--</div></div>
+</div>
+<div class="wv on" style="height:22px;margin:0"><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div></div>
+</div>
+<div class="pw"><div class="pb"><div class="pf" id="pFill" style="width:0%"></div></div><div class="pm"><span id="pLbl">0/0</span><span id="pPct">0%</span></div></div>
+<div class="cs" id="curS" style="background:rgba(167,139,250,.07);border:1px solid rgba(167,139,250,.18);border-radius:8px;padding:8px 12px;font-size:.75rem;line-height:1.5;color:#c4b5fd;text-align:center;min-height:36px;margin-bottom:6px" data-i18n="processing">جارٍ...</div>
+<div class="sc" id="sntC" style="text-align:center;font-size:.65rem;color:#4b5563;font-family:monospace;margin-bottom:10px"></div>
+<button class="btn bsm" style="width:100%;justify-content:center" data-i18n="cancel" onclick="cnclDub()">⏹ إلغاء</button>
+</div>
+<div id="dubRes" style="display:none">
+<div class="rb">
+<div class="rt">🎉 <span data-i18n="ready">جاهز</span></div>
+<audio id="dubAu" controls style="width:100%;margin-bottom:10px;border-radius:8px"></audio>
+<button class="db" data-i18n="downloadWAV" onclick="dlRes()">⬇️ تنزيل WAV</button>
+<div class="yh" style="font-size:.65rem;color:#6b7280;text-align:center;margin-top:8px">📤 YouTube Studio → <span data-i18n="dubbing">دبلجة</span></div>
+</div>
+</div>
+<div class="st i" id="dubSt" style="margin-top:12px" data-i18n="checkServer">تأكد سيرفر Render شغال ثم اضغط</div>
+</div>
 </div><!-- end zone-dub -->
-
 <div class="feature-zone" id="zone-srt">
-  <!-- قفل: مترجم SRT -->
-  <div class="lock-overlay srt-lock" id="lock-srt">
-    <div class="lock-icon" id="lock-icon-srt">🔒</div>
-    <div class="lock-title" id="lock-title-srt">مترجم SRT — مقفل</div>
-    <div class="lock-free-badge" id="lock-free-srt" style="display:none">🎁 <span id="lock-free-count-srt">6</span> استخدامات مجانية</div>
-    <div class="lock-uses-left" id="lock-uses-srt" style="display:none">متبقي <strong id="lock-left-srt">0</strong> من 6 استخدامات</div>
-    <div class="lock-sub" id="lock-sub-srt">سجّل دخولك للحصول على 6 استخدامات مجانية</div>
-    <button class="lock-buy-hint srt-btn" id="lock-action-srt" onclick="lockAction('srt')" data-i18n="lockSignup">👤 سجّل للاستخدام المجاني</button>
-  </div>
-  <div class="card tp" style="border-top:4px solid #34d399">
-    <div class="card-header"><div class="card-icon" style="background:linear-gradient(135deg,#10b981,#059669)">🌐</div><span class="card-title" data-i18n="srtTranslator">مترجم SRT</span></div>
-    <div class="lbl" data-i18n="selectTransLang">1. اختر لغة الترجمة</div>
-    <div class="tg" id="transLangs"></div>
-    <div class="lbl-row"><span class="lbl" style="margin-bottom:0" data-i18n="sourceText">2. النص المصدر (SRT)</span><button class="btn bsm" style="padding:6px 10px;font-size:.7rem" data-i18n="paste" onclick="pasteSrc()">📋 لصق</button></div>
-    <textarea id="srcSRT" data-i18n-placeholder="pasteSRTContent" placeholder="الصق محتوى SRT..." style="min-height:90px;font-family:monospace;font-size:.75rem"></textarea>
-    <button class="btn bs" style="background:linear-gradient(135deg,#10b981,#059669)" data-i18n="translate" onclick="guardedAction('srt', startTrans)">🚀 ترجمة</button>
-    <div id="transRes" style="display:none;margin-top:14px">
-      <div class="trs">
-        <div class="trh"><span class="trt">✅ <span data-i18n="result">النتيجة</span></span><button class="btn bsm" style="padding:6px 10px;font-size:.7rem" data-i18n="copy" onclick="copyResult()">📋 نسخ</button></div>
-        <div class="trc" id="transOut"></div>
-        <button class="db" style="margin-top:10px" data-i18n="downloadSRT" onclick="dlTransSRT()">⬇️ تنزيل SRT</button>
-      </div>
-    </div>
-    <div class="st i" id="transSt" style="margin-top:10px" data-i18n="ready">جاهز</div>
-  </div>
-  <div class="card" style="border-top:4px solid #fbbf24">
-    <div class="card-header"><div class="card-icon" style="background:linear-gradient(135deg,#fbbf24,#f59e0b)">🧹</div><span class="card-title" data-i18n="cleanText">تنظيف النص من الفراغات</span></div>
-    <div class="lbl-row"><span class="lbl" style="margin-bottom:0" data-i18n="pasteSRTOrText">الصق نص SRT أو أي نص</span><button class="btn bsm" style="padding:6px 10px;font-size:.7rem" data-i18n="paste" onclick="pasteClean()">📋 لصق</button></div>
-    <textarea id="cleanInput" data-i18n-placeholder="pasteTextHere" placeholder="الصق النص هنا..." style="min-height:80px;font-family:monospace;font-size:.75rem;margin-bottom:10px"></textarea>
-    <div class="ctrls" style="margin-bottom:10px">
-      <label class="tbtn" style="font-size:.7rem"><input type="checkbox" id="removeNumbers" style="display:none" checked>📌 <span data-i18n="removeNumbers">حذف الأرقام</span></label>
-      <label class="tbtn" style="font-size:.7rem"><input type="checkbox" id="removeTime" style="display:none" checked>⏱️ <span data-i18n="removeTimestamps">حذف التوقيتات</span></label>
-      <label class="tbtn" style="font-size:.7rem"><input type="checkbox" id="removeEmpty" style="display:none" checked>🗑️ <span data-i18n="removeEmptyLines">حذف الأسطر الفارغة</span></label>
-    </div>
-    <button class="btn bs" style="background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#000" data-i18n="cleanTextBtn" onclick="cleanText()">🧹 تنظيف النص</button>
-    <div id="cleanResult" style="display:none">
-      <div class="clean-box">
-        <div class="clean-title">✨ <span data-i18n="textAfterClean">النص بعد التنظيف</span></div>
-        <div class="clean-output" id="cleanOutput"></div>
-        <div class="br">
-          <button class="btn bsm" style="flex:1;justify-content:center" data-i18n="copy" onclick="copyClean()">📋 نسخ</button>
-          <button class="btn bsm" style="flex:1;justify-content:center" data-i18n="download" onclick="dlClean()">⬇️ تنزيل</button>
-        </div>
-      </div>
-    </div>
-    <div class="st i" id="cleanSt" style="margin-top:10px" data-i18n="pasteAndClean">الصق نصاً واضغط تنظيف</div>
-  </div>
+<!-- قفل: مترجم SRT -->
+<div class="lock-overlay srt-lock" id="lock-srt">
+<div class="lock-icon" id="lock-icon-srt">🔒</div>
+<div class="lock-title" id="lock-title-srt">مترجم SRT — مقفل</div>
+<div class="lock-free-badge" id="lock-free-srt" style="display:none">🎁 <span id="lock-free-count-srt">6</span> استخدامات مجانية</div>
+<div class="lock-uses-left" id="lock-uses-srt" style="display:none">متبقي <strong id="lock-left-srt">0</strong> من 6 استخدامات</div>
+<div class="lock-sub" id="lock-sub-srt">سجّل دخولك للحصول على 6 استخدامات مجانية</div>
+<button class="lock-buy-hint srt-btn" id="lock-action-srt" onclick="lockAction('srt')" data-i18n="lockSignup">👤 سجّل للاستخدام المجاني</button>
+</div>
+<div class="card tp" style="border-top:4px solid #34d399">
+<div class="card-header"><div class="card-icon" style="background:linear-gradient(135deg,#10b981,#059669)">🌐</div><span class="card-title" data-i18n="srtTranslator">مترجم SRT</span></div>
+<div class="lbl" data-i18n="selectTransLang">1. اختر لغة الترجمة</div>
+<div class="tg" id="transLangs"></div>
+<div class="lbl-row"><span class="lbl" style="margin-bottom:0" data-i18n="sourceText">2. النص المصدر (SRT)</span><button class="btn bsm" style="padding:6px 10px;font-size:.7rem" data-i18n="paste" onclick="pasteSrc()">📋 لصق</button></div>
+<textarea id="srcSRT" data-i18n-placeholder="pasteSRTContent" placeholder="الصق محتوى SRT..." style="min-height:90px;font-family:monospace;font-size:.75rem"></textarea>
+<button class="btn bs" style="background:linear-gradient(135deg,#10b981,#059669)" data-i18n="translate" onclick="guardedAction('srt', startTrans)">🚀 ترجمة</button>
+<div id="transRes" style="display:none;margin-top:14px">
+<div class="trs">
+<div class="trh"><span class="trt">✅ <span data-i18n="result">النتيجة</span></span><button class="btn bsm" style="padding:6px 10px;font-size:.7rem" data-i18n="copy" onclick="copyResult()">📋 نسخ</button></div>
+<div class="trc" id="transOut"></div>
+<button class="db" style="margin-top:10px" data-i18n="downloadSRT" onclick="dlTransSRT()">⬇️ تنزيل SRT</button>
+</div>
+</div>
+<div class="st i" id="transSt" style="margin-top:10px" data-i18n="ready">جاهز</div>
+</div>
+<div class="card" style="border-top:4px solid #fbbf24">
+<div class="card-header"><div class="card-icon" style="background:linear-gradient(135deg,#fbbf24,#f59e0b)">🧹</div><span class="card-title" data-i18n="cleanText">تنظيف النص من الفراغات</span></div>
+<div class="lbl-row"><span class="lbl" style="margin-bottom:0" data-i18n="pasteSRTOrText">الصق نص SRT أو أي نص</span><button class="btn bsm" style="padding:6px 10px;font-size:.7rem" data-i18n="paste" onclick="pasteClean()">📋 لصق</button></div>
+<textarea id="cleanInput" data-i18n-placeholder="pasteTextHere" placeholder="الصق النص هنا..." style="min-height:80px;font-family:monospace;font-size:.75rem;margin-bottom:10px"></textarea>
+<div class="ctrls" style="margin-bottom:10px">
+<label class="tbtn" style="font-size:.7rem"><input type="checkbox" id="removeNumbers" style="display:none" checked>📌 <span data-i18n="removeNumbers">حذف الأرقام</span></label>
+<label class="tbtn" style="font-size:.7rem"><input type="checkbox" id="removeTime" style="display:none" checked>⏱️ <span data-i18n="removeTimestamps">حذف التوقيتات</span></label>
+<label class="tbtn" style="font-size:.7rem"><input type="checkbox" id="removeEmpty" style="display:none" checked>🗑️ <span data-i18n="removeEmptyLines">حذف الأسطر الفارغة</span></label>
+</div>
+<button class="btn bs" style="background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#000" data-i18n="cleanTextBtn" onclick="cleanText()">🧹 تنظيف النص</button>
+<div id="cleanResult" style="display:none">
+<div class="clean-box">
+<div class="clean-title">✨ <span data-i18n="textAfterClean">النص بعد التنظيف</span></div>
+<div class="clean-output" id="cleanOutput"></div>
+<div class="br">
+<button class="btn bsm" style="flex:1;justify-content:center" data-i18n="copy" onclick="copyClean()">📋 نسخ</button>
+<button class="btn bsm" style="flex:1;justify-content:center" data-i18n="download" onclick="dlClean()">⬇️ تنزيل</button>
+</div>
+</div>
+</div>
+<div class="st i" id="cleanSt" style="margin-top:10px" data-i18n="pasteAndClean">الصق نصاً واضغط تنظيف</div>
+</div>
 </div><!-- end zone-srt -->
-
 </div><!-- end .wrap -->
-
 <footer>sl-Dubbing &amp; Translation <span>· GitHub + Render · gTTS · مجاني 100%</span></footer>
-
 <!-- ===== STRIPE PAYMENT MODAL ===== -->
 <div class="modal-overlay" id="paymentModal" role="dialog" aria-modal="true" aria-label="نافذة الدفع">
-  <div class="modal-box">
-    <div class="modal-title" id="modalTitle">💳 إتمام الشراء</div>
-    <div class="modal-sub" id="modalSub">أدخل بيانات بطاقتك الائتمانية</div>
-    <div id="card-element"></div>
-    <div id="card-errors" role="alert"></div>
-    <div class="modal-actions">
-      <button class="modal-cancel" onclick="closeModal()">إلغاء</button>
-      <button class="modal-pay" id="payBtn" onclick="submitPayment()">
-        <div class="btn-spinner"></div>
-        <span class="btn-text">💳 ادفع الآن</span>
-      </button>
-    </div>
-    <div class="modal-secure">🔐 مشفّر بـ TLS · مدعوم بـ Stripe · بياناتك آمنة 100%</div>
-  </div>
+<div class="modal-box">
+<div class="modal-title" id="modalTitle">💳 إتمام الشراء</div>
+<div class="modal-sub" id="modalSub">أدخل بيانات بطاقتك الائتمانية</div>
+<div id="card-element"></div>
+<div id="card-errors" role="alert"></div>
+<div class="modal-actions">
+<button class="modal-cancel" onclick="closeModal()">إلغاء</button>
+<button class="modal-pay" id="payBtn" onclick="submitPayment()">
+<div class="btn-spinner"></div>
+<span class="btn-text">💳 ادفع الآن</span>
+</button>
 </div>
-
+<div class="modal-secure">🔐 مشفّر بـ TLS · مدعوم بـ Stripe · بياناتك آمنة 100%</div>
+</div>
+</div>
 <script>
 // =============================================================
 // ✅ AUTH SYSTEM — تسجيل الدخول + 6 استخدامات مجانية
@@ -1060,549 +963,486 @@ const FREE_LIMIT = 6;
 const AUTH_KEY   = 'alhashmi_users';
 const SESSION_KEY = 'alhashmi_session';
 const FEATURES   = ['tts', 'dub', 'srt'];
-
 // --- Storage helpers ---
 function getUsers()   { try { return JSON.parse(localStorage.getItem(AUTH_KEY) || '{}'); } catch(e) { return {}; } }
 function saveUsers(u) { try { localStorage.setItem(AUTH_KEY, JSON.stringify(u)); } catch(e) {} }
 function getSession() { try { return JSON.parse(localStorage.getItem(SESSION_KEY) || 'null'); } catch(e) { return null; } }
 function saveSession(s) { try { localStorage.setItem(SESSION_KEY, JSON.stringify(s)); } catch(e) {} }
 function clearSession() { try { localStorage.removeItem(SESSION_KEY); } catch(e) {} }
-
 // --- Current user state ---
 let currentUser = null; // { email, initial }
-
 // --- Simple hash (not for production, demo only) ---
 function simpleHash(str) {
-  let h = 0;
-  for (let i = 0; i < str.length; i++) { h = ((h << 5) - h) + str.charCodeAt(i); h |= 0; }
-  return h.toString(36);
+let h = 0;
+for (let i = 0; i < str.length; i++) { h = ((h << 5) - h) + str.charCodeAt(i); h |= 0; }
+return h.toString(36);
 }
-
 // --- Get usage data for a user ---
 function getUserData(email) {
-  const users = getUsers();
-  if (!users[email]) return null;
-  return users[email];
+const users = getUsers();
+if (!users[email]) return null;
+return users[email];
 }
-
 function getUsageLeft(email, feature) {
-  const u = getUserData(email);
-  if (!u) return 0;
-  if (u.unlocked && u.unlocked[feature]) return Infinity;
-  const used = (u.usage && u.usage[feature]) || 0;
-  return Math.max(0, FREE_LIMIT - used);
+const u = getUserData(email);
+if (!u) return 0;
+if (u.unlocked && u.unlocked[feature]) return Infinity;
+const used = (u.usage && u.usage[feature]) || 0;
+return Math.max(0, FREE_LIMIT - used);
 }
-
 function consumeUse(feature) {
-  if (!currentUser) return false;
-  const users = getUsers();
-  const u = users[currentUser.email];
-  if (!u) return false;
-  // if paid/unlocked — unlimited
-  if (u.unlocked && u.unlocked[feature]) return true;
-  u.usage = u.usage || {};
-  u.usage[feature] = (u.usage[feature] || 0) + 1;
-  saveUsers(users);
-  updateUsageUI();
-  return true;
+if (!currentUser) return false;
+const users = getUsers();
+const u = users[currentUser.email];
+if (!u) return false;
+// if paid/unlocked — unlimited
+if (u.unlocked && u.unlocked[feature]) return true;
+u.usage = u.usage || {};
+u.usage[feature] = (u.usage[feature] || 0) + 1;
+saveUsers(users);
+updateUsageUI();
+return true;
 }
-
 // --- Register ---
 function doRegister() {
-  const email = document.getElementById('reg-email').value.trim().toLowerCase();
-  const pass  = document.getElementById('reg-pass').value;
-  const pass2 = document.getElementById('reg-pass2').value;
-  const msg   = document.getElementById('register-msg');
-
-  if (!email || !email.includes('@')) { showAuthMsg('register', '⚠️ أدخل بريدًا إلكترونيًا صحيحًا', 'er'); return; }
-  if (pass.length < 8)                { showAuthMsg('register', '⚠️ كلمة المرور 8 أحرف على الأقل', 'er'); return; }
-  if (pass !== pass2)                 { showAuthMsg('register', '⚠️ كلمتا المرور غير متطابقتين', 'er'); return; }
-
-  const users = getUsers();
-  if (users[email])                   { showAuthMsg('register', '⚠️ البريد مسجّل مسبقًا، سجّل دخولك', 'er'); return; }
-
-  const btn = document.getElementById('registerBtn');
-  btn.classList.add('loading'); btn.disabled = true;
-
-  setTimeout(() => {
-    users[email] = {
-      hash: simpleHash(pass),
-      usage: { tts: 0, dub: 0, srt: 0 },
-      unlocked: {},
-      createdAt: Date.now()
-    };
-    saveUsers(users);
-    loginUser(email);
-    showAuthMsg('register', '🎉 تم إنشاء الحساب! 6 استخدامات مجانية لكل ميزة', 'ok');
-    btn.classList.remove('loading'); btn.disabled = false;
-  }, 600);
+const email = document.getElementById('reg-email').value.trim().toLowerCase();
+const pass  = document.getElementById('reg-pass').value;
+const pass2 = document.getElementById('reg-pass2').value;
+const msg   = document.getElementById('register-msg');
+if (!email || !email.includes('@')) { showAuthMsg('register', '⚠️ أدخل بريدًا إلكترونيًا صحيحًا', 'er'); return; }
+if (pass.length < 8)                { showAuthMsg('register', '⚠️ كلمة المرور 8 أحرف على الأقل', 'er'); return; }
+if (pass !== pass2)                 { showAuthMsg('register', '⚠️ كلمتا المرور غير متطابقتان', 'er'); return; }
+const users = getUsers();
+if (users[email])                   { showAuthMsg('register', '⚠️ البريد مسجّل مسبقًا، سجّل دخولك', 'er'); return; }
+const btn = document.getElementById('registerBtn');
+btn.classList.add('loading'); btn.disabled = true;
+setTimeout(() => {
+users[email] = {
+hash: simpleHash(pass),
+usage: { tts: 0, dub: 0, srt: 0 },
+unlocked: {},
+createdAt: Date.now()
+};
+saveUsers(users);
+loginUser(email);
+showAuthMsg('register', '🎉 تم إنشاء الحساب! 6 استخدامات مجانية لكل ميزة', 'ok');
+btn.classList.remove('loading'); btn.disabled = false;
+}, 600);
 }
-
 // --- Login ---
 function doLogin() {
-  const email = document.getElementById('login-email').value.trim().toLowerCase();
-  const pass  = document.getElementById('login-pass').value;
-
-  if (!email || !email.includes('@')) { showAuthMsg('login', '⚠️ أدخل البريد الإلكتروني', 'er'); return; }
-  if (!pass)                          { showAuthMsg('login', '⚠️ أدخل كلمة المرور', 'er'); return; }
-
-  const btn = document.getElementById('loginBtn');
-  btn.classList.add('loading'); btn.disabled = true;
-
-  setTimeout(() => {
-    const users = getUsers();
-    const u = users[email];
-    if (!u || u.hash !== simpleHash(pass)) {
-      showAuthMsg('login', '❌ البريد أو كلمة المرور غير صحيحة', 'er');
-      btn.classList.remove('loading'); btn.disabled = false;
-      return;
-    }
-    loginUser(email);
-    showAuthMsg('login', '✅ مرحبًا بك!', 'ok');
-    btn.classList.remove('loading'); btn.disabled = false;
-    setTimeout(() => closeAuthDropdown(), 900);
-  }, 600);
+const email = document.getElementById('login-email').value.trim().toLowerCase();
+const pass  = document.getElementById('login-pass').value;
+if (!email || !email.includes('@')) { showAuthMsg('login', '⚠️ أدخل البريد الإلكتروني', 'er'); return; }
+if (!pass)                          { showAuthMsg('login', '⚠️ أدخل كلمة المرور', 'er'); return; }
+const btn = document.getElementById('loginBtn');
+btn.classList.add('loading'); btn.disabled = true;
+setTimeout(() => {
+const users = getUsers();
+const u = users[email];
+if (!u || u.hash !== simpleHash(pass)) {
+showAuthMsg('login', '❌ البريد أو كلمة المرور غير صحيحة', 'er');
+btn.classList.remove('loading'); btn.disabled = false;
+return;
 }
-
+loginUser(email);
+showAuthMsg('login', '✅ مرحبًا بك!', 'ok');
+btn.classList.remove('loading'); btn.disabled = false;
+setTimeout(() => closeAuthDropdown(), 900);
+}, 600);
+}
 // --- Enter/set session ---
 function loginUser(email) {
-  saveSession({ email });
-  currentUser = { email, initial: email[0].toUpperCase() };
-  renderAuthState();
-  updateLockStates();
+saveSession({ email });
+currentUser = { email, initial: email[0].toUpperCase() };
+renderAuthState();
+updateLockStates();
 }
-
 // --- Logout ---
 function logoutUser() {
-  clearSession();
-  currentUser = null;
-  renderAuthState();
-  updateLockStates();
-  closeAuthDropdown();
+clearSession();
+currentUser = null;
+renderAuthState();
+updateLockStates();
+closeAuthDropdown();
 }
-
 // --- Render logged-in vs logged-out UI ---
 function renderAuthState() {
-  const loggedIn = !!currentUser;
-
-  // Update top button label
-  document.getElementById('authBtnLabel').textContent = loggedIn
-    ? currentUser.email.split('@')[0]
-    : 'تسجيل الدخول';
-
-  // Show/hide avatar vs icon in button
-  const btn = document.getElementById('authToggleBtn');
-  const svgIcon = btn.querySelector('svg:first-child');
-  let avatarEl = btn.querySelector('.auth-avatar');
-
-  if (loggedIn) {
-    if (!avatarEl) {
-      avatarEl = document.createElement('span');
-      avatarEl.className = 'auth-avatar';
-      btn.insertBefore(avatarEl, btn.firstChild);
-      if (svgIcon) svgIcon.style.display = 'none';
-    }
-    avatarEl.textContent = currentUser.initial;
-  } else {
-    if (avatarEl) avatarEl.remove();
-    if (svgIcon) svgIcon.style.display = '';
-  }
-
-  // Toggle dropdown panels
-  document.getElementById('userPanel').style.display  = loggedIn ? 'block' : 'none';
-  document.getElementById('authForms').style.display  = loggedIn ? 'none'  : 'block';
-
-  if (loggedIn) {
-    document.getElementById('userEmailDisplay').textContent = currentUser.email;
-    updateUsageUI();
-  }
+const loggedIn = !!currentUser;
+// Update top button label
+document.getElementById('authBtnLabel').textContent = loggedIn
+? currentUser.email.split('@')[0]
+: 'تسجيل الدخول';
+// Show/hide avatar vs icon in button
+const btn = document.getElementById('authToggleBtn');
+const svgIcon = btn.querySelector('svg:first-child');
+let avatarEl = btn.querySelector('.auth-avatar');
+if (loggedIn) {
+if (!avatarEl) {
+avatarEl = document.createElement('span');
+avatarEl.className = 'auth-avatar';
+btn.insertBefore(avatarEl, btn.firstChild);
+if (svgIcon) svgIcon.style.display = 'none';
 }
-
+avatarEl.textContent = currentUser.initial;
+} else {
+if (avatarEl) avatarEl.remove();
+if (svgIcon) svgIcon.style.display = '';
+}
+// Toggle dropdown panels
+document.getElementById('userPanel').style.display  = loggedIn ? 'block' : 'none';
+document.getElementById('authForms').style.display  = loggedIn ? 'none'  : 'block';
+if (loggedIn) {
+document.getElementById('userEmailDisplay').textContent = currentUser.email;
+updateUsageUI();
+}
+}
 // --- Update usage bars in dropdown ---
 function updateUsageUI() {
-  if (!currentUser) return;
-  const users = getUsers();
-  const u = users[currentUser.email];
-  if (!u) return;
-
-  FEATURES.forEach(f => {
-    const unlimited = u.unlocked && u.unlocked[f];
-    const used = (u.usage && u.usage[f]) || 0;
-    const left = unlimited ? Infinity : Math.max(0, FREE_LIMIT - used);
-    const pct  = unlimited ? 100 : (left / FREE_LIMIT) * 100;
-
-    const ucEl = document.getElementById('uc-' + f);
-    const ubEl = document.getElementById('ub-' + f);
-    if (ucEl) {
-      if (unlimited) { ucEl.textContent = '∞ مفتوح'; ucEl.className = 'usage-count unlimited'; }
-      else if (left > 0) { ucEl.textContent = left + '/' + FREE_LIMIT; ucEl.className = 'usage-count has-uses'; }
-      else { ucEl.textContent = '0/' + FREE_LIMIT + ' انتهت'; ucEl.className = 'usage-count no-uses'; }
-    }
-    if (ubEl) ubEl.style.width = Math.max(0, pct) + '%';
-  });
-
-  // plan badge
-  const anyUnlocked = FEATURES.some(f => u.unlocked && u.unlocked[f]);
-  document.getElementById('userPlanBadge').textContent = anyUnlocked ? '✨ حساب مدفوع' : '🎁 خطة مجانية (6 استخدامات/ميزة)';
+if (!currentUser) return;
+const users = getUsers();
+const u = users[currentUser.email];
+if (!u) return;
+FEATURES.forEach(f => {
+const unlimited = u.unlocked && u.unlocked[f];
+const used = (u.usage && u.usage[f]) || 0;
+const left = unlimited ? Infinity : Math.max(0, FREE_LIMIT - used);
+const pct  = unlimited ? 100 : (left / FREE_LIMIT) * 100;
+const ucEl = document.getElementById('uc-' + f);
+const ubEl = document.getElementById('ub-' + f);
+if (ucEl) {
+if (unlimited) { ucEl.textContent = '∞ مفتوح'; ucEl.className = 'usage-count unlimited'; }
+else if (left > 0) { ucEl.textContent = left + '/' + FREE_LIMIT; ucEl.className = 'usage-count has-uses'; }
+else { ucEl.textContent = '0/' + FREE_LIMIT + ' انتهت'; ucEl.className = 'usage-count no-uses'; }
 }
-
+if (ubEl) ubEl.style.width = Math.max(0, pct) + '%';
+});
+// plan badge
+const anyUnlocked = FEATURES.some(f => u.unlocked && u.unlocked[f]);
+document.getElementById('userPlanBadge').textContent = anyUnlocked ? '✨ حساب مدفوع' : '🎁 خطة مجانية (6 استخدامات/ميزة)';
+}
 // --- Update lock overlays based on auth+usage ---
 function updateLockStates() {
-  FEATURES.forEach(f => {
-    const zone   = document.getElementById('zone-' + f);
-    const lock   = document.getElementById('lock-' + f);
-    if (!zone || !lock) return;
-
-    // if paid unlock from previous session
-    const unlocked = getUnlocked();
-
-    if (unlocked[f]) {
-      // paid — fully unlock
-      lock.classList.remove('active');
-      zone.classList.add('unlocked');
-      return;
-    }
-
-    // Not paid — check auth + free uses
-    if (!currentUser) {
-      // not logged in — show "register to get free uses"
-      lock.classList.add('active');
-      zone.classList.remove('unlocked');
-      document.getElementById('lock-icon-' + f).textContent    = '🔒';
-      document.getElementById('lock-title-' + f).textContent   = getLockTitle(f);
-      document.getElementById('lock-sub-'   + f).textContent   = f==='dub' ? 'سجّل للتجربة المجانية (30 ث) أو اشترِ للملف الكامل' : 'سجّل دخولك للحصول على 6 استخدامات مجانية';
-      document.getElementById('lock-free-'  + f).style.display = 'none';
-      document.getElementById('lock-uses-'  + f).style.display = 'none';
-      const ab = document.getElementById('lock-action-' + f);
-      ab.textContent = '👤 سجّل للاستخدام المجاني';
-      ab.className = 'lock-buy-hint ' + f + '-btn';
-      ab.onclick = () => { openAuthDropdown(); };
-      return;
-    }
-
-    // Logged in — check uses
-    const left = getUsageLeft(currentUser.email, f);
-    if (left === Infinity) {
-      // paid
-      lock.classList.remove('active');
-      zone.classList.add('unlocked');
-    } else if (left > 0) {
-      // has free uses — unlock
-      lock.classList.remove('active');
-      zone.classList.add('unlocked');
-    } else {
-      // used up free uses — show buy prompt
-      lock.classList.add('active');
-      zone.classList.remove('unlocked');
-      document.getElementById('lock-icon-' + f).textContent    = '⛔';
-      document.getElementById('lock-title-' + f).textContent   = 'انتهت الاستخدامات المجانية';
-      document.getElementById('lock-sub-'   + f).textContent   = 'اشترِ الميزة للاستمرار بدون قيود';
-      document.getElementById('lock-free-'  + f).style.display = 'none';
-      document.getElementById('lock-uses-'  + f).style.display = 'none';
-      const ab = document.getElementById('lock-action-' + f);
-      ab.textContent = getBuyLabel(f);
-      ab.className = 'lock-buy-hint ' + f + '-btn';
-      ab.onclick = () => startCheckout(f);
-    }
-  });
+FEATURES.forEach(f => {
+const zone   = document.getElementById('zone-' + f);
+const lock   = document.getElementById('lock-' + f);
+if (!zone || !lock) return;
+// if paid unlock from previous session
+const unlocked = getUnlocked();
+if (unlocked[f]) {
+// paid — fully unlock
+lock.classList.remove('active');
+zone.classList.add('unlocked');
+return;
 }
-
+// Not paid — check auth + free uses
+if (!currentUser) {
+// not logged in — show "register to get free uses"
+lock.classList.add('active');
+zone.classList.remove('unlocked');
+document.getElementById('lock-icon-' + f).textContent    = '🔒';
+document.getElementById('lock-title-' + f).textContent   = getLockTitle(f);
+document.getElementById('lock-sub-'   + f).textContent   = f==='dub' ? 'سجّل للتجربة المجانية (30 ث) أو اشترِ للملف الكامل' : 'سجّل دخولك للحصول على 6 استخدامات مجانية';
+document.getElementById('lock-free-'  + f).style.display = 'none';
+document.getElementById('lock-uses-'  + f).style.display = 'none';
+const ab = document.getElementById('lock-action-' + f);
+ab.textContent = '👤 سجّل للاستخدام المجاني';
+ab.className = 'lock-buy-hint ' + f + '-btn';
+ab.onclick = () => { openAuthDropdown(); };
+return;
+}
+// Logged in — check uses
+const left = getUsageLeft(currentUser.email, f);
+if (left === Infinity) {
+// paid
+lock.classList.remove('active');
+zone.classList.add('unlocked');
+} else if (left > 0) {
+// has free uses — unlock
+lock.classList.remove('active');
+zone.classList.add('unlocked');
+} else {
+// used up free uses — show buy prompt
+lock.classList.add('active');
+zone.classList.remove('unlocked');
+document.getElementById('lock-icon-' + f).textContent    = '⛔';
+document.getElementById('lock-title-' + f).textContent   = 'انتهت الاستخدامات المجانية';
+document.getElementById('lock-sub-'   + f).textContent   = 'اشترِ الميزة للاستمرار بدون قيود';
+document.getElementById('lock-free-'  + f).style.display = 'none';
+document.getElementById('lock-uses-'  + f).style.display = 'none';
+const ab = document.getElementById('lock-action-' + f);
+ab.textContent = getBuyLabel(f);
+ab.className = 'lock-buy-hint ' + f + '-btn';
+ab.onclick = () => startCheckout(f);
+}
+});
+}
 function getLockTitle(f) {
-  return { tts: 'نطق النص — مقفل', dub: 'الدبلجة — مقفلة', srt: 'مترجم SRT — مقفل' }[f];
+return { tts: 'نطق النص — مقفل', dub: 'الدبلجة — مقفلة', srt: 'مترجم SRT — مقفل' }[f];
 }
 function getBuyLabel(f) {
-  return { tts: '💎 اشترِ مقابل $10', dub: '🚀 اشترِ مقابل $50', srt: '🌍 اشترِ مقابل $10' }[f];
+return { tts: '💎 اشترِ مقابل $10', dub: '🚀 اشترِ مقابل $50', srt: '🌍 اشترِ مقابل $10' }[f];
 }
-
 // Wrap each feature action to consume a use
 function guardedAction(feature, action) {
-  if (!currentUser) { openAuthDropdown(); return false; }
-  const left = getUsageLeft(currentUser.email, feature);
-  if (left === Infinity) { action(); return true; }
-  if (left <= 0) {
-    updateLockStates(); // re-show lock
-    return false;
-  }
-  consumeUse(feature);
-  action();
-  // warn if only 1-2 left
-  const newLeft = getUsageLeft(currentUser.email, feature);
-  if (newLeft <= 2 && newLeft > 0) {
-    showToast(`⚠️ تبقّى ${newLeft} استخدام مجاني فقط!`, 'wn');
-  } else if (newLeft === 0) {
-    setTimeout(() => updateLockStates(), 500);
-  }
-  return true;
+if (!currentUser) { openAuthDropdown(); return false; }
+const left = getUsageLeft(currentUser.email, feature);
+if (left === Infinity) { action(); return true; }
+if (left <= 0) {
+updateLockStates(); // re-show lock
+return false;
 }
-
+consumeUse(feature);
+action();
+// warn if only 1-2 left
+const newLeft = getUsageLeft(currentUser.email, feature);
+if (newLeft <= 2 && newLeft > 0) {
+showToast(`⚠️ تبقّى ${newLeft} استخدام مجاني فقط!`, 'wn');
+} else if (newLeft === 0) {
+setTimeout(() => updateLockStates(), 500);
+}
+return true;
+}
 // --- Auth dropdown toggle ---
 function toggleAuthDropdown() {
-  const dd = document.getElementById('authDropdown');
-  dd.classList.toggle('show');
-  // close lang dropdown
-  document.getElementById('langDropdown').classList.remove('show');
+const dd = document.getElementById('authDropdown');
+dd.classList.toggle('show');
+// close lang dropdown
+document.getElementById('langDropdown').classList.remove('show');
 }
 function openAuthDropdown() {
-  document.getElementById('authDropdown').classList.add('show');
-  document.getElementById('langDropdown').classList.remove('show');
+document.getElementById('authDropdown').classList.add('show');
+document.getElementById('langDropdown').classList.remove('show');
 }
 function closeAuthDropdown() {
-  document.getElementById('authDropdown').classList.remove('show');
+document.getElementById('authDropdown').classList.remove('show');
 }
 function lockAction(f) {
-  if (!currentUser) openAuthDropdown();
-  else startCheckout(f);
+if (!currentUser) openAuthDropdown();
+else startCheckout(f);
 }
-
 // --- Auth tab switch ---
 function switchAuthTab(tab) {
-  document.getElementById('form-login').style.display    = tab === 'login'    ? 'block' : 'none';
-  document.getElementById('form-register').style.display = tab === 'register' ? 'block' : 'none';
-  document.getElementById('tab-login').classList.toggle('on',    tab === 'login');
-  document.getElementById('tab-register').classList.toggle('on', tab === 'register');
+document.getElementById('form-login').style.display    = tab === 'login'    ? 'block' : 'none';
+document.getElementById('form-register').style.display = tab === 'register' ? 'block' : 'none';
+document.getElementById('tab-login').classList.toggle('on',    tab === 'login');
+document.getElementById('tab-register').classList.toggle('on', tab === 'register');
 }
 function showAuthMsg(form, msg, type) {
-  const el = document.getElementById(form + '-msg');
-  if (!el) return;
-  el.textContent = msg;
-  el.className = 'auth-msg ' + type;
+const el = document.getElementById(form + '-msg');
+if (!el) return;
+el.textContent = msg;
+el.className = 'auth-msg ' + type;
 }
-
 // Toast notification
 function showToast(msg, type) {
-  const colors = { ok:'#059669,#10b981', er:'#dc2626,#ef4444', wn:'#d97706,#f59e0b' };
-  const c = colors[type] || colors.ok;
-  const n = document.createElement('div');
-  n.style.cssText = `position:fixed;top:24px;left:50%;transform:translateX(-50%);z-index:9999;background:linear-gradient(135deg,${c});color:white;padding:11px 22px;border-radius:12px;font-weight:700;font-size:.82rem;box-shadow:0 8px 30px rgba(0,0,0,.4);transition:opacity .5s;white-space:nowrap`;
-  n.textContent = msg;
-  document.body.appendChild(n);
-  setTimeout(() => { n.style.opacity = '0'; setTimeout(() => n.remove(), 500); }, 2800);
+const colors = { ok:'#059669,#10b981', er:'#dc2626,#ef4444', wn:'#d97706,#f59e0b' };
+const c = colors[type] || colors.ok;
+const n = document.createElement('div');
+n.style.cssText = `position:fixed;top:24px;left:50%;transform:translateX(-50%);z-index:9999;background:linear-gradient(135deg,${c});color:white;padding:11px 22px;border-radius:12px;font-weight:700;font-size:.82rem;box-shadow:0 8px 30px rgba(0,0,0,.4);transition:opacity .5s;white-space:nowrap`;
+n.textContent = msg;
+document.body.appendChild(n);
+setTimeout(() => { n.style.opacity = '0'; setTimeout(() => n.remove(), 500); }, 2800);
 }
-
 // Init auth on page load
 function initAuth() {
-  const s = getSession();
-  if (s && s.email) {
-    const users = getUsers();
-    if (users[s.email]) {
-      currentUser = { email: s.email, initial: s.email[0].toUpperCase() };
-    } else {
-      clearSession();
-    }
-  }
-  renderAuthState();
-  updateLockStates();
+const s = getSession();
+if (s && s.email) {
+const users = getUsers();
+if (users[s.email]) {
+currentUser = { email: s.email, initial: s.email[0].toUpperCase() };
+} else {
+clearSession();
 }
-
+}
+renderAuthState();
+updateLockStates();
+}
 // Close auth dropdown when clicking outside
 document.addEventListener('click', function(e) {
-  const sw = document.getElementById('authSwitcher');
-  if (sw && !sw.contains(e.target)) closeAuthDropdown();
-  const langSwitcher = document.querySelector('.lang-switcher');
-  if (!langSwitcher.contains(e.target)) document.getElementById('langDropdown').classList.remove('show');
+const sw = document.getElementById('authSwitcher');
+if (sw && !sw.contains(e.target)) closeAuthDropdown();
+const langSwitcher = document.querySelector('.lang-switcher');
+if (!langSwitcher.contains(e.target)) document.getElementById('langDropdown').classList.remove('show');
 });
-
 // Enter key support for forms
 document.addEventListener('keydown', e => {
-  if (e.key === 'Enter') {
-    const ld = document.getElementById('authDropdown');
-    if (!ld.classList.contains('show')) return;
-    const loginActive = document.getElementById('form-login').style.display !== 'none';
-    if (loginActive) doLogin(); else doRegister();
-  }
+if (e.key === 'Enter') {
+const ld = document.getElementById('authDropdown');
+if (!ld.classList.contains('show')) return;
+const loginActive = document.getElementById('form-login').style.display !== 'none';
+if (loginActive) doLogin(); else doRegister();
+}
 });
-
 // =============================================================
 // ✅ STRIPE INTEGRATION
 // المفتاح العام فقط هنا — المفتاح السري يجب أن يكون في backend
 // =============================================================
 const STRIPE_PUBLISHABLE_KEY = 'pk_test_51T5xbIP6zLi6lDoxZFqc1eiXuIjAJEkCLROLyTcNuqh5ER1n49V9vELPZkDWNTPVxYOKB8rJ02wwHbbgHXeG8Nr500mM0PuzBi';
-
 // معرّفات الأسعار من Stripe Dashboard
 const PRICE_IDS = {
-  tts: 'price_1QxL62P6zLi6lDoxE7p7p7p7',  // $10 - نطق النص
-  dub: 'price_1QxLB4P6zLi6lDoxT8u9i0oP',  // $50 - الدبلجة
-  srt: 'price_1QxLCJP6zLi6lDoxW2q3r4s5'   // $10 - مترجم SRT
+tts: 'price_1QxL62P6zLi6lDoxE7p7p7p7',  // $10 - نطق النص
+dub: 'price_1QxLB4P6zLi6lDoxT8u9i0oP',  // $50 - الدبلجة
+srt: 'price_1QxLCJP6zLi6lDoxW2q3r4s5'   // $10 - مترجم SRT
 };
-
 const PRODUCT_INFO = {
-  tts: { title: '💎 تفعيل النطق مدى الحياة', price: '$10', sub: 'ادفع $10 مرة واحدة فقط' },
-  dub: { title: '🚀 فتح الدبلجة مدى الحياة', price: '$50', sub: 'ادفع $50 مرة واحدة فقط' },
-  srt: { title: '🌍 شراء المترجم مدى الحياة', price: '$10', sub: 'ادفع $10 مرة واحدة فقط' }
+tts: { title: '💎 تفعيل النطق مدى الحياة', price: '$10', sub: 'ادفع $10 مرة واحدة فقط' },
+dub: { title: '🚀 فتح الدبلجة مدى الحياة', price: '$50', sub: 'ادفع $50 مرة واحدة فقط' },
+srt: { title: '🌍 شراء المترجم مدى الحياة', price: '$10', sub: 'ادفع $10 مرة واحدة فقط' }
 };
-
 let stripe, cardElement, currentProduct = null;
-
 // تهيئة Stripe عند تحميل الصفحة
 function initStripe() {
-  try {
-    stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
-    const elements = stripe.elements({
-      appearance: {
-        theme: 'night',
-        variables: {
-          colorPrimary: '#a78bfa',
-          colorBackground: '#111128',
-          colorText: '#e0e0ff',
-          colorDanger: '#f87171',
-          fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif',
-          spacingUnit: '4px',
-          borderRadius: '8px',
-        }
-      }
-    });
-    cardElement = elements.create('card', {
-      style: {
-        base: {
-          color: '#e0e0ff',
-          fontFamily: '"Segoe UI", Tahoma, sans-serif',
-          fontSize: '15px',
-          '::placeholder': { color: '#4b5563' },
-          iconColor: '#a78bfa'
-        },
-        invalid: { color: '#f87171', iconColor: '#f87171' }
-      }
-    });
-    cardElement.mount('#card-element');
-    cardElement.on('change', e => {
-      document.getElementById('card-errors').textContent = e.error ? e.error.message : '';
-    });
-    cardElement.on('focus', () => document.getElementById('card-element').classList.add('focused'));
-    cardElement.on('blur', () => document.getElementById('card-element').classList.remove('focused'));
-  } catch(e) {
-    console.warn('Stripe init failed:', e);
-  }
+try {
+stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
+const elements = stripe.elements({
+appearance: {
+theme: 'night',
+variables: {
+colorPrimary: '#a78bfa',
+colorBackground: '#111128',
+colorText: '#e0e0ff',
+colorDanger: '#f87171',
+fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif',
+spacingUnit: '4px',
+borderRadius: '8px',
 }
-
+}
+});
+cardElement = elements.create('card', {
+style: {
+base: {
+color: '#e0e0ff',
+fontFamily: '"Segoe UI", Tahoma, sans-serif',
+fontSize: '15px',
+'::placeholder': { color: '#4b5563' },
+iconColor: '#a78bfa'
+},
+invalid: { color: '#f87171', iconColor: '#f87171' }
+}
+});
+cardElement.mount('#card-element');
+cardElement.on('change', e => {
+document.getElementById('card-errors').textContent = e.error ? e.error.message : '';
+});
+cardElement.on('focus', () => document.getElementById('card-element').classList.add('focused'));
+cardElement.on('blur', () => document.getElementById('card-element').classList.remove('focused'));
+} catch(e) {
+console.warn('Stripe init failed:', e);
+}
+}
 // فتح نافذة الدفع
 function startCheckout(product) {
-  currentProduct = product;
-  const info = PRODUCT_INFO[product];
-  document.getElementById('modalTitle').textContent = info.title + ' — ' + info.price;
-  document.getElementById('modalSub').textContent = info.sub;
-  document.getElementById('card-errors').textContent = '';
-  document.getElementById('paymentModal').classList.add('show');
-  document.body.style.overflow = 'hidden';
-  if (!stripe) initStripe();
+currentProduct = product;
+const info = PRODUCT_INFO[product];
+document.getElementById('modalTitle').textContent = info.title + ' — ' + info.price;
+document.getElementById('modalSub').textContent = info.sub;
+document.getElementById('card-errors').textContent = '';
+document.getElementById('paymentModal').classList.add('show');
+document.body.style.overflow = 'hidden';
+if (!stripe) initStripe();
 }
-
 // إغلاق نافذة الدفع
 function closeModal() {
-  document.getElementById('paymentModal').classList.remove('show');
-  document.body.style.overflow = '';
-  const payBtn = document.getElementById('payBtn');
-  payBtn.classList.remove('loading');
-  payBtn.disabled = false;
+document.getElementById('paymentModal').classList.remove('show');
+document.body.style.overflow = '';
+const payBtn = document.getElementById('payBtn');
+payBtn.classList.remove('loading');
+payBtn.disabled = false;
 }
-
 // إتمام الدفع
 async function submitPayment() {
-  if (!stripe || !cardElement || !currentProduct) return;
-
-  const payBtn = document.getElementById('payBtn');
-  payBtn.classList.add('loading');
-  payBtn.disabled = true;
-  document.getElementById('card-errors').textContent = '';
-
-  try {
-    // ⚠️ هنا يجب استدعاء backend الخاص بك لإنشاء PaymentIntent
-    // السيرفر يستخدم sk_test_... لإنشاء client_secret
-    // مثال: const res = await fetch('https://dubbing-api-v2.onrender.com/api/create-payment-intent', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({ price_id: PRICE_IDS[currentProduct] })
-    // });
-    // const { client_secret } = await res.json();
-
-    // للتجربة مؤقتاً — استخدم Stripe Checkout بدلاً من PaymentIntent:
-    const { error } = await stripe.createPaymentMethod({
-      type: 'card',
-      card: cardElement,
-    });
-
-    if (error) {
-      document.getElementById('card-errors').textContent = error.message;
-      payBtn.classList.remove('loading');
-      payBtn.disabled = false;
-      return;
-    }
-
-    // ✅ نجح — أظهر رسالة نجاح
-    closeModal();
-    showPaymentSuccess(currentProduct);
-
-  } catch (err) {
-    document.getElementById('card-errors').textContent = 'حدث خطأ. يرجى المحاولة مجدداً.';
-    payBtn.classList.remove('loading');
-    payBtn.disabled = false;
-  }
+if (!stripe || !cardElement || !currentProduct) return;
+const payBtn = document.getElementById('payBtn');
+payBtn.classList.add('loading');
+payBtn.disabled = true;
+document.getElementById('card-errors').textContent = '';
+try {
+// ⚠️ هنا يجب استدعاء backend الخاص بك لإنشاء PaymentIntent
+// السيرفر يستخدم sk_test_... لإنشاء client_secret
+// مثال: const res = await fetch('https://dubbing-api-v2.onrender.com/api/create-payment-intent', {
+//   method: 'POST',
+//   headers: { 'Content-Type': 'application/json' },
+//   body: JSON.stringify({ price_id: PRICE_IDS[currentProduct] })
+// });
+// const { client_secret } = await res.json();
+// للتجربة مؤقتاً — استخدم Stripe Checkout بدلاً من PaymentIntent:
+const { error } = await stripe.createPaymentMethod({
+type: 'card',
+card: cardElement,
+});
+if (error) {
+document.getElementById('card-errors').textContent = error.message;
+payBtn.classList.remove('loading');
+payBtn.disabled = false;
+return;
 }
-
+// ✅ نجح — أظهر رسالة نجاح
+closeModal();
+showPaymentSuccess(currentProduct);
+} catch (err) {
+document.getElementById('card-errors').textContent = 'حدث خطأ. يرجى المحاولة مجدداً.';
+payBtn.classList.remove('loading');
+payBtn.disabled = false;
+}
+}
 // === حالة الشراء (localStorage للحفظ بعد إغلاق المتصفح) ===
 const UNLOCK_KEY = 'alhashmi_unlocked';
 function getUnlocked() {
-  try { return JSON.parse(localStorage.getItem(UNLOCK_KEY) || '{}'); } catch(e) { return {}; }
+try { return JSON.parse(localStorage.getItem(UNLOCK_KEY) || '{}'); } catch(e) { return {}; }
 }
 function saveUnlocked(product) {
-  const u = getUnlocked(); u[product] = true;
-  try { localStorage.setItem(UNLOCK_KEY, JSON.stringify(u)); } catch(e) {}
+const u = getUnlocked(); u[product] = true;
+try { localStorage.setItem(UNLOCK_KEY, JSON.stringify(u)); } catch(e) {}
 }
-
 // تطبيق حالة الفتح عند تحميل الصفحة
 function applyUnlockStates() {
-  const u = getUnlocked();
-  if (u.tts) unlockZone('tts', false);
-  if (u.dub) unlockZone('dub', false);
-  if (u.srt) unlockZone('srt', false);
+const u = getUnlocked();
+if (u.tts) unlockZone('tts', false);
+if (u.dub) unlockZone('dub', false);
+if (u.srt) unlockZone('srt', false);
 }
-
 // فتح منطقة الميزة
 function unlockZone(product, animate = true) {
-  const zone = document.getElementById('zone-' + product);
-  const lock = document.getElementById('lock-' + product);
-  if (!zone || !lock) return;
-  lock.classList.remove('active');
-  zone.classList.add('unlocked');
-  if (animate) {
-    zone.querySelectorAll('.card').forEach((c, i) => {
-      c.style.animationDelay = (i * 0.08) + 's';
-    });
-  }
-  // تحديث زر الشراء في قسم المتجر
-  const btn = document.getElementById('btn-' + product);
-  if (btn) {
-    btn.style.background = 'linear-gradient(135deg,#059669,#10b981)';
-    btn.innerHTML = '<span class="btn-text">✅ مفعّل مدى الحياة</span>';
-    btn.disabled = true;
-  }
+const zone = document.getElementById('zone-' + product);
+const lock = document.getElementById('lock-' + product);
+if (!zone || !lock) return;
+lock.classList.remove('active');
+zone.classList.add('unlocked');
+if (animate) {
+zone.querySelectorAll('.card').forEach((c, i) => {
+c.style.animationDelay = (i * 0.08) + 's';
+});
 }
-
+// تحديث زر الشراء في قسم المتجر
+const btn = document.getElementById('btn-' + product);
+if (btn) {
+btn.style.background = 'linear-gradient(135deg,#059669,#10b981)';
+btn.innerHTML = '<span class="btn-text">✅ مفعّل مدى الحياة</span>';
+btn.disabled = true;
+}
+}
 // رسالة نجاح الدفع
 function showPaymentSuccess(product) {
-  saveUnlocked(product);
-
-  // Also mark in user record if logged in
-  if (currentUser) {
-    const users = getUsers();
-    if (users[currentUser.email]) {
-      users[currentUser.email].unlocked = users[currentUser.email].unlocked || {};
-      users[currentUser.email].unlocked[product] = true;
-      saveUsers(users);
-      updateUsageUI();
-    }
-  }
-
-  unlockZone(product, true);
-  updateLockStates();
-
-  showToast('🎉 تم الدفع بنجاح! الميزة مفعّلة مدى الحياة.', 'ok');
+saveUnlocked(product);
+// Also mark in user record if logged in
+if (currentUser) {
+const users = getUsers();
+if (users[currentUser.email]) {
+users[currentUser.email].unlocked = users[currentUser.email].unlocked || {};
+users[currentUser.email].unlocked[product] = true;
+saveUsers(users);
+updateUsageUI();
 }
-
+}
+unlockZone(product, true);
+updateLockStates();
+showToast('🎉 تم الدفع بنجاح! الميزة مفعّلة مدى الحياة.', 'ok');
+}
 // إغلاق المودال عند النقر خارجه
 document.getElementById('paymentModal').addEventListener('click', function(e) {
-  if (e.target === this) closeModal();
+if (e.target === this) closeModal();
 });
-
 // =============================================================
 // ORIGINAL APP CODE (unchanged)
 // =============================================================
@@ -1610,18 +1450,16 @@ const translations={
 ar:{subtitle:'دبلجة وترجمة احترافية',subscribe:'اشترك في القناة',ttsTitle:'نطق النص',selectLanguage:'اختر اللغة',voice:'الصوت',typeText:'اكتب النص...',speed:'السرعة',pitch:'الطبقة',volume:'الصوت',speak:'نطق',typeAndSpeak:'👋 اكتب نصاً واضغط نطق',audioFilters:'الفلاتر الصوتية',resetFilters:'🔄 إعادة تعيين',presetMale:'👨 رجالي',presetRadio:'📻 راديو',presetWarm:'🌟 دافئ',presetFast:'⚡ سريع',dubLang:'لغة الدبلجة',srtFile:'ملف SRT',dragOrClick:'اسحب أو اضغط',srtOrTxt:'.srt أو .txt',orPaste:'أو الصق المحتوى',pasteSRT:'1\n00:00:00,000 --> 00:00:02,000\nالنص...',analyzeFile:'📥 تحليل الملف',sentences:'جملة',copy:'📋 نسخ',generate:'التوليد',silentProcessing:'معالجة <strong>صامتة</strong> عبر سيرفر سحابي',syncTiming:'تزامن دقيق مع توقيتات SRT',wavFile:'ملف WAV لـ YouTube Dubbing',generateDub:'توليد الدبلجة',requiresServer:'يتطلب سيرفر Render شغال',processing:'جارٍ...',remaining:'المتبقي',elapsed:'مضى',total:'المجموع',cancel:'⏹ إلغاء',ready:'جاهز',downloadWAV:'⬇️ تنزيل WAV',dubbing:'دبلجة',checkServer:'تأكد سيرفر Render شغال ثم اضغط',srtTranslator:'مترجم SRT',selectTransLang:'1. اختر لغة الترجمة',sourceText:'2. النص المصدر (SRT)',paste:'📋 لصق',pasteSRTContent:'الصق محتوى SRT...',translate:'🚀 ترجمة',result:'النتيجة',downloadSRT:'⬇️ تنزيل SRT',cleanText:'تنظيف النص من الفراغات',pasteSRTOrText:'الصق نص SRT أو أي نص',pasteTextHere:'الصق النص هنا...',removeNumbers:'حذف الأرقام',removeTimestamps:'حذف التوقيتات',removeEmptyLines:'حذف الأسطر الفارغة',cleanTextBtn:'🧹 تنظيف النص',textAfterClean:'النص بعد التنظيف',download:'⬇️ تنزيل',pasteAndClean:'الصق نصاً واضغط تنظيف',footer:'للدبلجة والترجمة · GitHub + Render · gTTS · مجاني 100%',lang_ar:'العربية',lang_en:'الإنجليزية',lang_ru:'الروسية',lang_tr:'التركية',lang_fr:'الفرنسية',lang_de:'الألمانية',lang_es:'الإسبانية',lang_zh:'الصينية',lang_hi:'الهندية',lang_fa:'الفارسية',lang_it:'الإيطالية',lang_nl:'الهولندية',lang_sv:'السويدية',shopTitle:'🛒 المتجر — ترقية الحساب',shopSub:'ادفع مرة واحدة واستمتع مدى الحياة · مدعوم بـ Stripe',ttsBadge:'✏️ نطق النص',ttsCardTitle:'تفعيل النطق مدى الحياة',ttsCardDesc:'نطق نصوص غير محدودة بأصوات متعددة اللغات دون قيود',dubBadge:'🎬 دبلجة',dubCardTitle:'فتح الدبلجة مدى الحياة',dubCardDesc:'دبلجة SRT كاملة بلا حدود — التجربة المجانية: أول 30 ثانية فقط',srtBadge:'🌐 مترجم',srtCardTitle:'شراء المترجم مدى الحياة',srtCardDesc:'ترجمة ملفات SRT إلى أكثر من 13 لغة بنقرة واحدة',lifetime:'مدى الحياة',buyNow:'💳 شراء الآن',securePayment:'🔒 دفع آمن عبر Stripe',loginBtn:'تسجيل الدخول',loginTab:'تسجيل الدخول',registerTab:'إنشاء حساب',loginSubmit:'🔐 دخول',registerSubmit:'🚀 إنشاء حساب مجاني',logout:'🚪 تسجيل الخروج',usageTitle:'📊 الاستخدام المجاني المتبقي',freePlan:'خطة مجانية (6 استخدامات/ميزة)',lockSignup:'👤 سجّل للاستخدام المجاني',authBtnLabel:'تسجيل الدخول'},
 en:{subtitle:'Professional Dubbing & Translation',subscribe:'Subscribe',ttsTitle:'Text to Speech',selectLanguage:'Select Language',voice:'Voice',typeText:'Type text...',speed:'Speed',pitch:'Pitch',volume:'Volume',speak:'Speak',typeAndSpeak:'👋 Type text and click Speak',audioFilters:'Audio Filters',resetFilters:'🔄 Reset Filters',presetMale:'👨 Male',presetRadio:'📻 Radio',presetWarm:'🌟 Warm',presetFast:'⚡ Fast',dubLang:'Dubbing Language',srtFile:'SRT File',dragOrClick:'Drag or Click',srtOrTxt:'.srt or .txt',orPaste:'Or paste content',pasteSRT:'1\n00:00:00,000 --> 00:00:02,000\nText...',analyzeFile:'📥 Analyze File',sentences:'sentences',copy:'📋 Copy',generate:'Generate',silentProcessing:'<strong>Silent</strong> processing via cloud server',syncTiming:'Precise sync with SRT timings',wavFile:'WAV file for YouTube Dubbing',generateDub:'Generate Dubbing',requiresServer:'Requires Render server running',processing:'Processing...',remaining:'Remaining',elapsed:'Elapsed',total:'Total',cancel:'⏹ Cancel',ready:'Ready',downloadWAV:'⬇️ Download WAV',dubbing:'Dubbing',checkServer:'Make sure Render server is running',srtTranslator:'SRT Translator',selectTransLang:'1. Select translation language',sourceText:'2. Source text (SRT)',paste:'📋 Paste',pasteSRTContent:'Paste SRT content...',translate:'🚀 Translate',result:'Result',downloadSRT:'⬇️ Download SRT',cleanText:'Text Cleaner',pasteSRTOrText:'Paste SRT or any text',pasteTextHere:'Paste text here...',removeNumbers:'Remove numbers',removeTimestamps:'Remove timestamps',removeEmptyLines:'Remove empty lines',cleanTextBtn:'🧹 Clean Text',textAfterClean:'Text after cleaning',download:'⬇️ Download',pasteAndClean:'Paste text and click Clean',footer:'Dubbing & Translation · GitHub + Render · gTTS · 100% Free',lang_ar:'Arabic',lang_en:'English',lang_ru:'Russian',lang_tr:'Turkish',lang_fr:'French',lang_de:'German',lang_es:'Spanish',lang_zh:'Chinese',lang_hi:'Hindi',lang_fa:'Persian',lang_it:'Italian',lang_nl:'Dutch',lang_sv:'Swedish',shopTitle:'🛒 Store — Upgrade Account',shopSub:'Pay once · enjoy forever · powered by Stripe',ttsBadge:'✏️ Text to Speech',ttsCardTitle:'Activate TTS for Life',ttsCardDesc:'Unlimited TTS with multi-language voices, no limits',dubBadge:'🎬 Dubbing',dubCardTitle:'Unlock Dubbing for Life',dubCardDesc:'Full SRT dubbing — Free trial: first 30 seconds only',srtBadge:'🌐 Translator',srtCardTitle:'Buy SRT Translator for Life',srtCardDesc:'Translate SRT files to 13+ languages in one click',lifetime:'Lifetime',buyNow:'💳 Buy Now',securePayment:'🔒 Secure payment via Stripe',loginBtn:'Login',loginTab:'Login',registerTab:'Create Account',loginSubmit:'🔐 Sign In',registerSubmit:'🚀 Create Free Account',logout:'🚪 Sign Out',usageTitle:'📊 Free Usage Remaining',freePlan:'Free plan (6 uses/feature)',lockSignup:'👤 Sign up for free',authBtnLabel:'Login'},
 ru:{subtitle:'Профессиональный дубляж и перевод',subscribe:'Подписаться',ttsTitle:'Текст в речь',selectLanguage:'Выбрать язык',voice:'Голос',typeText:'Введите текст...',speed:'Скорость',pitch:'Тональность',volume:'Громкость',speak:'Говорить',typeAndSpeak:'👋 Введите текст и нажмите Говорить',audioFilters:'Аудио фильтры',resetFilters:'🔄 Сбросить',presetMale:'👨 Мужской',presetRadio:'📻 Радио',presetWarm:'🌟 Тёплый',presetFast:'⚡ Быстрый',dubLang:'Язык дубляжа',srtFile:'SRT файл',dragOrClick:'Перетащите или нажмите',srtOrTxt:'.srt или .txt',orPaste:'Или вставьте содержимое',analyzeFile:'📥 Анализировать',sentences:'предложений',copy:'📋 Копировать',generate:'Генерация',generateDub:'Создать дубляж',requiresServer:'Требуется сервер Render',processing:'Обработка...',remaining:'Осталось',elapsed:'Прошло',total:'Итого',cancel:'⏹ Отмена',ready:'Готово',downloadWAV:'⬇️ Скачать WAV',dubbing:'Дубляж',checkServer:'Убедитесь что сервер запущен',srtTranslator:'SRT переводчик',selectTransLang:'1. Выберите язык перевода',sourceText:'2. Исходный текст (SRT)',paste:'📋 Вставить',translate:'🚀 Перевести',result:'Результат',downloadSRT:'⬇️ Скачать SRT',cleanText:'Очистка текста',pasteSRTOrText:'Вставьте SRT или любой текст',pasteTextHere:'Вставьте текст...',removeNumbers:'Удалить номера',removeTimestamps:'Удалить временные метки',removeEmptyLines:'Удалить пустые строки',cleanTextBtn:'🧹 Очистить',textAfterClean:'Текст после очистки',download:'⬇️ Скачать',pasteAndClean:'Вставьте и нажмите Очистить',footer:'Дубляж и перевод · GitHub + Render · gTTS · 100% бесплатно',lang_ar:'Арабский',lang_en:'Английский',lang_ru:'Русский',lang_tr:'Турецкий',lang_fr:'Французский',lang_de:'Немецкий',lang_es:'Испанский',lang_sv:'Шведский',shopTitle:'🛒 Магазин — Улучшение',shopSub:'Платите один раз · пользуйтесь вечно · Stripe',ttsBadge:'✏️ Текст в речь',ttsCardTitle:'Активировать TTS навсегда',ttsCardDesc:'Безлимитный TTS с многоязычными голосами',dubBadge:'🎬 Дубляж',dubCardTitle:'Разблокировать дубляж навсегда',dubCardDesc:'Полный дубляж SRT — Пробная версия: первые 30 секунд',srtBadge:'🌐 Переводчик',srtCardTitle:'Купить SRT переводчик навсегда',srtCardDesc:'Перевод SRT файлов на 13+ языков',lifetime:'Навсегда',buyNow:'💳 Купить',securePayment:'🔒 Безопасный платёж через Stripe',loginBtn:'Войти',loginTab:'Войти',registerTab:'Создать аккаунт',loginSubmit:'🔐 Войти',registerSubmit:'🚀 Создать бесплатный аккаунт',logout:'🚪 Выйти',usageTitle:'📊 Осталось бесплатных использований',freePlan:'Бесплатный план (6 использований)',lockSignup:'👤 Зарегистрируйтесь бесплатно',authBtnLabel:'Войти'},
-tr:{subtitle:'Profesyonel Dublaj ve Çeviri',subscribe:'Abone ol',ttsTitle:'Metin Okuma',selectLanguage:'Dil Seç',voice:'Ses',typeText:'Metin girin...',speed:'Hız',pitch:'Perde',volume:'Ses',speak:'Oku',typeAndSpeak:'👋 Metin girin ve Oku\u2019ya t\u0131klay\u0131n',audioFilters:'Ses Filtreleri',resetFilters:'🔄 Sıfırla',presetMale:'👨 Erkek',presetRadio:'📻 Radyo',presetWarm:'🌟 Sıcak',presetFast:'⚡ Hızlı',dubLang:'Dublaj Dili',srtFile:'SRT Dosyası',dragOrClick:'Sürükleyin veya tıklayın',srtOrTxt:'.srt veya .txt',orPaste:'Veya içerik yapıştırın',analyzeFile:'📥 Dosyayı Analiz Et',sentences:'cümle',copy:'📋 Kopyala',generate:'Oluştur',generateDub:'Dublaj Oluştur',requiresServer:'Render sunucusu gerekiyor',processing:'İşleniyor...',remaining:'Kalan',elapsed:'Geçen',total:'Toplam',cancel:'⏹ İptal',ready:'Hazır',downloadWAV:'⬇️ WAV İndir',dubbing:'Dublaj',checkServer:'Sunucunun çalıştığından emin olun',srtTranslator:'SRT Çevirmen',selectTransLang:'1. Çeviri dilini seçin',sourceText:'2. Kaynak metin (SRT)',paste:'📋 Yapıştır',translate:'🚀 Çevir',result:'Sonuç',downloadSRT:'⬇️ SRT İndir',cleanText:'Metin Temizleyici',pasteSRTOrText:'SRT veya metin yapıştırın',pasteTextHere:'Metni buraya yapıştırın...',removeNumbers:'Numaraları kaldır',removeTimestamps:'Zaman damgalarını kaldır',removeEmptyLines:'Boş satırları kaldır',cleanTextBtn:'🧹 Temizle',textAfterClean:'Temizlendikten sonra',download:'⬇️ İndir',pasteAndClean:'Yapıştır ve Temizle',footer:'Dublaj ve Çeviri · GitHub + Render · gTTS · %100 Ücretsiz',lang_ar:'Arapça',lang_en:'İngilizce',lang_ru:'Rusça',lang_tr:'Türkçe',lang_fr:'Fransızca',lang_de:'Almanca',lang_es:'İspanyolca',lang_sv:'İsveççe',shopTitle:'🛒 Mağaza — Hesap Yükseltme',shopSub:'Bir kez öde · sonsuza kadar kullan · Stripe ile',ttsBadge:'✏️ Metin Okuma',ttsCardTitle:'TTS\u2019yi \u00d6m\u00fcr Boyu Etkinleştir',ttsCardDesc:'Çok dilli seslerle sınırsız metin okuma',dubBadge:'🎬 Dublaj',dubCardTitle:'Ömür Boyu Dublajı Aç',dubCardDesc:'Tam SRT dublaj — Ücretsiz deneme: ilk 30 saniye',srtBadge:'🌐 Çevirmen',srtCardTitle:'SRT Çevirmeni Ömür Boyu Al',srtCardDesc:'SRT dosyalarını 13+ dile çevir',lifetime:'Ömür Boyu',buyNow:'💳 Satın Al',securePayment:'🔒 Stripe ile güvenli ödeme',loginBtn:'Giriş Yap',loginTab:'Giriş Yap',registerTab:'Hesap Oluştur',loginSubmit:'🔐 Giriş Yap',registerSubmit:'🚀 Ücretsiz Hesap Oluştur',logout:'🚪 Çıkış Yap',usageTitle:'📊 Kalan Ücretsiz Kullanım',freePlan:'Ücretsiz plan (6 kullanım/özellik)',lockSignup:'👤 Ücretsiz kaydol',authBtnLabel:'Giriş Yap'},
-fr:{subtitle:'Doublage et traduction professionnels',subscribe:'S\u2019abonner',ttsTitle:'Synthèse vocale',selectLanguage:'Choisir la langue',voice:'Voix',typeText:'Saisissez du texte...',speed:'Vitesse',pitch:'Tonalité',volume:'Volume',speak:'Parler',typeAndSpeak:'👋 Saisissez du texte et cliquez Parler',audioFilters:'Filtres audio',resetFilters:'🔄 Réinitialiser',presetMale:'👨 Masculin',presetRadio:'📻 Radio',presetWarm:'🌟 Chaud',presetFast:'⚡ Rapide',dubLang:'Langue de doublage',srtFile:'Fichier SRT',dragOrClick:'Glisser ou cliquer',srtOrTxt:'.srt ou .txt',orPaste:'Ou coller le contenu',analyzeFile:'📥 Analyser le fichier',sentences:'phrases',copy:'📋 Copier',generate:'Générer',generateDub:'Générer le doublage',requiresServer:'Serveur Render requis',processing:'Traitement...',remaining:'Restant',elapsed:'Écoulé',total:'Total',cancel:'⏹ Annuler',ready:'Prêt',downloadWAV:'⬇️ Télécharger WAV',dubbing:'Doublage',checkServer:'Assurez-vous que le serveur fonctionne',srtTranslator:'Traducteur SRT',selectTransLang:'1. Choisir la langue cible',sourceText:'2. Texte source (SRT)',paste:'📋 Coller',translate:'🚀 Traduire',result:'Résultat',downloadSRT:'⬇️ Télécharger SRT',cleanText:'Nettoyeur de texte',pasteSRTOrText:'Collez SRT ou tout texte',pasteTextHere:'Collez le texte ici...',removeNumbers:'Supprimer les numéros',removeTimestamps:'Supprimer les horodatages',removeEmptyLines:'Supprimer les lignes vides',cleanTextBtn:'🧹 Nettoyer',textAfterClean:'Texte après nettoyage',download:'⬇️ Télécharger',pasteAndClean:'Collez et nettoyez',footer:'Doublage et traduction · GitHub + Render · gTTS · 100% gratuit',lang_ar:'Arabe',lang_en:'Anglais',lang_ru:'Russe',lang_tr:'Turc',lang_fr:'Français',lang_de:'Allemand',lang_es:'Espagnol',lang_sv:'Suédois',shopTitle:'🛒 Boutique — Mise à niveau',shopSub:'Payez une fois · profitez à vie · Stripe',ttsBadge:'✏️ Synthèse vocale',ttsCardTitle:'Activer TTS à vie',ttsCardDesc:'TTS illimité avec voix multilingues',dubBadge:'🎬 Doublage',dubCardTitle:'Débloquer le doublage à vie',dubCardDesc:'Doublage SRT complet — Essai: 30 premières secondes',srtBadge:'🌐 Traducteur',srtCardTitle:'Acheter le traducteur SRT à vie',srtCardDesc:'Traduire des fichiers SRT en 13+ langues',lifetime:'À vie',buyNow:'💳 Acheter',securePayment:'🔒 Paiement sécurisé via Stripe',loginBtn:'Connexion',loginTab:'Connexion',registerTab:'Créer un compte',loginSubmit:'🔐 Se connecter',registerSubmit:'🚀 Créer un compte gratuit',logout:'🚪 Déconnexion',usageTitle:'📊 Utilisations gratuites restantes',freePlan:'Plan gratuit (6 utilisations)',lockSignup:'👤 Inscription gratuite',authBtnLabel:'Connexion'},
+tr:{subtitle:'Profesyonel Dublaj ve Çeviri',subscribe:'Abone ol',ttsTitle:'Metin Okuma',selectLanguage:'Dil Seç',voice:'Ses',typeText:'Metin girin...',speed:'Hız',pitch:'Perde',volume:'Ses',speak:'Oku',typeAndSpeak:'👋 Metin girin ve Oku\'ya tıklayın',audioFilters:'Ses Filtreleri',resetFilters:'🔄 Sıfırla',presetMale:'👨 Erkek',presetRadio:'📻 Radyo',presetWarm:'🌟 Sıcak',presetFast:'⚡ Hızlı',dubLang:'Dublaj Dili',srtFile:'SRT Dosyası',dragOrClick:'Sürükleyin veya tıklayın',srtOrTxt:'.srt veya .txt',orPaste:'Veya içerik yapıştırın',analyzeFile:'📥 Dosyayı Analiz Et',sentences:'cümle',copy:'📋 Kopyala',generate:'Oluştur',generateDub:'Dublaj Oluştur',requiresServer:'Render sunucusu gerekiyor',processing:'İşleniyor...',remaining:'Kalan',elapsed:'Geçen',total:'Toplam',cancel:'⏹ İptal',ready:'Hazır',downloadWAV:'⬇️ WAV İndir',dubbing:'Dublaj',checkServer:'Sunucunun çalıştığından emin olun',srtTranslator:'SRT Çevirmen',selectTransLang:'1. Çeviri dilini seçin',sourceText:'2. Kaynak metin (SRT)',paste:'📋 Yapıştır',translate:'🚀 Çevir',result:'Sonuç',downloadSRT:'⬇️ SRT İndir',cleanText:'Metin Temizleyici',pasteSRTOrText:'SRT veya metin yapıştırın',pasteTextHere:'Metni buraya yapıştırın...',removeNumbers:'Numaraları kaldır',removeTimestamps:'Zaman damgalarını kaldır',removeEmptyLines:'Boş satırları kaldır',cleanTextBtn:'🧹 Temizle',textAfterClean:'Temizlendikten sonra',download:'⬇️ İndir',pasteAndClean:'Yapıştır ve Temizle',footer:'Dublaj ve Çeviri · GitHub + Render · gTTS · %100 Ücretsiz',lang_ar:'Arapça',lang_en:'İngilizce',lang_ru:'Rusça',lang_tr:'Türkçe',lang_fr:'Fransızca',lang_de:'Almanca',lang_es:'İspanyolca',lang_sv:'İsveççe',shopTitle:'🛒 Mağaza — Hesap Yükseltme',shopSub:'Bir kez öde · sonsuza kadar kullan · Stripe ile',ttsBadge:'✏️ Metin Okuma',ttsCardTitle:'TTS\'yi Ömür Boyu Etkinleştir',ttsCardDesc:'Çok dilli seslerle sınırsız metin okuma',dubBadge:'🎬 Dublaj',dubCardTitle:'Ömür Boyu Dublajı Aç',dubCardDesc:'Tam SRT dublaj — Ücretsiz deneme: ilk 30 saniye',srtBadge:'🌐 Çevirmen',srtCardTitle:'SRT Çevirmeni Ömür Boyu Al',srtCardDesc:'SRT dosyalarını 13+ dile çevir',lifetime:'Ömür Boyu',buyNow:'💳 Satın Al',securePayment:'🔒 Stripe ile güvenli ödeme',loginBtn:'Giriş Yap',loginTab:'Giriş Yap',registerTab:'Hesap Oluştur',loginSubmit:'🔐 Giriş Yap',registerSubmit:'🚀 Ücretsiz Hesap Oluştur',logout:'🚪 Çıkış Yap',usageTitle:'📊 Kalan Ücretsiz Kullanım',freePlan:'Ücretsiz plan (6 kullanım/özellik)',lockSignup:'👤 Ücretsiz kaydol',authBtnLabel:'Giriş Yap'},
+fr:{subtitle:'Doublage et traduction professionnels',subscribe:'S\'abonner',ttsTitle:'Synthèse vocale',selectLanguage:'Choisir la langue',voice:'Voix',typeText:'Saisissez du texte...',speed:'Vitesse',pitch:'Tonalité',volume:'Volume',speak:'Parler',typeAndSpeak:'👋 Saisissez du texte et cliquez Parler',audioFilters:'Filtres audio',resetFilters:'🔄 Réinitialiser',presetMale:'👨 Masculin',presetRadio:'📻 Radio',presetWarm:'🌟 Chaud',presetFast:'⚡ Rapide',dubLang:'Langue de doublage',srtFile:'Fichier SRT',dragOrClick:'Glisser ou cliquer',srtOrTxt:'.srt ou .txt',orPaste:'Ou coller le contenu',analyzeFile:'📥 Analyser le fichier',sentences:'phrases',copy:'📋 Copier',generate:'Générer',generateDub:'Générer le doublage',requiresServer:'Serveur Render requis',processing:'Traitement...',remaining:'Restant',elapsed:'Écoulé',total:'Total',cancel:'⏹ Annuler',ready:'Prêt',downloadWAV:'⬇️ Télécharger WAV',dubbing:'Doublage',checkServer:'Assurez-vous que le serveur fonctionne',srtTranslator:'Traducteur SRT',selectTransLang:'1. Choisir la langue cible',sourceText:'2. Texte source (SRT)',paste:'📋 Coller',translate:'🚀 Traduire',result:'Résultat',downloadSRT:'⬇️ Télécharger SRT',cleanText:'Nettoyeur de texte',pasteSRTOrText:'Collez SRT ou tout texte',pasteTextHere:'Collez le texte ici...',removeNumbers:'Supprimer les numéros',removeTimestamps:'Supprimer les horodatages',removeEmptyLines:'Supprimer les lignes vides',cleanTextBtn:'🧹 Nettoyer',textAfterClean:'Texte après nettoyage',download:'⬇️ Télécharger',pasteAndClean:'Collez et nettoyez',footer:'Doublage et traduction · GitHub + Render · gTTS · 100% gratuit',lang_ar:'Arabe',lang_en:'Anglais',lang_ru:'Russe',lang_tr:'Turc',lang_fr:'Français',lang_de:'Allemand',lang_es:'Espagnol',lang_sv:'Suédois',shopTitle:'🛒 Boutique — Mise à niveau',shopSub:'Payez une fois · profitez à vie · Stripe',ttsBadge:'✏️ Synthèse vocale',ttsCardTitle:'Activer TTS à vie',ttsCardDesc:'TTS illimité avec voix multilingues',dubBadge:'🎬 Doublage',dubCardTitle:'Débloquer le doublage à vie',dubCardDesc:'Doublage SRT complet — Essai: 30 premières secondes',srtBadge:'🌐 Traducteur',srtCardTitle:'Acheter le traducteur SRT à vie',srtCardDesc:'Traduire des fichiers SRT en 13+ langues',lifetime:'À vie',buyNow:'💳 Acheter',securePayment:'🔒 Paiement sécurisé via Stripe',loginBtn:'Connexion',loginTab:'Connexion',registerTab:'Créer un compte',loginSubmit:'🔐 Se connecter',registerSubmit:'🚀 Créer un compte gratuit',logout:'🚪 Déconnexion',usageTitle:'📊 Utilisations gratuites restantes',freePlan:'Plan gratuit (6 utilisations)',lockSignup:'👤 Inscription gratuite',authBtnLabel:'Connexion'},
 de:{subtitle:'Professionelle Synchronisation und Übersetzung',subscribe:'Abonnieren',ttsTitle:'Text zu Sprache',selectLanguage:'Sprache wählen',voice:'Stimme',typeText:'Text eingeben...',speed:'Geschwindigkeit',pitch:'Tonhöhe',volume:'Lautstärke',speak:'Sprechen',typeAndSpeak:'👋 Text eingeben und Sprechen klicken',audioFilters:'Audio-Filter',resetFilters:'🔄 Zurücksetzen',presetMale:'👨 Männlich',presetRadio:'📻 Radio',presetWarm:'🌟 Warm',presetFast:'⚡ Schnell',dubLang:'Synchronisationssprache',srtFile:'SRT-Datei',dragOrClick:'Ziehen oder klicken',srtOrTxt:'.srt oder .txt',orPaste:'Oder Inhalt einfügen',analyzeFile:'📥 Datei analysieren',sentences:'Sätze',copy:'📋 Kopieren',generate:'Generieren',generateDub:'Synchronisation erstellen',requiresServer:'Render-Server erforderlich',processing:'Verarbeitung...',remaining:'Verbleibend',elapsed:'Vergangen',total:'Gesamt',cancel:'⏹ Abbrechen',ready:'Bereit',downloadWAV:'⬇️ WAV herunterladen',dubbing:'Synchronisation',checkServer:'Stellen Sie sicher, dass der Server läuft',srtTranslator:'SRT-Übersetzer',selectTransLang:'1. Zielsprache wählen',sourceText:'2. Quelltext (SRT)',paste:'📋 Einfügen',translate:'🚀 Übersetzen',result:'Ergebnis',downloadSRT:'⬇️ SRT herunterladen',cleanText:'Textbereinigung',pasteSRTOrText:'SRT oder Text einfügen',pasteTextHere:'Text hier einfügen...',removeNumbers:'Nummern entfernen',removeTimestamps:'Zeitstempel entfernen',removeEmptyLines:'Leerzeilen entfernen',cleanTextBtn:'🧹 Bereinigen',textAfterClean:'Text nach Bereinigung',download:'⬇️ Herunterladen',pasteAndClean:'Einfügen und bereinigen',footer:'Synchronisation & Übersetzung · GitHub + Render · gTTS · 100% kostenlos',lang_ar:'Arabisch',lang_en:'Englisch',lang_ru:'Russisch',lang_tr:'Türkisch',lang_fr:'Französisch',lang_de:'Deutsch',lang_es:'Spanisch',lang_sv:'Schwedisch',shopTitle:'🛒 Shop — Account upgraden',shopSub:'Einmal zahlen · lebenslang nutzen · Stripe',ttsBadge:'✏️ Text zu Sprache',ttsCardTitle:'TTS lebenslang aktivieren',ttsCardDesc:'Unbegrenzte TTS mit mehrsprachigen Stimmen',dubBadge:'🎬 Synchronisation',dubCardTitle:'Synchronisation lebenslang freischalten',dubCardDesc:'Vollständige SRT-Synchronisation — Probe: erste 30 Sekunden',srtBadge:'🌐 Übersetzer',srtCardTitle:'SRT-Übersetzer lebenslang kaufen',srtCardDesc:'SRT-Dateien in 13+ Sprachen übersetzen',lifetime:'Lebenslang',buyNow:'💳 Kaufen',securePayment:'🔒 Sichere Zahlung über Stripe',loginBtn:'Anmelden',loginTab:'Anmelden',registerTab:'Konto erstellen',loginSubmit:'🔐 Anmelden',registerSubmit:'🚀 Kostenloses Konto erstellen',logout:'🚪 Abmelden',usageTitle:'📊 Verbleibende kostenlose Nutzungen',freePlan:'Kostenloser Plan (6 Nutzungen)',lockSignup:'👤 Kostenlos registrieren',authBtnLabel:'Anmelden'},
 es:{subtitle:'Doblaje y traducción profesional',subscribe:'Suscribirse',ttsTitle:'Texto a voz',selectLanguage:'Seleccionar idioma',voice:'Voz',typeText:'Escriba texto...',speed:'Velocidad',pitch:'Tono',volume:'Volumen',speak:'Hablar',typeAndSpeak:'👋 Escriba texto y haga clic en Hablar',audioFilters:'Filtros de audio',resetFilters:'🔄 Restablecer',presetMale:'👨 Masculino',presetRadio:'📻 Radio',presetWarm:'🌟 Cálido',presetFast:'⚡ Rápido',dubLang:'Idioma de doblaje',srtFile:'Archivo SRT',dragOrClick:'Arrastrar o hacer clic',srtOrTxt:'.srt o .txt',orPaste:'O pegar contenido',analyzeFile:'📥 Analizar archivo',sentences:'oraciones',copy:'📋 Copiar',generate:'Generar',generateDub:'Generar doblaje',requiresServer:'Se requiere servidor Render',processing:'Procesando...',remaining:'Restante',elapsed:'Transcurrido',total:'Total',cancel:'⏹ Cancelar',ready:'Listo',downloadWAV:'⬇️ Descargar WAV',dubbing:'Doblaje',checkServer:'Asegúrese de que el servidor funcione',srtTranslator:'Traductor SRT',selectTransLang:'1. Seleccionar idioma de traducción',sourceText:'2. Texto fuente (SRT)',paste:'📋 Pegar',translate:'🚀 Traducir',result:'Resultado',downloadSRT:'⬇️ Descargar SRT',cleanText:'Limpiador de texto',pasteSRTOrText:'Pegar SRT o cualquier texto',pasteTextHere:'Pegar texto aquí...',removeNumbers:'Eliminar números',removeTimestamps:'Eliminar marcas de tiempo',removeEmptyLines:'Eliminar líneas vacías',cleanTextBtn:'🧹 Limpiar',textAfterClean:'Texto después de limpiar',download:'⬇️ Descargar',pasteAndClean:'Pegar y limpiar',footer:'Doblaje y traducción · GitHub + Render · gTTS · 100% gratis',lang_ar:'Árabe',lang_en:'Inglés',lang_ru:'Ruso',lang_tr:'Turco',lang_fr:'Francés',lang_de:'Alemán',lang_es:'Español',lang_sv:'Sueco',shopTitle:'🛒 Tienda — Mejorar cuenta',shopSub:'Paga una vez · disfruta para siempre · Stripe',ttsBadge:'✏️ Texto a voz',ttsCardTitle:'Activar TTS de por vida',ttsCardDesc:'TTS ilimitado con voces en varios idiomas',dubBadge:'🎬 Doblaje',dubCardTitle:'Desbloquear doblaje de por vida',dubCardDesc:'Doblaje SRT completo — Prueba: primeros 30 segundos',srtBadge:'🌐 Traductor',srtCardTitle:'Comprar traductor SRT de por vida',srtCardDesc:'Traduce archivos SRT a 13+ idiomas',lifetime:'De por vida',buyNow:'💳 Comprar',securePayment:'🔒 Pago seguro con Stripe',loginBtn:'Iniciar sesión',loginTab:'Iniciar sesión',registerTab:'Crear cuenta',loginSubmit:'🔐 Iniciar sesión',registerSubmit:'🚀 Crear cuenta gratis',logout:'🚪 Cerrar sesión',usageTitle:'📊 Usos gratuitos restantes',freePlan:'Plan gratuito (6 usos/función)',lockSignup:'👤 Registrarse gratis',authBtnLabel:'Iniciar sesión'}}
-
 let currentLanguage='ar';
 const LANGS=[{c:'en-US',g:'en',n:'English',f:'🇺🇸',code:'en'},{c:'es-ES',g:'es',n:'Español',f:'🇪🇸',code:'es'},{c:'ru-RU',g:'ru',n:'Русский',f:'🇷🇺',code:'ru'},{c:'tr-TR',g:'tr',n:'Türkçe',f:'🇹🇷',code:'tr'},{c:'de-DE',g:'de',n:'Deutsch',f:'🇩🇪',code:'de'},{c:'zh-CN',g:'zh-CN',n:'中文',f:'🇨🇳',code:'zh'},{c:'hi-IN',g:'hi',n:'हिन्दी',f:'🇮🇳',code:'hi'},{c:'fa-IR',g:'fa',n:'فارسی',f:'🇮🇷',code:'fa'},{c:'fr-FR',g:'fr',n:'Français',f:'🇫🇷',code:'fr'},{c:'sv-SE',g:'sv',n:'Svenska',f:'🇸🇪',code:'sv'},{c:'it-IT',g:'it',n:'Italiano',f:'🇮🇹',code:'it'},{c:'nl-NL',g:'nl',n:'Nederlands',f:'🇳🇱',code:'nl'},{c:'ar-SA',g:'ar',n:'العربية',f:'🇸🇦',code:'ar'}];
 const SAMP={'en-US':['The quick brown fox.','Welcome to AI!'],'ar-SA':['بسم الله الرحمن الرحيم.','مرحباً بكم!'],'es-ES':['El zorro marrón.','¡Bienvenido!'],'fr-FR':['Le renard brun.','Bienvenue!'],'de-DE':['Der schnelle Fuchs.','Willkommen!']};
 let L1='en-US',L2='en-US',voices=[],spk=false,pau=false,srtData=[],dubbing=false,dubCanc=false,resBlob=null,transLang='en',transBlob=null,cleanBlob=null;
 let filterSpeed=1.0,filterPitch=1.0,eqBass=0,eqMid=0,eqTreble=0;
 const SERVER_URL='https://dubbing-api-v2.onrender.com';
-
 function updateFilters(){filterSpeed=parseFloat(document.getElementById('filterSpeed').value);filterPitch=parseFloat(document.getElementById('filterPitch').value);eqBass=parseFloat(document.getElementById('eqBass').value);eqMid=parseFloat(document.getElementById('eqMid').value);eqTreble=parseFloat(document.getElementById('eqTreble').value);document.getElementById('speedVal').textContent=filterSpeed.toFixed(1)+'x';document.getElementById('pitchVal').textContent=filterPitch.toFixed(1);document.getElementById('bassVal').textContent=eqBass+'dB';document.getElementById('midVal').textContent=eqMid+'dB';document.getElementById('trebleVal').textContent=eqTreble+'dB';}
 function resetFilters(){filterSpeed=1.0;filterPitch=1.0;eqBass=0;eqMid=0;eqTreble=0;document.getElementById('filterSpeed').value=1;document.getElementById('filterPitch').value=1;document.getElementById('eqBass').value=0;document.getElementById('eqMid').value=0;document.getElementById('eqTreble').value=0;updateFilters();ssDub('🔄 تم إعادة تعيين الفلاتر','ok');}
 function applyPreset(name){const presets={'male':{speed:1.0,pitch:0.85,bass:3,mid:0,treble:-2},'radio':{speed:1.0,pitch:1.0,bass:-5,mid:3,treble:5},'warm':{speed:1.0,pitch:0.9,bass:5,mid:2,treble:-3},'fast':{speed:1.3,pitch:1.0,bass:0,mid:0,treble:0}};const p=presets[name];if(!p)return;filterSpeed=p.speed;filterPitch=p.pitch;eqBass=p.bass;eqMid=p.mid;eqTreble=p.treble;document.getElementById('filterSpeed').value=p.speed;document.getElementById('filterPitch').value=p.pitch;document.getElementById('eqBass').value=p.bass;document.getElementById('eqMid').value=p.mid;document.getElementById('eqTreble').value=p.treble;updateFilters();ssDub('✅ تم تطبيق الإعداد: '+name,'ok');}
@@ -1655,95 +1493,93 @@ async function pasteSrc(){try{const txt=await navigator.clipboard.readText();doc
 async function pasteClean(){try{const txt=await navigator.clipboard.readText();document.getElementById('cleanInput').value=txt;ssClean('✅ تم اللصق','ok');}catch(e){ssClean('❌ فشل اللصق','er');}}
 async function copyResult(){const txt=document.getElementById('transOut').textContent;if(!txt){ssTrans('⚠️ لا توجد نتيجة','wn');return;}try{await navigator.clipboard.writeText(txt);ssTrans('✅ تم النسخ','ok');}catch(e){ssTrans('❌ فشل','er');}}
 async function copyClean(){const txt=document.getElementById('cleanOutput').textContent;if(!txt){ssClean('⚠️ لا توجد نتيجة','wn');return;}try{await navigator.clipboard.writeText(txt);ssClean('✅ تم النسخ','ok');}catch(e){ssClean('❌ فشل','er');}}
-async function startTrans(){const txt=document.getElementById('srcSRT').value.trim();if(!txt){ssTrans('⚠️ الصق نص SRT','wn');return;}ssTrans('🔄 جارٍ...','i');document.getElementById('transRes').style.display='none';const blocks=txt.trim().split(/\n\s*\n/);let newSRT='';let count=0;for(let blk of blocks){const ls=blk.trim().split('\n');if(ls.length<2)continue;const idx=ls[0],time=ls[1],text=ls.slice(2).join(' ');if(!text){newSRT+=blk+'\n\n';continue;}try{const url=`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=ar|${transLang}`;const res=await fetch(url);const data=await res.json();if(data.responseStatus===200){newSRT+=`${idx}\n${time}\n${data.responseData.translatedText}\n\n`;}else{newSRT+=`${idx}\n${time}\n${text} [Failed]\n\n`;}}catch(e){newSRT+=`${idx}\n${time}\n${text} [Error]\n\n`;}count++;ssTrans(`جاري... ${count}/${blocks.length}`,'i');await new Promise(r=>setTimeout(r,200));}document.getElementById('transOut').textContent=newSRT;document.getElementById('transRes').style.display='block';transBlob=new Blob([newSRT],{type:'text/plain'});ssTrans(`✅ ${count} جملة`,'ok');}
+async function startTrans(){const txt=document.getElementById('srcSRT').value.trim();if(!txt){ssTrans('⚠️ الصق نص SRT','wn');return;}ssTrans('🔄 جارٍ...','i');document.getElementById('transRes').style.display='none';const blocks=txt.trim().split(/\n\s*\n/);let newSRT='';let count=0;for(let blk of blocks){const ls=blk.trim().split('\n');if(ls.length<2)continue;const idx=ls[0],time=ls[1],text=ls.slice(2).join(' ');if(!text){newSRT+=blk+'\n';continue;}try{const url=`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=ar|${transLang}`;const res=await fetch(url);const data=await res.json();if(data.responseStatus===200){newSRT+=`${idx}\n${time}\n${data.responseData.translatedText}\n`;}else{newSRT+=`${idx}\n${time}\n${text} [Failed]\n`;}}catch(e){newSRT+=`${idx}\n${time}\n${text} [Error]\n`;}count++;ssTrans(`جاري... ${count}/${blocks.length}`,'i');await new Promise(r=>setTimeout(r,200));}document.getElementById('transOut').textContent=newSRT;document.getElementById('transRes').style.display='block';transBlob=new Blob([newSRT],{type:'text/plain'});ssTrans(`✅ ${count} جملة`,'ok');}
 function dlTransSRT(){if(!transBlob)return;const a=document.createElement('a');a.href=URL.createObjectURL(transBlob);a.download=`translated_${transLang}.srt`;a.click();}
 function cleanText(){const input=document.getElementById('cleanInput').value.trim();if(!input){ssClean('⚠️ الصق نصاً أولاً','wn');return;}const removeNum=document.getElementById('removeNumbers').checked;const removeTime=document.getElementById('removeTime').checked;const removeEmpty=document.getElementById('removeEmpty').checked;let result=input;if(removeTime){result=result.replace(/\d{2}:\d{2}:\d{2}[,\.]\d{3}\s*-->\s*\d{2}:\d{2}:\d{2}[,\.]\d{3}/g,'');}if(removeNum){result=result.replace(/^\s*\d+\s*$/gm,'');}if(removeEmpty){result=result.split('\n').filter(line=>line.trim()!=='').join('\n');}result=result.replace(/-->/g,'').replace(/\[[^\]]*\]/g,'').replace(/\([^)]*\)/g,'').replace(/\s+/g,' ').trim();document.getElementById('cleanOutput').textContent=result;document.getElementById('cleanResult').style.display='block';cleanBlob=new Blob([result],{type:'text/plain'});ssClean('✅ تم التنظيف','ok');}
 function dlClean(){if(!cleanBlob)return;const a=document.createElement('a');a.href=URL.createObjectURL(cleanBlob);a.download='cleaned-text.txt';a.click();}
 async function stDub(){
-  if(!srtData.length){ssDub('⚠️ ارفع SRT أولاً','wn');return;}
-  try{await fetch(SERVER_URL+'/api/health');}catch(e){ssDub('❌ سيرفر Render غير شغال!','er');return;}
-
-  // === 30-second free trial for dubbing ===
-  const FREE_DUB_MS = 30000; // 30 seconds
-  const dubUnlocked = (getUnlocked().dub) || (currentUser && getUserData(currentUser.email) && getUserData(currentUser.email).unlocked && getUserData(currentUser.email).unlocked.dub);
-  let workData = srtData;
-  let isTrial = false;
-  if(!dubUnlocked){
-    const totalDur = msT(srtData[srtData.length-1].en);
-    if(totalDur > FREE_DUB_MS){
-      workData = srtData.filter(item => msT(item.st) < FREE_DUB_MS);
-      isTrial = true;
-      showToast('⏱️ وضع التجربة: أول 30 ثانية فقط — اشترِ للاستخدام الكامل','wn');
-    }
-  }
-
-  dubbing=true;dubCanc=false;resBlob=null;
-  const lang=LANGS.find(l=>l.c===L2)||LANGS[0];
-  const totalMs=isTrial ? FREE_DUB_MS : (msT(srtData[srtData.length-1].en)+2000);
-  document.getElementById('genBtn').style.display='none';
-  document.getElementById('dubP').style.display='block';
-  document.getElementById('dubRes').style.display='none';
-  setPh(isTrial ? '🎁 تجربة مجانية (30 ث)...' : '🔍 جاري المعالجة...');
-  document.getElementById('clkT').textContent=fmMs(totalMs);
-  const audioFiles=[];let done=0;
-  for(let i=0;i<workData.length&&!dubCanc;i++){
-    const item=workData[i];
-    if(!item.sp){done++;continue;}
-    document.getElementById('curS').textContent=item.tx;
-    document.getElementById('sntC').textContent=`${done+1}/${workData.length}`;
-    const itemDuration=msT(item.en)-msT(item.st);
-    const response=await fetch(`${SERVER_URL}/api/dub`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:item.sp,lang:lang.code,duration:itemDuration,speed:filterSpeed,pitch:filterPitch,eq_bass:eqBass,eq_mid:eqMid,eq_treble:eqTreble})});
-    const result=await response.json();
-    if(result.success){audioFiles.push(result.file);}
-    done++;
-    const pct=Math.round(done/workData.length*100);
-    document.getElementById('pFill').style.width=pct+'%';
-    document.getElementById('pPct').textContent=pct+'%';
-    document.getElementById('pLbl').textContent=`${done}/${workData.length}`;
-    const origIdx=srtData.indexOf(item);
-    const el=document.getElementById('si'+origIdx);
-    if(el)el.classList.add('done');
-  }
-  if(dubCanc){rstDub();ssDub('⏹ أُلغي','i');return;}
-  setPh('💾 جاري الدمج...');
-  const audioContext=new(window.AudioContext||window.webkitAudioContext)();
-  const buffers=[];
-  for(const file of audioFiles){
-    try{
-      const res=await fetch(`${SERVER_URL}/api/download/${file}`,{method:'GET',headers:{'Accept':'audio/mpeg'}});
-      if(!res.ok)throw new Error('Failed');
-      const ab=await res.arrayBuffer();
-      const buf=await audioContext.decodeAudioData(ab);
-      buffers.push(buf);
-    }catch(e){console.error('Download error:',file,e);}
-  }
-  const totalSamples=buffers.reduce((sum,buf)=>sum+buf.length,0);
-  const merged=audioContext.createBuffer(1,totalSamples,audioContext.sampleRate);
-  let offset=0;
-  buffers.forEach(buf=>{merged.copyToChannel(buf.getChannelData(0),0,offset);offset+=buf.length;});
-  resBlob=toWav(merged);dubbing=false;
-  const url=URL.createObjectURL(resBlob);
-  document.getElementById('dubAu').src=url;
-  document.getElementById('dubP').style.display='none';
-  document.getElementById('dubRes').style.display='block';
-  document.getElementById('genBtn').style.display='block';
-  const sz=(resBlob.size/1024/1024).toFixed(2);
-  if(isTrial){
-    ssDub(`🎁 تجربة جاهزة (30 ث · ${sz}MB) — اشترِ للملف الكامل`,'wn');
-    // Show buy prompt after trial
-    setTimeout(()=>{
-      const trialBanner=document.createElement('div');
-      trialBanner.style.cssText='margin-top:10px;padding:12px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);border-radius:10px;text-align:center;font-size:.75rem;color:#fcd34d';
-      trialBanner.innerHTML="⚡ هذه تجربة مجانية (30 ث فقط)<br><button onclick=\"startCheckout('dub')\" style=\"margin-top:8px;padding:8px 16px;background:linear-gradient(135deg,#d97706,#f59e0b);border:none;border-radius:8px;color:white;font-weight:700;cursor:pointer;font-size:.75rem\">🚀 اشترِ الدبلجة الكاملة — $50</button>";
-      const dubRes=document.getElementById('dubRes');
-      const existing=dubRes.querySelector('.trial-banner');
-      if(existing)existing.remove();
-      trialBanner.className='trial-banner';
-      dubRes.appendChild(trialBanner);
-    },300);
-  } else {
-    ssDub(`🎉 جاهز (${sz}MB)`,'ok');
-  }
+if(!srtData.length){ssDub('⚠️ ارفع SRT أولاً','wn');return;}
+try{await fetch(SERVER_URL+'/api/health');}catch(e){ssDub('❌ سيرفر Render غير شغال!','er');return;}
+// === 30-second free trial for dubbing ===
+const FREE_DUB_MS = 30000; // 30 seconds
+const dubUnlocked = (getUnlocked().dub) || (currentUser && getUserData(currentUser.email) && getUserData(currentUser.email).unlocked && getUserData(currentUser.email).unlocked.dub);
+let workData = srtData;
+let isTrial = false;
+if(!dubUnlocked){
+const totalDur = msT(srtData[srtData.length-1].en);
+if(totalDur > FREE_DUB_MS){
+workData = srtData.filter(item => msT(item.st) < FREE_DUB_MS);
+isTrial = true;
+showToast('⏱️ وضع التجربة: أول 30 ثانية فقط — اشترِ للاستخدام الكامل','wn');
+}
+}
+dubbing=true;dubCanc=false;resBlob=null;
+const lang=LANGS.find(l=>l.c===L2)||LANGS[0];
+const totalMs=isTrial ? FREE_DUB_MS : (msT(srtData[srtData.length-1].en)+2000);
+document.getElementById('genBtn').style.display='none';
+document.getElementById('dubP').style.display='block';
+document.getElementById('dubRes').style.display='none';
+setPh(isTrial ? '🎁 تجربة مجانية (30 ث)...' : '🔍 جاري المعالجة...');
+document.getElementById('clkT').textContent=fmMs(totalMs);
+const audioFiles=[];let done=0;
+for(let i=0;i<workData.length&&!dubCanc;i++){
+const item=workData[i];
+if(!item.sp){done++;continue;}
+document.getElementById('curS').textContent=item.tx;
+document.getElementById('sntC').textContent=`${done+1}/${workData.length}`;
+const itemDuration=msT(item.en)-msT(item.st);
+const response=await fetch(`${SERVER_URL}/api/dub`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:item.sp,lang:lang.code,duration:itemDuration,speed:filterSpeed,pitch:filterPitch,eq_bass:eqBass,eq_mid:eqMid,eq_treble:eqTreble})});
+const result=await response.json();
+if(result.success){audioFiles.push(result.file);}
+done++;
+const pct=Math.round(done/workData.length*100);
+document.getElementById('pFill').style.width=pct+'%';
+document.getElementById('pPct').textContent=pct+'%';
+document.getElementById('pLbl').textContent=`${done}/${workData.length}`;
+const origIdx=srtData.indexOf(item);
+const el=document.getElementById('si'+origIdx);
+if(el)el.classList.add('done');
+}
+if(dubCanc){rstDub();ssDub('⏹ أُلغي','i');return;}
+setPh('💾 جاري الدمج...');
+const audioContext=new(window.AudioContext||window.webkitAudioContext)();
+const buffers=[];
+for(const file of audioFiles){
+try{
+const res=await fetch(`${SERVER_URL}/api/download/${file}`,{method:'GET',headers:{'Accept':'audio/mpeg'}});
+if(!res.ok)throw new Error('Failed');
+const ab=await res.arrayBuffer();
+const buf=await audioContext.decodeAudioData(ab);
+buffers.push(buf);
+}catch(e){console.error('Download error:',file,e);}
+}
+const totalSamples=buffers.reduce((sum,buf)=>sum+buf.length,0);
+const merged=audioContext.createBuffer(1,totalSamples,audioContext.sampleRate);
+let offset=0;
+buffers.forEach(buf=>{merged.copyToChannel(buf.getChannelData(0),0,offset);offset+=buf.length;});
+resBlob=toWav(merged);dubbing=false;
+const url=URL.createObjectURL(resBlob);
+document.getElementById('dubAu').src=url;
+document.getElementById('dubP').style.display='none';
+document.getElementById('dubRes').style.display='block';
+document.getElementById('genBtn').style.display='block';
+const sz=(resBlob.size/1024/1024).toFixed(2);
+if(isTrial){
+ssDub(`🎁 تجربة جاهزة (30 ث · ${sz}MB) — اشترِ للملف الكامل`,'wn');
+// Show buy prompt after trial
+setTimeout(()=>{
+const trialBanner=document.createElement('div');
+trialBanner.style.cssText='margin-top:10px;padding:12px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);border-radius:10px;text-align:center;font-size:.75rem;color:#fcd34d';
+trialBanner.innerHTML="⚡ هذه تجربة مجانية (30 ث فقط)<br><button onclick=\"startCheckout('dub')\" style=\"margin-top:8px;padding:8px 16px;background:linear-gradient(135deg,#d97706,#f59e0b);border:none;border-radius:8px;color:white;font-weight:700;cursor:pointer;font-size:.75rem\">🚀 اشترِ الدبلجة الكاملة — $50</button>";
+const dubRes=document.getElementById('dubRes');
+const existing=dubRes.querySelector('.trial-banner');
+if(existing)existing.remove();
+trialBanner.className='trial-banner';
+dubRes.appendChild(trialBanner);
+},300);
+} else {
+ssDub(`🎉 جاهز (${sz}MB)`,'ok');
+}
 }
 function dlRes(){if(!resBlob)return;const a=document.createElement('a');a.href=URL.createObjectURL(resBlob);a.download='dubbing-'+Date.now()+'.wav';a.click();}
 function cnclDub(){dubCanc=true;dubbing=false;rstDub();ssDub('⏹ أُلغي','i');}
@@ -1752,88 +1588,80 @@ function setPh(t){document.getElementById('phTxt').textContent=t;}
 function toWav(buf){const SR=buf.sampleRate;const s=buf.getChannelData(0);const dL=s.length*2;const ab=new ArrayBuffer(44+dL);const v=new DataView(ab);const ws=(o,str)=>{for(let i=0;i<str.length;i++)v.setUint8(o+i,str.charCodeAt(i));};ws(0,'RIFF');v.setUint32(4,36+dL,true);ws(8,'WAVE');ws(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,SR,true);v.setUint32(28,SR*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);ws(36,'data');v.setUint32(40,dL,true);let off=44;for(let i=0;i<s.length;i++){const x=Math.max(-1,Math.min(1,s[i]));v.setInt16(off,x<0?x*0x8000:x*0x7FFF,true);off+=2;}return new Blob([ab],{type:'audio/wav'});}
 document.getElementById('rr1').oninput=e=>document.getElementById('rv1').textContent=parseFloat(e.target.value).toFixed(1)+'x';document.getElementById('pr1').oninput=e=>document.getElementById('pv1').textContent=parseFloat(e.target.value).toFixed(1);document.getElementById('vr1').oninput=e=>document.getElementById('vv1').textContent=Math.round(e.target.value*100)+'%';document.getElementById('ti').oninput=e=>document.getElementById('cc').textContent=e.target.value.length;document.getElementById('rr2').oninput=e=>document.getElementById('rv2').textContent=parseFloat(e.target.value).toFixed(2)+'x';document.getElementById('vr2').oninput=e=>document.getElementById('vv2').textContent=parseFloat(e.target.value).toFixed(1);
 function toggleLang(){document.getElementById('langDropdown').classList.toggle('show');}
-
 function setLang(lang){
-  currentLanguage = lang;
-  const opt = document.querySelector('[data-lang="'+lang+'"] .lang-name');
-  if(opt) document.getElementById('currentLang').textContent = opt.textContent;
-  document.querySelectorAll('.lang-option').forEach(o => o.classList.remove('active'));
-  const active = document.querySelector('[data-lang="'+lang+'"]');
-  if(active) active.classList.add('active');
-  document.getElementById('langDropdown').classList.remove('show');
-  document.documentElement.dir = (lang==='ar'||lang==='fa') ? 'rtl' : 'ltr';
-  document.documentElement.lang = lang;
-  updateAllTranslations();
-  mkGrid('g1',L1,c=>{L1=c;updV();mkSamp();});
-  mkGrid('g2',L2,c=>{L2=c;});
-  initTransGrid();
-  updateLockStates();
+currentLanguage = lang;
+const opt = document.querySelector('[data-lang="'+lang+'"] .lang-name');
+if(opt) document.getElementById('currentLang').textContent = opt.textContent;
+document.querySelectorAll('.lang-option').forEach(o => o.classList.remove('active'));
+const active = document.querySelector('[data-lang="'+lang+'"]');
+if(active) active.classList.add('active');
+document.getElementById('langDropdown').classList.remove('show');
+document.documentElement.dir = (lang==='ar'||lang==='fa') ? 'rtl' : 'ltr';
+document.documentElement.lang = lang;
+updateAllTranslations();
+mkGrid('g1',L1,c=>{L1=c;updV();mkSamp();});
+mkGrid('g2',L2,c=>{L2=c;});
+initTransGrid();
+updateLockStates();
 }
-
 function updateAllTranslations(){
-  const t = translations[currentLanguage];
-  if(!t) return;
-
-  // 1. All data-i18n elements (support HTML content)
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if(!t[key]) return;
-    // Use innerHTML for elements that may contain HTML tags
-    const val = t[key];
-    if(val.includes('<') ) el.innerHTML = val;
-    else el.textContent = val;
-  });
-
-  // 2. All placeholder attributes
-  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-    const key = el.getAttribute('data-i18n-placeholder');
-    if(t[key]) el.placeholder = t[key];
-  });
-
-  // 3. Auth button label (only when logged out)
-  const authLabel = document.getElementById('authBtnLabel');
-  if(authLabel && !currentUser && t.authBtnLabel) authLabel.textContent = t.authBtnLabel;
-
-  // 4. Plan badge
-  const planBadge = document.getElementById('userPlanBadge');
-  if(planBadge && !planBadge.textContent.includes('مدفوع') && !planBadge.textContent.includes('paid') && t.freePlan){
-    planBadge.textContent = t.freePlan;
-  }
-
-  // 5. Auth field labels (email / password)
-  const emailLabels = document.querySelectorAll('.auth-field label');
-  const emailTexts = {ar:['البريد الإلكتروني','كلمة المرور','تأكيد كلمة المرور'],en:['Email','Password','Confirm Password'],ru:['Эл. почта','Пароль','Подтвердите пароль'],tr:['E-posta','Şifre','Şifreyi Onayla'],fr:['E-mail','Mot de passe','Confirmer'],de:['E-Mail','Passwort','Bestätigen'],es:['Correo','Contraseña','Confirmar']};
-  const et = emailTexts[currentLanguage] || emailTexts['en'];
-  emailLabels.forEach((lbl,i) => { if(et[i]) lbl.textContent = et[i]; });
+const t = translations[currentLanguage];
+if(!t) return;
+// 1. All data-i18n elements (support HTML content)
+document.querySelectorAll('[data-i18n]').forEach(el => {
+const key = el.getAttribute('data-i18n');
+if(!t[key]) return;
+// Use innerHTML for elements that may contain HTML tags
+const val = t[key];
+if(val.includes('<') ) el.innerHTML = val;
+else el.textContent = val;
+});
+// 2. All placeholder attributes
+document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+const key = el.getAttribute('data-i18n-placeholder');
+if(t[key]) el.placeholder = t[key];
+});
+// 3. Auth button label (only when logged out)
+const authLabel = document.getElementById('authBtnLabel');
+if(authLabel && !currentUser && t.authBtnLabel) authLabel.textContent = t.authBtnLabel;
+// 4. Plan badge
+const planBadge = document.getElementById('userPlanBadge');
+if(planBadge && !planBadge.textContent.includes('مدفوع') && !planBadge.textContent.includes('paid') && t.freePlan){
+planBadge.textContent = t.freePlan;
+}
+// 5. Auth field labels (email / password)
+const emailLabels = document.querySelectorAll('.auth-field label');
+const emailTexts = {ar:['البريد الإلكتروني','كلمة المرور','تأكيد كلمة المرور'],en:['Email','Password','Confirm Password'],ru:['Эл. почта','Пароль','Подтвердите пароль'],tr:['E-posta','Şifre','Şifreyi Onayla'],fr:['E-mail','Mot de passe','Confirmer'],de:['E-Mail','Passwort','Bestätigen'],es:['Correo','Contraseña','Confirmar']};
+const et = emailTexts[currentLanguage] || emailTexts['en'];
+emailLabels.forEach((lbl,i) => { if(et[i]) lbl.textContent = et[i]; });
 }
 // تهيئة النظام عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', () => {
-  initAuth();
-  applyUnlockStates();
+initAuth();
+applyUnlockStates();
 });
 </script>
-
 <!--
-  ╔══════════════════════════════════════════════════════╗
-  ║  ⚠️  مهم جداً: المفتاح السري sk_test_...             ║
-  ║  يجب إضافته في backend (سيرفر Render) فقط!          ║
-  ║                                                      ║
-  ║  في سيرفر Render أضف متغير البيئة:                  ║
-  ║  STRIPE_SECRET_KEY = sk_test_51T5xbIP6...            ║
-  ║                                                      ║
-  ║  ثم في app.py أضف:                                   ║
-  ║  import stripe                                       ║
-  ║  stripe.api_key = os.environ['STRIPE_SECRET_KEY']   ║
-  ║                                                      ║
-  ║  @app.route('/api/create-payment-intent', methods=['POST'])
-  ║  def create_payment_intent():                        ║
-  ║    data = request.json                               ║
-  ║    intent = stripe.PaymentIntent.create(            ║
-  ║      amount=int(price*100),                          ║
-  ║      currency='usd'                                  ║
-  ║    )                                                 ║
-  ║    return jsonify({'client_secret': intent.client_secret})
-  ╚══════════════════════════════════════════════════════╝
+╔══════════════════════════════════════════════════════╗
+║  ⚠️  مهم جداً: المفتاح السري sk_test_...             ║
+║  يجب إضافته في backend (سيرفر Render) فقط!          ║
+║                                                      ║
+║  في سيرفر Render أضف متغير البيئة:                  ║
+║  STRIPE_SECRET_KEY = sk_test_51T5xbIP6...            ║
+║                                                      ║
+║  ثم في app.py أضف:                                   ║
+║  import stripe                                       ║
+║  stripe.api_key = os.environ['STRIPE_SECRET_KEY']   ║
+║                                                      ║
+║  @app.route('/api/create-payment-intent', methods=['POST'])
+║  def create_payment_intent():                        ║
+║    data = request.json                               ║
+║    intent = stripe.PaymentIntent.create(            ║
+║      amount=int(price*100),                          ║
+║      currency='usd'                                  ║
+║    )                                                 ║
+║    return jsonify({'client_secret': intent.client_secret})
+╚══════════════════════════════════════════════════════╝
 -->
 </body>
 </html>
