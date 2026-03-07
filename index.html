@@ -10,7 +10,6 @@
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>sl-Dubbing & Translation</title>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-691108357486678" crossorigin="anonymous"></script>
-<script src="https://js.stripe.com/v3/"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#0a0a1a;color:#e0e0ff;min-height:100vh;overflow-x:hidden}
@@ -134,25 +133,9 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
 .clean-box{background:rgba(52,211,153,.05);border:1px solid rgba(52,211,153,.2);border-radius:12px;padding:14px;margin-top:14px}
 .clean-title{color:#34d399;font-weight:700;font-size:.8rem;margin-bottom:10px;display:flex;align-items:center;gap:6px}
 .clean-output{background:rgba(0,0,0,.25);border-radius:8px;padding:10px;font-size:.75rem;color:#d1d5db;line-height:1.6;max-height:200px;overflow-y:auto;white-space:pre-wrap;margin-bottom:10px}
-
-/* ===== ✅ FEATURES WRAPPER — 3 أعمدة متساوية ===== */
-.features-wrapper {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 24px;
-    align-items: start;
-}
-@media (min-width: 1200px) {
-    .features-wrapper {
-        grid-template-columns: 1fr 1fr 1fr;
-    }
-}
-@media (max-width: 1199px) {
-    .features-wrapper { grid-template-columns: 1fr; }
-}
-
-/* ===== LOCK SYSTEM ===== */
+.features-wrapper{grid-column:1/-1;display:grid;grid-template-columns:1fr;gap:24px;align-items:start}
+@media(min-width:1200px){.features-wrapper{grid-template-columns:1fr 1fr 1fr}}
+@media(max-width:1199px){.features-wrapper{grid-template-columns:1fr}}
 .feature-zone{position:relative;}
 .lock-overlay{position:absolute;inset:0;z-index:50;border-radius:20px;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;cursor:pointer;transition:all .3s;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);}
 .lock-overlay.active{display:flex;}
@@ -174,8 +157,6 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
 .feature-zone.unlocked .lock-overlay{display:none !important;}
 @keyframes unlockPop{0%{transform:scale(.8);opacity:0;}60%{transform:scale(1.05);}100%{transform:scale(1);opacity:1;}}
 .feature-zone.unlocked .card{animation:unlockPop .5s ease forwards;}
-
-/* ===== STRIPE PAYMENT STYLES ===== */
 .payment-section{grid-column:1/-1;margin-top:8px;}
 .payment-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:16px;}
 .payment-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:20px;backdrop-filter:blur(20px);box-shadow:0 20px 60px rgba(0,0,0,.5);position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s;}
@@ -201,8 +182,6 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
 .price-amount.srt{background:linear-gradient(135deg,#10b981,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 .price-label{font-size:.7rem;color:#6b7280;}
 .buy-btn{width:100%;padding:13px 16px;border-radius:12px;border:none;color:white;font-weight:700;font-size:.8rem;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;position:relative;overflow:hidden;}
-.buy-btn::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,0);transition:background .2s;}
-.buy-btn:hover::after{background:rgba(255,255,255,.08);}
 .buy-btn:active{transform:scale(.98);}
 .buy-btn:disabled{opacity:.6;cursor:not-allowed;transform:none;}
 .buy-btn.tts{background:linear-gradient(135deg,#4f46e5,#6366f1);box-shadow:0 6px 24px rgba(79,70,229,.4);}
@@ -212,36 +191,10 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
 .buy-btn.tts:hover{box-shadow:0 10px 32px rgba(79,70,229,.6);}
 .buy-btn.dub:hover{box-shadow:0 10px 32px rgba(217,119,6,.6);}
 .buy-btn.srt:hover{box-shadow:0 10px 32px rgba(5,150,105,.6);}
-.buy-btn .btn-spinner{width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;display:none;}
-.buy-btn.loading .btn-spinner{display:block;}
-.buy-btn.loading .btn-text{opacity:.7;}
-@keyframes spin{to{transform:rotate(360deg);}}
 .payment-note{display:flex;align-items:center;gap:5px;font-size:.62rem;color:#4b5563;margin-top:10px;justify-content:center;}
 .payment-section-title{text-align:center;margin-bottom:4px;}
 .payment-section-title h2{font-size:1.3rem;font-weight:800;background:linear-gradient(135deg,#a78bfa,#60a5fa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 .payment-section-title p{font-size:.75rem;color:#6b7280;margin-top:4px;}
-
-/* Payment Modal */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .3s;}
-.modal-overlay.show{opacity:1;pointer-events:all;}
-.modal-box{background:#111128;border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:28px 24px;max-width:420px;width:100%;box-shadow:0 30px 80px rgba(0,0,0,.8);transform:translateY(20px);transition:transform .3s;}
-.modal-overlay.show .modal-box{transform:translateY(0);}
-.modal-title{font-size:1rem;font-weight:800;color:#e0e0ff;margin-bottom:6px;}
-.modal-sub{font-size:.72rem;color:#6b7280;margin-bottom:20px;}
-#card-element{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:14px 12px;margin-bottom:16px;transition:border-color .3s;}
-#card-element.focused{border-color:#a78bfa;}
-#card-errors{color:#f87171;font-size:.72rem;margin-bottom:14px;min-height:18px;}
-.modal-actions{display:flex;gap:10px;}
-.modal-cancel{flex:1;padding:12px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#9ca3af;font-size:.8rem;cursor:pointer;font-family:inherit;transition:background .2s;}
-.modal-cancel:hover{background:rgba(255,255,255,.1);}
-.modal-pay{flex:2;padding:12px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#2563eb);border:none;color:white;font-size:.8rem;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;}
-.modal-pay:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(124,58,237,.5);}
-.modal-pay:disabled{opacity:.6;cursor:not-allowed;transform:none;}
-.modal-pay .btn-spinner{width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;display:none;}
-.modal-pay.loading .btn-spinner{display:block;}
-.modal-secure{display:flex;align-items:center;gap:5px;font-size:.62rem;color:#4b5563;margin-top:12px;justify-content:center;}
-
-/* ===== AUTH SYSTEM STYLES ===== */
 .auth-switcher{position:fixed;top:20px;right:20px;z-index:1000;display:flex;flex-direction:column-reverse;gap:8px;align-items:flex-end;}
 .auth-btn,.upgrade-link{display:flex;align-items:center;gap:8px;padding:10px 16px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:12px;color:#e0e0ff;cursor:pointer;font-size:.8rem;font-weight:600;transition:all .3s;backdrop-filter:blur(10px);font-family:inherit;}
 .auth-btn:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);transform:translateY(-2px);}
@@ -296,7 +249,7 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
 .lock-uses-left{font-size:.7rem;color:#6b7280;text-align:center;}
 .lock-uses-left strong{color:#fbbf24;}
 .adsense-container{grid-column:1/-1;margin:20px 0;text-align:center;min-height:90px;}
-
+@keyframes spin{to{transform:rotate(360deg);}}
 @media(max-width:600px){h1{font-size:1.4rem}.lg{grid-template-columns:repeat(3,1fr)}.sit{display:none}.cr{gap:10px}.cv{font-size:1rem}.tg{grid-template-columns:1fr}.lb{padding:8px 4px}}
 </style>
 </head>
@@ -320,7 +273,6 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
         </div>
     </div>
 
-    <!-- ===== AUTH BUTTON + UPGRADE LINK (Top Right) ===== -->
     <div class="auth-switcher" id="authSwitcher">
         <div class="upgrade-link" onclick="startCheckout('dub')">
             <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
@@ -389,17 +341,15 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
         </div>
     </header>
 
-    <!-- إعلان AdSense أعلى -->
     <div class="adsense-container">
         <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-691108357486678" data-ad-slot="YOUR_AD_SLOT_1" data-ad-format="auto" data-full-width-responsive="true"></ins>
         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
-    <!-- ===== STRIPE PAYMENT SECTION ===== -->
     <div class="payment-section">
         <div class="payment-section-title">
             <h2>🛒 المتجر — ترقية الحساب</h2>
-            <p>ادفع مرة واحدة واستمتع مدى الحياة · مدعوم بـ Stripe</p>
+            <p>ادفع مرة واحدة واستمتع مدى الحياة · مدعوم بـ Lemon Squeezy</p>
         </div>
         <div class="payment-grid">
             <div class="payment-card tts">
@@ -414,8 +364,8 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
                     <li>دفعة واحدة · بدون اشتراك</li>
                 </ul>
                 <div class="price-display"><span class="price-amount tts">$10</span><span class="price-label">مدى الحياة</span></div>
-                <button class="buy-btn tts" id="btn-tts" onclick="startCheckout('tts')"><div class="btn-spinner"></div><span class="btn-text">💳 شراء الآن</span></button>
-                <div class="payment-note">🔒 دفع آمن عبر Stripe</div>
+                <button class="buy-btn tts" id="btn-tts" onclick="startCheckout('tts')"><span class="btn-text">💳 شراء الآن</span></button>
+                <div class="payment-note">🔒 دفع آمن عبر Lemon Squeezy</div>
             </div>
             <div class="payment-card dub">
                 <span class="payment-badge dub">🎬 دبلجة</span>
@@ -429,8 +379,8 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
                     <li>دفعة واحدة · بدون اشتراك</li>
                 </ul>
                 <div class="price-display"><span class="price-amount dub">$50</span><span class="price-label">مدى الحياة</span></div>
-                <button class="buy-btn dub" id="btn-dub" onclick="startCheckout('dub')"><div class="btn-spinner"></div><span class="btn-text">💳 شراء الآن</span></button>
-                <div class="payment-note">🔒 دفع آمن عبر Stripe</div>
+                <button class="buy-btn dub" id="btn-dub" onclick="startCheckout('dub')"><span class="btn-text">💳 شراء الآن</span></button>
+                <div class="payment-note">🔒 دفع آمن عبر Lemon Squeezy</div>
             </div>
             <div class="payment-card srt">
                 <span class="payment-badge srt">🌐 مترجم</span>
@@ -444,22 +394,18 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
                     <li>دفعة واحدة · بدون اشتراك</li>
                 </ul>
                 <div class="price-display"><span class="price-amount srt">$10</span><span class="price-label">مدى الحياة</span></div>
-                <button class="buy-btn srt" id="btn-srt" onclick="startCheckout('srt')"><div class="btn-spinner"></div><span class="btn-text">💳 شراء الآن</span></button>
-                <div class="payment-note">🔒 دفع آمن عبر Stripe</div>
+                <button class="buy-btn srt" id="btn-srt" onclick="startCheckout('srt')"><span class="btn-text">💳 شراء الآن</span></button>
+                <div class="payment-note">🔒 دفع آمن عبر Lemon Squeezy</div>
             </div>
         </div>
     </div>
 
-    <!-- إعلان AdSense بين الأقسام -->
     <div class="adsense-container">
         <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-691108357486678" data-ad-slot="YOUR_AD_SLOT_2" data-ad-format="auto" data-full-width-responsive="true"></ins>
         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
-    <!-- ===== ✅ FEATURES WRAPPER — الأقسام الثلاثة في صف واحد ===== -->
     <div class="features-wrapper">
-
-        <!-- ===== ZONE TTS ===== -->
         <div class="feature-zone" id="zone-tts">
             <div class="lock-overlay tts-lock" id="lock-tts">
                 <div class="lock-icon" id="lock-icon-tts">🔒</div>
@@ -509,9 +455,8 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
                     <button class="sbtn" onclick="applyPreset('fast')">⚡ سريع</button>
                 </div>
             </div>
-        </div><!-- end zone-tts -->
+        </div>
 
-        <!-- ===== ZONE DUB ===== -->
         <div class="feature-zone" id="zone-dub">
             <div class="lock-overlay dub-lock" id="lock-dub">
                 <div class="lock-icon" id="lock-icon-dub">🔒</div>
@@ -576,9 +521,8 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
                 </div>
                 <div class="st i" id="dubSt" style="margin-top:12px">تأكد سيرفر Render شغال ثم اضغط</div>
             </div>
-        </div><!-- end zone-dub -->
+        </div>
 
-        <!-- ===== ZONE SRT ===== -->
         <div class="feature-zone" id="zone-srt">
             <div class="lock-overlay srt-lock" id="lock-srt">
                 <div class="lock-icon" id="lock-icon-srt">🔒</div>
@@ -626,36 +570,17 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
                 </div>
                 <div class="st i" id="cleanSt" style="margin-top:10px">الصق نصاً واضغط تنظيف</div>
             </div>
-        </div><!-- end zone-srt -->
+        </div>
 
-    </div><!-- end features-wrapper -->
+    </div>
 
-    <!-- إعلان AdSense أسفل -->
     <div class="adsense-container">
         <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-691108357486678" data-ad-slot="YOUR_AD_SLOT_4" data-ad-format="auto" data-full-width-responsive="true"></ins>
         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
-</div><!-- end .wrap -->
-<footer>sl-Dubbing &amp; Translation <span>· GitHub + Render · gTTS · مجاني 100%</span></footer>
-
-<!-- ===== STRIPE PAYMENT MODAL ===== -->
-<div class="modal-overlay" id="paymentModal" role="dialog" aria-modal="true">
-    <div class="modal-box">
-        <div class="modal-title" id="modalTitle">💳 إتمام الشراء</div>
-        <div class="modal-sub" id="modalSub">أدخل بيانات بطاقتك الائتمانية</div>
-        <div id="card-element"></div>
-        <div id="card-errors" role="alert"></div>
-        <div class="modal-actions">
-            <button class="modal-cancel" onclick="closeModal()">إلغاء</button>
-            <button class="modal-pay" id="payBtn" onclick="submitPayment()">
-                <div class="btn-spinner"></div>
-                <span class="btn-text">💳 ادفع الآن</span>
-            </button>
-        </div>
-        <div class="modal-secure">🔐 مشفّر بـ TLS · مدعوم بـ Stripe · بياناتك آمنة 100%</div>
-    </div>
 </div>
+<footer>sl-Dubbing &amp; Translation <span>· GitHub + Render · gTTS · مجاني 100%</span></footer>
 
 <script>
 // =============================================================
@@ -922,58 +847,21 @@ document.addEventListener('keydown', e => {
 });
 
 // =============================================================
-// STRIPE INTEGRATION
+// LEMON SQUEEZY INTEGRATION
 // =============================================================
-const STRIPE_PUBLISHABLE_KEY = 'pk_test_51T5xbIP6zLi6lDoxZFqc1eiXuIjAJEkCLROLyTcNuqh5ER1n49V9vELPZkDWNTPVxYOKB8rJ02wwHbbgHXeG8Nr500mM0PuzBi';
-const PRICE_IDS = { tts:'price_1QxL62P6zLi6lDoxE7p7p7p7', dub:'price_1QxLB4P6zLi6lDoxT8u9i0oP', srt:'price_1QxLCJP6zLi6lDoxW2q3r4s5' };
-const PRODUCT_INFO = {
-    tts: { title:'💎 تفعيل النطق مدى الحياة', price:'$10', sub:'ادفع $10 مرة واحدة فقط' },
-    dub: { title:'🚀 فتح الدبلجة مدى الحياة',  price:'$50', sub:'ادفع $50 مرة واحدة فقط' },
-    srt: { title:'🌍 شراء المترجم مدى الحياة',  price:'$10', sub:'ادفع $10 مرة واحدة فقط' }
+const LS_URLS = {
+    tts: 'https://sl-dubbing.lemonsqueezy.com/checkout/buy/63c47294-0068-4206-a439-b0fca724b098',
+    dub: 'https://sl-dubbing.lemonsqueezy.com/checkout/buy/f92d46fb-65a6-4e53-bf13-5527cffa4e93',
+    srt: 'https://sl-dubbing.lemonsqueezy.com/checkout/buy/7e1f55d2-6e06-4525-954f-2306b9b3a20f'
 };
-let stripe, cardElement, currentProduct = null;
-
-function initStripe() {
-    try {
-        stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
-        const elements = stripe.elements({ appearance:{ theme:'night', variables:{ colorPrimary:'#a78bfa', colorBackground:'#111128', colorText:'#e0e0ff', colorDanger:'#f87171', fontFamily:'Segoe UI, Tahoma, Geneva, Verdana, sans-serif', spacingUnit:'4px', borderRadius:'8px' } } });
-        cardElement = elements.create('card', { style:{ base:{ color:'#e0e0ff', fontFamily:'"Segoe UI", Tahoma, sans-serif', fontSize:'15px', '::placeholder':{ color:'#4b5563' }, iconColor:'#a78bfa' }, invalid:{ color:'#f87171', iconColor:'#f87171' } } });
-        cardElement.mount('#card-element');
-        cardElement.on('change', e => { document.getElementById('card-errors').textContent = e.error ? e.error.message : ''; });
-        cardElement.on('focus', () => document.getElementById('card-element').classList.add('focused'));
-        cardElement.on('blur',  () => document.getElementById('card-element').classList.remove('focused'));
-    } catch(e) { console.warn('Stripe init failed:', e); }
-}
 
 function startCheckout(product) {
-    currentProduct = product;
-    const info = PRODUCT_INFO[product];
-    document.getElementById('modalTitle').textContent = info.title + ' — ' + info.price;
-    document.getElementById('modalSub').textContent = info.sub;
-    document.getElementById('card-errors').textContent = '';
-    document.getElementById('paymentModal').classList.add('show');
-    document.body.style.overflow = 'hidden';
-    if (!stripe) initStripe();
-}
-function closeModal() {
-    document.getElementById('paymentModal').classList.remove('show');
-    document.body.style.overflow = '';
-    const payBtn = document.getElementById('payBtn');
-    payBtn.classList.remove('loading'); payBtn.disabled = false;
-}
-async function submitPayment() {
-    if (!stripe || !cardElement || !currentProduct) return;
-    const payBtn = document.getElementById('payBtn');
-    payBtn.classList.add('loading'); payBtn.disabled = true;
-    document.getElementById('card-errors').textContent = '';
-    try {
-        const { error } = await stripe.createPaymentMethod({ type:'card', card:cardElement });
-        if (error) { document.getElementById('card-errors').textContent = error.message; payBtn.classList.remove('loading'); payBtn.disabled = false; return; }
-        closeModal();
-        showPaymentSuccess(currentProduct);
-    } catch (err) { document.getElementById('card-errors').textContent = 'حدث خطأ. يرجى المحاولة مجدداً.'; payBtn.classList.remove('loading'); payBtn.disabled = false; }
+    window.open(LS_URLS[product], '_blank');
 }
 
+// =============================================================
+// UNLOCK SYSTEM
+// =============================================================
 const UNLOCK_KEY = 'alhashmi_unlocked';
 function getUnlocked() { try { return JSON.parse(localStorage.getItem(UNLOCK_KEY)||'{}'); } catch(e) { return {}; } }
 function saveUnlocked(product) { const u=getUnlocked(); u[product]=true; try { localStorage.setItem(UNLOCK_KEY, JSON.stringify(u)); } catch(e) {} }
@@ -1004,24 +892,17 @@ function showPaymentSuccess(product) {
     updateLockStates();
     showToast('🎉 تم الدفع بنجاح! الميزة مفعّلة مدى الحياة.', 'ok');
 }
-document.getElementById('paymentModal').addEventListener('click', function(e) { if (e.target===this) closeModal(); });
 
 // =============================================================
 // LANGUAGES DATA
 // =============================================================
 const langs = [
-    {c:'ar',f:'🇸🇦',n:'العربية',v:'ar'},
-    {c:'en',f:'🇺🇸',n:'English',v:'en'},
-    {c:'ru',f:'🇷🇺',n:'Русский',v:'ru'},
-    {c:'tr',f:'🇹🇷',n:'Türkçe',v:'tr'},
-    {c:'fr',f:'🇫🇷',n:'Français',v:'fr'},
-    {c:'de',f:'🇩🇪',n:'Deutsch',v:'de'},
-    {c:'es',f:'🇪🇸',n:'Español',v:'es'},
-    {c:'zh',f:'🇨🇳',n:'中文',v:'zh'},
-    {c:'hi',f:'🇮🇳',n:'हिन्दी',v:'hi'},
-    {c:'fa',f:'🇮🇷',n:'فارسی',v:'fa'},
-    {c:'it',f:'🇮🇹',n:'Italiano',v:'it'},
-    {c:'nl',f:'🇳🇱',n:'Nederlands',v:'nl'},
+    {c:'ar',f:'🇸🇦',n:'العربية',v:'ar'},{c:'en',f:'🇺🇸',n:'English',v:'en'},
+    {c:'ru',f:'🇷🇺',n:'Русский',v:'ru'},{c:'tr',f:'🇹🇷',n:'Türkçe',v:'tr'},
+    {c:'fr',f:'🇫🇷',n:'Français',v:'fr'},{c:'de',f:'🇩🇪',n:'Deutsch',v:'de'},
+    {c:'es',f:'🇪🇸',n:'Español',v:'es'},{c:'zh',f:'🇨🇳',n:'中文',v:'zh'},
+    {c:'hi',f:'🇮🇳',n:'हिन्दी',v:'hi'},{c:'fa',f:'🇮🇷',n:'فارسی',v:'fa'},
+    {c:'it',f:'🇮🇹',n:'Italiano',v:'it'},{c:'nl',f:'🇳🇱',n:'Nederlands',v:'nl'},
     {c:'sv',f:'🇸🇪',n:'Svenska',v:'sv'},
 ];
 let selLang='ar', selDubLang='ar', selTransLang='en';
@@ -1029,28 +910,24 @@ let srtData=[], dubCancel=false, dubBlob=null;
 let curUtter=null, speaking=false;
 
 function buildLangGrid(id, sel, onPick) {
-    const g = document.getElementById(id);
-    if (!g) return;
+    const g = document.getElementById(id); if (!g) return;
     g.innerHTML = langs.map(l=>`<button class="lb${l.c===sel?' on':''}" onclick="${onPick}('${l.c}')"><span class="lf">${l.f}</span><span class="lang-text">${l.n}</span></button>`).join('');
 }
-function pickLang(c)       { selLang=c;       buildLangGrid('g1',c,'pickLang');       buildVoices(); }
-function pickDubLang(c)    { selDubLang=c;    buildLangGrid('g2',c,'pickDubLang'); }
-function pickTransLang(c)  { selTransLang=c;  buildTransGrid(); }
+function pickLang(c)      { selLang=c;      buildLangGrid('g1',c,'pickLang');      buildVoices(); }
+function pickDubLang(c)   { selDubLang=c;   buildLangGrid('g2',c,'pickDubLang'); }
+function pickTransLang(c) { selTransLang=c; buildTransGrid(); }
 
 function buildTransGrid() {
-    const g = document.getElementById('transLangs');
-    if (!g) return;
+    const g = document.getElementById('transLangs'); if (!g) return;
     g.innerHTML = langs.map(l=>`<button class="tbtn${l.c===selTransLang?' on':''}" onclick="pickTransLang('${l.c}')">${l.f} ${l.n}</button>`).join('');
 }
 
 function buildVoices() {
-    const vs = document.getElementById('vs');
-    if (!vs) return;
+    const vs = document.getElementById('vs'); if (!vs) return;
     const voices = speechSynthesis.getVoices().filter(v=>v.lang.startsWith(selLang));
     vs.innerHTML = voices.length ? voices.map((v,i)=>`<option value="${i}">${v.name}</option>`).join('') : `<option>افتراضي</option>`;
 }
 
-// TTS
 function tSpeak() {
     const txt = document.getElementById('ti').value.trim();
     if (!txt) { setSt('s1','⚠️ أدخل نصاً أولاً','er'); return; }
@@ -1059,59 +936,44 @@ function tSpeak() {
     const voices = speechSynthesis.getVoices().filter(v=>v.lang.startsWith(selLang));
     const vi = parseInt(document.getElementById('vs').value)||0;
     if (voices[vi]) u.voice = voices[vi];
-    u.rate   = parseFloat(document.getElementById('rr1').value);
-    u.pitch  = parseFloat(document.getElementById('pr1').value);
-    u.volume = parseFloat(document.getElementById('vr1').value);
-    u.lang   = selLang;
-    u.onstart = () => { speaking=true; setSt('s1','🔊 جارٍ النطق...','i'); document.getElementById('wv1').classList.add('on'); };
-    u.onend   = () => { speaking=false; setSt('s1','✅ اكتمل','ok'); document.getElementById('wv1').classList.remove('on'); };
-    u.onerror = () => { speaking=false; setSt('s1','❌ خطأ في النطق','er'); document.getElementById('wv1').classList.remove('on'); };
-    speechSynthesis.speak(u);
-    curUtter = u;
+    u.rate=parseFloat(document.getElementById('rr1').value);
+    u.pitch=parseFloat(document.getElementById('pr1').value);
+    u.volume=parseFloat(document.getElementById('vr1').value);
+    u.lang=selLang;
+    u.onstart=()=>{ speaking=true; setSt('s1','🔊 جارٍ النطق...','i'); document.getElementById('wv1').classList.add('on'); };
+    u.onend=()=>{ speaking=false; setSt('s1','✅ اكتمل','ok'); document.getElementById('wv1').classList.remove('on'); };
+    u.onerror=()=>{ speaking=false; setSt('s1','❌ خطأ في النطق','er'); document.getElementById('wv1').classList.remove('on'); };
+    speechSynthesis.speak(u); curUtter=u;
 }
 function tPause() { if (speechSynthesis.speaking) speechSynthesis.cancel(); }
 function clrTxt() { document.getElementById('ti').value=''; document.getElementById('cc').textContent='0'; setSt('s1','👋 اكتب نصاً واضغط نطق','i'); }
 
-// SRT load
 function ldSRT(e) {
-    const f = e.target.files[0];
-    if (!f) return;
-    const r = new FileReader();
-    r.onload = ev => { document.getElementById('srtP').value=ev.target.result; prsPaste(); };
+    const f=e.target.files[0]; if(!f) return;
+    const r=new FileReader();
+    r.onload=ev=>{ document.getElementById('srtP').value=ev.target.result; prsPaste(); };
     r.readAsText(f,'UTF-8');
 }
 function prsPaste() {
-    const raw = document.getElementById('srtP').value.trim();
-    if (!raw) { setSt('dubSt','⚠️ لا يوجد محتوى','er'); return; }
-    srtData = parseSRT(raw);
-    if (!srtData.length) { setSt('dubSt','❌ تعذّر تحليل الملف','er'); return; }
+    const raw=document.getElementById('srtP').value.trim();
+    if(!raw){ setSt('dubSt','⚠️ لا يوجد محتوى','er'); return; }
+    srtData=parseSRT(raw);
+    if(!srtData.length){ setSt('dubSt','❌ تعذّر تحليل الملف','er'); return; }
     showSRTInfo();
     document.getElementById('dubCard').style.display='block';
     setSt('dubSt','✅ '+srtData.length+' جملة — اضغط توليد','ok');
 }
 function parseSRT(txt) {
-    const blocks = txt.trim().split(/\n\s*\n/);
-    const out=[];
-    blocks.forEach(b=>{
-        const lines=b.trim().split('\n');
-        if (lines.length<2) return;
-        const tLine=lines.find(l=>/-->/.test(l));
-        if (!tLine) return;
+    const blocks=txt.trim().split(/\n\s*\n/), out=[];
+    blocks.forEach(b=>{ const lines=b.trim().split('\n'); if(lines.length<2) return;
+        const tLine=lines.find(l=>/-->/.test(l)); if(!tLine) return;
         const [st,et]=tLine.split('-->').map(s=>s.trim());
         const text=lines.filter(l=>!/-->/.test(l)&&!/^\d+$/.test(l.trim())).join(' ').trim();
-        if (text) out.push({start:toSec(st),end:toSec(et),text});
-    });
+        if(text) out.push({start:toSec(st),end:toSec(et),text}); });
     return out;
 }
-function toSec(s) {
-    const m=s.match(/(\d+):(\d+):(\d+)[,.](\d+)/);
-    if (!m) return 0;
-    return parseInt(m[1])*3600+parseInt(m[2])*60+parseInt(m[3])+parseInt(m[4])/1000;
-}
-function fmtTime(s) {
-    const h=Math.floor(s/3600), m=Math.floor((s%3600)/60), sec=Math.floor(s%60);
-    return `${h}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
-}
+function toSec(s) { const m=s.match(/(\d+):(\d+):(\d+)[,.](\d+)/); if(!m) return 0; return parseInt(m[1])*3600+parseInt(m[2])*60+parseInt(m[3])+parseInt(m[4])/1000; }
+function fmtTime(s) { const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=Math.floor(s%60); return `${h}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`; }
 function showSRTInfo() {
     document.getElementById('srtInfo').style.display='block';
     document.getElementById('sCnt').textContent=srtData.length;
@@ -1122,58 +984,46 @@ function showSRTInfo() {
 }
 function cpySRT() { navigator.clipboard.writeText(srtData.map(s=>s.text).join('\n')).then(()=>showToast('✅ تم النسخ','ok')); }
 
-// Dubbing stub
 async function stDub() { setSt('dubSt','⚠️ يتطلب سيرفر backend','wn'); }
 function cnclDub() { dubCancel=true; }
 function dlRes() { if(dubBlob){const a=document.createElement('a');a.href=URL.createObjectURL(dubBlob);a.download='dubbing.wav';a.click();} }
 
-// SRT Translator
 async function startTrans() {
-    const src = document.getElementById('srcSRT').value.trim();
-    if (!src) { setSt('transSt','⚠️ الصق محتوى SRT أولاً','er'); return; }
+    const src=document.getElementById('srcSRT').value.trim();
+    if(!src){ setSt('transSt','⚠️ الصق محتوى SRT أولاً','er'); return; }
     setSt('transSt','⏳ جارٍ الترجمة...','i');
     document.getElementById('transRes').style.display='none';
-    const blocks = src.trim().split(/\n\s*\n/);
-    const translated=[];
-    for (const b of blocks) {
+    const blocks=src.trim().split(/\n\s*\n/), translated=[];
+    for(const b of blocks){
         const lines=b.trim().split('\n');
-        const tLine=lines.find(l=>/-->/.test(l));
-        if (!tLine) continue;
+        const tLine=lines.find(l=>/-->/.test(l)); if(!tLine) continue;
         const text=lines.filter(l=>!/-->/.test(l)&&!/^\d+$/.test(l.trim())).join(' ').trim();
         const num=lines.find(l=>/^\d+$/.test(l.trim()))||'';
         translated.push({num,time:tLine,text});
     }
-    const out = translated.map((b,i)=>`${i+1}\n${b.time}\n${b.text}`).join('\n\n');
+    const out=translated.map((b,i)=>`${i+1}\n${b.time}\n${b.text}`).join('\n\n');
     document.getElementById('transOut').textContent=out;
     document.getElementById('transRes').style.display='block';
     setSt('transSt','✅ تمت الترجمة (stub — يتطلب backend)','ok');
 }
 function copyResult() { navigator.clipboard.writeText(document.getElementById('transOut').textContent).then(()=>showToast('✅ تم النسخ','ok')); }
-function dlTransSRT() {
-    const txt=document.getElementById('transOut').textContent;
-    const a=document.createElement('a'); a.href='data:text/plain;charset=utf-8,'+encodeURIComponent(txt); a.download='translated.srt'; a.click();
-}
-function pasteSrc() { navigator.clipboard.readText().then(t=>{document.getElementById('srcSRT').value=t;}).catch(()=>{}); }
+function dlTransSRT() { const txt=document.getElementById('transOut').textContent; const a=document.createElement('a'); a.href='data:text/plain;charset=utf-8,'+encodeURIComponent(txt); a.download='translated.srt'; a.click(); }
+function pasteSrc() { navigator.clipboard.readText().then(t=>{ document.getElementById('srcSRT').value=t; }).catch(()=>{}); }
 
-// Text Cleaner
 function cleanText() {
     let txt=document.getElementById('cleanInput').value;
-    if (!txt.trim()) { setSt('cleanSt','⚠️ الصق نصاً أولاً','er'); return; }
-    if (document.getElementById('removeNumbers').checked) txt=txt.replace(/^\d+\s*$/gm,'');
-    if (document.getElementById('removeTime').checked) txt=txt.replace(/\d{1,2}:\d{2}:\d{2}[,\.]\d{3}\s*-->\s*\d{1,2}:\d{2}:\d{2}[,\.]\d{3}/g,'');
-    if (document.getElementById('removeEmpty').checked) txt=txt.replace(/\n{2,}/g,'\n').trim();
+    if(!txt.trim()){ setSt('cleanSt','⚠️ الصق نصاً أولاً','er'); return; }
+    if(document.getElementById('removeNumbers').checked) txt=txt.replace(/^\d+\s*$/gm,'');
+    if(document.getElementById('removeTime').checked) txt=txt.replace(/\d{1,2}:\d{2}:\d{2}[,\.]\d{3}\s*-->\s*\d{1,2}:\d{2}:\d{2}[,\.]\d{3}/g,'');
+    if(document.getElementById('removeEmpty').checked) txt=txt.replace(/\n{2,}/g,'\n').trim();
     document.getElementById('cleanOutput').textContent=txt;
     document.getElementById('cleanResult').style.display='block';
     setSt('cleanSt','✅ تم التنظيف','ok');
 }
 function copyClean() { navigator.clipboard.writeText(document.getElementById('cleanOutput').textContent).then(()=>showToast('✅ تم النسخ','ok')); }
-function dlClean() {
-    const txt=document.getElementById('cleanOutput').textContent;
-    const a=document.createElement('a'); a.href='data:text/plain;charset=utf-8,'+encodeURIComponent(txt); a.download='cleaned.txt'; a.click();
-}
-function pasteClean() { navigator.clipboard.readText().then(t=>{document.getElementById('cleanInput').value=t;}).catch(()=>{}); }
+function dlClean() { const txt=document.getElementById('cleanOutput').textContent; const a=document.createElement('a'); a.href='data:text/plain;charset=utf-8,'+encodeURIComponent(txt); a.download='cleaned.txt'; a.click(); }
+function pasteClean() { navigator.clipboard.readText().then(t=>{ document.getElementById('cleanInput').value=t; }).catch(()=>{}); }
 
-// Filters
 function updateFilters() {
     document.getElementById('speedVal').textContent=parseFloat(document.getElementById('filterSpeed').value).toFixed(1)+'x';
     document.getElementById('pitchVal').textContent=parseFloat(document.getElementById('filterPitch').value).toFixed(1);
@@ -1188,14 +1038,12 @@ function resetFilters() {
 }
 function applyPreset(p) {
     const presets={male:{pitch:.7,speed:1},radio:{pitch:1.1,speed:1.1},warm:{pitch:.9,speed:.9},fast:{pitch:1,speed:1.6}};
-    const pr=presets[p];
-    if (!pr) return;
+    const pr=presets[p]; if(!pr) return;
     document.getElementById('filterPitch').value=pr.pitch;
     document.getElementById('filterSpeed').value=pr.speed;
     updateFilters();
 }
 
-// Range inputs
 document.getElementById('rr1').oninput=function(){document.getElementById('rv1').textContent=parseFloat(this.value).toFixed(1)+'x';}
 document.getElementById('pr1').oninput=function(){document.getElementById('pv1').textContent=parseFloat(this.value).toFixed(1);}
 document.getElementById('vr1').oninput=function(){document.getElementById('vv1').textContent=Math.round(this.value*100)+'%';}
@@ -1203,25 +1051,19 @@ document.getElementById('rr2').oninput=function(){document.getElementById('rv2')
 document.getElementById('vr2').oninput=function(){document.getElementById('vv2').textContent=parseFloat(this.value).toFixed(1);}
 document.getElementById('ti').oninput=function(){document.getElementById('cc').textContent=this.value.length;}
 
-function setSt(id,msg,cls) {
-    const el=document.getElementById(id); if(!el)return;
-    el.textContent=msg; el.className='st '+cls;
-}
-
-// Lang switcher UI
+function setSt(id,msg,cls){ const el=document.getElementById(id); if(!el)return; el.textContent=msg; el.className='st '+cls; }
 function toggleLang() { document.getElementById('langDropdown').classList.toggle('show'); }
 function setLang(l) {
     document.querySelectorAll('.lang-option').forEach(o=>o.classList.toggle('active',o.dataset.lang===l));
-    document.getElementById('currentLang').textContent={ ar:'العربية',en:'English',ru:'Русский',tr:'Türkçe',fr:'Français',de:'Deutsch',es:'Español' }[l]||l;
+    document.getElementById('currentLang').textContent={ar:'العربية',en:'English',ru:'Русский',tr:'Türkçe',fr:'Français',de:'Deutsch',es:'Español'}[l]||l;
     document.getElementById('langDropdown').classList.remove('show');
     document.documentElement.lang=l;
     document.documentElement.dir=['ar','fa','he'].includes(l)?'rtl':'ltr';
 }
 
-// Init
 window.addEventListener('DOMContentLoaded', () => {
-    buildLangGrid('g1', selLang,     'pickLang');
-    buildLangGrid('g2', selDubLang,  'pickDubLang');
+    buildLangGrid('g1', selLang,    'pickLang');
+    buildLangGrid('g2', selDubLang, 'pickDubLang');
     buildTransGrid();
     buildVoices();
     speechSynthesis.onvoiceschanged = buildVoices;
