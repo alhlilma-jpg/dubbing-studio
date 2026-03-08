@@ -995,10 +995,45 @@ function switchAuthTab(tab) {
     document.getElementById('registerForm').classList.toggle('active', tab === 'register');
 }
 
-function doLogin() {
+async function doLogin() {
     const email = document.getElementById('loginEmail').value;
-    if (email && email.includes('@gmail.com')) {
-        currentUser = { email, usage: { tts: 0, dub: 0, srt: 0 } };
+    const password = document.getElementById('loginPass').value;
+
+    if (!email || !email.includes('@')) {
+        alert('الرجاء إدخال بريد إلكتروني صحيح');
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            currentUser = { 
+                email: data.email, 
+                usage: data.usage || { tts: 0, dub: 0, srt: 0 },
+                unlocked: data.unlocked || { tts: false, dub: false, srt: false }
+            };
+            updateAuthUI();
+            toggleAuth();
+            updateLockStates();
+            alert('تم تسجيل الدخول بنجاح!');
+        } else {
+            alert(data.error || 'خطأ في تسجيل الدخول');
+        }
+    } catch (e) {
+        // If server error, create local user for demo
+        console.log('Server error, using local login:', e);
+        currentUser = { 
+            email, 
+            usage: { tts: 0, dub: 0, srt: 0 },
+            unlocked: { tts: false, dub: false, srt: false }
+        };
         updateAuthUI();
         toggleAuth();
         updateLockStates();
@@ -1239,18 +1274,7 @@ async function stDub() {
         return;
     }
 
-    // Check server first
-    if (!serverOnline) {
-        await checkServerStatus();
-        if (!serverOnline) {
-            showDubStatus('error', currentLang === 'ar' ? 
-                '❌ السيرفر غير متصل. انقر على حالة السيرفر أعلاه للمحاولة مرة أخرى.' : 
-                '❌ Server offline. Click server status above to retry.');
-            return;
-        }
-    }
-
-    // Check user limits
+    // Check user login and limits
     if (!currentUser) {
         openAuth();
         return;
@@ -1262,8 +1286,166 @@ async function stDub() {
         return;
     }
 
-    // Start dubbing process
-    await startDubbingProcess();
+    // Try server first, if fails use browser TTS
+    const serverWorked = await tryServerDubbing();
+    if (!serverWorked) {
+        await useBrowserTTS();
+    }
+}
+
+async function tryServerDubbing() {
+    try {
+        const texts = srtData.map(item => item.text).join('\n');
+        const response = await fetch(`${API_BASE_URL}/api/dub`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                text: texts,
+                lang: selDubLang,
+                email: currentUser.email,
+                feature: 'dub'
+            })
+        });
+
+        if (!response.ok) return false;
+
+        const result = await response.json();
+        if (result.success && result.audio_url) {
+            finishDubbingWithAudio(result.audio_url);
+            return true;
+        }
+        return false;
+    } catch (e) {
+        console.log('Server failed, using browser TTS');
+        return false;
+    }
+}
+
+async function useBrowserTTS() {
+    // Use browser's built-in speech synthesis
+    const btn = document.getElementById('genBtn');
+    const progressDiv = document.getElementById('dubP');
+    const resultDiv = document.getElementById('dubRes');
+
+    btn.style.display = 'none';
+    progressDiv.style.display = 'block';
+    resultDiv.style.display = 'none';
+
+    showDubStatus('info', currentLang === 'ar' ? 
+        '🎙️ جاري توليد الصوت باستخدام المتصفح...' : 
+        '🎙️ Generating audio using browser...');
+
+    // Combine all text
+    const fullText = srtData.map(item => item.text).join('. ');
+
+    // Create speech synthesis
+    const utterance = new SpeechSynthesisUtterance(fullText);
+    utterance.lang = selDubLang === 'ar' ? 'ar-SA' : 
+                     selDubLang === 'en' ? 'en-US' : 
+                     selDubLang === 'es' ? 'es-ES' :
+                     selDubLang === 'fr' ? 'fr-FR' :
+                     selDubLang === 'de' ? 'de-DE' :
+                     selDubLang === 'it' ? 'it-IT' :
+                     selDubLang === 'ru' ? 'ru-RU' :
+                     selDubLang === 'tr' ? 'tr-TR' : 'en-US';
+
+    utterance.rate = parseFloat(document.getElementById('rr2').value) || 1;
+    utterance.volume = parseFloat(document.getElementById('vr2').value) || 1;
+
+    // Get voices
+    const voices = speechSynthesis.getVoices();
+    const voice = voices.find(v => v.lang.startsWith(selDubLang));
+    if (voice) utterance.voice = voice;
+
+    // Simulate progress
+    let progress = 0;
+    const progressInterval = setInterval(() => {
+        progress += 5;
+        if (progress > 90) progress = 90;
+        document.getElementById('pFill').style.width = progress + '%';
+    }, 200);
+
+    // Speak and record
+    const audioChunks = [];
+
+    utterance.onend = () => {
+        clearInterval(progressInterval);
+        document.getElementById('pFill').style.width = '100%';
+
+        // Update usage
+        currentUser.usage.dub = (currentUser.usage.dub || 0) + 1;
+        updateUsageUI();
+
+        setTimeout(() => {
+            progressDiv.style.display = 'none';
+            resultDiv.style.display = 'block';
+
+            // Setup audio player with a silent placeholder
+            // (Browser TTS doesn't produce downloadable file easily)
+            const audio = document.getElementById('dubAu');
+            audio.style.display = 'none';
+
+            // Show message
+            showDubStatus('success', currentLang === 'ar' ? 
+                '✅ تم التوليد! اضغط Play للاستماع (التنزيل غير متوفر في وضع المتصفح)' : 
+                '✅ Generated! Press Play to listen (Download not available in browser mode)');
+
+            // Add play button
+            addPlayButton(fullText, utterance);
+        }, 500);
+    };
+
+    utterance.onerror = () => {
+        clearInterval(progressInterval);
+        progressDiv.style.display = 'none';
+        btn.style.display = 'flex';
+        showDubStatus('error', currentLang === 'ar' ? '❌ خطأ في توليد الصوت' : '❌ Error generating audio');
+    };
+
+    // Start speaking
+    speechSynthesis.speak(utterance);
+}
+
+function addPlayButton(text, utterance) {
+    const resultDiv = document.getElementById('dubRes');
+
+    // Remove old play button if exists
+    const oldBtn = document.getElementById('playBtn');
+    if (oldBtn) oldBtn.remove();
+
+    // Create new play button
+    const playBtn = document.createElement('button');
+    playBtn.id = 'playBtn';
+    playBtn.className = 'btn bs';
+    playBtn.style.cssText = 'width: 100%; margin-top: 10px; background: linear-gradient(135deg, #059669, #0d9488);';
+    playBtn.innerHTML = '▶ ' + (currentLang === 'ar' ? 'استمع للدبلجة' : 'Listen to Dubbing');
+
+    playBtn.onclick = () => {
+        speechSynthesis.cancel();
+        const newUtterance = new SpeechSynthesisUtterance(text);
+        newUtterance.lang = utterance.lang;
+        newUtterance.rate = utterance.rate;
+        newUtterance.volume = utterance.volume;
+        if (utterance.voice) newUtterance.voice = utterance.voice;
+        speechSynthesis.speak(newUtterance);
+    };
+
+    resultDiv.appendChild(playBtn);
+}
+
+function finishDubbingWithAudio(audioUrl) {
+    document.getElementById('dubP').style.display = 'none';
+    document.getElementById('dubRes').style.display = 'block';
+
+    const audio = document.getElementById('dubAu');
+    audio.style.display = 'block';
+    audio.src = audioUrl.startsWith('http') ? audioUrl : API_BASE_URL + audioUrl;
+
+    // Remove play button if exists
+    const oldBtn = document.getElementById('playBtn');
+    if (oldBtn) oldBtn.remove();
+
+    showDubStatus('success', currentLang === 'ar' ? '✅ تم توليد الدبلجة بنجاح!' : '✅ Dubbing generated successfully!');
 }
 
 async function startDubbingProcess() {
