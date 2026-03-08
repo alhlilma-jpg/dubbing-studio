@@ -29,7 +29,7 @@ header{text-align:center;margin-bottom:32px;grid-column:1/-1;display:flex;justif
 .lang-btn{display:flex;align-items:center;gap:8px;padding:10px 16px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:12px;color:#e0e0ff;cursor:pointer;font-size:.8rem;font-weight:600;transition:all .3s;backdrop-filter:blur(10px)}
 .lang-btn:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);transform:translateY(-2px)}
 .lang-btn svg{width:20px;height:20px;fill:#e0e0ff}
-.lang-dropdown{position:absolute;top:100%;left:0;margin-top:8px;background:rgba(255,255,255,.98);border-radius:12px;box-shadow:0 10px 40px rgba(0,0,0,.5);min-width:220px;overflow:hidden;transform:scale(0);transform-origin:top left;transition:all .3s;opacity:0}
+.lang-dropdown{position:absolute;top:100%;left:0;margin-top:8px;background:rgba(255,255,255,.98);border-radius:12px;box-shadow:0 10px 40px rgba(0,0,0,.5);min-width:220px;overflow:hidden;transform:scale(0);transform-origin:top left;transition:all .3s;opacity:0;max-height:400px;overflow-y:auto}
 .lang-dropdown.show{transform:scale(1);opacity:1}
 .lang-option{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;transition:all .2s;border-bottom:1px solid rgba(0,0,0,.05)}
 .lang-option:last-child{border-bottom:none}
@@ -250,12 +250,10 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
 .lock-uses-left{font-size:.7rem;color:#6b7280;text-align:center;}
 .lock-uses-left strong{color:#fbbf24;}
 .adsense-container{grid-column:1/-1;margin:20px 0;text-align:center;min-height:90px;}
-@keyframes spin{to{transform:rotate(360deg);}}
-@media(max-width:600px){h1{font-size:1.4rem}.lg{grid-template-columns:repeat(3,1fr)}.sit{display:none}.cr{gap:10px}.cv{font-size:1rem}.tg{grid-template-columns:1fr}.lb{padding:8px 4px}}
 
 /* OTP Modal Styles */
 .otp-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);z-index:9999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(5px);animation:modalFadeIn 0.3s ease}
-.otp-modal-content{background:linear-gradient(135deg, #1a0533, #0a0a1a);border:2px solid #a78bfa;border-radius:20px;padding:40px;max-width:450px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(167,139,250,0.3);animation:modalPop 0.3s ease}
+.otp-content{background:linear-gradient(135deg, #1a0533, #0a0a1a);border:2px solid #a78bfa;border-radius:20px;padding:40px;max-width:450px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(167,139,250,0.3);animation:modalPop 0.3s ease}
 .otp-icon{font-size:4rem;margin-bottom:20px;display:block}
 .otp-title{color:#a78bfa;margin-bottom:10px;font-size:1.8rem}
 .otp-desc{color:#9ca3af;margin-bottom:20px;line-height:1.6}
@@ -271,8 +269,12 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
 .otp-btn-cancel{margin-top:15px;background:none;border:none;color:#6b7280;cursor:pointer;font-size:0.85rem}
 @keyframes modalPop{from{transform:scale(0.8);opacity:0}to{transform:scale(1);opacity:1}}
 @keyframes modalFadeIn{from{opacity:0}to{opacity:1}}
+@keyframes modalFadeOut{from{opacity:1}to{opacity:0}}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
 .otp-input.error{border-color:#f87171;animation:shake 0.5s}
+
+@keyframes spin{to{transform:rotate(360deg);}}
+@media(max-width:600px){h1{font-size:1.4rem}.lg{grid-template-columns:repeat(3,1fr)}.sit{display:none}.cr{gap:10px}.cv{font-size:1rem}.tg{grid-template-columns:1fr}.lb{padding:8px 4px}}
 </style>
 </head>
 <body>
@@ -292,6 +294,12 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
 <div class="lang-option" onclick="setLang('fr')" data-lang="fr" role="menuitem"><span class="lang-flag">🇫🇷</span><span class="lang-name">Français</span></div>
 <div class="lang-option" onclick="setLang('de')" data-lang="de" role="menuitem"><span class="lang-flag">🇩🇪</span><span class="lang-name">Deutsch</span></div>
 <div class="lang-option" onclick="setLang('es')" data-lang="es" role="menuitem"><span class="lang-flag">🇪🇸</span><span class="lang-name">Español</span></div>
+<div class="lang-option" onclick="setLang('zh')" data-lang="zh" role="menuitem"><span class="lang-flag">🇨🇳</span><span class="lang-name">中文</span></div>
+<div class="lang-option" onclick="setLang('hi')" data-lang="hi" role="menuitem"><span class="lang-flag">🇮🇳</span><span class="lang-name">हिन्दी</span></div>
+<div class="lang-option" onclick="setLang('fa')" data-lang="fa" role="menuitem"><span class="lang-flag">🇮🇷</span><span class="lang-name">فارسی</span></div>
+<div class="lang-option" onclick="setLang('it')" data-lang="it" role="menuitem"><span class="lang-flag">🇮🇹</span><span class="lang-name">Italiano</span></div>
+<div class="lang-option" onclick="setLang('nl')" data-lang="nl" role="menuitem"><span class="lang-flag">🇳🇱</span><span class="lang-name">Nederlands</span></div>
+<div class="lang-option" onclick="setLang('sv')" data-lang="sv" role="menuitem"><span class="lang-flag">🇸🇪</span><span class="lang-name">Svenska</span></div>
 </div>
 </div>
 <div class="auth-switcher" id="authSwitcher">
@@ -595,396 +603,456 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
 
 <script>
 // =============================================================
-// 🌍 I18N - قاموس الترجمات الكامل
+// 🌍 I18N - قاموس الترجمات الكامل (13 لغة)
 // =============================================================
 const I18N = {
   ar: {
-    login: 'تسجيل الدخول',
-    register: 'إنشاء حساب',
-    email: 'البريد الإلكتروني',
-    password: 'كلمة المرور',
-    confirmPass: 'تأكيد كلمة المرور',
-    submitLogin: '🔐 دخول',
-    submitRegister: '🚀 إنشاء حساب مجاني',
-    logout: '🚪 تسجيل الخروج',
-    myAccount: 'حسابي',
-    freePlan: '🎁 خطة مجانية (6 استخدامات/ميزة)',
-    proPlan: '✨ حساب مدفوع',
-    usageTitle: '📊 الاستخدام المجاني المتبقي',
-    usageTTS: '✏️ نطق النص',
-    usageDub: '🎬 الدبلجة',
-    usageSRT: '🌐 مترجم SRT',
-    unlimited: '∞ مفتوح',
-    used: 'انتهت',
-    ttsTitle: 'نطق النص',
-    selectLang: 'اختر اللغة',
-    voice: 'الصوت',
-    typeText: 'اكتب النص...',
-    speed: 'السرعة',
-    pitch: 'الطبقة',
-    volume: 'الصوت',
-    speak: 'نطق',
-    pause: '⏸',
-    clear: '🗑',
-    statusIdle: '👋 اكتب نصاً واضغط نطق',
-    statusSpeaking: '🔊 جارٍ النطق...',
-    statusDone: '✅ اكتمل',
-    statusError: '❌ خطأ في النطق',
-    dubTitle: 'لغة الدبلجة',
-    srtTitle: 'ملف SRT',
-    dragDrop: 'اسحب أو اضغط',
-    srtFormat: '.srt أو .txt',
-    pasteLabel: 'أو الصق المحتوى',
-    parseBtn: '📥 تحليل الملف',
-    sentences: 'جملة',
-    duration: 'المدة',
-    copySRT: '📋',
-    genTitle: 'التوليد',
-    genDesc1: '🔇 معالجة <strong>صامتة</strong> عبر سيرفر سحابي',
-    genDesc2: '⏱️ تزامن دقيق مع توقيتات SRT',
-    genDesc3: '📤 ملف WAV لـ YouTube Dubbing',
-    genBtn: 'توليد الدبلجة',
-    genNote: 'يتطلب سيرفر Render شغال',
-    processing: 'جارٍ...',
-    remaining: 'المتبقي',
-    elapsed: 'مضى',
-    total: 'المجموع',
-    cancel: '⏹ إلغاء',
-    ready: '🎉 جاهز',
-    download: '⬇️ تنزيل WAV',
-    youtubeTip: '📤 YouTube Studio → دبلجة',
-    dubStatus: 'تأكد سيرفر Render شغال ثم اضغط',
-    srtTransTitle: 'مترجم SRT',
-    selectTransLang: '1. اختر لغة الترجمة',
-    sourceText: '2. النص المصدر (SRT)',
-    pasteSrc: '📋 لصق',
-    translateBtn: '🚀 ترجمة',
-    result: '✅ النتيجة',
-    copyResult: '📋 نسخ',
-    downloadSRT: '⬇️ تنزيل SRT',
-    transStatus: 'جاهز',
-    cleanTitle: 'تنظيف النص من الفراغات',
-    pasteClean: '📋 لصق',
-    removeNumbers: 'حذف الأرقام',
-    removeTime: 'حذف التوقيتات',
-    removeEmpty: 'حذف الأسطر الفارغة',
-    cleanBtn: '🧹 تنظيف النص',
-    cleanOutput: '✨ النص بعد التنظيف',
-    copyClean: '📋 نسخ',
-    dlClean: '⬇️ تنزيل',
-    cleanStatus: 'الصق نصاً واضغط تنظيف',
-    storeTitle: '🛒 المتجر — ترقية الحساب',
-    storeDesc: 'ادفع مرة واحدة واستمتع مدى الحياة · مدعوم بـ Lemon Squeezy',
-    buyTTS: 'تفعيل النطق مدى الحياة',
-    buyDub: 'فتح الدبلجة مدى الحياة',
-    buySRT: 'شراء المترجم مدى الحياة',
-    ttsDesc: 'نطق نصوص غير محدودة بأصوات متعددة اللغات دون قيود',
-    dubDesc: 'دبلجة SRT كاملة بلا حدود — التجربة المجانية: أول 30 ثانية فقط',
-    srtDesc: 'ترجمة ملفات SRT إلى أكثر من 13 لغة بنقرة واحدة',
-    ttsFeat1: 'أصوات متعددة اللغات (13+ لغة)',
-    ttsFeat2: 'تحكم في السرعة والطبقة والصوت',
-    ttsFeat3: 'فلاتر صوتية متقدمة',
-    ttsFeat4: 'دفعة واحدة · بدون اشتراك',
-    dubFeat1: 'دبلجة SRT بالكامل مع التزامن',
-    dubFeat2: 'تصدير WAV لـ YouTube Dubbing',
-    dubFeat3: 'معالجة سحابية صامتة',
-    dubFeat4: 'دفعة واحدة · بدون اشتراك',
-    srtFeat1: 'ترجمة لـ 13+ لغة عالمية',
-    srtFeat2: 'تنزيل SRT مترجم جاهز',
-    srtFeat3: 'تنظيف النص التلقائي',
-    srtFeat4: 'دفعة واحدة · بدون اشتراك',
-    priceLabel: 'مدى الحياة',
-    buyBtn: '💳 شراء الآن',
-    securePay: '🔒 دفع آمن عبر Lemon Squeezy',
-    lockTTS: 'نطق النص — مقفل',
-    lockDub: 'الدبلجة — مقفلة',
-    lockSRT: 'مترجم SRT — مقفل',
-    lockSubGuest: 'سجّل دخولك للحصول على 6 استخدامات مجانية',
-    lockSubDubGuest: 'سجّل للتجربة المجانية (30 ث) أو اشترِ للملف الكامل',
-    lockSubUsed: 'اشترِ الميزة للاستمرار بدون قيود',
-    lockActionGuest: '👤 سجّل للاستخدام المجاني',
-    lockActionBuy: '💎 اشترِ مقابل $10',
-    lockActionBuyDub: '🚀 اشترِ مقابل $50',
-    filtersTitle: '🎛️ الفلاتر الصوتية',
-    bass: 'Bass',
-    mid: 'Mid',
-    treble: 'Treble',
-    resetFilters: '🔄 إعادة تعيين',
-    presetMale: '👨 رجالي',
-    presetRadio: '📻 راديو',
-    presetWarm: '🌟 دافئ',
-    presetFast: '⚡ سريع',
-    toastCopied: '✅ تم النسخ',
-    toastWarnUses: '⚠️ تبقّى {n} استخدام مجاني فقط!',
-    footer: 'sl-Dubbing & Translation · GitHub + Render · gTTS · مجاني 100%',
-    otpTitle: '📧 تفعيل الحساب',
-    otpDesc: 'أدخل كود التفعيل المرسل إلى',
-    otpCode: 'كود التفعيل',
-    otpVerify: '✅ تفعيل',
-    otpResend: '📩 إعادة إرسال',
-    otpTimer: 'يمكنك إعادة الإرسال بعد',
-    otpSuccess: '✅ تم التفعيل بنجاح!',
-    otpWrong: '❌ كود خاطئ، حاول مرة أخرى'
+    login:'تسجيل الدخول',register:'إنشاء حساب',email:'البريد الإلكتروني',password:'كلمة المرور',confirmPass:'تأكيد كلمة المرور',
+    submitLogin:'🔐 دخول',submitRegister:'🚀 إنشاء حساب مجاني',logout:'🚪 تسجيل الخروج',myAccount:'حسابي',
+    freePlan:'🎁 خطة مجانية (6 استخدامات/ميزة)',proPlan:'✨ حساب مدفوع',
+    usageTitle:'📊 الاستخدام المجاني المتبقي',usageTTS:'✏️ نطق النص',usageDub:'🎬 الدبلجة',usageSRT:'🌐 مترجم SRT',
+    unlimited:'∞ مفتوح',used:'انتهت',
+    ttsTitle:'نطق النص',selectLang:'اختر اللغة',voice:'الصوت',typeText:'اكتب النص...',
+    speed:'السرعة',pitch:'الطبقة',volume:'الصوت',speak:'نطق',pause:'⏸',clear:'🗑',
+    statusIdle:'👋 اكتب نصاً واضغط نطق',statusSpeaking:'🔊 جارٍ النطق...',statusDone:'✅ اكتمل',statusError:'❌ خطأ في النطق',
+    dubTitle:'لغة الدبلجة',srtTitle:'ملف SRT',dragDrop:'اسحب أو اضغط',srtFormat:'.srt أو .txt',pasteLabel:'أو الصق المحتوى',
+    parseBtn:'📥 تحليل الملف',sentences:'جملة',duration:'المدة',copySRT:'📋',
+    genTitle:'التوليد',genDesc1:'🔇 معالجة <strong>صامتة</strong> عبر سيرفر سحابي',genDesc2:'⏱️ تزامن دقيق مع توقيتات SRT',genDesc3:'📤 ملف WAV لـ YouTube Dubbing',
+    genBtn:'توليد الدبلجة',genNote:'يتطلب سيرفر Render شغال',processing:'جارٍ...',remaining:'المتبقي',elapsed:'مضى',total:'المجموع',
+    cancel:'⏹ إلغاء',ready:'🎉 جاهز',download:'⬇️ تنزيل WAV',youtubeTip:'📤 YouTube Studio → دبلجة',dubStatus:'تأكد سيرفر Render شغال ثم اضغط',
+    srtTransTitle:'مترجم SRT',selectTransLang:'1. اختر لغة الترجمة',sourceText:'2. النص المصدر (SRT)',pasteSrc:'📋 لصق',
+    translateBtn:'🚀 ترجمة',result:'✅ النتيجة',copyResult:'📋 نسخ',downloadSRT:'⬇️ تنزيل SRT',transStatus:'جاهز',
+    cleanTitle:'تنظيف النص من الفراغات',pasteClean:'📋 لصق',removeNumbers:'حذف الأرقام',removeTime:'حذف التوقيتات',removeEmpty:'حذف الأسطر الفارغة',
+    cleanBtn:'🧹 تنظيف النص',cleanOutput:'✨ النص بعد التنظيف',copyClean:'📋 نسخ',dlClean:'⬇️ تنزيل',cleanStatus:'الصق نصاً واضغط تنظيف',
+    storeTitle:'🛒 المتجر — ترقية الحساب',storeDesc:'ادفع مرة واحدة واستمتع مدى الحياة · مدعوم بـ Lemon Squeezy',
+    buyTTS:'تفعيل النطق مدى الحياة',buyDub:'فتح الدبلجة مدى الحياة',buySRT:'شراء المترجم مدى الحياة',
+    ttsDesc:'نطق نصوص غير محدودة بأصوات متعددة اللغات دون قيود',dubDesc:'دبلجة SRT كاملة بلا حدود — التجربة المجانية: أول 30 ثانية فقط',srtDesc:'ترجمة ملفات SRT إلى أكثر من 13 لغة بنقرة واحدة',
+    ttsFeat1:'أصوات متعددة اللغات (13+ لغة)',ttsFeat2:'تحكم في السرعة والطبقة والصوت',ttsFeat3:'فلاتر صوتية متقدمة',ttsFeat4:'دفعة واحدة · بدون اشتراك',
+    dubFeat1:'دبلجة SRT بالكامل مع التزامن',dubFeat2:'تصدير WAV لـ YouTube Dubbing',dubFeat3:'معالجة سحابية صامتة',dubFeat4:'دفعة واحدة · بدون اشتراك',
+    srtFeat1:'ترجمة لـ 13+ لغة عالمية',srtFeat2:'تنزيل SRT مترجم جاهز',srtFeat3:'تنظيف النص التلقائي',srtFeat4:'دفعة واحدة · بدون اشتراك',
+    priceLabel:'مدى الحياة',buyBtn:'💳 شراء الآن',securePay:'🔒 دفع آمن عبر Lemon Squeezy',
+    lockTTS:'نطق النص — مقفل',lockDub:'الدبلجة — مقفلة',lockSRT:'مترجم SRT — مقفل',
+    lockSubGuest:'سجّل دخولك للحصول على 6 استخدامات مجانية',lockSubDubGuest:'سجّل للتجربة المجانية (30 ث) أو اشترِ للملف الكامل',lockSubUsed:'اشترِ الميزة للاستمرار بدون قيود',
+    lockActionGuest:'👤 سجّل للاستخدام المجاني',lockActionBuy:'💎 اشترِ مقابل $10',lockActionBuyDub:'🚀 اشترِ مقابل $50',
+    filtersTitle:'🎛️ الفلاتر الصوتية',bass:'Bass',mid:'Mid',treble:'Treble',resetFilters:'🔄 إعادة تعيين',
+    presetMale:'👨 رجالي',presetRadio:'📻 راديو',presetWarm:'🌟 دافئ',presetFast:'⚡ سريع',
+    toastCopied:'✅ تم النسخ',toastWarnUses:'⚠️ تبقّى {n} استخدام مجاني فقط!',
+    footer:'sl-Dubbing & Translation · GitHub + Render · gTTS · مجاني 100%',
+    otpTitle:'📧 تفعيل الحساب',otpDesc:'أدخل كود التفعيل المرسل إلى',otpCode:'كود التفعيل',otpVerify:'✅ تفعيل',otpResend:'📩 إعادة إرسال',otpTimer:'يمكنك إعادة الإرسال بعد',otpSuccess:'✅ تم التفعيل بنجاح!',otpWrong:'❌ كود خاطئ، حاول مرة أخرى'
   },
   en: {
-    login: 'Sign In',
-    register: 'Create Account',
-    email: 'Email Address',
-    password: 'Password',
-    confirmPass: 'Confirm Password',
-    submitLogin: '🔐 Sign In',
-    submitRegister: '🚀 Create Free Account',
-    logout: '🚪 Sign Out',
-    myAccount: 'My Account',
-    freePlan: '🎁 Free Plan (6 uses/feature)',
-    proPlan: '✨ Pro Account',
-    usageTitle: '📊 Remaining Free Usage',
-    usageTTS: '✏️ Text-to-Speech',
-    usageDub: '🎬 Dubbing',
-    usageSRT: '🌐 SRT Translator',
-    unlimited: '∞ Unlimited',
-    used: 'Used up',
-    ttsTitle: 'Text-to-Speech',
-    selectLang: 'Select Language',
-    voice: 'Voice',
-    typeText: 'Type your text...',
-    speed: 'Speed',
-    pitch: 'Pitch',
-    volume: 'Volume',
-    speak: 'Speak',
-    pause: '⏸',
-    clear: '🗑',
-    statusIdle: '👋 Type text and press Speak',
-    statusSpeaking: '🔊 Speaking...',
-    statusDone: '✅ Done',
-    statusError: '❌ Speech error',
-    dubTitle: 'Dubbing Language',
-    srtTitle: 'SRT File',
-    dragDrop: 'Drag & Drop or Click',
-    srtFormat: '.srt or .txt',
-    pasteLabel: 'Or paste content',
-    parseBtn: '📥 Parse File',
-    sentences: 'sentences',
-    duration: 'Duration',
-    copySRT: '📋',
-    genTitle: 'Generate',
-    genDesc1: '🔇 <strong>Silent</strong> cloud processing',
-    genDesc2: '⏱️ Precise sync with SRT timestamps',
-    genDesc3: '📤 WAV file for YouTube Dubbing',
-    genBtn: 'Generate Dubbing',
-    genNote: 'Requires active Render backend',
-    processing: 'Processing...',
-    remaining: 'Remaining',
-    elapsed: 'Elapsed',
-    total: 'Total',
-    cancel: '⏹ Cancel',
-    ready: '🎉 Ready',
-    download: '⬇️ Download WAV',
-    youtubeTip: '📤 YouTube Studio → Dubbing',
-    dubStatus: 'Ensure Render server is running, then click',
-    srtTransTitle: 'SRT Translator',
-    selectTransLang: '1. Select Target Language',
-    sourceText: '2. Source Text (SRT)',
-    pasteSrc: '📋 Paste',
-    translateBtn: '🚀 Translate',
-    result: '✅ Result',
-    copyResult: '📋 Copy',
-    downloadSRT: '⬇️ Download SRT',
-    transStatus: 'Ready',
-    cleanTitle: 'Clean Text from Extras',
-    pasteClean: '📋 Paste',
-    removeNumbers: 'Remove Numbers',
-    removeTime: 'Remove Timestamps',
-    removeEmpty: 'Remove Empty Lines',
-    cleanBtn: '🧹 Clean Text',
-    cleanOutput: '✨ Cleaned Text',
-    copyClean: '📋 Copy',
-    dlClean: '⬇️ Download',
-    cleanStatus: 'Paste text and click Clean',
-    storeTitle: '🛒 Store — Upgrade Account',
-    storeDesc: 'One-time payment, lifetime access · Powered by Lemon Squeezy',
-    buyTTS: 'Unlock TTS Lifetime',
-    buyDub: 'Unlock Dubbing Lifetime',
-    buySRT: 'Unlock Translator Lifetime',
-    ttsDesc: 'Unlimited text-to-speech with multi-language voices',
-    dubDesc: 'Full SRT dubbing with sync — Free trial: First 30s only',
-    srtDesc: 'Translate SRT files to 13+ languages with one click',
-    ttsFeat1: 'Multi-language voices (13+ languages)',
-    ttsFeat2: 'Control speed, pitch, and volume',
-    ttsFeat3: 'Advanced audio filters',
-    ttsFeat4: 'One-time payment · No subscription',
-    dubFeat1: 'Full SRT dubbing with synchronization',
-    dubFeat2: 'Export WAV for YouTube Dubbing',
-    dubFeat3: 'Silent cloud processing',
-    dubFeat4: 'One-time payment · No subscription',
-    srtFeat1: 'Translation to 13+ languages',
-    srtFeat2: 'Download ready translated SRT',
-    srtFeat3: 'Automatic text cleaning',
-    srtFeat4: 'One-time payment · No subscription',
-    priceLabel: 'Lifetime',
-    buyBtn: '💳 Buy Now',
-    securePay: '🔒 Secure payment via Lemon Squeezy',
-    lockTTS: 'Text-to-Speech — Locked',
-    lockDub: 'Dubbing — Locked',
-    lockSRT: 'SRT Translator — Locked',
-    lockSubGuest: 'Sign in to get 6 free uses',
-    lockSubDubGuest: 'Sign in for free trial (30s) or buy for full file',
-    lockSubUsed: 'Purchase feature to continue without limits',
-    lockActionGuest: '👤 Sign in for free uses',
-    lockActionBuy: '💎 Buy for $10',
-    lockActionBuyDub: '🚀 Buy for $50',
-    filtersTitle: '🎛️ Audio Filters',
-    bass: 'Bass',
-    mid: 'Mid',
-    treble: 'Treble',
-    resetFilters: '🔄 Reset',
-    presetMale: '👨 Male',
-    presetRadio: '📻 Radio',
-    presetWarm: '🌟 Warm',
-    presetFast: '⚡ Fast',
-    toastCopied: '✅ Copied',
-    toastWarnUses: '⚠️ Only {n} free uses remaining!',
-    footer: 'sl-Dubbing & Translation · GitHub + Render · gTTS · 100% Free',
-    otpTitle: '📧 Activate Account',
-    otpDesc: 'Enter verification code sent to',
-    otpCode: 'Verification Code',
-    otpVerify: '✅ Verify',
-    otpResend: '📩 Resend Code',
-    otpTimer: 'You can resend after',
-    otpSuccess: '✅ Verified successfully!',
-    otpWrong: '❌ Wrong code, try again'
+    login:'Sign In',register:'Create Account',email:'Email',password:'Password',confirmPass:'Confirm Password',
+    submitLogin:'🔐 Sign In',submitRegister:'🚀 Create Free Account',logout:'🚪 Sign Out',myAccount:'My Account',
+    freePlan:'🎁 Free Plan (6 uses/feature)',proPlan:'✨ Pro Account',
+    usageTitle:'📊 Remaining Free Usage',usageTTS:'✏️ Text-to-Speech',usageDub:'🎬 Dubbing',usageSRT:'🌐 SRT Translator',
+    unlimited:'∞ Unlimited',used:'Used up',
+    ttsTitle:'Text-to-Speech',selectLang:'Select Language',voice:'Voice',typeText:'Type your text...',
+    speed:'Speed',pitch:'Pitch',volume:'Volume',speak:'Speak',pause:'⏸',clear:'🗑',
+    statusIdle:'👋 Type text and press Speak',statusSpeaking:'🔊 Speaking...',statusDone:'✅ Done',statusError:'❌ Speech error',
+    dubTitle:'Dubbing Language',srtTitle:'SRT File',dragDrop:'Drag & Drop or Click',srtFormat:'.srt or .txt',pasteLabel:'Or paste content',
+    parseBtn:'📥 Parse File',sentences:'sentences',duration:'Duration',copySRT:'📋',
+    genTitle:'Generate',genDesc1:'🔇 <strong>Silent</strong> cloud processing',genDesc2:'⏱️ Precise sync with SRT timestamps',genDesc3:'📤 WAV file for YouTube Dubbing',
+    genBtn:'Generate Dubbing',genNote:'Requires active Render backend',processing:'Processing...',remaining:'Remaining',elapsed:'Elapsed',total:'Total',
+    cancel:'⏹ Cancel',ready:'🎉 Ready',download:'⬇️ Download WAV',youtubeTip:'📤 YouTube Studio → Dubbing',dubStatus:'Ensure Render server is running, then click',
+    srtTransTitle:'SRT Translator',selectTransLang:'1. Select Target Language',sourceText:'2. Source Text (SRT)',pasteSrc:'📋 Paste',
+    translateBtn:'🚀 Translate',result:'✅ Result',copyResult:'📋 Copy',downloadSRT:'⬇️ Download SRT',transStatus:'Ready',
+    cleanTitle:'Clean Text from Extras',pasteClean:'📋 Paste',removeNumbers:'Remove Numbers',removeTime:'Remove Timestamps',removeEmpty:'Remove Empty Lines',
+    cleanBtn:'🧹 Clean Text',cleanOutput:'✨ Cleaned Text',copyClean:'📋 Copy',dlClean:'⬇️ Download',cleanStatus:'Paste text and click Clean',
+    storeTitle:'🛒 Store — Upgrade Account',storeDesc:'One-time payment, lifetime access · Powered by Lemon Squeezy',
+    buyTTS:'Unlock TTS Lifetime',buyDub:'Unlock Dubbing Lifetime',buySRT:'Unlock Translator Lifetime',
+    ttsDesc:'Unlimited text-to-speech with multi-language voices',dubDesc:'Full SRT dubbing with sync — Free trial: First 30s only',srtDesc:'Translate SRT files to 13+ languages with one click',
+    ttsFeat1:'Multi-language voices (13+ languages)',ttsFeat2:'Control speed, pitch, and volume',ttsFeat3:'Advanced audio filters',ttsFeat4:'One-time payment · No subscription',
+    dubFeat1:'Full SRT dubbing with synchronization',dubFeat2:'Export WAV for YouTube Dubbing',dubFeat3:'Silent cloud processing',dubFeat4:'One-time payment · No subscription',
+    srtFeat1:'Translation to 13+ languages',srtFeat2:'Download ready translated SRT',srtFeat3:'Automatic text cleaning',srtFeat4:'One-time payment · No subscription',
+    priceLabel:'Lifetime',buyBtn:'💳 Buy Now',securePay:'🔒 Secure payment via Lemon Squeezy',
+    lockTTS:'Text-to-Speech — Locked',lockDub:'Dubbing — Locked',lockSRT:'SRT Translator — Locked',
+    lockSubGuest:'Sign in to get 6 free uses',lockSubDubGuest:'Sign in for free trial (30s) or buy for full file',lockSubUsed:'Purchase feature to continue without limits',
+    lockActionGuest:'👤 Sign in for free uses',lockActionBuy:'💎 Buy for $10',lockActionBuyDub:'🚀 Buy for $50',
+    filtersTitle:'🎛️ Audio Filters',bass:'Bass',mid:'Mid',treble:'Treble',resetFilters:'🔄 Reset',
+    presetMale:'👨 Male',presetRadio:'📻 Radio',presetWarm:'🌟 Warm',presetFast:'⚡ Fast',
+    toastCopied:'✅ Copied',toastWarnUses:'⚠️ Only {n} free uses remaining!',
+    footer:'sl-Dubbing & Translation · GitHub + Render · gTTS · 100% Free',
+    otpTitle:'📧 Activate Account',otpDesc:'Enter verification code sent to',otpCode:'Verification Code',otpVerify:'✅ Verify',otpResend:'📩 Resend Code',otpTimer:'You can resend after',otpSuccess:'✅ Verified successfully!',otpWrong:'❌ Wrong code, try again'
+  },
+  es: {
+    login:'Iniciar Sesión',register:'Crear Cuenta',email:'Correo',password:'Contraseña',confirmPass:'Confirmar',
+    submitLogin:'🔐 Entrar',submitRegister:'🚀 Crear',logout:'Salir',myAccount:'Mi Cuenta',
+    freePlan:'🎁 Plan Gratis (6 usos/función)',proPlan:'✨ Cuenta Pro',
+    usageTitle:'📊 Usos Gratis Restantes',usageTTS:'✏️ Texto a Voz',usageDub:'🎬 Doblaje',usageSRT:'🌐 Traductor SRT',
+    unlimited:'∞ Ilimitado',used:'Agotado',
+    ttsTitle:'Texto a Voz',selectLang:'Seleccionar Idioma',voice:'Voz',typeText:'Escribe tu texto...',
+    speed:'Velocidad',pitch:'Tono',volume:'Volumen',speak:'Hablar',pause:'⏸',clear:'🗑',
+    statusIdle:'👋 Escribe texto y presiona Hablar',statusSpeaking:'🔊 Hablando...',statusDone:'✅ Listo',statusError:'❌ Error',
+    dubTitle:'Idioma de Doblaje',srtTitle:'Archivo SRT',dragDrop:'Arrastrar o Clic',srtFormat:'.srt o .txt',pasteLabel:'O pegar contenido',
+    parseBtn:'📥 Analizar',sentences:'frases',duration:'Duración',copySRT:'📋',
+    genTitle:'Generar',genDesc1:'🔇 Procesamiento <strong>silencioso</strong> en nube',genDesc2:'⏱️ Sincronización precisa con SRT',genDesc3:'📤 Archivo WAV para YouTube',
+    genBtn:'Generar Doblaje',genNote:'Requiere servidor Render activo',processing:'Procesando...',remaining:'Restante',elapsed:'Transcurrido',total:'Total',
+    cancel:'⏹ Cancelar',ready:'🎉 Listo',download:'⬇️ Descargar WAV',youtubeTip:'📤 YouTube Studio → Doblaje',dubStatus:'Asegúrate que Render funcione',
+    srtTransTitle:'Traductor SRT',selectTransLang:'1. Elige idioma',sourceText:'2. Texto fuente (SRT)',pasteSrc:'📋 Pegar',
+    translateBtn:'🚀 Traducir',result:'✅ Resultado',copyResult:'📋 Copiar',downloadSRT:'⬇️ Descargar SRT',transStatus:'Listo',
+    cleanTitle:'Limpiar Texto',pasteClean:'📋 Pegar',removeNumbers:'Eliminar números',removeTime:'Eliminar timestamps',removeEmpty:'Eliminar líneas vacías',
+    cleanBtn:'🧹 Limpiar',cleanOutput:'✨ Texto limpio',copyClean:'📋 Copiar',dlClean:'⬇️ Descargar',cleanStatus:'Pega y haz clic Limpiar',
+    storeTitle:'🛒 Tienda — Mejorar Cuenta',storeDesc:'Pago único, acceso de por vida · Lemon Squeezy',
+    buyTTS:'Desbloquear TTS',buyDub:'Desbloquear Doblaje',buySRT:'Desbloquear Traductor',
+    ttsDesc:'Texto a voz ilimitado multi-idiomas',dubDesc:'Doblaje SRT completo — Prueba: 30s',srtDesc:'Traduce archivos SRT a 13+ idiomas',
+    ttsFeat1:'Voces multi-idiomas (13+)',ttsFeat2:'Control velocidad, tono, volumen',ttsFeat3:'Filtros de audio avanzados',ttsFeat4:'Pago único · Sin suscripción',
+    dubFeat1:'Doblaje SRT completo sincronizado',dubFeat2:'Exportar WAV para YouTube',dubFeat3:'Procesamiento en nube',dubFeat4:'Pago único · Sin suscripción',
+    srtFeat1:'Traducción a 13+ idiomas',srtFeat2:'Descargar SRT traducido',srtFeat3:'Limpieza automática',srtFeat4:'Pago único · Sin suscripción',
+    priceLabel:'De por vida',buyBtn:'💳 Comprar',securePay:'🔒 Pago seguro Lemon Squeezy',
+    lockTTS:'Texto a Voz — Bloqueado',lockDub:'Doblaje — Bloqueado',lockSRT:'Traductor SRT — Bloqueado',
+    lockSubGuest:'Inicia sesión para 6 usos gratis',lockSubDubGuest:'Inicia sesión para prueba (30s)',lockSubUsed:'Compra para continuar sin límites',
+    lockActionGuest:'👤 Iniciar sesión',lockActionBuy:'💎 Comprar $10',lockActionBuyDub:'🚀 Comprar $50',
+    filtersTitle:'🎛️ Filtros de Audio',bass:'Bajos',mid:'Medios',treble:'Agudos',resetFilters:'🔄 Reiniciar',
+    presetMale:'👨 Masculino',presetRadio:'📻 Radio',presetWarm:'🌟 Cálido',presetFast:'⚡ Rápido',
+    toastCopied:'✅ Copiado',toastWarnUses:'⚠️ ¡Solo {n} usos restantes!',
+    footer:'sl-Dubbing & Translation · GitHub + Render · gTTS · 100% Gratis',
+    otpTitle:'📧 Activar Cuenta',otpDesc:'Código enviado a',otpCode:'Código',otpVerify:'✅ Verificar',otpResend:'📩 Reenviar',otpTimer:'Reenviar en',otpSuccess:'✅ ¡Verificado!',otpWrong:'❌ Código incorrecto'
+  },
+  ru: {
+    login:'Войти',register:'Регистрация',email:'Email',password:'Пароль',confirmPass:'Подтвердить',
+    submitLogin:'🔐 Вход',submitRegister:'🚀 Создать',logout:'Выход',myAccount:'Мой аккаунт',
+    freePlan:'🎁 Бесплатный (6 использований)',proPlan:'✨ Pro аккаунт',
+    usageTitle:'📊 Осталось бесплатно',usageTTS:'✏️ Синтез речи',usageDub:'🎬 Дубляж',usageSRT:'🌐 Переводчик SRT',
+    unlimited:'∞ Безлимит',used:'Использовано',
+    ttsTitle:'Синтез речи',selectLang:'Выбрать язык',voice:'Голос',typeText:'Введите текст...',
+    speed:'Скорость',pitch:'Тон',volume:'Громкость',speak:'Говорить',pause:'⏸',clear:'🗑',
+    statusIdle:'👋 Введите текст и нажмите',statusSpeaking:'🔊 Говорю...',statusDone:'✅ Готово',statusError:'❌ Ошибка',
+    dubTitle:'Язык дубляжа',srtTitle:'Файл SRT',dragDrop:'Перетащите или нажмите',srtFormat:'.srt или .txt',pasteLabel:'Или вставьте',
+    parseBtn:'📥 Разобрать',sentences:'фраз',duration:'Длительность',copySRT:'📋',
+    genTitle:'Сгенерировать',genDesc1:'🔇 <strong>Тихая</strong> обработка в облаке',genDesc2:'⏱️ Точная синхронизация с SRT',genDesc3:'📤 WAV файл для YouTube',
+    genBtn:'Сгенерировать дубляж',genNote:'Требуется активный Render',processing:'Обработка...',remaining:'Осталось',elapsed:'Прошло',total:'Всего',
+    cancel:'⏹ Отмена',ready:'🎉 Готово',download:'⬇️ Скачать WAV',youtubeTip:'📤 YouTube Studio → Дубляж',dubStatus:'Убедитесь, что Render работает',
+    srtTransTitle:'Переводчик SRT',selectTransLang:'1. Выберите язык',sourceText:'2. Исходный текст (SRT)',pasteSrc:'📋 Вставить',
+    translateBtn:'🚀 Перевести',result:'✅ Результат',copyResult:'📋 Копировать',downloadSRT:'⬇️ Скачать SRT',transStatus:'Готов',
+    cleanTitle:'Очистить текст',pasteClean:'📋 Вставить',removeNumbers:'Удалить числа',removeTime:'Удалить время',removeEmpty:'Удалить пустые строки',
+    cleanBtn:'🧹 Очистить',cleanOutput:'✨ Очищенный текст',copyClean:'📋 Копировать',dlClean:'⬇️ Скачать',cleanStatus:'Вставьте и нажмите Очистить',
+    storeTitle:'🛒 Магазин — Обновить',storeDesc:'Один платеж, пожизненный доступ · Lemon Squeezy',
+    buyTTS:'Разблокировать TTS',buyDub:'Разблокировать дубляж',buySRT:'Разблокировать переводчик',
+    ttsDesc:'Безлимитный синтез речи',dubDesc:'Полный дубляж SRT — Пробный: 30с',srtDesc:'Перевод SRT на 13+ языков',
+    ttsFeat1:'Мультиязычные голоса (13+)',ttsFeat2:'Контроль скорости, тона, громкости',ttsFeat3:'Продвинутые фильтры',ttsFeat4:'Один платеж · Без подписки',
+    dubFeat1:'Полный дубляж SRT с синхронизацией',dubFeat2:'Экспорт WAV для YouTube',dubFeat3:'Облачная обработка',dubFeat4:'Один платеж · Без подписки',
+    srtFeat1:'Перевод на 13+ языков',srtFeat2:'Скачать готовый SRT',srtFeat3:'Автоматическая очистка',srtFeat4:'Один платеж · Без подписки',
+    priceLabel:'Навсегда',buyBtn:'💳 Купить',securePay:'🔒 Безопасная оплата',
+    lockTTS:'Синтез речи — Заблокировано',lockDub:'Дубляж — Заблокировано',lockSRT:'Переводчик SRT — Заблокировано',
+    lockSubGuest:'Войдите для 6 бесплатных использований',lockSubDubGuest:'Войдите для пробного (30с)',lockSubUsed:'Купите для продолжения',
+    lockActionGuest:'👤 Войти',lockActionBuy:'💎 Купить $10',lockActionBuyDub:'🚀 Купить $50',
+    filtersTitle:'🎛️ Аудио фильтры',bass:'Низкие',mid:'Средние',treble:'Высокие',resetFilters:'🔄 Сброс',
+    presetMale:'👨 Мужской',presetRadio:'📻 Радио',presetWarm:'🌟 Тёплый',presetFast:'⚡ Быстрый',
+    toastCopied:'✅ Скопировано',toastWarnUses:'⚠️ Осталось {n} использований!',
+    footer:'sl-Dubbing & Translation · GitHub + Render · gTTS · 100% Бесплатно',
+    otpTitle:'📧 Активация',otpDesc:'Код отправлен на',otpCode:'Код',otpVerify:'✅ Проверить',otpResend:'📩 Отправить',otpTimer:'Через',otpSuccess:'✅ Готово!',otpWrong:'❌ Неверно'
+  },
+  tr: {
+    login:'Giriş',register:'Kayıt',email:'E-posta',password:'Şifre',confirmPass:'Onayla',
+    submitLogin:'🔐 Gir',submitRegister:'🚀 Kayıt Ol',logout:'Çıkış',myAccount:'Hesabım',
+    freePlan:'🎁 Ücretsiz Plan (6 kullanım)',proPlan:'✨ Pro Hesap',
+    usageTitle:'📊 Kalan Ücretsiz Kullanım',usageTTS:'✏️ Metin Okuma',usageDub:'🎬 Dublaj',usageSRT:'🌐 SRT Çeviri',
+    unlimited:'∞ Sınırsız',used:'Tükendi',
+    ttsTitle:'Metin Okuma',selectLang:'Dil Seç',voice:'Ses',typeText:'Metni yaz...',
+    speed:'Hız',pitch:'Perde',volume:'Ses',speak:'Oku',pause:'⏸',clear:'🗑',
+    statusIdle:'👋 Metin yaz ve Oku bas',statusSpeaking:'🔊 Okunuyor...',statusDone:'✅ Tamam',statusError:'❌ Hata',
+    dubTitle:'Dublaj Dili',srtTitle:'SRT Dosyası',dragDrop:'Sürükle veya Tıkla',srtFormat:'.srt veya .txt',pasteLabel:'Veya yapıştır',
+    parseBtn:'📥 Ayrıştır',sentences:'cümle',duration:'Süre',copySRT:'📋',
+    genTitle:'Oluştur',genDesc1:'🔇 <strong>Sessiz</strong> bulut işleme',genDesc2:'⏱️ SRT ile senkronizasyon',genDesc3:'📤 YouTube için WAV',
+    genBtn:'Dublaj Oluştur',genNote:'Render sunucusu gerekli',processing:'İşleniyor...',remaining:'Kalan',elapsed:'Geçen',total:'Toplam',
+    cancel:'⏹ İptal',ready:'🎉 Hazır',download:'⬇️ WAV İndir',youtubeTip:'📤 YouTube Studio → Dublaj',dubStatus:'Render çalıştığından emin ol',
+    srtTransTitle:'SRT Çeviri',selectTransLang:'1. Dil seç',sourceText:'2. Kaynak metin (SRT)',pasteSrc:'📋 Yapıştır',
+    translateBtn:'🚀 Çevir',result:'✅ Sonuç',copyResult:'📋 Kopyala',downloadSRT:'⬇️ SRT İndir',transStatus:'Hazır',
+    cleanTitle:'Metni Temizle',pasteClean:'📋 Yapıştır',removeNumbers:'Sayıları sil',removeTime:'Zamanları sil',removeEmpty:'Boş satırları sil',
+    cleanBtn:'🧹 Temizle',cleanOutput:'✨ Temizlenmiş metin',copyClean:'📋 Kopyala',dlClean:'⬇️ İndir',cleanStatus:'Yapıştır ve Temizle tıkla',
+    storeTitle:'🛒 Mağaza — Yükselt',storeDesc:'Tek ödeme, ömür boyu erişim · Lemon Squeezy',
+    buyTTS:'TTS Aç',buyDub:'Dublaj Aç',buySRT:'Çeviri Aç',
+    ttsDesc:'Sınırsız metin okuma',dubDesc:'Tam SRT dublaj — Deneme: 30s',srtDesc:'SRT çevirisi 13+ dil',
+    ttsFeat1:'Çok dilli sesler (13+)',ttsFeat2:'Hız, perde, ses kontrolü',ttsFeat3:'Gelişmiş filtreler',ttsFeat4:'Tek ödeme · Abonelik yok',
+    dubFeat1:'Tam SRT dublaj senkronize',dubFeat2:'YouTube için WAV',dubFeat3:'Bulut işleme',dubFeat4:'Tek ödeme · Abonelik yok',
+    srtFeat1:'13+ dile çeviri',srtFeat2:'Hazır SRT indir',srtFeat3:'Otomatik temizleme',srtFeat4:'Tek ödeme · Abonelik yok',
+    priceLabel:'Ömür boyu',buyBtn:'💳 Satın Al',securePay:'🔒 Güvenli ödeme',
+    lockTTS:'Metin Okuma — Kilitli',lockDub:'Dublaj — Kilitli',lockSRT:'SRT Çeviri — Kilitli',
+    lockSubGuest:'6 ücretsiz kullanım için giriş yap',lockSubDubGuest:'Deneme için giriş yap (30s)',lockSubUsed:'Satın alarak devam et',
+    lockActionGuest:'👤 Giriş yap',lockActionBuy:'💎 $10 satın al',lockActionBuyDub:'🚀 $50 satın al',
+    filtersTitle:'🎛️ Ses Filtreleri',bass:'Bas',mid:'Orta',treble:'Tiz',resetFilters:'🔄 Sıfırla',
+    presetMale:'👨 Erkek',presetRadio:'📻 Radyo',presetWarm:'🌟 Sıcak',presetFast:'⚡ Hızlı',
+    toastCopied:'✅ Kopyalandı',toastWarnUses:'⚠️ Sadece {n} kullanım kaldı!',
+    footer:'sl-Dubbing & Translation · GitHub + Render · gTTS · %100 Ücretsiz',
+    otpTitle:'📧 Aktivasyon',otpDesc:'Kod gönderildi',otpCode:'Kod',otpVerify:'✅ Doğrula',otpResend:'📩 Tekrar',otpTimer:'Sonra',otpSuccess:'✅ Onaylandı!',otpWrong:'❌ Yanlış'
   },
   fr: {
-    login: 'Se Connecter',
-    register: 'Créer un Compte',
-    email: 'Adresse Email',
-    password: 'Mot de Passe',
-    confirmPass: 'Confirmer le Mot de Passe',
-    submitLogin: '🔐 Connexion',
-    submitRegister: '🚀 Créer un Compte Gratuit',
-    logout: '🚪 Déconnexion',
-    myAccount: 'Mon Compte',
-    freePlan: '🎁 Plan Gratuit (6 utilisations/fonction)',
-    proPlan: '✨ Compte Pro',
-    usageTitle: '📊 Utilisation Gratuite Restante',
-    usageTTS: '✏️ Synthèse Vocale',
-    usageDub: '🎬 Doublage',
-    usageSRT: '🌐 Traducteur SRT',
-    unlimited: '∞ Illimité',
-    used: 'Épuisé',
-    ttsTitle: 'Synthèse Vocale',
-    selectLang: 'Choisir la Langue',
-    voice: 'Voix',
-    typeText: 'Tapez votre texte...',
-    speed: 'Vitesse',
-    pitch: 'Hauteur',
-    volume: 'Volume',
-    speak: 'Parler',
-    pause: '⏸',
-    clear: '🗑',
-    statusIdle: '👋 Tapez un texte et appuyez sur Parler',
-    statusSpeaking: '🔊 En cours...',
-    statusDone: '✅ Terminé',
-    statusError: '❌ Erreur',
-    dubTitle: 'Langue de Doublage',
-    srtTitle: 'Fichier SRT',
-    dragDrop: 'Glisser-Déposer ou Cliquer',
-    srtFormat: '.srt ou .txt',
-    pasteLabel: 'Ou coller le contenu',
-    parseBtn: '📥 Analyser',
-    sentences: 'phrases',
-    duration: 'Durée',
-    copySRT: '📋',
-    genTitle: 'Générer',
-    genDesc1: '🔇 Traitement <strong>silencieux</strong> cloud',
-    genDesc2: '⏱️ Synchronisation précise avec SRT',
-    genDesc3: '📤 Fichier WAV pour YouTube Dubbing',
-    genBtn: 'Générer le Doublage',
-    genNote: 'Nécessite un serveur Render actif',
-    processing: 'En cours...',
-    remaining: 'Restant',
-    elapsed: 'Écoulé',
-    total: 'Total',
-    cancel: '⏹ Annuler',
-    ready: '🎉 Prêt',
-    download: '⬇️ Télécharger WAV',
-    youtubeTip: '📤 YouTube Studio → Doublage',
-    dubStatus: 'Assurez-vous que Render fonctionne',
-    srtTransTitle: 'Traducteur SRT',
-    selectTransLang: '1. Choisissez la langue',
-    sourceText: '2. Texte source (SRT)',
-    pasteSrc: '📋 Coller',
-    translateBtn: '🚀 Traduire',
-    result: '✅ Résultat',
-    copyResult: '📋 Copier',
-    downloadSRT: '⬇️ Télécharger SRT',
-    transStatus: 'Prêt',
-    cleanTitle: 'Nettoyer le Texte',
-    pasteClean: '📋 Coller',
-    removeNumbers: 'Supprimer les nombres',
-    removeTime: 'Supprimer les timestamps',
-    removeEmpty: 'Supprimer lignes vides',
-    cleanBtn: '🧹 Nettoyer',
-    cleanOutput: '✨ Texte nettoyé',
-    copyClean: '📋 Copier',
-    dlClean: '⬇️ Télécharger',
-    cleanStatus: 'Collez et cliquez Nettoyer',
-    storeTitle: '🛒 Boutique — Mettre à niveau',
-    storeDesc: 'Paiement unique, accès à vie · Lemon Squeezy',
-    buyTTS: 'Débloquer TTS à vie',
-    buyDub: 'Débloquer Doublage à vie',
-    buySRT: 'Débloquer Traducteur à vie',
-    ttsDesc: 'Synthèse vocale illimitée multi-langues',
-    dubDesc: 'Doublage SRT complet — Essai gratuit: 30s',
-    srtDesc: 'Traduisez les fichiers SRT en 13+ langues',
-    ttsFeat1: 'Voix multi-langues (13+ langues)',
-    ttsFeat2: 'Contrôle vitesse, hauteur, volume',
-    ttsFeat3: 'Filtres audio avancés',
-    ttsFeat4: 'Paiement unique · Sans abonnement',
-    dubFeat1: 'Doublage SRT complet synchronisé',
-    dubFeat2: 'Export WAV pour YouTube',
-    dubFeat3: 'Traitement cloud silencieux',
-    dubFeat4: 'Paiement unique · Sans abonnement',
-    srtFeat1: 'Traduction en 13+ langues',
-    srtFeat2: 'Téléchargement SRT traduit',
-    srtFeat3: 'Nettoyage automatique',
-    srtFeat4: 'Paiement unique · Sans abonnement',
-    priceLabel: 'À vie',
-    buyBtn: '💳 Acheter',
-    securePay: '🔒 Paiement sécurisé Lemon Squeezy',
-    lockTTS: 'Synthèse Vocale — Verrouillé',
-    lockDub: 'Doublage — Verrouillé',
-    lockSRT: 'Traducteur SRT — Verrouillé',
-    lockSubGuest: 'Connectez-vous pour 6 utilisations gratuites',
-    lockSubDubGuest: 'Connectez-vous pour essai gratuit (30s)',
-    lockSubUsed: 'Achetez pour continuer sans limites',
-    lockActionGuest: '👤 Connexion gratuite',
-    lockActionBuy: '💎 Acheter $10',
-    lockActionBuyDub: '🚀 Acheter $50',
-    filtersTitle: '🎛️ Filtres Audio',
-    bass: 'Basses',
-    mid: 'Médiums',
-    treble: 'Aigus',
-    resetFilters: '🔄 Réinitialiser',
-    presetMale: '👨 Masculin',
-    presetRadio: '📻 Radio',
-    presetWarm: '🌟 Chaud',
-    presetFast: '⚡ Rapide',
-    toastCopied: '✅ Copié',
-    toastWarnUses: '⚠️ Plus que {n} utilisations!',
-    footer: 'sl-Dubbing & Translation · GitHub + Render · gTTS · 100% Gratuit',
-    otpTitle: '📧 Activer le Compte',
-    otpDesc: 'Entrez le code envoyé à',
-    otpCode: 'Code de Vérification',
-    otpVerify: '✅ Vérifier',
-    otpResend: '📩 Renvoyer',
-    otpTimer: 'Vous pouvez renvoyer après',
-    otpSuccess: '✅ Vérifié avec succès!',
-    otpWrong: '❌ Code incorrect, réessayez'
+    login:'Connexion',register:'Inscription',email:'Email',password:'Mot de passe',confirmPass:'Confirmer',
+    submitLogin:'🔐 Entrer',submitRegister:'🚀 Créer',logout:'Déconnexion',myAccount:'Mon Compte',
+    freePlan:'🎁 Gratuit (6 utilisations)',proPlan:'✨ Compte Pro',
+    usageTitle:'📊 Utilisations restantes',usageTTS:'✏️ Synthèse vocale',usageDub:'🎬 Doublage',usageSRT:'🌐 Traducteur SRT',
+    unlimited:'∞ Illimité',used:'Épuisé',
+    ttsTitle:'Synthèse vocale',selectLang:'Choisir langue',voice:'Voix',typeText:'Tapez texte...',
+    speed:'Vitesse',pitch:'Hauteur',volume:'Volume',speak:'Parler',pause:'⏸',clear:'🗑',
+    statusIdle:'👋 Tapez et appuyez Parler',statusSpeaking:'🔊 En cours...',statusDone:'✅ Terminé',statusError:'❌ Erreur',
+    dubTitle:'Langue doublage',srtTitle:'Fichier SRT',dragDrop:'Glisser-déposer',srtFormat:'.srt ou .txt',pasteLabel:'Ou coller',
+    parseBtn:'📥 Analyser',sentences:'phrases',duration:'Durée',copySRT:'📋',
+    genTitle:'Générer',genDesc1:'🔇 Traitement <strong>silencieux</strong>',genDesc2:'⏱️ Synchro précise SRT',genDesc3:'📤 WAV pour YouTube',
+    genBtn:'Générer doublage',genNote:'Render nécessaire',processing:'Traitement...',remaining:'Restant',elapsed:'Écoulé',total:'Total',
+    cancel:'⏹ Annuler',ready:'🎉 Prêt',download:'⬇️ Télécharger WAV',youtubeTip:'📤 YouTube Studio → Doublage',dubStatus:'Assurez-vous Render fonctionne',
+    srtTransTitle:'Traducteur SRT',selectTransLang:'1. Choisissez langue',sourceText:'2. Texte source (SRT)',pasteSrc:'📋 Coller',
+    translateBtn:'🚀 Traduire',result:'✅ Résultat',copyResult:'📋 Copier',downloadSRT:'⬇️ Télécharger SRT',transStatus:'Prêt',
+    cleanTitle:'Nettoyer texte',pasteClean:'📋 Coller',removeNumbers:'Supprimer nombres',removeTime:'Supprimer temps',removeEmpty:'Supprimer lignes vides',
+    cleanBtn:'🧹 Nettoyer',cleanOutput:'✨ Texte nettoyé',copyClean:'📋 Copier',dlClean:'⬇️ Télécharger',cleanStatus:'Collez et cliquez Nettoyer',
+    storeTitle:'🛒 Boutique — Mettre à niveau',storeDesc:'Paiement unique, accès à vie · Lemon Squeezy',
+    buyTTS:'Débloquer TTS',buyDub:'Débloquer Doublage',buySRT:'Débloquer Traducteur',
+    ttsDesc:'Synthèse vocale illimitée',dubDesc:'Doublage SRT complet — Essai: 30s',srtDesc:'Traduction SRT 13+ langues',
+    ttsFeat1:'Voix multi-langues (13+)',ttsFeat2:'Contrôle vitesse, hauteur, volume',ttsFeat3:'Filtres audio avancés',ttsFeat4:'Paiement unique · Sans abonnement',
+    dubFeat1:'Doublage SRT complet synchro',dubFeat2:'Export WAV YouTube',dubFeat3:'Traitement cloud',dubFeat4:'Paiement unique · Sans abonnement',
+    srtFeat1:'Traduction 13+ langues',srtFeat2:'Télécharger SRT traduit',srtFeat3:'Nettoyage auto',srtFeat4:'Paiement unique · Sans abonnement',
+    priceLabel:'À vie',buyBtn:'💳 Acheter',securePay:'🔒 Paiement sécurisé',
+    lockTTS:'Synthèse vocale — Verrouillé',lockDub:'Doublage — Verrouillé',lockSRT:'Traducteur SRT — Verrouillé',
+    lockSubGuest:'Connectez-vous pour 6 utilisations',lockSubDubGuest:'Connectez-vous essai (30s)',lockSubUsed:'Achetez pour continuer',
+    lockActionGuest:'👤 Connexion',lockActionBuy:'💎 Acheter $10',lockActionBuyDub:'🚀 Acheter $50',
+    filtersTitle:'🎛️ Filtres Audio',bass:'Basses',mid:'Médiums',treble:'Aigus',resetFilters:'🔄 Réinitialiser',
+    presetMale:'👨 Masculin',presetRadio:'📻 Radio',presetWarm:'🌟 Chaud',presetFast:'⚡ Rapide',
+    toastCopied:'✅ Copié',toastWarnUses:'⚠️ Plus que {n} utilisations!',
+    footer:'sl-Dubbing & Translation · GitHub + Render · gTTS · 100% Gratuit',
+    otpTitle:'📧 Activer',otpDesc:'Code envoyé à',otpCode:'Code',otpVerify:'✅ Vérifier',otpResend:'📩 Renvoyer',otpTimer:'Après',otpSuccess:'✅ Vérifié!',otpWrong:'❌ Incorrect'
+  },
+  de: {
+    login:'Anmelden',register:'Registrieren',email:'E-Mail',password:'Passwort',confirmPass:'Bestätigen',
+    submitLogin:'🔐 Login',submitRegister:'🚀 Erstellen',logout:'Abmelden',myAccount:'Mein Konto',
+    freePlan:'🎁 Kostenlos (6 Nutzungen)',proPlan:'✨ Pro Konto',
+    usageTitle:'📊 Verbleibende Nutzungen',usageTTS:'✏️ Text-zu-Sprache',usageDub:'🎬 Synchronisation',usageSRT:'🌐 SRT Übersetzer',
+    unlimited:'∞ Unbegrenzt',used:'Aufgebraucht',
+    ttsTitle:'Text-zu-Sprache',selectLang:'Sprache wählen',voice:'Stimme',typeText:'Text eingeben...',
+    speed:'Geschwindigkeit',pitch:'Tonhöhe',volume:'Lautstärke',speak:'Sprechen',pause:'⏸',clear:'🗑',
+    statusIdle:'👋 Text eingeben und Sprechen',statusSpeaking:'🔊 Sprechen...',statusDone:'✅ Fertig',statusError:'❌ Fehler',
+    dubTitle:'Synchronisation',srtTitle:'SRT Datei',dragDrop:'Ziehen oder Klicken',srtFormat:'.srt oder .txt',pasteLabel:'Oder einfügen',
+    parseBtn:'📥 Analysieren',sentences:'Sätze',duration:'Dauer',copySRT:'📋',
+    genTitle:'Generieren',genDesc1:'🔇 <strong>Stille</strong> Cloud-Verarbeitung',genDesc2:'⏱️ Präzise SRT-Sync',genDesc3:'📤 WAV für YouTube',
+    genBtn:'Synchronisation',genNote:'Render erforderlich',processing:'Verarbeitung...',remaining:'Verbleibend',elapsed:'Verstrichen',total:'Gesamt',
+    cancel:'⏹ Abbrechen',ready:'🎉 Fertig',download:'⬇️ WAV herunterladen',youtubeTip:'📤 YouTube Studio → Synchronisation',dubStatus:'Stellen Sie sicher Render läuft',
+    srtTransTitle:'SRT Übersetzer',selectTransLang:'1. Sprache wählen',sourceText:'2. Quelltext (SRT)',pasteSrc:'📋 Einfügen',
+    translateBtn:'🚀 Übersetzen',result:'✅ Ergebnis',copyResult:'📋 Kopieren',downloadSRT:'⬇️ SRT herunterladen',transStatus:'Bereit',
+    cleanTitle:'Text bereinigen',pasteClean:'📋 Einfügen',removeNumbers:'Zahlen entfernen',removeTime:'Zeiten entfernen',removeEmpty:'Leere Zeilen entfernen',
+    cleanBtn:'🧹 Bereinigen',cleanOutput:'✨ Bereinigter Text',copyClean:'📋 Kopieren',dlClean:'⬇️ Herunterladen',cleanStatus:'Einfügen und Bereinigen',
+    storeTitle:'🛒 Shop — Upgrade',storeDesc:'Einmalige Zahlung, lebenslanger Zugriff · Lemon Squeezy',
+    buyTTS:'TTS freischalten',buyDub:'Synchronisation freischalten',buySRT:'Übersetzer freischalten',
+    ttsDesc:'Unbegrenzte Text-zu-Sprache',dubDesc:'Vollständige SRT-Sync — Test: 30s',srtDesc:'SRT-Übersetzung 13+ Sprachen',
+    ttsFeat1:'Mehrsprachige Stimmen (13+)',ttsFeat2:'Kontrolle Geschwindigkeit, Tonhöhe',ttsFeat3:'Erweiterte Audiofilter',ttsFeat4:'Einmalige Zahlung · Kein Abo',
+    dubFeat1:'Vollständige SRT-Sync',dubFeat2:'WAV-Export für YouTube',dubFeat3:'Cloud-Verarbeitung',dubFeat4:'Einmalige Zahlung · Kein Abo',
+    srtFeat1:'Übersetzung 13+ Sprachen',srtFeat2:'Fertige SRT herunterladen',srtFeat3:'Automatische Bereinigung',srtFeat4:'Einmalige Zahlung · Kein Abo',
+    priceLabel:'Lebenslang',buyBtn:'💳 Kaufen',securePay:'🔒 Sichere Zahlung',
+    lockTTS:'Text-zu-Sprache — Gesperrt',lockDub:'Synchronisation — Gesperrt',lockSRT:'SRT Übersetzer — Gesperrt',
+    lockSubGuest:'Anmelden für 6 kostenlose Nutzungen',lockSubDubGuest:'Anmelden für Test (30s)',lockSubUsed:'Kaufen um fortzufahren',
+    lockActionGuest:'👤 Anmelden',lockActionBuy:'💎 Kaufen $10',lockActionBuyDub:'🚀 Kaufen $50',
+    filtersTitle:'🎛️ Audiofilter',bass:'Bass',mid:'Mitten',treble:'Höhen',resetFilters:'🔄 Zurücksetzen',
+    presetMale:'👨 Männlich',presetRadio:'📻 Radio',presetWarm:'🌟 Warm',presetFast:'⚡ Schnell',
+    toastCopied:'✅ Kopiert',toastWarnUses:'⚠️ Nur noch {n} Nutzungen!',
+    footer:'sl-Dubbing & Translation · GitHub + Render · gTTS · 100% Kostenlos',
+    otpTitle:'📧 Aktivieren',otpDesc:'Code gesendet an',otpCode:'Code',otpVerify:'✅ Prüfen',otpResend:'📩 Senden',otpTimer:'Nach',otpSuccess:'✅ Fertig!',otpWrong:'❌ Falsch'
+  },
+  zh: {
+    login:'登录',register:'注册',email:'邮箱',password:'密码',confirmPass:'确认',
+    submitLogin:'🔐 进入',submitRegister:'🚀 创建',logout:'退出',myAccount:'我的账户',
+    freePlan:'🎁 免费计划 (6次使用)',proPlan:'✨ 专业账户',
+    usageTitle:'📊 剩余免费使用',usageTTS:'✏️ 文字转语音',usageDub:'🎬 配音',usageSRT:'🌐 SRT翻译',
+    unlimited:'∞ 无限',used:'已用完',
+    ttsTitle:'文字转语音',selectLang:'选择语言',voice:'声音',typeText:'输入文本...',
+    speed:'速度',pitch:'音调',volume:'音量',speak:'朗读',pause:'⏸',clear:'🗑',
+    statusIdle:'👋 输入文本并按朗读',statusSpeaking:'🔊 朗读中...',statusDone:'✅ 完成',statusError:'❌ 错误',
+    dubTitle:'配音语言',srtTitle:'SRT文件',dragDrop:'拖放或点击',srtFormat:'.srt 或 .txt',pasteLabel:'或粘贴内容',
+    parseBtn:'📥 解析',sentences:'句',duration:'时长',copySRT:'📋',
+    genTitle:'生成',genDesc1:'🔇 <strong>静默</strong>云端处理',genDesc2:'⏱️ 与SRT精确同步',genDesc3:'📤 YouTube用WAV文件',
+    genBtn:'生成配音',genNote:'需要Render服务器',processing:'处理中...',remaining:'剩余',elapsed:'已过',total:'总计',
+    cancel:'⏹ 取消',ready:'🎉 就绪',download:'⬇️ 下载WAV',youtubeTip:'📤 YouTube Studio → 配音',dubStatus:'确保Render运行',
+    srtTransTitle:'SRT翻译',selectTransLang:'1. 选择目标语言',sourceText:'2. 源文本 (SRT)',pasteSrc:'📋 粘贴',
+    translateBtn:'🚀 翻译',result:'✅ 结果',copyResult:'📋 复制',downloadSRT:'⬇️ 下载SRT',transStatus:'就绪',
+    cleanTitle:'清理文本',pasteClean:'📋 粘贴',removeNumbers:'删除数字',removeTime:'删除时间戳',removeEmpty:'删除空行',
+    cleanBtn:'🧹 清理',cleanOutput:'✨ 清理后文本',copyClean:'📋 复制',dlClean:'⬇️ 下载',cleanStatus:'粘贴并点击清理',
+    storeTitle:'🛒 商店 — 升级',storeDesc:'一次性付款，终身访问 · Lemon Squeezy',
+    buyTTS:'解锁TTS',buyDub:'解锁配音',buySRT:'解锁翻译',
+    ttsDesc:'无限文字转语音',dubDesc:'完整SRT配音 — 试用: 30秒',srtDesc:'SRT翻译13+种语言',
+    ttsFeat1:'多语言声音 (13+)',ttsFeat2:'控制速度、音调、音量',ttsFeat3:'高级音频滤镜',ttsFeat4:'一次性付款 · 无订阅',
+    dubFeat1:'完整SRT配音同步',dubFeat2:'导出WAV用于YouTube',dubFeat3:'云端处理',dubFeat4:'一次性付款 · 无订阅',
+    srtFeat1:'翻译成13+种语言',srtFeat2:'下载翻译好的SRT',srtFeat3:'自动清理',srtFeat4:'一次性付款 · 无订阅',
+    priceLabel:'终身',buyBtn:'💳 购买',securePay:'🔒 安全支付',
+    lockTTS:'文字转语音 — 已锁定',lockDub:'配音 — 已锁定',lockSRT:'SRT翻译 — 已锁定',
+    lockSubGuest:'登录获得6次免费使用',lockSubDubGuest:'登录试用 (30秒)',lockSubUsed:'购买以继续',
+    lockActionGuest:'👤 登录',lockActionBuy:'💎 购买 $10',lockActionBuyDub:'🚀 购买 $50',
+    filtersTitle:'🎛️ 音频滤镜',bass:'低音',mid:'中音',treble:'高音',resetFilters:'🔄 重置',
+    presetMale:'👨 男声',presetRadio:'📻 收音机',presetWarm:'🌟 温暖',presetFast:'⚡ 快速',
+    toastCopied:'✅ 已复制',toastWarnUses:'⚠️ 只剩 {n} 次使用!',
+    footer:'sl-Dubbing & Translation · GitHub + Render · gTTS · 100% 免费',
+    otpTitle:'📧 激活',otpDesc:'代码已发送至',otpCode:'代码',otpVerify:'✅ 验证',otpResend:'📩 重发',otpTimer:'后',otpSuccess:'✅ 成功!',otpWrong:'❌ 错误'
+  },
+  hi: {
+    login:'लॉगिन',register:'रजिस्टर',email:'ईमेल',password:'पासवर्ड',confirmPass:'पुष्टि',
+    submitLogin:'🔐 प्रवेश',submitRegister:'🚀 बनाएं',logout:'लॉगआउट',myAccount:'मेरा खाता',
+    freePlan:'🎁 मुफ्त (6 उपयोग)',proPlan:'✨ प्रो खाता',
+    usageTitle:'📊 शेष मुफ्त उपयोग',usageTTS:'✏️ टेक्स्ट टू स्पीच',usageDub:'🎬 डबिंग',usageSRT:'🌐 SRT अनुवादक',
+    unlimited:'∞ असीमित',used:'समाप्त',
+    ttsTitle:'टेक्स्ट टू स्पीच',selectLang:'भाषा चुनें',voice:'आवाज',typeText:'टेक्स्ट टाइप करें...',
+    speed:'गति',pitch:'पिच',volume:'वॉल्यूम',speak:'बोलें',pause:'⏸',clear:'🗑',
+    statusIdle:'👋 टेक्स्ट टाइप करें',statusSpeaking:'🔊 बोल रहे हैं...',statusDone:'✅ हो गया',statusError:'❌ त्रुटि',
+    dubTitle:'डबिंग भाषा',srtTitle:'SRT फ़ाइल',dragDrop:'खींचें या क्लिक करें',srtFormat:'.srt या .txt',pasteLabel:'या पेस्ट करें',
+    parseBtn:'📥 पार्स',sentences:'वाक्य',duration:'अवधि',copySRT:'📋',
+    genTitle:'जनरेट',genDesc1:'🔇 <strong>साइलेंट</strong> क्लाउड प्रोसेसिंग',genDesc2:'⏱️ SRT के साथ सटीक सिंक',genDesc3:'📤 YouTube के लिए WAV',
+    genBtn:'डबिंग जनरेट',genNote:'Render सर्वर आवश्यक',processing:'प्रोसेसिंग...',remaining:'शेष',elapsed:'बीता',total:'कुल',
+    cancel:'⏹ रद्द करें',ready:'🎉 तैयार',download:'⬇️ WAV डाउनलोड',youtubeTip:'📤 YouTube Studio → डबिंग',dubStatus:'सुनिश्चित करें Render चल रहा है',
+    srtTransTitle:'SRT अनुवादक',selectTransLang:'1. भाषा चुनें',sourceText:'2. स्रोत टेक्स्ट (SRT)',pasteSrc:'📋 पेस्ट',
+    translateBtn:'🚀 अनुवाद',result:'✅ परिणाम',copyResult:'📋 कॉपी',downloadSRT:'⬇️ SRT डाउनलोड',transStatus:'तैयार',
+    cleanTitle:'टेक्स्ट साफ करें',pasteClean:'📋 पेस्ट',removeNumbers:'नंबर हटाएं',removeTime:'समय हटाएं',removeEmpty:'खाली लाइनें हटाएं',
+    cleanBtn:'🧹 साफ करें',cleanOutput:'✨ साफ टेक्स्ट',copyClean:'📋 कॉपी',dlClean:'⬇️ डाउनलोड',cleanStatus:'पेस्ट करें और साफ करें',
+    storeTitle:'🛒 स्टोर — अपग्रेड',storeDesc:'एक बार भुगतान, जीवन भर एक्सेस · Lemon Squeezy',
+    buyTTS:'TTS अनलॉक',buyDub:'डबिंग अनलॉक',buySRT:'अनुवादक अनलॉक',
+    ttsDesc:'असीमित टेक्स्ट टू स्पीच',dubDesc:'पूर्ण SRT डबिंग — परीक्षण: 30s',srtDesc:'SRT अनुवाद 13+ भाषाएं',
+    ttsFeat1:'बहुभाषी आवाजें (13+)',ttsFeat2:'गति, पिच, वॉल्यूम नियंत्रण',ttsFeat3:'उन्नत ऑडियो फिल्टर',ttsFeat4:'एक बार भुगतान · सब्सक्रिप्शन नहीं',
+    dubFeat1:'पूर्ण SRT डबिंग सिंक',dubFeat2:'YouTube के लिए WAV',dubFeat3:'क्लाउड प्रोसेसिंग',dubFeat4:'एक बार भुगतान · सब्सक्रिप्शन नहीं',
+    srtFeat1:'13+ भाषाओं में अनुवाद',srtFeat2:'अनुवादित SRT डाउनलोड',srtFeat3:'स्वचालित सफाई',srtFeat4:'एक बार भुगतान · सब्सक्रिप्शन नहीं',
+    priceLabel:'जीवन भर',buyBtn:'💳 खरीदें',securePay:'🔒 सुरक्षित भुगतान',
+    lockTTS:'टेक्स्ट टू स्पीच — लॉक',lockDub:'डबिंग — लॉक',lockSRT:'SRT अनुवादक — लॉक',
+    lockSubGuest:'6 मुफ्त उपयोग के लिए लॉगिन',lockSubDubGuest:'परीक्षण के लिए लॉगिन (30s)',lockSubUsed:'जारी रखने के लिए खरीदें',
+    lockActionGuest:'👤 लॉगिन',lockActionBuy:'💎 $10 खरीदें',lockActionBuyDub:'🚀 $50 खरीदें',
+    filtersTitle:'🎛️ ऑडियो फिल्टर',bass:'बास',mid:'मिड',treble:'ट्रेबल',resetFilters:'🔄 रीसेट',
+    presetMale:'👨 पुरुष',presetRadio:'📻 रेडियो',presetWarm:'🌟 गर्म',presetFast:'⚡ तेज',
+    toastCopied:'✅ कॉपी',toastWarnUses:'⚠️ केवल {n} उपयोग बचे!',
+    footer:'sl-Dubbing & Translation · GitHub + Render · gTTS · 100% मुफ्त',
+    otpTitle:'📧 सक्रिय',otpDesc:'कोड भेजा',otpCode:'कोड',otpVerify:'✅ सत्यापित',otpResend:'📩 पुनः',otpTimer:'बाद',otpSuccess:'✅ सफल!',otpWrong:'❌ गलत'
+  },
+  fa: {
+    login:'ورود',register:'ثبت‌نام',email:'ایمیل',password:'رمز',confirmPass:'تایید',
+    submitLogin:'🔐 ورود',submitRegister:'🚀 ساخت',logout:'خروج',myAccount:'حساب من',
+    freePlan:'🎁 رایگان (6 استفاده)',proPlan:'✨ حساب Pro',
+    usageTitle:'📊 استفاده‌های باقی‌مانده',usageTTS:'✏️ تبدیل متن به گفتار',usageDub:'🎬 دوبله',usageSRT:'🌐 مترجم SRT',
+    unlimited:'∞ نامحدود',used:'تمام شده',
+    ttsTitle:'تبدیل متن به گفتار',selectLang:'انتخاب زبان',voice:'صدا',typeText:'متن را بنویسید...',
+    speed:'سرعت',pitch:'زیر و بمی',volume:'حجم صدا',speak:'گفتار',pause:'⏸',clear:'🗑',
+    statusIdle:'👋 متن بنویسید و گفتار',statusSpeaking:'🔊 در حال گفتار...',statusDone:'✅ انجام شد',statusError:'❌ خطا',
+    dubTitle:'زبان دوبله',srtTitle:'فایل SRT',dragDrop:'بکشید یا کلیک',srtFormat:'.srt یا .txt',pasteLabel:'یا پیست کنید',
+    parseBtn:'📥 تجزیه',sentences:'جمله',duration:'مدت',copySRT:'📋',
+    genTitle:'تولید',genDesc1:'🔇 پردازش <strong>بی‌صدا</strong> ابری',genDesc2:'⏱️ همگام‌سازی دقیق با SRT',genDesc3:'📤 فایل WAV برای YouTube',
+    genBtn:'تولید دوبله',genNote:'سرور Render لازم است',processing:'در حال پردازش...',remaining:'باقی‌مانده',elapsed:'گذشته',total:'مجموع',
+    cancel:'⏹ لغو',ready:'🎉 آماده',download:'⬇️ دانلود WAV',youtubeTip:'📤 YouTube Studio → دوبله',dubStatus:'مطمئن شوید Render کار می‌کند',
+    srtTransTitle:'مترجم SRT',selectTransLang:'1. زبان را انتخاب کنید',sourceText:'2. متن منبع (SRT)',pasteSrc:'📋 پیست',
+    translateBtn:'🚀 ترجمه',result:'✅ نتیجه',copyResult:'📋 کپی',downloadSRT:'⬇️ دانلود SRT',transStatus:'آماده',
+    cleanTitle:'پاکسازی متن',pasteClean:'📋 پیست',removeNumbers:'حذف اعداد',removeTime:'حذف زمان‌ها',removeEmpty:'حذف خطوط خالی',
+    cleanBtn:'🧹 پاکسازی',cleanOutput:'✨ متن پاکسازی شده',copyClean:'📋 کپی',dlClean:'⬇️ دانلود',cleanStatus:'پیست کنید و پاکسازی',
+    storeTitle:'🛒 فروشگاه — ارتقا',storeDesc:'یک بار پرداخت، دسترسی مادام‌العمر · Lemon Squeezy',
+    buyTTS:'باز کردن TTS',buyDub:'باز کردن دوبله',buySRT:'باز کردن مترجم',
+    ttsDesc:'تبدیل متن به گفتار نامحدود',dubDesc:'دوبله کامل SRT — آزمایش: 30ث',srtDesc:'ترجمه SRT به 13+ زبان',
+    ttsFeat1:'صداهای چندزبانه (13+)',ttsFeat2:'کنترل سرعت، زیر و بمی، حجم',ttsFeat3:'فیلترهای پیشرفته صدا',ttsFeat4:'یک بار پرداخت · بدون اشتراک',
+    dubFeat1:'دوبله کامل SRT همگام',dubFeat2:'خروجی WAV برای YouTube',dubFeat3:'پردازش ابری',dubFeat4:'یک بار پرداخت · بدون اشتراک',
+    srtFeat1:'ترجمه به 13+ زبان',srtFeat2:'دانلود SRT ترجمه شده',srtFeat3:'پاکسازی خودکار',srtFeat4:'یک بار پرداخت · بدون اشتراک',
+    priceLabel:'مادام‌العمر',buyBtn:'💳 خرید',securePay:'🔒 پرداخت امن',
+    lockTTS:'تبدیل متن به گفتار — قفل',lockDub:'دوبله — قفل',lockSRT:'مترجم SRT — قفل',
+    lockSubGuest:'برای 6 استفاده رایگان وارد شوید',lockSubDubGuest:'برای آزمایش وارد شوید (30ث)',lockSubUsed:'برای ادامه خرید کنید',
+    lockActionGuest:'👤 ورود',lockActionBuy:'💎 خرید $10',lockActionBuyDub:'🚀 خرید $50',
+    filtersTitle:'🎛️ فیلترهای صدا',bass:'باس',mid:'مید',treble:'تریبل',resetFilters:'🔄 بازنشانی',
+    presetMale:'👨 مردانه',presetRadio:'📻 رادیو',presetWarm:'🌟 گرم',presetFast:'⚡ سریع',
+    toastCopied:'✅ کپی شد',toastWarnUses:'⚠️ فقط {n} استفاده باقی!',
+    footer:'sl-Dubbing & Translation · GitHub + Render · gTTS · 100% رایگان',
+    otpTitle:'📧 فعال‌سازی',otpDesc:'کد ارسال شد',otpCode:'کد',otpVerify:'✅ تایید',otpResend:'📩 مجدد',otpTimer:'بعد',otpSuccess:'✅ موفق!',otpWrong:'❌ اشتباه'
+  },
+  it: {
+    login:'Accedi',register:'Registrati',email:'Email',password:'Password',confirmPass:'Conferma',
+    submitLogin:'🔐 Entra',submitRegister:'🚀 Crea',logout:'Esci',myAccount:'Il Mio Account',
+    freePlan:'🎁 Gratuito (6 usi)',proPlan:'✨ Account Pro',
+    usageTitle:'📊 Usi Gratuiti Rimasti',usageTTS:'✏️ Sintesi Vocale',usageDub:'🎬 Doppiaggio',usageSRT:'🌐 Traduttore SRT',
+    unlimited:'∞ Illimitato',used:'Esaurito',
+    ttsTitle:'Sintesi Vocale',selectLang:'Scegli Lingua',voice:'Voce',typeText:'Digita testo...',
+    speed:'Velocità',pitch:'Tono',volume:'Volume',speak:'Parla',pause:'⏸',clear:'🗑',
+    statusIdle:'👋 Digita e premi Parla',statusSpeaking:'🔊 Parlato...',statusDone:'✅ Fatto',statusError:'❌ Errore',
+    dubTitle:'Lingua Doppiaggio',srtTitle:'File SRT',dragDrop:'Trascina o Clicca',srtFormat:'.srt o .txt',pasteLabel:'O incolla',
+    parseBtn:'📥 Analizza',sentences:'frasi',duration:'Durata',copySRT:'📋',
+    genTitle:'Genera',genDesc1:'🔇 Elaborazione <strong>silenziosa</strong>',genDesc2:'⏱️ Sync preciso con SRT',genDesc3:'📤 WAV per YouTube',
+    genBtn:'Genera Doppiaggio',genNote:'Render necessario',processing:'Elaborazione...',remaining:'Rimanente',elapsed:'Trascorso',total:'Totale',
+    cancel:'⏹ Annulla',ready:'🎉 Pronto',download:'⬇️ Scarica WAV',youtubeTip:'📤 YouTube Studio → Doppiaggio',dubStatus:'Assicurati Render funzioni',
+    srtTransTitle:'Traduttore SRT',selectTransLang:'1. Scegli lingua',sourceText:'2. Testo sorgente (SRT)',pasteSrc:'📋 Incolla',
+    translateBtn:'🚀 Traduci',result:'✅ Risultato',copyResult:'📋 Copia',downloadSRT:'⬇️ Scarica SRT',transStatus:'Pronto',
+    cleanTitle:'Pulisci Testo',pasteClean:'📋 Incolla',removeNumbers:'Rimuovi numeri',removeTime:'Rimuovi tempi',removeEmpty:'Rimuovi righe vuote',
+    cleanBtn:'🧹 Pulisci',cleanOutput:'✨ Testo pulito',copyClean:'📋 Copia',dlClean:'⬇️ Scarica',cleanStatus:'Incolla e clicca Pulisci',
+    storeTitle:'🛒 Negozio — Aggiorna',storeDesc:'Pagamento unico, accesso vitalizio · Lemon Squeezy',
+    buyTTS:'Sblocca TTS',buyDub:'Sblocca Doppiaggio',buySRT:'Sblocca Traduttore',
+    ttsDesc:'Sintesi vocale illimitata',dubDesc:'Doppiaggio SRT completo — Prova: 30s',srtDesc:'Traduzione SRT 13+ lingue',
+    ttsFeat1:'Voci multilingua (13+)',ttsFeat2:'Controllo velocità, tono, volume',ttsFeat3:'Filtri audio avanzati',ttsFeat4:'Pagamento unico · Nessun abbonamento',
+    dubFeat1:'Doppiaggio SRT completo sync',dubFeat2:'Export WAV per YouTube',dubFeat3:'Elaborazione cloud',dubFeat4:'Pagamento unico · Nessun abbonamento',
+    srtFeat1:'Traduzione 13+ lingue',srtFeat2:'Scarica SRT tradotto',srtFeat3:'Pulizia automatica',srtFeat4:'Pagamento unico · Nessun abbonamento',
+    priceLabel:'A vita',buyBtn:'💳 Acquista',securePay:'🔒 Pagamento sicuro',
+    lockTTS:'Sintesi Vocale — Bloccato',lockDub:'Doppiaggio — Bloccato',lockSRT:'Traduttore SRT — Bloccato',
+    lockSubGuest:'Accedi per 6 usi gratuiti',lockSubDubGuest:'Accedi per prova (30s)',lockSubUsed:'Acquista per continuare',
+    lockActionGuest:'👤 Accedi',lockActionBuy:'💎 Acquista $10',lockActionBuyDub:'🚀 Acquista $50',
+    filtersTitle:'🎛️ Filtri Audio',bass:'Bassi',mid:'Medi',treble:'Alti',resetFilters:'🔄 Reimposta',
+    presetMale:'👨 Maschile',presetRadio:'📻 Radio',presetWarm:'🌟 Caldo',presetFast:'⚡ Veloce',
+    toastCopied:'✅ Copiato',toastWarnUses:'⚠️ Solo {n} usi rimasti!',
+    footer:'sl-Dubbing & Translation · GitHub + Render · gTTS · 100% Gratuito',
+    otpTitle:'📧 Attiva',otpDesc:'Codice inviato',otpCode:'Codice',otpVerify:'✅ Verifica',otpResend:'📩 Invia',otpTimer:'Dopo',otpSuccess:'✅ Fatto!',otpWrong:'❌ Errato'
+  },
+  nl: {
+    login:'Inloggen',register:'Registreren',email:'E-mail',password:'Wachtwoord',confirmPass:'Bevestig',
+    submitLogin:'🔐 Login',submitRegister:'🚀 Maak',logout:'Uitloggen',myAccount:'Mijn Account',
+    freePlan:'🎁 Gratis (6 uses)',proPlan:'✨ Pro Account',
+    usageTitle:'📊 Resterend Gratis',usageTTS:'✏️ Tekst-naar-Spraak',usageDub:'🎬 Nasynchronisatie',usageSRT:'🌐 SRT Vertaler',
+    unlimited:'∞ Onbeperkt',used:'Op',
+    ttsTitle:'Tekst-naar-Spraak',selectLang:'Kies Taal',voice:'Stem',typeText:'Typ tekst...',
+    speed:'Snelheid',pitch:'Toonhoogte',volume:'Volume',speak:'Spreek',pause:'⏸',clear:'🗑',
+    statusIdle:'👋 Typ en druk Spreek',statusSpeaking:'🔊 Spreken...',statusDone:'✅ Klaar',statusError:'❌ Fout',
+    dubTitle:'Nasynchronisatie',srtTitle:'SRT Bestand',dragDrop:'Sleep of Klik',srtFormat:'.srt of .txt',pasteLabel:'Of plak',
+    parseBtn:'📥 Parse',sentences:'zinnen',duration:'Duur',copySRT:'📋',
+    genTitle:'Genereer',genDesc1:'🔇 <strong>Stille</strong> cloud verwerking',genDesc2:'⏱️ Precieze sync met SRT',genDesc3:'📤 WAV voor YouTube',
+    genBtn:'Genereer Nasynchronisatie',genNote:'Render vereist',processing:'Verwerken...',remaining:'Resterend',elapsed:'Verstreken',total:'Totaal',
+    cancel:'⏹ Annuleer',ready:'🎉 Klaar',download:'⬇️ Download WAV',youtubeTip:'📤 YouTube Studio → Nasynchronisatie',dubStatus:'Zorg dat Render draait',
+    srtTransTitle:'SRT Vertaler',selectTransLang:'1. Kies taal',sourceText:'2. Brontekst (SRT)',pasteSrc:'📋 Plak',
+    translateBtn:'🚀 Vertaal',result:'✅ Resultaat',copyResult:'📋 Kopieer',downloadSRT:'⬇️ Download SRT',transStatus:'Klaar',
+    cleanTitle:'Tekst Opschonen',pasteClean:'📋 Plak',removeNumbers:'Verwijder cijfers',removeTime:'Verwijder tijden',removeEmpty:'Verwijder lege regels',
+    cleanBtn:'🧹 Opschonen',cleanOutput:'✨ Opgeschoonde tekst',copyClean:'📋 Kopieer',dlClean:'⬇️ Download',cleanStatus:'Plak en klik Opschonen',
+    storeTitle:'🛒 Winkel — Upgrade',storeDesc:'Eenmalige betaling, levenslange toegang · Lemon Squeezy',
+    buyTTS:'Ontgrendel TTS',buyDub:'Ontgrendel Nasynchronisatie',buySRT:'Ontgrendel Vertaler',
+    ttsDesc:'Onbeperkte tekst-naar-spraak',dubDesc:'Volledige SRT nasynchronisatie — Proef: 30s',srtDesc:'SRT vertaling 13+ talen',
+    ttsFeat1:'Meertalige stemmen (13+)',ttsFeat2:' Bedien snelheid, toon, volume',ttsFeat3:'Geavanceerde audiofilters',ttsFeat4:'Eenmalige betaling · Geen abonnement',
+    dubFeat1:'Volledige SRT nasynchronisatie',dubFeat2:'WAV export voor YouTube',dubFeat3:'Cloud verwerking',dubFeat4:'Eenmalige betaling · Geen abonnement',
+    srtFeat1:'Vertaling 13+ talen',srtFeat2:'Download vertaalde SRT',srtFeat3:'Automatisch opschonen',srtFeat4:'Eenmalige betaling · Geen abonnement',
+    priceLabel:'Levenslang',buyBtn:'💳 Koop',securePay:'🔒 Veilige betaling',
+    lockTTS:'Tekst-naar-Spraak — Vergrendeld',lockDub:'Nasynchronisatie — Vergrendeld',lockSRT:'SRT Vertaler — Vergrendeld',
+    lockSubGuest:'Log in voor 6 gratis uses',lockSubDubGuest:'Log in voor proef (30s)',lockSubUsed:'Koop om door te gaan',
+    lockActionGuest:'👤 Log in',lockActionBuy:'💎 Koop $10',lockActionBuyDub:'🚀 Koop $50',
+    filtersTitle:'🎛️ Audiofilters',bass:'Bas',mid:'Midden',treble:'Hoog',resetFilters:'🔄 Reset',
+    presetMale:'👨 Mannelijk',presetRadio:'📻 Radio',presetWarm:'🌟 Warm',presetFast:'⚡ Snel',
+    toastCopied:'✅ Gekopieerd',toastWarnUses:'⚠️ Nog maar {n} uses!',
+    footer:'sl-Dubbing & Translation · GitHub + Render · gTTS · 100% Gratis',
+    otpTitle:'📧 Activeer',otpDesc:'Code verzonden',otpCode:'Code',otpVerify:'✅ Verifieer',otpResend:'📩 Stuur',otpTimer:'Na',otpSuccess:'✅ Gelukt!',otpWrong:'❌ Fout'
+  },
+  sv: {
+    login:'Logga in',register:'Registrera',email:'E-post',password:'Lösenord',confirmPass:'Bekräfta',
+    submitLogin:'🔐 In',submitRegister:'🚀 Skapa',logout:'Logga ut',myAccount:'Mitt Konto',
+    freePlan:'🎁 Gratis (6 användningar)',proPlan:'✨ Pro Konto',
+    usageTitle:'📊 Återstående Gratis',usageTTS:'✏️ Text-till-Tal',usageDub:'🎬 Dubbning',usageSRT:'🌐 SRT Översättare',
+    unlimited:'∞ Obegränsat',used:'Slut',
+    ttsTitle:'Text-till-Tal',selectLang:'Välj Språk',voice:'Röst',typeText:'Skriv text...',
+    speed:'Hastighet',pitch:'Tonhöjd',volume:'Volym',speak:'Tala',pause:'⏸',clear:'🗑',
+    statusIdle:'👋 Skriv och tryck Tala',statusSpeaking:'🔊 Talar...',statusDone:'✅ Klart',statusError:'❌ Fel',
+    dubTitle:'Dubbning',srtTitle:'SRT Fil',dragDrop:'Dra eller Klicka',srtFormat:'.srt eller .txt',pasteLabel:'Eller klistra',
+    parseBtn:'📥 Analysera',sentences:'meningar',duration:'Längd',copySRT:'📋',
+    genTitle:'Generera',genDesc1:'🔇 <strong>Tyst</strong> molnbearbetning',genDesc2:'⏱️ Exakt sync med SRT',genDesc3:'📤 WAV för YouTube',
+    genBtn:'Generera Dubbning',genNote:'Render krävs',processing:'Bearbetar...',remaining:'Återstående',elapsed:'Förfluten',total:'Totalt',
+    cancel:'⏹ Avbryt',ready:'🎉 Klar',download:'⬇️ Ladda ner WAV',youtubeTip:'📤 YouTube Studio → Dubbning',dubStatus:'Se till Render fungerar',
+    srtTransTitle:'SRT Översättare',selectTransLang:'1. Välj språk',sourceText:'2. Källtext (SRT)',pasteSrc:'📋 Klistra',
+    translateBtn:'🚀 Översätt',result:'✅ Resultat',copyResult:'📋 Kopiera',downloadSRT:'⬇️ Ladda ner SRT',transStatus:'Klar',
+    cleanTitle:'Rensa Text',pasteClean:'📋 Klistra',removeNumbers:'Ta bort siffror',removeTime:'Ta bort tider',removeEmpty:'Ta bort tomma rader',
+    cleanBtn:'🧹 Rensa',cleanOutput:'✨ Rensad text',copyClean:'📋 Kopiera',dlClean:'⬇️ Ladda ner',cleanStatus:'Klistra och klicka Rensa',
+    storeTitle:'🛒 Butik — Uppgradera',storeDesc:'Engångsbetalning, livstidsåtkomst · Lemon Squeezy',
+    buyTTS:'Lås upp TTS',buyDub:'Lås upp Dubbning',buySRT:'Lås upp Översättare',
+    ttsDesc:'Obegränsad text-till-tal',dubDesc:'Fullständig SRT dubbning — Test: 30s',srtDesc:'SRT översättning 13+ språk',
+    ttsFeat1:'Flerspråkiga röster (13+)',ttsFeat2:'Kontroll hastighet, ton, volym',ttsFeat3:'Avancerade ljudfilter',ttsFeat4:'Engångsbetalning · Ingen prenumeration',
+    dubFeat1:'Fullständig SRT dubbning sync',dubFeat2:'WAV export för YouTube',dubFeat3:'Molnbearbetning',dubFeat4:'Engångsbetalning · Ingen prenumeration',
+    srtFeat1:'Översättning 13+ språk',srtFeat2:'Ladda ner översatt SRT',srtFeat3:'Automatisk rensning',srtFeat4:'Engångsbetalning · Ingen prenumeration',
+    priceLabel:'Livstid',buyBtn:'💳 Köp',securePay:'🔒 Säker betalning',
+    lockTTS:'Text-till-Tal — Låst',lockDub:'Dubbning — Låst',lockSRT:'SRT Översättare — Låst',
+    lockSubGuest:'Logga in för 6 gratis användningar',lockSubDubGuest:'Logga in för test (30s)',lockSubUsed:'Köp för att fortsätta',
+    lockActionGuest:'👤 Logga in',lockActionBuy:'💎 Köp $10',lockActionBuyDub:'🚀 Köp $50',
+    filtersTitle:'🎛️ Ljudfilter',bass:'Bas',mid:'Mellan',treble:'Diskant',resetFilters:'🔄 Återställ',
+    presetMale:'👨 Manlig',presetRadio:'📻 Radio',presetWarm:'🌟 Varm',presetFast:'⚡ Snabb',
+    toastCopied:'✅ Kopierad',toastWarnUses:'⚠️ Bara {n} användningar kvar!',
+    footer:'sl-Dubbing & Translation · GitHub + Render · gTTS · 100% Gratis',
+    otpTitle:'📧 Aktivera',otpDesc:'Kod skickad',otpCode:'Kod',otpVerify:'✅ Verifiera',otpResend:'📩 Skicka',otpTimer:'Efter',otpSuccess:'✅ Klart!',otpWrong:'❌ Fel'
   }
 };
 
-// 🌍 دالة تطبيق الترجمة على عنصر واحد
+// =============================================================
+// 🌍 دوال الترجمة
+// =============================================================
 function applyTranslation(el, key, lang) {
   if (!el || !I18N[lang] || !I18N[lang][key]) return;
   if (el.dataset.i18nHtml === 'true') {
@@ -994,7 +1062,6 @@ function applyTranslation(el, key, lang) {
   }
 }
 
-// 🌍 دالة تطبيق الترجمة على كل العناصر
 function applyAllTranslations(lang) {
   document.querySelectorAll('[data-i18n]').forEach(el => {
     applyTranslation(el, el.dataset.i18n, lang);
@@ -1007,7 +1074,6 @@ function applyAllTranslations(lang) {
   updateDynamicText(lang);
 }
 
-// تحديث النصوص الديناميكية
 function updateDynamicText(lang) {
   const t = I18N[lang];
   if (!t) return;
@@ -1021,31 +1087,14 @@ function updateDynamicText(lang) {
   }
 }
 
-// 🌍 دالة تغيير اللغة
-function setLang(l) {
-  document.querySelectorAll('.lang-option').forEach(o => 
-    o.classList.toggle('active', o.dataset.lang === l)
-  );
-  const langNames = {ar:'العربية',en:'English',ru:'Русский',tr:'Türkçe',fr:'Français',de:'Deutsch',es:'Español'};
-  document.getElementById('currentLang').textContent = langNames[l] || l;
-  document.getElementById('langDropdown').classList.remove('show');
-  document.documentElement.lang = l;
-  document.documentElement.dir = ['ar','fa','he'].includes(l) ? 'rtl' : 'ltr';
-  applyAllTranslations(l);
-  localStorage.setItem('sl_lang', l);
-}
-
-// ⏰ نظام OTP مع العد التنازلي
+// =============================================================
+// 📧 نظام OTP مع العد التنازلي
+// =============================================================
 let otpTimer = null;
-let otpCode = '';
 let currentOTPEmail = '';
 
 function showOTPModal(email) {
   currentOTPEmail = email;
-  otpCode = Math.floor(100000 + Math.random() * 900000).toString();
-  localStorage.setItem('otp_' + email, otpCode);
-  localStorage.setItem('otp_time_' + email, Date.now());
-  console.log('📧 كود التفعيل لـ ' + email + ': ' + otpCode);
   
   const lang = localStorage.getItem('sl_lang') || 'ar';
   const t = I18N[lang] || I18N.ar;
@@ -1054,22 +1103,23 @@ function showOTPModal(email) {
   modal.id = 'otpModal';
   modal.className = 'otp-modal';
   modal.innerHTML = `
-    <div class="otp-modal-content">
-      <span class="otp-icon">📧</span>
-      <h2 class="otp-title" data-i18n="otpTitle">${t.otpTitle}</h2>
+    <div class="otp-content">
+      <div class="otp-icon">📧</div>
+      <h2 class="otp-title">${t.otpTitle}</h2>
       <p class="otp-desc">
-        <span data-i18n="otpDesc">${t.otpDesc}</span><br>
+        ${t.otpDesc}<br>
         <strong class="otp-email">${email}</strong>
       </p>
-      <input type="text" id="otpInput" class="otp-input" maxlength="6" placeholder="000000" data-i18n-placeholder="otpCode">
+      <input type="text" class="otp-input" id="otpInput" maxlength="6" placeholder="000000">
       <div class="otp-timer">
-        <span data-i18n="otpTimer">${t.otpTimer}</span>: <span id="countdown" class="otp-timer-countdown">05:00</span>
+        ${t.otpTimer}: <span id="countdown" class="otp-timer-countdown">05:00</span>
       </div>
-      <button onclick="verifyOTP()" class="otp-btn-verify" data-i18n="otpVerify">${t.otpVerify}</button>
-      <button onclick="resendOTP()" id="resendBtn" class="otp-btn-resend" disabled data-i18n="otpResend">${t.otpResend}</button>
-      <button onclick="closeOTP()" class="otp-btn-cancel">❌ إلغاء</button>
+      <button class="otp-btn-verify" onclick="verifyOTP()">${t.otpVerify}</button>
+      <button class="otp-btn-resend" id="resendBtn" onclick="resendOTP()" disabled>${t.otpResend}</button>
+      <button class="otp-btn-cancel" onclick="closeOTP()">❌ إلغاء</button>
     </div>
   `;
+  
   document.body.appendChild(modal);
   startOTPCountdown(300);
   setTimeout(() => document.getElementById('otpInput').focus(), 100);
@@ -1077,64 +1127,70 @@ function showOTPModal(email) {
 
 function startOTPCountdown(seconds) {
   let remaining = seconds;
-  const timerEl = document.getElementById('countdown');
-  const resendBtn = document.getElementById('resendBtn');
-  const lang = localStorage.getItem('sl_lang') || 'ar';
-  const t = I18N[lang] || I18N.ar;
+  const el = document.getElementById('countdown');
+  const btn = document.getElementById('resendBtn');
   
   if (otpTimer) clearInterval(otpTimer);
   
   otpTimer = setInterval(() => {
-    const mins = Math.floor(remaining / 60);
-    const secs = remaining % 60;
-    timerEl.textContent = `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+    const m = Math.floor(remaining / 60).toString().padStart(2,'0');
+    const s = (remaining % 60).toString().padStart(2,'0');
+    el.textContent = `${m}:${s}`;
     
     if (remaining <= 0) {
       clearInterval(otpTimer);
-      resendBtn.disabled = false;
-      resendBtn.removeAttribute('disabled');
+      btn.disabled = false;
     }
     remaining--;
   }, 1000);
 }
 
-function verifyOTP() {
-  const input = document.getElementById('otpInput').value;
-  const savedOTP = localStorage.getItem('otp_' + currentOTPEmail);
+async function verifyOTP() {
+  const code = document.getElementById('otpInput').value;
   const lang = localStorage.getItem('sl_lang') || 'ar';
   const t = I18N[lang] || I18N.ar;
   
-  if (input === savedOTP) {
-    const users = getUsers();
-    if (users[currentOTPEmail]) {
-      users[currentOTPEmail].verified = true;
-      saveUsers(users);
-    }
-    localStorage.removeItem('otp_' + currentOTPEmail);
-    localStorage.removeItem('otp_time_' + currentOTPEmail);
-    closeOTP();
-    showToast('✅ ' + t.otpSuccess, 'ok');
-    setTimeout(() => {
+  if (code.length !== 6) { 
+    showToast(t.otpWrong, 'er'); 
+    return; 
+  }
+  
+  try {
+    const res = await fetch(`${BACKEND_URL}/api/verify-otp`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({email: currentOTPEmail, otp: code})
+    });
+    
+    if (res.ok) {
+      showToast(t.otpSuccess, 'ok');
+      closeOTP();
       document.getElementById('login-email').value = currentOTPEmail;
-      doLogin();
-    }, 1000);
-  } else {
-    const inputEl = document.getElementById('otpInput');
-    inputEl.classList.add('error');
-    setTimeout(() => inputEl.classList.remove('error'), 500);
-    showToast(t.otpWrong, 'er');
+      switchAuthTab('login');
+    } else {
+      showToast(t.otpWrong, 'er');
+    }
+  } catch (e) {
+    showToast('❌ خطأ في الاتصال', 'er');
   }
 }
 
-function resendOTP() {
-  otpCode = Math.floor(100000 + Math.random() * 900000).toString();
-  localStorage.setItem('otp_' + currentOTPEmail, otpCode);
-  localStorage.setItem('otp_time_' + currentOTPEmail, Date.now());
-  console.log('📧 كود التفعيل الجديد: ' + otpCode);
-  startOTPCountdown(300);
-  showToast('📩 تم إرسال كود جديد!', 'ok');
-  document.getElementById('otpInput').value = '';
-  document.getElementById('otpInput').focus();
+async function resendOTP() {
+  const lang = localStorage.getItem('sl_lang') || 'ar';
+  const t = I18N[lang] || I18N.ar;
+  
+  try {
+    await fetch(`${BACKEND_URL}/api/send-otp`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({email: currentOTPEmail})
+    });
+    startOTPCountdown(300);
+    document.getElementById('otpInput').value = '';
+    showToast('📩 ' + t.otpResend, 'ok');
+  } catch (e) {
+    showToast('❌ خطأ', 'er');
+  }
 }
 
 function closeOTP() {
@@ -1149,7 +1205,7 @@ function closeOTP() {
 // =============================================================
 // باقي الكود الأصلي (CONFIG + AUTH + APP LOGIC)
 // =============================================================
-const BACKEND_URL = 'https://YOUR-BACKEND-ON-RENDER.onrender.com';
+const BACKEND_URL = 'https://YOUR-RENDER-APP.onrender.com';
 const FREE_LIMIT = 6;
 const AUTH_KEY = 'alhashmi_users';
 const SESSION_KEY = 'alhashmi_session';
@@ -1253,181 +1309,384 @@ function doRegister() {
   const btn = document.getElementById('registerBtn');
   btn.classList.add('loading');btn.disabled = true;
   
-  setTimeout(() => {
-    const token = Math.random().toString(36).substring(2,15) + Math.random().toString(36).substring(2,15);
-    users[email] = {hash: simpleHash(pass),usage: { tts:0, dub:0, srt:0 },unlocked: { tts:false, dub:false, srt:false },createdAt: Date.now(),verified: false,token: token};
-    saveUsers(users);
-    btn.classList.remove('loading');btn.disabled = false;
-    showOTPModal(email);
-  }, 600);
-}
-
-function checkVerificationToken() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const token = urlParams.get('verify');
-  if (!token) return;
-  const users = getUsers();
-  let verified = false;let verifiedEmail = '';
-  for (let email in users) {
-    if (users[email].token === token && !users[email].verified) {
-      users[email].verified = true;delete users[email].token;saveUsers(users);
-      verified = true;verifiedEmail = email;break;
+  setTimeout(async () => {
+    try {
+      // إرسال طلب التسجيل للـ backend
+      const res = await fetch(`${BACKEND_URL}/api/register`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({email, password: pass})
+      });
+      
+      if (res.ok) {
+        // إظهار نافذة OTP
+        showOTPModal(email);
+        showAuthMsg('register', '✅ ' + t.otpDesc, 'ok');
+      } else {
+        const data = await res.json();
+        showAuthMsg('register', '❌ ' + data.error, 'er');
+      }
+    } catch (e) {
+      showAuthMsg('register', '❌ خطأ في الاتصال', 'er');
     }
-  }
-  if (verified) {showToast('🎉 ' + verifiedEmail, 'ok');setTimeout(() => {openAuthDropdown();switchAuthTab('login');document.getElementById('login-email').value = verifiedEmail;}, 900);}
-  else {showToast('❌ Invalid', 'er');}
-  window.history.replaceState({}, document.title, window.location.pathname);
+    
+    btn.classList.remove('loading');
+    btn.disabled = false;
+  }, 600);
 }
 
 async function doLogin() {
   const email = document.getElementById('login-email').value.trim().toLowerCase();
   const pass  = document.getElementById('login-pass').value;
-  if (!email || !email.includes('@')) {showAuthMsg('login', '⚠️ Email', 'er');return;}
-  if (!pass) {showAuthMsg('login', '⚠️ Password', 'er');return;}
+  const lang = localStorage.getItem('sl_lang') || 'ar';
+  const t = I18N[lang] || I18N.ar;
+  
+  if (!email || !email.includes('@')) {showAuthMsg('login', '⚠️ ' + t.email, 'er');return;}
+  if (!pass) {showAuthMsg('login', '⚠️ ' + t.password, 'er');return;}
+  
   const btn = document.getElementById('loginBtn');
   btn.classList.add('loading');btn.disabled = true;
-  setTimeout(async () => {
-    const users = getUsers();const u = users[email];
-    if (!u || u.hash !== simpleHash(pass)) {showAuthMsg('login', '❌ Wrong', 'er');btn.classList.remove('loading');btn.disabled = false;return;}
-    if (!u.verified) {showAuthMsg('login', '⚠️ Verify first', 'er');btn.classList.remove('loading');btn.disabled = false;return;}
-    await loginUser(email);showAuthMsg('login', '✅ Welcome!', 'ok');
-    btn.classList.remove('loading');btn.disabled = false;
-    setTimeout(() => closeAuthDropdown(), 900);
-  }, 600);
+  
+  try {
+    const res = await fetch(`${BACKEND_URL}/api/login`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({email, password: pass})
+    });
+    
+    const data = await res.json();
+    
+    if (res.ok) {
+      await loginUser(email);
+      showAuthMsg('login', '✅ مرحباً!', 'ok');
+      setTimeout(() => closeAuthDropdown(), 900);
+    } else if (data.not_verified) {
+      showOTPModal(email);
+      showAuthMsg('login', '⚠️ ' + t.otpTitle, 'er');
+    } else {
+      showAuthMsg('login', '❌ ' + data.error, 'er');
+    }
+  } catch (e) {
+    showAuthMsg('login', '❌ خطأ في الاتصال', 'er');
+  }
+  
+  btn.classList.remove('loading');
+  btn.disabled = false;
 }
 
 async function loginUser(email) {
-  saveSession({ email });currentUser = { email, initial: email[0].toUpperCase() };
-  const users = getUsers();if (users[email] && users[email].unlocked) {setUnlockedState(users[email].unlocked);}
-  renderAuthState();syncUIFromUnlockedState();updateLockStates();updateUsageUI();
+  saveSession({ email });
+  currentUser = { email, initial: email[0].toUpperCase() };
+  const users = getUsers();
+  if (users[email] && users[email].unlocked) {
+    setUnlockedState(users[email].unlocked);
+  }
+  renderAuthState();
+  syncUIFromUnlockedState();
+  updateLockStates();
+  updateUsageUI();
   await refreshEntitlements();
 }
 
-function logoutUser() {clearSession();currentUser = null;clearUnlocked();renderAuthState();updateLockStates();closeAuthDropdown();}
+function logoutUser() {
+  clearSession();
+  currentUser = null;
+  clearUnlocked();
+  renderAuthState();
+  updateLockStates();
+  closeAuthDropdown();
+}
 
 function renderAuthState() {
   const loggedIn = !!currentUser;
-  document.getElementById('authBtnLabel').textContent = loggedIn ? currentUser.email.split('@')[0] : 'تسجيل الدخول';
-  const btn = document.getElementById('authToggleBtn');const svgIcon = btn.querySelector('svg:first-child');
+  const lang = localStorage.getItem('sl_lang') || 'ar';
+  const t = I18N[lang] || I18N.ar;
+  
+  document.getElementById('authBtnLabel').textContent = loggedIn ? currentUser.email.split('@')[0] : t.login;
+  
+  const btn = document.getElementById('authToggleBtn');
+  const svgIcon = btn.querySelector('svg:first-child');
   let avatarEl = btn.querySelector('.auth-avatar');
+  
   if (loggedIn) {
-    if (!avatarEl) {avatarEl = document.createElement('span');avatarEl.className = 'auth-avatar';btn.insertBefore(avatarEl, btn.firstChild);if (svgIcon) svgIcon.style.display = 'none';}
-    avatarEl.textContent = currentUser.initial;document.getElementById('userAvatarLg').textContent = currentUser.initial;
-  } else {if (avatarEl) avatarEl.remove();if (svgIcon) svgIcon.style.display = '';}
+    if (!avatarEl) {
+      avatarEl = document.createElement('span');
+      avatarEl.className = 'auth-avatar';
+      btn.insertBefore(avatarEl, btn.firstChild);
+      if (svgIcon) svgIcon.style.display = 'none';
+    }
+    avatarEl.textContent = currentUser.initial;
+    document.getElementById('userAvatarLg').textContent = currentUser.initial;
+  } else {
+    if (avatarEl) avatarEl.remove();
+    if (svgIcon) svgIcon.style.display = '';
+  }
+  
   document.getElementById('userPanel').style.display = loggedIn ? 'block' : 'none';
   document.getElementById('authForms').style.display = loggedIn ? 'none' : 'block';
-  if (loggedIn) {document.getElementById('userEmailDisplay').textContent = currentUser.email;updateUsageUI();}
+  
+  if (loggedIn) {
+    document.getElementById('userEmailDisplay').textContent = currentUser.email;
+    updateUsageUI();
+  }
 }
 
 function updateUsageUI() {
   if (!currentUser) return;
-  const users = getUsers();const u = users[currentUser.email];if (!u) return;
+  const users = getUsers();
+  const u = users[currentUser.email];
+  if (!u) return;
   const localUnlocked = getUnlocked();
+  const lang = localStorage.getItem('sl_lang') || 'ar';
+  const t = I18N[lang] || I18N.ar;
+  
   FEATURES.forEach(f => {
     const unlimited = (u.unlocked && u.unlocked[f]) || localUnlocked[f];
-    const used = (u.usage && u.usage[f]) || 0;const left = unlimited ? Infinity : Math.max(0, FREE_LIMIT - used);
+    const used = (u.usage && u.usage[f]) || 0;
+    const left = unlimited ? Infinity : Math.max(0, FREE_LIMIT - used);
     const pct = unlimited ? 100 : (left / FREE_LIMIT) * 100;
-    const ucEl = document.getElementById('uc-' + f);const ubEl = document.getElementById('ub-' + f);
-    if (ucEl) {if (unlimited) {ucEl.textContent = '∞ مفتوح';ucEl.className = 'usage-count unlimited';} else if (left > 0) {ucEl.textContent = left + '/' + FREE_LIMIT;ucEl.className = 'usage-count has-uses';} else {ucEl.textContent = '0/' + FREE_LIMIT + ' انتهت';ucEl.className = 'usage-count no-uses';}}
+    
+    const ucEl = document.getElementById('uc-' + f);
+    const ubEl = document.getElementById('ub-' + f);
+    
+    if (ucEl) {
+      if (unlimited) {
+        ucEl.textContent = t.unlimited;
+        ucEl.className = 'usage-count unlimited';
+      } else if (left > 0) {
+        ucEl.textContent = left + '/' + FREE_LIMIT;
+        ucEl.className = 'usage-count has-uses';
+      } else {
+        ucEl.textContent = '0/' + FREE_LIMIT + ' ' + t.used;
+        ucEl.className = 'usage-count no-uses';
+      }
+    }
     if (ubEl) ubEl.style.width = Math.max(0, pct) + '%';
   });
+  
   const anyUnlocked = FEATURES.some(f => (u.unlocked && u.unlocked[f]) || localUnlocked[f]);
-  document.getElementById('userPlanBadge').textContent = anyUnlocked ? '✨ حساب مدفوع' : '🎁 خطة مجانية (6 استخدامات/ميزة)';
+  document.getElementById('userPlanBadge').textContent = anyUnlocked ? t.proPlan : t.freePlan;
 }
 
-function getLockTitle(f) {return {tts:'نطق النص — مقفل',dub:'الدبلجة — مقفلة',srt:'مترجم SRT — مقفل'}[f];}
-function getBuyLabel(f) {return {tts:'💎 اشترِ مقابل $10',dub:'🚀 اشترِ مقابل $50',srt:'🌍 اشترِ مقابل $10'}[f];}
-function lockAction(f) {if (!currentUser) openAuthDropdown();else startCheckout(f);}
+function getLockTitle(f) {
+  const lang = localStorage.getItem('sl_lang') || 'ar';
+  const t = I18N[lang] || I18N.ar;
+  return {tts:t.lockTTS,dub:t.lockDub,srt:t.lockSRT}[f];
+}
+
+function getBuyLabel(f) {
+  return {tts:'💎 $10',dub:'🚀 $50',srt:'🌍 $10'}[f];
+}
+
+function lockAction(f) {
+  if (!currentUser) openAuthDropdown();
+  else startCheckout(f);
+}
 
 function updateLockStates() {
+  const lang = localStorage.getItem('sl_lang') || 'ar';
+  const t = I18N[lang] || I18N.ar;
+  
   FEATURES.forEach(f => {
-    const zone = document.getElementById('zone-' + f);const lock = document.getElementById('lock-' + f);
+    const zone = document.getElementById('zone-' + f);
+    const lock = document.getElementById('lock-' + f);
     if (!zone || !lock) return;
+    
     const unlocked = getUnlocked();
-    if (unlocked[f]) {lock.classList.remove('active');zone.classList.add('unlocked');return;}
-    if (!currentUser) {
-      lock.classList.add('active');zone.classList.remove('unlocked');
-      document.getElementById('lock-icon-'  + f).textContent = '🔒';
-      document.getElementById('lock-title-' + f).textContent = getLockTitle(f);
-      document.getElementById('lock-sub-'   + f).textContent = f === 'dub' ? 'سجّل للتجربة المجانية (30 ث) أو اشترِ للملف الكامل' : 'سجّل دخولك للحصول على 6 استخدامات مجانية';
-      document.getElementById('lock-free-'  + f).style.display = 'none';
-      document.getElementById('lock-uses-'  + f).style.display = 'none';
-      const ab = document.getElementById('lock-action-' + f);ab.textContent = '👤 سجّل للاستخدام المجاني';ab.className = 'lock-buy-hint ' + f + '-btn';ab.onclick = () => openAuthDropdown();
+    if (unlocked[f]) {
+      lock.classList.remove('active');
+      zone.classList.add('unlocked');
       return;
     }
-    const left = getUsageLeft(currentUser.email, f);
-    if (left === Infinity || left > 0) {lock.classList.remove('active');zone.classList.add('unlocked');}
-    else {
-      lock.classList.add('active');zone.classList.remove('unlocked');
-      document.getElementById('lock-icon-'  + f).textContent = '⛔';
-      document.getElementById('lock-title-' + f).textContent = 'انتهت الاستخدامات المجانية';
-      document.getElementById('lock-sub-'   + f).textContent = 'اشترِ الميزة للاستمرار بدون قيود';
+    
+    if (!currentUser) {
+      lock.classList.add('active');
+      zone.classList.remove('unlocked');
+      document.getElementById('lock-icon-'  + f).textContent = '🔒';
+      document.getElementById('lock-title-' + f).textContent = getLockTitle(f);
+      document.getElementById('lock-sub-'   + f).textContent = f === 'dub' ? t.lockSubDubGuest : t.lockSubGuest;
       document.getElementById('lock-free-'  + f).style.display = 'none';
       document.getElementById('lock-uses-'  + f).style.display = 'none';
-      const ab = document.getElementById('lock-action-' + f);ab.textContent = getBuyLabel(f);ab.className = 'lock-buy-hint ' + f + '-btn';ab.onclick = () => startCheckout(f);
+      const ab = document.getElementById('lock-action-' + f);
+      ab.textContent = t.lockActionGuest;
+      ab.className = 'lock-buy-hint ' + f + '-btn';
+      ab.onclick = () => openAuthDropdown();
+      return;
+    }
+    
+    const left = getUsageLeft(currentUser.email, f);
+    if (left === Infinity || left > 0) {
+      lock.classList.remove('active');
+      zone.classList.add('unlocked');
+    } else {
+      lock.classList.add('active');
+      zone.classList.remove('unlocked');
+      document.getElementById('lock-icon-'  + f).textContent = '⛔';
+      document.getElementById('lock-title-' + f).textContent = t.lockSubUsed;
+      document.getElementById('lock-sub-'   + f).textContent = t.lockSubUsed;
+      document.getElementById('lock-free-'  + f).style.display = 'none';
+      document.getElementById('lock-uses-'  + f).style.display = 'none';
+      const ab = document.getElementById('lock-action-' + f);
+      ab.textContent = getBuyLabel(f);
+      ab.className = 'lock-buy-hint ' + f + '-btn';
+      ab.onclick = () => startCheckout(f);
     }
   });
 }
 
 function guardedAction(feature, action) {
-  if (!currentUser) {openAuthDropdown();return false;}
+  const lang = localStorage.getItem('sl_lang') || 'ar';
+  const t = I18N[lang] || I18N.ar;
+  
+  if (!currentUser) {
+    openAuthDropdown();
+    showToast(t.lockActionGuest, 'wn');
+    return false;
+  }
+  
   const left = getUsageLeft(currentUser.email, feature);
-  if (left === Infinity) {action();return true;}
-  if (left <= 0) {updateLockStates();return false;}
-  consumeUse(feature);action();
+  if (left === Infinity) {
+    action();
+    return true;
+  }
+  if (left <= 0) {
+    updateLockStates();
+    return false;
+  }
+  consumeUse(feature);
+  action();
   const newLeft = getUsageLeft(currentUser.email, feature);
-  if (newLeft <= 2 && newLeft > 0) {showToast('⚠️ تبقّى ' + newLeft + ' استخدام مجاني فقط!', 'wn');}
-  else if (newLeft === 0) {setTimeout(() => updateLockStates(), 500);}
+  if (newLeft <= 2 && newLeft > 0) {
+    showToast((t.toastWarnUses || '⚠️ Only {n} free uses remaining!').replace('{n}', newLeft), 'wn');
+  } else if (newLeft === 0) {
+    setTimeout(() => updateLockStates(), 500);
+  }
   return true;
 }
 
 async function initAuth() {
   const s = getSession();
-  if (s && s.email) {const users = getUsers();if (users[s.email] && users[s.email].verified) {currentUser = { email: s.email, initial: s.email[0].toUpperCase() };if (users[s.email].unlocked) {setUnlockedState(users[s.email].unlocked);}} else {clearSession();}}
-  renderAuthState();syncUIFromUnlockedState();updateLockStates();
-  if (currentUser) {await refreshEntitlements();}
+  if (s && s.email) {
+    const users = getUsers();
+    if (users[s.email] && users[s.email].verified) {
+      currentUser = { email: s.email, initial: s.email[0].toUpperCase() };
+      if (users[s.email].unlocked) {
+        setUnlockedState(users[s.email].unlocked);
+      }
+    } else {
+      clearSession();
+    }
+  }
+  renderAuthState();
+  syncUIFromUnlockedState();
+  updateLockStates();
+  if (currentUser) {
+    await refreshEntitlements();
+  }
 }
 
 document.addEventListener('click', function(e) {
-  const sw = document.getElementById('authSwitcher');if (sw && !sw.contains(e.target)) closeAuthDropdown();
-  const langSwitcher = document.querySelector('.lang-switcher');if (langSwitcher && !langSwitcher.contains(e.target)) {document.getElementById('langDropdown').classList.remove('show');}
+  const sw = document.getElementById('authSwitcher');
+  if (sw && !sw.contains(e.target)) closeAuthDropdown();
+  const langSwitcher = document.querySelector('.lang-switcher');
+  if (langSwitcher && !langSwitcher.contains(e.target)) {
+    document.getElementById('langDropdown').classList.remove('show');
+  }
 });
 
 document.addEventListener('keydown', e => {
-  if (e.key === 'Enter') {const ld = document.getElementById('authDropdown');if (!ld.classList.contains('show')) return;const loginActive = document.getElementById('form-login').style.display !== 'none';if (loginActive) doLogin();else doRegister();}
+  if (e.key === 'Enter') {
+    const ld = document.getElementById('authDropdown');
+    if (!ld.classList.contains('show')) return;
+    const loginActive = document.getElementById('form-login').style.display !== 'none';
+    if (loginActive) doLogin();
+    else doRegister();
+  }
 });
 
-const LS_URLS = {tts: 'https://sl-dubbing.lemonsqueezy.com/checkout/buy/63c47294-0068-4206-a439-b0fca724b098',dub: 'https://sl-dubbing.lemonsqueezy.com/checkout/buy/f92d46fb-65a6-4e53-bf13-5527cffa4e93',srt: 'https://sl-dubbing.lemonsqueezy.com/checkout/buy/7e1f55d2-6e06-4525-954f-2306b9b3a20f'};
+const LS_URLS = {
+  tts: 'https://sl-dubbing.lemonsqueezy.com/checkout/buy/63c47294-0068-4206-a439-b0fca724b098',
+  dub: 'https://sl-dubbing.lemonsqueezy.com/checkout/buy/f92d46fb-65a6-4e53-bf13-5527cffa4e93',
+  srt: 'https://sl-dubbing.lemonsqueezy.com/checkout/buy/7e1f55d2-6e06-4525-954f-2306b9b3a20f'
+};
 
 function startCheckout(product) {
-  const baseUrl = LS_URLS[product];if (!baseUrl) {showToast('❌ منتج غير معروف', 'er');return;}
+  const baseUrl = LS_URLS[product];
+  if (!baseUrl) {
+    showToast('❌ منتج غير معروف', 'er');
+    return;
+  }
   const url = new URL(baseUrl);
-  if (currentUser?.email) {url.searchParams.set('checkout[email]', currentUser.email);url.searchParams.set('checkout[custom][app_user_email]', currentUser.email);}
-  url.searchParams.set('checkout[custom][feature_hint]', product);url.searchParams.set('checkout[custom][source]', 'sl-dubbing-web');
+  if (currentUser?.email) {
+    url.searchParams.set('checkout[email]', currentUser.email);
+    url.searchParams.set('checkout[custom][app_user_email]', currentUser.email);
+  }
+  url.searchParams.set('checkout[custom][feature_hint]', product);
+  url.searchParams.set('checkout[custom][source]', 'sl-dubbing-web');
   window.open(url.toString(), '_blank');
 }
 
 async function refreshEntitlements() {
   if (!currentUser?.email) return;
-  try {const res = await fetch(`${BACKEND_URL}/api/entitlements?email=${encodeURIComponent(currentUser.email)}`, { method: 'GET' });if (!res.ok) throw new Error('Failed');const data = await res.json();const unlocked = data?.unlocked || {};setUnlockedState(unlocked);const users = getUsers();if (users[currentUser.email]) {users[currentUser.email].unlocked = { ...(users[currentUser.email].unlocked || {}), ...unlocked };saveUsers(users);}syncUIFromUnlockedState();updateLockStates();updateUsageUI();}
-  catch (err) {console.error('refreshEntitlements error:', err);}
+  try {
+    const res = await fetch(
+      `${BACKEND_URL}/api/entitlements?email=${encodeURIComponent(currentUser.email)}`,
+      { method: 'GET' }
+    );
+    if (!res.ok) throw new Error('Failed to load entitlements');
+    const data = await res.json();
+    const unlocked = data?.unlocked || {};
+    setUnlockedState(unlocked);
+    const users = getUsers();
+    if (users[currentUser.email]) {
+      users[currentUser.email].unlocked = { ...(users[currentUser.email].unlocked || {}), ...unlocked };
+      saveUsers(users);
+    }
+    syncUIFromUnlockedState();
+    updateLockStates();
+    updateUsageUI();
+  } catch (err) {
+    console.error('refreshEntitlements error:', err);
+  }
 }
 
-function saveUnlocked(product) {const u = getUnlocked();u[product] = true;setUnlockedState(u);}
-function applyUnlockStates() {const u = getUnlocked();if (u.tts) unlockZone('tts', false);if (u.dub) unlockZone('dub', false);if (u.srt) unlockZone('srt', false);}
+function saveUnlocked(product) {
+  const u = getUnlocked();
+  u[product] = true;
+  setUnlockedState(u);
+}
+
+function applyUnlockStates() {
+  const u = getUnlocked();
+  if (u.tts) unlockZone('tts', false);
+  if (u.dub) unlockZone('dub', false);
+  if (u.srt) unlockZone('srt', false);
+}
 
 function unlockZone(product, animate = true) {
-  const zone = document.getElementById('zone-' + product);const lock = document.getElementById('lock-' + product);
+  const zone = document.getElementById('zone-' + product);
+  const lock = document.getElementById('lock-' + product);
   if (!zone || !lock) return;
-  lock.classList.remove('active');zone.classList.add('unlocked');
-  if (animate) {zone.querySelectorAll('.card').forEach((c, i) => {c.style.animationDelay = (i * 0.08) + 's';});}
+  lock.classList.remove('active');
+  zone.classList.add('unlocked');
+  if (animate) {
+    zone.querySelectorAll('.card').forEach((c, i) => {
+      c.style.animationDelay = (i * 0.08) + 's';
+    });
+  }
   const btn = document.getElementById('btn-' + product);
-  if (btn) {btn.style.background='linear-gradient(135deg,#059669,#10b981)';btn.innerHTML='<span class="btn-text">✅ مفعّل مدى الحياة</span>';btn.disabled=true;}
+  if (btn) {
+    btn.style.background='linear-gradient(135deg,#059669,#10b981)';
+    btn.innerHTML='<span class="btn-text">✅ مفعّل مدى الحياة</span>';
+    btn.disabled=true;
+  }
 }
 
 function resetZoneButton(product) {
-  const btn = document.getElementById('btn-' + product);if (!btn) return;
-  btn.disabled = false;btn.innerHTML = '<span class="btn-text">💳 شراء الآن</span>';
+  const btn = document.getElementById('btn-' + product);
+  if (!btn) return;
+  btn.disabled = false;
+  btn.innerHTML = '<span class="btn-text">💳 شراء الآن</span>';
   if (product === 'tts') btn.style.background = 'linear-gradient(135deg,#4f46e5,#6366f1)';
   if (product === 'dub') btn.style.background = 'linear-gradient(135deg,#d97706,#f59e0b)';
   if (product === 'srt') btn.style.background = 'linear-gradient(135deg,#059669,#10b981)';
@@ -1436,93 +1695,236 @@ function resetZoneButton(product) {
 function syncUIFromUnlockedState() {
   const u = getUnlocked();
   ['tts', 'dub', 'srt'].forEach(product => {
-    const zone = document.getElementById('zone-' + product);const lock = document.getElementById('lock-' + product);
+    const zone = document.getElementById('zone-' + product);
+    const lock = document.getElementById('lock-' + product);
     if (!zone || !lock) return;
-    if (u[product]) {lock.classList.remove('active');zone.classList.add('unlocked');unlockZone(product, false);}
-    else {zone.classList.remove('unlocked');resetZoneButton(product);}
+    if (u[product]) {
+      lock.classList.remove('active');
+      zone.classList.add('unlocked');
+      unlockZone(product, false);
+    } else {
+      zone.classList.remove('unlocked');
+      resetZoneButton(product);
+    }
   });
 }
 
 function showPaymentSuccess(product) {
   saveUnlocked(product);
-  if (currentUser) {const users = getUsers();if (users[currentUser.email]) {users[currentUser.email].unlocked = users[currentUser.email].unlocked || {};users[currentUser.email].unlocked[product] = true;saveUsers(users);}}
-  unlockZone(product, true);updateLockStates();updateUsageUI();
+  if (currentUser) {
+    const users = getUsers();
+    if (users[currentUser.email]) {
+      users[currentUser.email].unlocked = users[currentUser.email].unlocked || {};
+      users[currentUser.email].unlocked[product] = true;
+      saveUsers(users);
+    }
+  }
+  unlockZone(product, true);
+  updateLockStates();
+  updateUsageUI();
   showToast('🎉 تم الدفع بنجاح! الميزة مفعّلة مدى الحياة.', 'ok');
 }
 
-const langs = [{c:'ar',f:'🇸🇦',n:'العربية',v:'ar'},{c:'en',f:'🇺🇸',n:'English',v:'en'},{c:'ru',f:'🇷🇺',n:'Русский',v:'ru'},{c:'tr',f:'🇹🇷',n:'Türkçe',v:'tr'},{c:'fr',f:'🇫🇷',n:'Français',v:'fr'},{c:'de',f:'🇩🇪',n:'Deutsch',v:'de'},{c:'es',f:'🇪🇸',n:'Español',v:'es'},{c:'zh',f:'🇨🇳',n:'中文',v:'zh'},{c:'hi',f:'🇮🇳',n:'हिन्दी',v:'hi'},{c:'fa',f:'🇮🇷',n:'فارسی',v:'fa'},{c:'it',f:'🇮🇹',n:'Italiano',v:'it'},{c:'nl',f:'🇳🇱',n:'Nederlands',v:'nl'},{c:'sv',f:'🇸🇪',n:'Svenska',v:'sv'}];
+const langs = [
+  {c:'ar',f:'🇸🇦',n:'العربية',v:'ar'},{c:'en',f:'🇺🇸',n:'English',v:'en'},
+  {c:'ru',f:'🇷🇺',n:'Русский',v:'ru'},{c:'tr',f:'🇹🇷',n:'Türkçe',v:'tr'},
+  {c:'fr',f:'🇫🇷',n:'Français',v:'fr'},{c:'de',f:'🇩🇪',n:'Deutsch',v:'de'},
+  {c:'es',f:'🇪🇸',n:'Español',v:'es'},{c:'zh',f:'🇨🇳',n:'中文',v:'zh'},
+  {c:'hi',f:'🇮🇳',n:'हिन्दी',v:'hi'},{c:'fa',f:'🇮🇷',n:'فارسی',v:'fa'},
+  {c:'it',f:'🇮🇹',n:'Italiano',v:'it'},{c:'nl',f:'🇳🇱',n:'Nederlands',v:'nl'},
+  {c:'sv',f:'🇸🇪',n:'Svenska',v:'sv'},
+];
+
 let selLang='ar', selDubLang='ar', selTransLang='en';
 let srtData=[], dubCancel=false, dubBlob=null;
 let curUtter=null, speaking=false;
 
-function buildLangGrid(id, sel, onPick) {const g = document.getElementById(id);if (!g) return;g.innerHTML = langs.map(l => `<button class="lb${l.c===sel?' on':''}" onclick="${onPick}('${l.c}')"><span class="lf">${l.f}</span><span class="lang-text">${l.n}</span></button>`).join('');}
+function buildLangGrid(id, sel, onPick) {
+  const g = document.getElementById(id);
+  if (!g) return;
+  g.innerHTML = langs.map(l => `<button class="lb${l.c===sel?' on':''}" onclick="${onPick}('${l.c}')"><span class="lf">${l.f}</span><span class="lang-text">${l.n}</span></button>`).join('');
+}
+
 function pickLang(c)      { selLang=c;      buildLangGrid('g1',c,'pickLang');      buildVoices(); }
 function pickDubLang(c)   { selDubLang=c;   buildLangGrid('g2',c,'pickDubLang'); }
 function pickTransLang(c) { selTransLang=c; buildTransGrid(); }
-function buildTransGrid() {const g = document.getElementById('transLangs');if (!g) return;g.innerHTML = langs.map(l => `<button class="tbtn${l.c===selTransLang?' on':''}" onclick="pickTransLang('${l.c}')">${l.f} ${l.n}</button>`).join('');}
-function buildVoices() {const vs = document.getElementById('vs');if (!vs) return;const voices = speechSynthesis.getVoices().filter(v => v.lang.startsWith(selLang));vs.innerHTML = voices.length ? voices.map((v,i)=>`<option value="${i}">${v.name}</option>`).join('') : `<option>افتراضي</option>`;}
+
+function buildTransGrid() {
+  const g = document.getElementById('transLangs');
+  if (!g) return;
+  g.innerHTML = langs.map(l => `<button class="tbtn${l.c===selTransLang?' on':''}" onclick="pickTransLang('${l.c}')">${l.f} ${l.n}</button>`).join('');
+}
+
+function buildVoices() {
+  const vs = document.getElementById('vs');
+  if (!vs) return;
+  const voices = speechSynthesis.getVoices().filter(v => v.lang.startsWith(selLang));
+  vs.innerHTML = voices.length ? voices.map((v,i)=>`<option value="${i}">${v.name}</option>`).join('') : `<option>افتراضي</option>`;
+}
 
 function tSpeak() {
-  const txt = document.getElementById('ti').value.trim();if (!txt) { setSt('s1','⚠️ أدخل نصاً أولاً','er'); return; }
+  const txt = document.getElementById('ti').value.trim();
+  if (!txt) { setSt('s1','⚠️ أدخل نصاً أولاً','er'); return; }
   if (speechSynthesis.speaking) speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(txt);const voices = speechSynthesis.getVoices().filter(v=>v.lang.startsWith(selLang));
-  const vi = parseInt(document.getElementById('vs').value) || 0;if (voices[vi]) u.voice = voices[vi];
-  u.rate = parseFloat(document.getElementById('rr1').value);u.pitch = parseFloat(document.getElementById('pr1').value);u.volume = parseFloat(document.getElementById('vr1').value);u.lang = selLang;
-  u.onstart = () => {speaking = true;setSt('s1','🔊 جارٍ النطق...','i');document.getElementById('wv1').classList.add('on');};
-  u.onend = () => {speaking = false;setSt('s1','✅ اكتمل','ok');document.getElementById('wv1').classList.remove('on');};
-  u.onerror = () => {speaking = false;setSt('s1','❌ خطأ في النطق','er');document.getElementById('wv1').classList.remove('on');};
-  speechSynthesis.speak(u);curUtter = u;
+  const u = new SpeechSynthesisUtterance(txt);
+  const voices = speechSynthesis.getVoices().filter(v=>v.lang.startsWith(selLang));
+  const vi = parseInt(document.getElementById('vs').value) || 0;
+  if (voices[vi]) u.voice = voices[vi];
+  u.rate = parseFloat(document.getElementById('rr1').value);
+  u.pitch = parseFloat(document.getElementById('pr1').value);
+  u.volume = parseFloat(document.getElementById('vr1').value);
+  u.lang = selLang;
+  u.onstart = () => {
+    speaking = true;
+    setSt('s1','🔊 جارٍ النطق...','i');
+    document.getElementById('wv1').classList.add('on');
+  };
+  u.onend = () => {
+    speaking = false;
+    setSt('s1','✅ اكتمل','ok');
+    document.getElementById('wv1').classList.remove('on');
+  };
+  u.onerror = () => {
+    speaking = false;
+    setSt('s1','❌ خطأ في النطق','er');
+    document.getElementById('wv1').classList.remove('on');
+  };
+  speechSynthesis.speak(u);
+  curUtter = u;
 }
 
 function tPause() { if (speechSynthesis.speaking) speechSynthesis.cancel(); }
-function clrTxt() {document.getElementById('ti').value='';document.getElementById('cc').textContent='0';setSt('s1','👋 اكتب نصاً واضغط نطق','i');}
-function ldSRT(e) {const f = e.target.files[0];if (!f) return;const r = new FileReader();r.onload = ev => {document.getElementById('srtP').value = ev.target.result;prsPaste();};r.readAsText(f,'UTF-8');}
 
-function prsPaste() {
-  const raw = document.getElementById('srtP').value.trim();if (!raw) { setSt('dubSt','⚠️ لا يوجد محتوى','er'); return; }
-  srtData = parseSRT(raw);if (!srtData.length) { setSt('dubSt','❌ تعذّر تحليل الملف','er'); return; }
-  showSRTInfo();document.getElementById('dubCard').style.display='block';setSt('dubSt','✅ ' + srtData.length + ' جملة — اضغط توليد','ok');
+function clrTxt() {
+  document.getElementById('ti').value='';
+  document.getElementById('cc').textContent='0';
+  setSt('s1','👋 اكتب نصاً واضغط نطق','i');
 }
 
-function parseSRT(txt) {const blocks = txt.trim().split(/\n\s*\n/), out = [];blocks.forEach(b => {const lines = b.trim().split('\n');if (lines.length < 2) return;const tLine = lines.find(l => /-->/.test(l));if (!tLine) return;const [st, et] = tLine.split('-->').map(s=>s.trim());const text = lines.filter(l => !/-->/.test(l) && !/^\d+$/.test(l.trim())).join(' ').trim();if (text) out.push({ start: toSec(st), end: toSec(et), text });});return out;}
-function toSec(s) {const m = s.match(/(\d+):(\d+):(\d+)[,.](\d+)/);if (!m) return 0;return parseInt(m[1])*3600 + parseInt(m[2])*60 + parseInt(m[3]) + parseInt(m[4])/1000;}
-function fmtTime(s) {const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=Math.floor(s%60);return `${h}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;}
+function ldSRT(e) {
+  const f = e.target.files[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = ev => {
+    document.getElementById('srtP').value = ev.target.result;
+    prsPaste();
+  };
+  r.readAsText(f,'UTF-8');
+}
+
+function prsPaste() {
+  const raw = document.getElementById('srtP').value.trim();
+  if (!raw) { setSt('dubSt','⚠️ لا يوجد محتوى','er'); return; }
+  srtData = parseSRT(raw);
+  if (!srtData.length) { setSt('dubSt','❌ تعذّر تحليل الملف','er'); return; }
+  showSRTInfo();
+  document.getElementById('dubCard').style.display='block';
+  setSt('dubSt','✅ ' + srtData.length + ' جملة — اضغط توليد','ok');
+}
+
+function parseSRT(txt) {
+  const blocks = txt.trim().split(/\n\s*\n/), out = [];
+  blocks.forEach(b => {
+    const lines = b.trim().split('\n');
+    if (lines.length < 2) return;
+    const tLine = lines.find(l => /-->/.test(l));
+    if (!tLine) return;
+    const [st, et] = tLine.split('-->').map(s=>s.trim());
+    const text = lines.filter(l => !/-->/.test(l) && !/^\d+$/.test(l.trim())).join(' ').trim();
+    if (text) out.push({ start: toSec(st), end: toSec(et), text });
+  });
+  return out;
+}
+
+function toSec(s) {
+  const m = s.match(/(\d+):(\d+):(\d+)[,.](\d+)/);
+  if (!m) return 0;
+  return parseInt(m[1])*3600 + parseInt(m[2])*60 + parseInt(m[3]) + parseInt(m[4])/1000;
+}
+
+function fmtTime(s) {
+  const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=Math.floor(s%60);
+  return `${h}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+}
 
 function showSRTInfo() {
-  document.getElementById('srtInfo').style.display='block';document.getElementById('sCnt').textContent=srtData.length;
-  const maxE=srtData.reduce((a,b)=>b.end>a?b.end:a,0);document.getElementById('sDur').textContent=fmtTime(maxE);
-  const sl=document.getElementById('srtL');sl.innerHTML=srtData.map((s,i)=>`<div class="si"><span class="sin">${i+1}</span><span class="sit">${fmtTime(s.start)}</span><span class="sit2">${s.text}</span></div>`).join('');
+  document.getElementById('srtInfo').style.display='block';
+  document.getElementById('sCnt').textContent=srtData.length;
+  const maxE=srtData.reduce((a,b)=>b.end>a?b.end:a,0);
+  document.getElementById('sDur').textContent=fmtTime(maxE);
+  const sl=document.getElementById('srtL');
+  sl.innerHTML=srtData.map((s,i)=>`<div class="si"><span class="sin">${i+1}</span><span class="sit">${fmtTime(s.start)}</span><span class="sit2">${s.text}</span></div>`).join('');
 }
 
 function cpySRT() { navigator.clipboard.writeText(srtData.map(s=>s.text).join('\n')).then(()=>showToast('✅ تم النسخ','ok')); }
-async function stDub() {setSt('dubSt','⚠️ يتطلب سيرفر backend','wn');}
+
+async function stDub() {
+  setSt('dubSt','⚠️ يتطلب سيرفر backend','wn');
+}
+
 function cnclDub() { dubCancel=true; }
-function dlRes() {if (dubBlob) {const a=document.createElement('a');a.href=URL.createObjectURL(dubBlob);a.download='dubbing.wav';a.click();}}
+
+function dlRes() {
+  if (dubBlob) {
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(dubBlob);
+    a.download='dubbing.wav';
+    a.click();
+  }
+}
 
 async function startTrans() {
-  const src=document.getElementById('srcSRT').value.trim();if(!src){ setSt('transSt','⚠️ الصق محتوى SRT أولاً','er'); return; }
-  setSt('transSt','⏳ جارٍ الترجمة...','i');document.getElementById('transRes').style.display='none';
-  const blocks=src.trim().split(/\n\s*\n/), translated=[];for(const b of blocks){const lines=b.trim().split('\n');const tLine=lines.find(l=>/-->/.test(l));if(!tLine) continue;const text=lines.filter(l=>!/-->/.test(l)&&!/^\d+$/.test(l.trim())).join(' ').trim();translated.push({time:tLine,text});}
+  const src=document.getElementById('srcSRT').value.trim();
+  if(!src){ setSt('transSt','⚠️ الصق محتوى SRT أولاً','er'); return; }
+  setSt('transSt','⏳ جارٍ الترجمة...','i');
+  document.getElementById('transRes').style.display='none';
+  const blocks=src.trim().split(/\n\s*\n/), translated=[];
+  for(const b of blocks){
+    const lines=b.trim().split('\n');
+    const tLine=lines.find(l=>/-->/.test(l));
+    if(!tLine) continue;
+    const text=lines.filter(l=>!/-->/.test(l)&&!/^\d+$/.test(l.trim())).join(' ').trim();
+    translated.push({time:tLine,text});
+  }
   const out=translated.map((b,i)=>`${i+1}\n${b.time}\n${b.text}`).join('\n');
-  document.getElementById('transOut').textContent=out;document.getElementById('transRes').style.display='block';
+  document.getElementById('transOut').textContent=out;
+  document.getElementById('transRes').style.display='block';
   setSt('transSt','✅ تمت الترجمة (stub — يتطلب backend)','ok');
 }
 
 function copyResult() { navigator.clipboard.writeText(document.getElementById('transOut').textContent).then(()=>showToast('✅ تم النسخ','ok')); }
-function dlTransSRT() {const txt=document.getElementById('transOut').textContent;const a=document.createElement('a');a.href='data:text/plain;charset=utf-8,'+encodeURIComponent(txt);a.download='translated.srt';a.click();}
+
+function dlTransSRT() {
+  const txt=document.getElementById('transOut').textContent;
+  const a=document.createElement('a');
+  a.href='data:text/plain;charset=utf-8,'+encodeURIComponent(txt);
+  a.download='translated.srt';
+  a.click();
+}
+
 function pasteSrc() { navigator.clipboard.readText().then(t=>{ document.getElementById('srcSRT').value=t; }).catch(()=>{}); }
 
 function cleanText() {
-  let txt=document.getElementById('cleanInput').value;if(!txt.trim()){ setSt('cleanSt','⚠️ الصق نصاً أولاً','er'); return; }
+  let txt=document.getElementById('cleanInput').value;
+  if(!txt.trim()){ setSt('cleanSt','⚠️ الصق نصاً أولاً','er'); return; }
   if(document.getElementById('removeNumbers').checked) txt=txt.replace(/^\d+\s*$/gm,'');
   if(document.getElementById('removeTime').checked) txt=txt.replace(/\d{1,2}:\d{2}:\d{2}[,\.]\d{3}\s*-->\s*\d{1,2}:\d{2}:\d{2}[,\.]\d{3}/g,'');
   if(document.getElementById('removeEmpty').checked) txt=txt.replace(/\n{2,}/g,'\n').trim();
-  document.getElementById('cleanOutput').textContent=txt;document.getElementById('cleanResult').style.display='block';
+  document.getElementById('cleanOutput').textContent=txt;
+  document.getElementById('cleanResult').style.display='block';
   setSt('cleanSt','✅ تم التنظيف','ok');
 }
 
 function copyClean() { navigator.clipboard.writeText(document.getElementById('cleanOutput').textContent).then(()=>showToast('✅ تم النسخ','ok')); }
-function dlClean() {const txt=document.getElementById('cleanOutput').textContent;const a=document.createElement('a');a.href='data:text/plain;charset=utf-8,'+encodeURIComponent(txt);a.download='cleaned.txt';a.click();}
+
+function dlClean() {
+  const txt=document.getElementById('cleanOutput').textContent;
+  const a=document.createElement('a');
+  a.href='data:text/plain;charset=utf-8,'+encodeURIComponent(txt);
+  a.download='cleaned.txt';
+  a.click();
+}
+
 function pasteClean() { navigator.clipboard.readText().then(t=>{ document.getElementById('cleanInput').value=t; }).catch(()=>{}); }
 
 function updateFilters() {
@@ -1533,8 +1935,20 @@ function updateFilters() {
   document.getElementById('trebleVal').textContent=document.getElementById('eqTreble').value+'dB';
 }
 
-function resetFilters() {['filterSpeed','filterPitch'].forEach(id=>document.getElementById(id).value=1);['eqBass','eqMid','eqTreble'].forEach(id=>document.getElementById(id).value=0);updateFilters();}
-function applyPreset(p) {const presets={male:{pitch:.7,speed:1},radio:{pitch:1.1,speed:1.1},warm:{pitch:.9,speed:.9},fast:{pitch:1,speed:1.6}};const pr=presets[p];if(!pr) return;document.getElementById('filterPitch').value=pr.pitch;document.getElementById('filterSpeed').value=pr.speed;updateFilters();}
+function resetFilters() {
+  ['filterSpeed','filterPitch'].forEach(id=>document.getElementById(id).value=1);
+  ['eqBass','eqMid','eqTreble'].forEach(id=>document.getElementById(id).value=0);
+  updateFilters();
+}
+
+function applyPreset(p) {
+  const presets={male:{pitch:.7,speed:1},radio:{pitch:1.1,speed:1.1},warm:{pitch:.9,speed:.9},fast:{pitch:1,speed:1.6}};
+  const pr=presets[p];
+  if(!pr) return;
+  document.getElementById('filterPitch').value=pr.pitch;
+  document.getElementById('filterSpeed').value=pr.speed;
+  updateFilters();
+}
 
 document.getElementById('rr1').oninput=function(){document.getElementById('rv1').textContent=parseFloat(this.value).toFixed(1)+'x';}
 document.getElementById('pr1').oninput=function(){document.getElementById('pv1').textContent=parseFloat(this.value).toFixed(1);}
@@ -1543,15 +1957,49 @@ document.getElementById('rr2').oninput=function(){document.getElementById('rv2')
 document.getElementById('vr2').oninput=function(){document.getElementById('vv2').textContent=parseFloat(this.value).toFixed(1);}
 document.getElementById('ti').oninput=function(){document.getElementById('cc').textContent=this.value.length;}
 
-function setSt(id,msg,cls){const el=document.getElementById(id);if(!el)return;el.textContent=msg;el.className='st '+cls;}
+function setSt(id,msg,cls){
+  const el=document.getElementById(id);
+  if(!el)return;
+  el.textContent=msg;
+  el.className='st '+cls;
+}
+
 function toggleLang() { document.getElementById('langDropdown').classList.toggle('show'); }
 
+function setLang(l) {
+  document.querySelectorAll('.lang-option').forEach(o => 
+    o.classList.toggle('active', o.dataset.lang === l)
+  );
+  const langNames = {ar:'العربية',en:'English',ru:'Русский',tr:'Türkçe',fr:'Français',de:'Deutsch',es:'Español',zh:'中文',hi:'हिन्दी',fa:'فارسی',it:'Italiano',nl:'Nederlands',sv:'Svenska'};
+  document.getElementById('currentLang').textContent = langNames[l] || l;
+  document.getElementById('langDropdown').classList.remove('show');
+  document.documentElement.lang = l;
+  document.documentElement.dir = ['ar','fa','he'].includes(l) ? 'rtl' : 'ltr';
+  applyAllTranslations(l);
+  localStorage.setItem('sl_lang', l);
+}
+
 window.addEventListener('DOMContentLoaded', async () => {
-  checkVerificationToken();buildLangGrid('g1', selLang, 'pickLang');buildLangGrid('g2', selDubLang, 'pickDubLang');buildTransGrid();buildVoices();
-  speechSynthesis.onvoiceschanged = buildVoices;syncUIFromUnlockedState();await initAuth();
-  const savedLang = localStorage.getItem('sl_lang') || 'ar';setLang(savedLang);
-  const urlParams = new URLSearchParams(window.location.search);const paid = urlParams.get('paid');const feature = urlParams.get('feature');
-  if (paid === '1' && feature && ['tts', 'dub', 'srt'].includes(feature)) {showToast('✅ تم استلام العودة من صفحة الدفع', 'ok');if (currentUser) await refreshEntitlements();window.history.replaceState({}, document.title, window.location.pathname);}
+  checkVerificationToken();
+  buildLangGrid('g1', selLang, 'pickLang');
+  buildLangGrid('g2', selDubLang, 'pickDubLang');
+  buildTransGrid();
+  buildVoices();
+  speechSynthesis.onvoiceschanged = buildVoices;
+  syncUIFromUnlockedState();
+  await initAuth();
+  
+  const savedLang = localStorage.getItem('sl_lang') || 'ar';
+  setLang(savedLang);
+  
+  const urlParams = new URLSearchParams(window.location.search);
+  const paid = urlParams.get('paid');
+  const feature = urlParams.get('feature');
+  if (paid === '1' && feature && ['tts', 'dub', 'srt'].includes(feature)) {
+    showToast('✅ تم استلام العودة من صفحة الدفع', 'ok');
+    if (currentUser) await refreshEntitlements();
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
 });
 </script>
 </body>
