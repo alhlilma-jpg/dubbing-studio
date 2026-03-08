@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: sl-dubbing-backend
+    env: python
+    region: frankfurt
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.10
+      - key: FLASK_DEBUG
+        value: false
+      - key: PORT
+        value: 5000
