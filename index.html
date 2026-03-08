@@ -9,7 +9,7 @@
 <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>sl-Dubbing & Translation</title>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-691108357486678" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-691108357486678 " crossorigin="anonymous"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#0a0a1a;color:#e0e0ff;min-height:100vh;overflow-x:hidden}
@@ -251,6 +251,20 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
 .adsense-container{grid-column:1/-1;margin:20px 0;text-align:center;min-height:90px;}
 @keyframes spin{to{transform:rotate(360deg);}}
 @media(max-width:600px){h1{font-size:1.4rem}.lg{grid-template-columns:repeat(3,1fr)}.sit{display:none}.cr{gap:10px}.cv{font-size:1rem}.tg{grid-template-columns:1fr}.lb{padding:8px 4px}}
+
+/* Payhip Payment Section Styles */
+.payhip-section{grid-column:1/-1;margin-top:8px;}
+.payhip-container{max-width:800px;margin:0 auto;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:40px;backdrop-filter:blur(20px);box-shadow:0 20px 60px rgba(0,0,0,.5);text-align:center;}
+.payhip-title{font-size:2rem;font-weight:800;background:linear-gradient(135deg,#a78bfa,#60a5fa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:16px;}
+.payhip-desc{font-size:1.1rem;color:#9ca3af;margin-bottom:30px;line-height:1.6;}
+.payhip-button{display:inline-block;background:linear-gradient(135deg,#34d399,#059669);color:#fff;font-size:1.3rem;font-weight:bold;padding:18px 40px;border-radius:12px;text-decoration:none;transition:all .3s ease;box-shadow:0 6px 28px rgba(52,211,153,.45);}
+.payhip-button:hover{transform:translateY(-3px);box-shadow:0 10px 38px rgba(52,211,153,.65);}
+.payhip-features{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin:30px 0;text-align:right;}
+.payhip-feature{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:16px;}
+.payhip-feature-icon{font-size:1.5rem;margin-bottom:8px;}
+.payhip-feature-title{font-size:.9rem;font-weight:700;color:#e0e0ff;margin-bottom:4px;}
+.payhip-feature-desc{font-size:.75rem;color:#6b7280;}
+.payhip-note{font-size:.8rem;color:#6b7280;margin-top:20px;display:flex;align-items:center;justify-content:center;gap:8px;}
 </style>
 <base target="_blank">
 </head>
@@ -266,7 +280,7 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
         <div class="lang-dropdown" id="langDropdown" role="menu">
             <div class="lang-option active" onclick="setLang('ar')" data-lang="ar" role="menuitem"><span class="lang-flag">🇸🇦</span><span class="lang-name">العربية</span></div>
             <div class="lang-option" onclick="setLang('en')" data-lang="en" role="menuitem"><span class="lang-flag">🇺🇸</span><span class="lang-name">English</span></div>
-            <div class="lang-option" onclick="setLang('ru')" data-lang="ru" role="menuitem"><span class="lang-flag">🇷🇷</span><span class="lang-name">Русский</span></div>
+            <div class="lang-option" onclick="setLang('ru')" data-lang="ru" role="menuitem"><span class="lang-flag">🇷🇺</span><span class="lang-name">Русский</span></div>
             <div class="lang-option" onclick="setLang('tr')" data-lang="tr" role="menuitem"><span class="lang-flag">🇹🇷</span><span class="lang-name">Türkçe</span></div>
             <div class="lang-option" onclick="setLang('fr')" data-lang="fr" role="menuitem"><span class="lang-flag">🇫🇷</span><span class="lang-name">Français</span></div>
             <div class="lang-option" onclick="setLang('de')" data-lang="de" role="menuitem"><span class="lang-flag">🇩🇪</span><span class="lang-name">Deutsch</span></div>
@@ -275,7 +289,7 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
     </div>
 
     <div class="auth-switcher" id="authSwitcher">
-        <div class="upgrade-link" onclick="showPaypalInfo()">
+        <div class="upgrade-link" onclick="showPayhipInfo()">
             <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             <span style="color:#422006 !important;">👑 ترقية الحساب Pro</span>
         </div>
@@ -347,56 +361,42 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
-    <div class="payment-section">
-        <div class="payment-section-title">
-            <h2>🛒 المتجر — ترقية الحساب</h2>
-            <p>ادفع مرة واحدة واستمتع مدى الحياة · مدعوم بـ PayPal</p>
-        </div>
-        <div class="payment-grid">
-            <div class="payment-card tts">
-                <span class="payment-badge tts">✏️ نطق النص</span>
-                <span class="payment-icon">🎙️</span>
-                <div class="payment-title">تفعيل النطق مدى الحياة</div>
-                <div class="payment-desc">نطق نصوص غير محدودة بأصوات متعددة اللغات دون قيود</div>
-                <ul class="payment-features">
-                    <li>أصوات متعددة اللغات (13+ لغة)</li>
-                    <li>تحكم في السرعة والطبقة والصوت</li>
-                    <li>فلاتر صوتية متقدمة</li>
-                    <li>دفعة واحدة · بدون اشتراك</li>
-                </ul>
-                <div class="price-display"><span class="price-amount tts">$10</span><span class="price-label">مدى الحياة</span></div>
-                <div id="paypal-button-tts"></div>
-                <div class="payment-note">🔒 دفع آمن عبر PayPal</div>
+    <!-- Payhip Payment Section -->
+    <div class="payhip-section">
+        <div class="payhip-container">
+            <h2 class="payhip-title">خدمة الدبلجة والترجمة الاحترافية</h2>
+            <p class="payhip-desc">يمكنك شراء الخدمة مباشرة عبر Payhip باستخدام PayPal أو بطاقة فيزا/ماستر كارد.</p>
+            
+            <div class="payhip-features">
+                <div class="payhip-feature">
+                    <div class="payhip-feature-icon">🎙️</div>
+                    <div class="payhip-feature-title">نطق النص</div>
+                    <div class="payhip-feature-desc">أصوات متعددة اللغات بدون قيود</div>
+                </div>
+                <div class="payhip-feature">
+                    <div class="payhip-feature-icon">🎬</div>
+                    <div class="payhip-feature-title">دبلجة SRT</div>
+                    <div class="payhip-feature-desc">دبلجة كاملة مع التزامن</div>
+                </div>
+                <div class="payhip-feature">
+                    <div class="payhip-feature-icon">🌍</div>
+                    <div class="payhip-feature-title">مترجم SRT</div>
+                    <div class="payhip-feature-desc">ترجمة لـ 13+ لغة</div>
+                </div>
+                <div class="payhip-feature">
+                    <div class="payhip-feature-icon">⚡</div>
+                    <div class="payhip-feature-title">تفعيل فوري</div>
+                    <div class="payhip-feature-desc">وصول مباشر بعد الدفع</div>
+                </div>
             </div>
-            <div class="payment-card dub">
-                <span class="payment-badge dub">🎬 دبلجة</span>
-                <span class="payment-icon">🚀</span>
-                <div class="payment-title">فتح الدبلجة مدى الحياة</div>
-                <div class="payment-desc">دبلجة SRT كاملة بلا حدود — التجربة المجانية: أول 30 ثانية فقط</div>
-                <ul class="payment-features">
-                    <li>دبلجة SRT بالكامل مع التزامن</li>
-                    <li>تصدير WAV لـ YouTube Dubbing</li>
-                    <li>معالجة سحابية صامتة</li>
-                    <li>دفعة واحدة · بدون اشتراك</li>
-                </ul>
-                <div class="price-display"><span class="price-amount dub">$50</span><span class="price-label">مدى الحياة</span></div>
-                <div id="paypal-button-dub"></div>
-                <div class="payment-note">🔒 دفع آمن عبر PayPal</div>
-            </div>
-            <div class="payment-card srt">
-                <span class="payment-badge srt">🌐 مترجم</span>
-                <span class="payment-icon">🌍</span>
-                <div class="payment-title">شراء المترجم مدى الحياة</div>
-                <div class="payment-desc">ترجمة ملفات SRT إلى أكثر من 13 لغة بنقرة واحدة</div>
-                <ul class="payment-features">
-                    <li>ترجمة لـ 13+ لغة عالمية</li>
-                    <li>تنزيل SRT مترجم جاهز</li>
-                    <li>تنظيف النص التلقائي</li>
-                    <li>دفعة واحدة · بدون اشتراك</li>
-                </ul>
-                <div class="price-display"><span class="price-amount srt">$10</span><span class="price-label">مدى الحياة</span></div>
-                <div id="paypal-button-srt"></div>
-                <div class="payment-note">🔒 دفع آمن عبر PayPal</div>
+            
+            <a href="https://payhip.com/b/2E6sT" target="_blank" class="payhip-button">
+                💎 اشترِ الآن - تفعيل مدى الحياة
+            </a>
+            
+            <div class="payhip-note">
+                <span>🔒</span>
+                <span>دفع آمن عبر Payhip | يدعم PayPal وبطاقات الائتمان</span>
             </div>
         </div>
     </div>
@@ -581,7 +581,64 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
     </div>
 
 </div>
-<footer>sl-Dubbing &amp; Translation <span>· GitHub + Render · gTTS · مجاني 100%</span></footer>
+
+<!-- New Footer -->
+<footer style="background:#0a0a1a;border-top:1px solid rgba(255,255,255,.08);padding:40px 20px;margin-top:40px">
+    <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:30px">
+        <div style="text-align:center">
+            <img src="logo.png" alt="Logo" style="width:60px;margin-bottom:15px">
+            <p style="color:#6b7280;font-size:.8rem;line-height:1.6">من الأصوات الواقعية والفيديوهات الديناميكية إلى روبوتات الدردشة الذكية، نسخر أحدث تقنيات الذكاء الاصطناعي لتتمكن من التركيز على أفكارك.</p>
+            <div style="display:flex;gap:12px;margin-top:15px;justify-content:center">
+                <a href="#" style="color:#9ca3af;font-size:1.2rem;text-decoration:none">📘</a>
+                <a href="#" style="color:#9ca3af;font-size:1.2rem;text-decoration:none">🐦</a>
+                <a href="#" style="color:#9ca3af;font-size:1.2rem;text-decoration:none">📷</a>
+            </div>
+        </div>
+
+        <div>
+            <h3 style="color:#a78bfa;font-size:.9rem;margin-bottom:15px">عن الموقع</h3>
+            <ul style="list-style:none;padding:0">
+                <li style="margin-bottom:8px"><a href="#" style="color:#9ca3af;text-decoration:none;font-size:.8rem">من نحن</a></li>
+                <li style="margin-bottom:8px"><a href="#" style="color:#9ca3af;text-decoration:none;font-size:.8rem">المدونة</a></li>
+                <li style="margin-bottom:8px"><a href="privacy.html" style="color:#9ca3af;text-decoration:none;font-size:.8rem">سياسة الخصوصية</a></li>
+                <li style="margin-bottom:8px"><a href="#" style="color:#9ca3af;text-decoration:none;font-size:.8rem">شروط الخدمة</a></li>
+                <li style="margin-bottom:8px"><a href="#" style="color:#9ca3af;text-decoration:none;font-size:.8rem">الأسئلة الشائعة</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h3 style="color:#a78bfa;font-size:.9rem;margin-bottom:15px">الحلول</h3>
+            <ul style="list-style:none;padding:0">
+                <li style="margin-bottom:8px"><a href="#" style="color:#9ca3af;text-decoration:none;font-size:.8rem">صوت ذكي</a></li>
+                <li style="margin-bottom:8px"><a href="#" style="color:#9ca3af;text-decoration:none;font-size:.8rem">إنشاء المحتوى</a></li>
+                <li style="margin-bottom:8px"><a href="#" style="color:#9ca3af;text-decoration:none;font-size:.8rem">بصريات AI</a></li>
+                <li style="margin-bottom:8px"><a href="#" style="color:#9ca3af;text-decoration:none;font-size:.8rem">اتصال ذكي <span style="background:linear-gradient(135deg,#a78bfa,#60a5fa);color:#fff;font-size:.6rem;padding:2px 6px;border-radius:4px;margin-right:5px">جديد</span></a></li>
+                <li style="margin-bottom:8px"><a href="#" style="color:#9ca3af;text-decoration:none;font-size:.8rem">أفاتار AI <span style="background:linear-gradient(135deg,#a78bfa,#60a5fa);color:#fff;font-size:.6rem;padding:2px 6px;border-radius:4px;margin-right:5px">جديد</span></a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h3 style="color:#a78bfa;font-size:.9rem;margin-bottom:15px">الشركة</h3>
+            <ul style="list-style:none;padding:0">
+                <li style="margin-bottom:8px"><a href="#" style="color:#9ca3af;text-decoration:none;font-size:.8rem">الشركة</a></li>
+                <li style="margin-bottom:8px"><a href="#" style="color:#9ca3af;text-decoration:none;font-size:.8rem">الوظائف</a></li>
+                <li style="margin-bottom:8px"><a href="#" style="color:#9ca3af;text-decoration:none;font-size:.8rem">برنامج العمولة</a></li>
+                <li style="margin-bottom:8px"><a href="contact.html" style="color:#9ca3af;text-decoration:none;font-size:.8rem">اتصل بنا</a></li>
+                <li style="margin-bottom:8px"><a href="#" style="color:#9ca3af;text-decoration:none;font-size:.8rem">شركاؤنا</a></li>
+            </ul>
+        </div>
+    </div>
+    <div style="text-align:center;margin-top:30px;padding-top:20px;border-top:1px solid rgba(255,255,255,.05)">
+        <div style="display:flex;justify-content:center;gap:20px;margin-bottom:15px;flex-wrap:wrap">
+            <a href="index.html" style="color:#34d399;text-decoration:none;font-weight:bold;font-size:.8rem">الرئيسية</a>
+            <a href="privacy.html" style="color:#34d399;text-decoration:none;font-weight:bold;font-size:.8rem">سياسة الخصوصية</a>
+            <a href="about.html" style="color:#34d399;text-decoration:none;font-weight:bold;font-size:.8rem">من نحن</a>
+            <a href="https://payhip.com/b/2E6sT" target="_blank" style="color:#34d399;text-decoration:none;font-weight:bold;font-size:.8rem">💳 اشترِ الآن</a>
+            <a href="contact.html" style="color:#34d399;text-decoration:none;font-weight:bold;font-size:.8rem">📧 تواصل معنا</a>
+        </div>
+        <p style="color:#374151;font-size:.7rem">ALHASHMI &copy; 2026 - جميع الحقوق محفوظة</p>
+    </div>
+</footer>
 
 <script>
 // =============================================================
@@ -766,15 +823,14 @@ function updateLockStates() {
             document.getElementById('lock-free-'  + f).style.display = 'none';
             document.getElementById('lock-uses-'  + f).style.display = 'none';
             const ab = document.getElementById('lock-action-' + f);
-            ab.textContent = getBuyLabel(f);
+            ab.textContent = '💎 اشترِ الآن';
             ab.className = 'lock-buy-hint ' + f + '-btn';
-            ab.onclick = () => startCheckout(f);
+            ab.onclick = () => window.open('https://payhip.com/b/2E6sT', '_blank');
         }
     });
 }
 
 function getLockTitle(f) { return { tts:'نطق النص — مقفل', dub:'الدبلجة — مقفلة', srt:'مترجم SRT — مقفل' }[f]; }
-function getBuyLabel(f)  { return { tts:'💎 اشترِ مقابل $10', dub:'🚀 اشترِ مقابل $50', srt:'🌍 اشترِ مقابل $10' }[f]; }
 
 function guardedAction(feature, action) {
     if (!currentUser) { openAuthDropdown(); return false; }
@@ -798,7 +854,7 @@ function openAuthDropdown() {
     document.getElementById('langDropdown').classList.remove('show');
 }
 function closeAuthDropdown() { document.getElementById('authDropdown').classList.remove('show'); }
-function lockAction(f) { if (!currentUser) openAuthDropdown(); else startCheckout(f); }
+function lockAction(f) { if (!currentUser) openAuthDropdown(); else window.open('https://payhip.com/b/2E6sT', '_blank'); }
 
 function switchAuthTab(tab) {
     document.getElementById('form-login').style.display    = tab==='login'    ? 'block':'none';
@@ -848,26 +904,11 @@ document.addEventListener('keydown', e => {
 });
 
 // =============================================================
-// LEMON SQUEEZY INTEGRATION
+// PAYHIP INTEGRATION
 // =============================================================
-// PayPal Integration - استبدل YOUR_PAYPAL_EMAIL ببريدك
-const PAYPAL_EMAIL = 'abd199641@gmail.com';
-
-function startCheckout(product) {
-    const prices = { tts: 10, dub: 50, srt: 10 };
-    const names = { tts: 'تفعيل النطق مدى الحياة', dub: 'فتح الدبلجة مدى الحياة', srt: 'شراء المترجم مدى الحياة' };
-
-    // فتح نافذة PayPal مع المبلغ والوصف
-    const paypalUrl = `https://www.paypal.com/paypalme/${PAYPAL_EMAIL}/${prices[product]}USD`;
-    window.open(paypalUrl, '_blank');
+function showPayhipInfo() {
+    showToast('💳 اضغط على زر "اشترِ الآن" للدفع عبر Payhip', 'i');
 }
-
-function showPaypalInfo() {
-    showToast('💳 تواصل معنا عبر البريد للدفع عبر PayPal', 'i');
-}
-
-// أو استخدام أزرار PayPal الرسمية (يتطلب حساب PayPal Business)
-// للحصول على كود الزر: https://www.paypal.com/buttons/
 
 // =============================================================
 // UNLOCK SYSTEM
@@ -889,8 +930,6 @@ function unlockZone(product, animate=true) {
     lock.classList.remove('active');
     zone.classList.add('unlocked');
     if (animate) { zone.querySelectorAll('.card').forEach((c,i) => { c.style.animationDelay=(i*0.08)+'s'; }); }
-    const btn = document.getElementById('btn-'+product);
-    if (btn) { btn.style.background='linear-gradient(135deg,#059669,#10b981)'; btn.innerHTML='<span class="btn-text">✅ مفعّل مدى الحياة</span>'; btn.disabled=true; }
 }
 function showPaymentSuccess(product) {
     saveUnlocked(product);
@@ -1082,68 +1121,5 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-<footer class="footer">
-    <style>
-        .footer{background:#0a0a1a;border-top:1px solid rgba(255,255,255,.08);padding:40px 20px;margin-top:40px}
-        .footer-container{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:30px}
-        .footer-column h3{color:#a78bfa;font-size:.9rem;margin-bottom:15px}
-        .footer-column ul{list-style:none;padding:0}
-        .footer-column li{margin-bottom:8px}
-        .footer-column a{color:#9ca3af;text-decoration:none;font-size:.8rem;transition:color .2s}
-        .footer-column a:hover{color:#a78bfa}
-        .footer-logo{width:60px;margin-bottom:15px}
-        .branding p{color:#6b7280;font-size:.8rem;line-height:1.6}
-        .social-icons{display:flex;gap:12px;margin-top:15px}
-        .social-icons a{color:#9ca3af;font-size:1.2rem;transition:color .2s;text-decoration:none}
-        .social-icons a:hover{color:#a78bfa}
-        .badge{background:linear-gradient(135deg,#a78bfa,#60a5fa);color:#fff;font-size:.6rem;padding:2px 6px;border-radius:4px;margin-right:5px}
-    </style>
-    <div class="footer-container">
-        <div class="footer-column branding">
-            <img src="logo.png" alt="Logo" class="footer-logo">
-            <p>من الأصوات الواقعية والفيديوهات الديناميكية إلى روبوتات الدردشة الذكية، نسخر أحدث تقنيات الذكاء الاصطناعي لتتمكن من التركيز على أفكارك.</p>
-            <div class="social-icons">
-                <a href="#" aria-label="Facebook">📘</a>
-                <a href="#" aria-label="Twitter">🐦</a>
-                <a href="#" aria-label="Instagram">📷</a>
-            </div>
-        </div>
-
-        <div class="footer-column">
-            <h3>عن الموقع</h3>
-            <ul>
-                <li><a href="#">من نحن</a></li>
-                <li><a href="#">المدونة</a></li>
-                <li><a href="privacy.html">سياسة الخصوصية</a></li>
-                <li><a href="#">شروط الخدمة</a></li>
-                <li><a href="#">الأسئلة الشائعة</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-column">
-            <h3>الحلول</h3>
-            <ul>
-                <li><a href="#">صوت ذكي</a></li>
-                <li><a href="#">إنشاء المحتوى</a></li>
-                <li><a href="#">بصريات AI</a></li>
-                <li><a href="#">اتصال ذكي <span class="badge">جديد</span></a></li>
-                <li><a href="#">أفاتار AI <span class="badge">جديد</span></a></li>
-            </ul>
-        </div>
-
-        <div class="footer-column">
-            <h3>الشركة</h3>
-            <ul>
-                <li><a href="#">الشركة</a></li>
-                <li><a href="#">الوظائف</a></li>
-                <li><a href="#">برنامج العمولة</a></li>
-                <li><a href="#">اتصل بنا</a></li>
-                <li><a href="#">شركاؤنا</a></li>
-            </ul>
-        </div>
-    </div>
-</footer>
-
 </body>
-
-
+</html>
