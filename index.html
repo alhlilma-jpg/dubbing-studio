@@ -1722,8 +1722,26 @@ window.addEventListener('DOMContentLoaded', () => {
     </div>
 </div>
     <!-- ============================================ -->
+<script>
+// حفظ تسجيل الدخول
+function saveLogin(userData) {
+    localStorage.setItem('user', JSON.stringify(userData));
+}
 
+// استعادة تسجيل الدخول
+function restoreLogin() {
+    const user = localStorage.getItem('user');
+    if (user) {
+        currentUser = JSON.parse(user);
+        updateAuthUI();
+    }
+}
+
+// استدعاء عند تحميل الصفحة
+window.addEventListener('load', restoreLogin);
+</script>
 </body>
 </html>
+
 
 
