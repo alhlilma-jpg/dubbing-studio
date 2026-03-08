@@ -252,6 +252,7 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
 @keyframes spin{to{transform:rotate(360deg);}}
 @media(max-width:600px){h1{font-size:1.4rem}.lg{grid-template-columns:repeat(3,1fr)}.sit{display:none}.cr{gap:10px}.cv{font-size:1rem}.tg{grid-template-columns:1fr}.lb{padding:8px 4px}}
 </style>
+<base target="_blank">
 </head>
 <body>
 <div class="bg"></div>
@@ -274,7 +275,7 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
     </div>
 
     <div class="auth-switcher" id="authSwitcher">
-        <div class="upgrade-link" onclick="startCheckout('dub')">
+        <div class="upgrade-link" onclick="showPaypalInfo()">
             <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             <span style="color:#422006 !important;">👑 ترقية الحساب Pro</span>
         </div>
@@ -349,7 +350,7 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
     <div class="payment-section">
         <div class="payment-section-title">
             <h2>🛒 المتجر — ترقية الحساب</h2>
-            <p>ادفع مرة واحدة واستمتع مدى الحياة · مدعوم بـ Lemon Squeezy</p>
+            <p>ادفع مرة واحدة واستمتع مدى الحياة · مدعوم بـ PayPal</p>
         </div>
         <div class="payment-grid">
             <div class="payment-card tts">
@@ -364,8 +365,8 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
                     <li>دفعة واحدة · بدون اشتراك</li>
                 </ul>
                 <div class="price-display"><span class="price-amount tts">$10</span><span class="price-label">مدى الحياة</span></div>
-                <button class="buy-btn tts" id="btn-tts" onclick="startCheckout('tts')"><span class="btn-text">💳 شراء الآن</span></button>
-                <div class="payment-note">🔒 دفع آمن عبر Lemon Squeezy</div>
+                <div id="paypal-button-tts"></div>
+                <div class="payment-note">🔒 دفع آمن عبر PayPal</div>
             </div>
             <div class="payment-card dub">
                 <span class="payment-badge dub">🎬 دبلجة</span>
@@ -379,8 +380,8 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
                     <li>دفعة واحدة · بدون اشتراك</li>
                 </ul>
                 <div class="price-display"><span class="price-amount dub">$50</span><span class="price-label">مدى الحياة</span></div>
-                <button class="buy-btn dub" id="btn-dub" onclick="startCheckout('dub')"><span class="btn-text">💳 شراء الآن</span></button>
-                <div class="payment-note">🔒 دفع آمن عبر Lemon Squeezy</div>
+                <div id="paypal-button-dub"></div>
+                <div class="payment-note">🔒 دفع آمن عبر PayPal</div>
             </div>
             <div class="payment-card srt">
                 <span class="payment-badge srt">🌐 مترجم</span>
@@ -394,8 +395,8 @@ footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:
                     <li>دفعة واحدة · بدون اشتراك</li>
                 </ul>
                 <div class="price-display"><span class="price-amount srt">$10</span><span class="price-label">مدى الحياة</span></div>
-                <button class="buy-btn srt" id="btn-srt" onclick="startCheckout('srt')"><span class="btn-text">💳 شراء الآن</span></button>
-                <div class="payment-note">🔒 دفع آمن عبر Lemon Squeezy</div>
+                <div id="paypal-button-srt"></div>
+                <div class="payment-note">🔒 دفع آمن عبر PayPal</div>
             </div>
         </div>
     </div>
@@ -849,15 +850,24 @@ document.addEventListener('keydown', e => {
 // =============================================================
 // LEMON SQUEEZY INTEGRATION
 // =============================================================
-const LS_URLS = {
-    tts: 'https://sl-dubbing.lemonsqueezy.com/checkout/buy/63c47294-0068-4206-a439-b0fca724b098',
-    dub: 'https://sl-dubbing.lemonsqueezy.com/checkout/buy/f92d46fb-65a6-4e53-bf13-5527cffa4e93',
-    srt: 'https://sl-dubbing.lemonsqueezy.com/checkout/buy/7e1f55d2-6e06-4525-954f-2306b9b3a20f'
-};
+// PayPal Integration - استبدل YOUR_PAYPAL_EMAIL ببريدك
+const PAYPAL_EMAIL = 'YOUR_PAYPAL_EMAIL@example.com';
 
 function startCheckout(product) {
-    window.open(LS_URLS[product], '_blank');
+    const prices = { tts: 10, dub: 50, srt: 10 };
+    const names = { tts: 'تفعيل النطق مدى الحياة', dub: 'فتح الدبلجة مدى الحياة', srt: 'شراء المترجم مدى الحياة' };
+
+    // فتح نافذة PayPal مع المبلغ والوصف
+    const paypalUrl = `https://www.paypal.com/paypalme/${PAYPAL_EMAIL}/${prices[product]}USD`;
+    window.open(paypalUrl, '_blank');
 }
+
+function showPaypalInfo() {
+    showToast('💳 تواصل معنا عبر البريد للدفع عبر PayPal', 'i');
+}
+
+// أو استخدام أزرار PayPal الرسمية (يتطلب حساب PayPal Business)
+// للحصول على كود الزر: https://www.paypal.com/buttons/
 
 // =============================================================
 // UNLOCK SYSTEM
@@ -1071,18 +1081,31 @@ window.addEventListener('DOMContentLoaded', () => {
     initAuth();
 });
 </script>
-</body>
-</html>
-
 
 <footer class="footer">
+    <style>
+        .footer{background:#0a0a1a;border-top:1px solid rgba(255,255,255,.08);padding:40px 20px;margin-top:40px}
+        .footer-container{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:30px}
+        .footer-column h3{color:#a78bfa;font-size:.9rem;margin-bottom:15px}
+        .footer-column ul{list-style:none;padding:0}
+        .footer-column li{margin-bottom:8px}
+        .footer-column a{color:#9ca3af;text-decoration:none;font-size:.8rem;transition:color .2s}
+        .footer-column a:hover{color:#a78bfa}
+        .footer-logo{width:60px;margin-bottom:15px}
+        .branding p{color:#6b7280;font-size:.8rem;line-height:1.6}
+        .social-icons{display:flex;gap:12px;margin-top:15px}
+        .social-icons a{color:#9ca3af;font-size:1.2rem;transition:color .2s;text-decoration:none}
+        .social-icons a:hover{color:#a78bfa}
+        .badge{background:linear-gradient(135deg,#a78bfa,#60a5fa);color:#fff;font-size:.6rem;padding:2px 6px;border-radius:4px;margin-right:5px}
+    </style>
     <div class="footer-container">
         <div class="footer-column branding">
-            <img src="logo.png" alt="Logo" class="footer-logo"> <p>من الأصوات الواقعية والفيديوهات الديناميكية إلى روبوتات الدردشة الذكية، نسخر أحدث تقنيات الذكاء الاصطناعي لتتمكن من التركيز على أفكارك.</p>
+            <img src="logo.png" alt="Logo" class="footer-logo">
+            <p>من الأصوات الواقعية والفيديوهات الديناميكية إلى روبوتات الدردشة الذكية، نسخر أحدث تقنيات الذكاء الاصطناعي لتتمكن من التركيز على أفكارك.</p>
             <div class="social-icons">
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="Facebook">📘</a>
+                <a href="#" aria-label="Twitter">🐦</a>
+                <a href="#" aria-label="Instagram">📷</a>
             </div>
         </div>
 
@@ -1091,7 +1114,7 @@ window.addEventListener('DOMContentLoaded', () => {
             <ul>
                 <li><a href="#">من نحن</a></li>
                 <li><a href="#">المدونة</a></li>
-                <li><a href="#">سياسة الخصوصية</a></li>
+                <li><a href="privacy.html">سياسة الخصوصية</a></li>
                 <li><a href="#">شروط الخدمة</a></li>
                 <li><a href="#">الأسئلة الشائعة</a></li>
             </ul>
@@ -1120,3 +1143,6 @@ window.addEventListener('DOMContentLoaded', () => {
         </div>
     </div>
 </footer>
+
+</body>
+</html>
