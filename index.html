@@ -3,661 +3,853 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-Content-Type-Options" content="nosniff">
-<meta http-equiv="X-Frame-Options" content="DENY">
-<meta http-equiv="X-XSS-Protection" content="1; mode=block">
-<meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains">
-<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>sl-Dubbing &amp; Translation</title>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-691108357486678" crossorigin="anonymous"></script>
+
+<!-- ==== Google AdSense (keep as‑is) ==== -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-691108357486678"
+        crossorigin="anonymous"></script>
 
 <style>
+/* --------------------------------------------------------------
+   أساسيات & خلفية
+-------------------------------------------------------------- */
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#0a0a1a;color:#e0e0ff;min-height:100vh;overflow-x:hidden}
-.bg{position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;z-index:0;background:linear-gradient(135deg, #1a0533 0%, #0a0a1a 50%, #001233 100%);background-size:cover;background-position:center;background-attachment:fixed;overflow:hidden}
-.bg::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;width:100%;height:100%;background-image:url('background.png');background-size:cover;background-position:center;background-repeat:no-repeat;background-attachment:fixed;opacity:0.6;z-index:1}
-.wrap{position:relative;z-index:1;max-width:1600px;margin:0 auto;padding:24px 16px;display:grid;grid-template-columns:1fr;gap:24px}
+.bg{position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;z-index:0;
+    background:linear-gradient(135deg,#1a0533 0%,#0a0a1a 50%,#001233 100%);
+    background-size:cover;background-position:center;background-attachment:fixed;overflow:hidden}
+.bg::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;width:100%;height:100%;
+    background-image:url('background.png');background-size:cover;background-position:center;
+    background-repeat:no-repeat;background-attachment:fixed;opacity:0.6;z-index:1}
+
+/* --------------------------------------------------------------
+   الحاوية العامة
+-------------------------------------------------------------- */
+.wrap{position:relative;z-index:1;max-width:1600px;margin:0 auto;padding:24px 16px;
+    display:grid;grid-template-columns:1fr;gap:24px}
+
+/* --------------------------------------------------------------
+   الهيدر & اللوقو
+-------------------------------------------------------------- */
 header{text-align:center;margin-bottom:32px;grid-column:1/-1;display:flex;justify-content:center;}
-.logo-container{display:flex;flex-direction:column;align-items:center;gap:12px;position:relative;z-index:10;}
-.logo-img{width:100px;height:100px;background:transparent;border:none;box-shadow:none;border-radius:50%;overflow:visible;display:flex;align-items:center;justify-content:center;padding:5px;animation:logoFloat 3s ease-in-out infinite;transition:transform .3s ease;}
+.logo-container{display:flex;flex-direction:column;align-items:center;gap:12px;position:relative;z-index:10}
+.logo-img{width:100px;height:100px;background:transparent;border:none;box-shadow:none;
+    border-radius:50%;overflow:visible;display:flex;align-items:center;justify-content:center;
+    padding:5px;animation:logoFloat 3s ease-in-out infinite;transition:transform .3s}
 .logo-img:hover{transform:scale(1.1)}
-.logo-img img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 15px rgba(167,139,250,.6));animation:logoPulse 2s ease-in-out infinite}
+.logo-img img{width:100%;height:100%;object-fit:contain;
+    filter:drop-shadow(0 0 15px rgba(167,139,250,.6));animation:logoPulse 2s ease-in-out infinite}
 @keyframes logoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 @keyframes logoPulse{0%,100%{filter:drop-shadow(0 0 10px rgba(167,139,250,.5))}50%{filter:drop-shadow(0 0 20px rgba(167,139,250,.8)}}
-.logo-container h1{font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,#a78bfa,#60a5fa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:3px;margin-bottom:4px;}
+.logo-container h1{font-size:1.8rem;font-weight:900;
+    background:linear-gradient(135deg,#a78bfa,#60a5fa,#34d399);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    letter-spacing:3px;margin-bottom:4px}
 .logo-container .subtitle{color:#a78bfa;font-size:.85rem;font-weight:600}
+
+/* --------------------------------------------------------------
+   مُبدِّل اللغة
+-------------------------------------------------------------- */
 .lang-switcher{position:fixed;top:20px;left:20px;z-index:1000}
-.lang-btn{display:flex;align-items:center;gap:8px;padding:10px 16px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:12px;color:#e0e0ff;cursor:pointer;font-size:.8rem;font-weight:600;transition:all .3s;backdrop-filter:blur(10px)}
+.lang-btn{display:flex;align-items:center;gap:8px;padding:10px 16px;
+    background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+    border-radius:12px;color:#e0e0ff;cursor:pointer;font-size:.8rem;font-weight:600;
+    transition:all .3s;backdrop-filter:blur(10px)}
 .lang-btn:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);transform:translateY(-2px)}
 .lang-btn svg{width:20px;height:20px;fill:#e0e0ff}
-.lang-dropdown{position:absolute;top:100%;left:0;margin-top:8px;background:rgba(255,255,255,.98);border-radius:12px;box-shadow:0 10px 40px rgba(0,0,0,.5);min-width:220px;overflow:hidden;transform:scale(0);transform-origin:top left;transition:all .3s;opacity:0;max-height:400px;overflow-y:auto}
+.lang-dropdown{position:absolute;top:100%;left:0;margin-top:8px;background:rgba(255,255,255,.98);
+    border-radius:12px;box-shadow:0 10px 40px rgba(0,0,0,.5);min-width:220px;overflow:hidden;
+    transform:scale(0);transform-origin:top left;transition:all .3s;opacity:0;
+    max-height:400px;overflow-y:auto}
 .lang-dropdown.show{transform:scale(1);opacity:1}
-.lang-option{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;transition:all .2s;border-bottom:1px solid rgba(0,0,0,.05)}
+.lang-option{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;
+    transition:all .2s;border-bottom:1px solid rgba(0,0,0,.05)}
 .lang-option:last-child{border-bottom:none}
 .lang-option:hover{background:rgba(167,139,250,.1)}
 .lang-option.active{background:rgba(167,139,250,.2)}
 .lang-flag{font-size:1.4rem;width:28px;text-align:center}
 .lang-name{color:#1a0533;font-size:.85rem;font-weight:600}
-.card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:20px;backdrop-filter:blur(20px);box-shadow:0 20px 60px rgba(0,0,0,.5);margin-bottom:16px}
-.card-header{display:flex;align-items:center;gap:10px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.08)}
-.card-icon{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#2563eb);display:flex;align-items:center;justify-content:center;font-size:1rem}
+
+/* --------------------------------------------------------------
+   شريط حساب/ترقية
+-------------------------------------------------------------- */
+.auth-switcher{position:fixed;top:20px;right:20px;z-index:1000;
+    display:flex;flex-direction:column-reverse;gap:8px;align-items:flex-end}
+.upgrade-link{
+    background:linear-gradient(135deg,#FCD34D,#F59E0B);color:#422006 !important;
+    border:none !important;box-shadow:0 4px 15px rgba(245,158,11,.4);
+    font-weight:bold;position:relative;overflow:hidden;
+    display:flex;align-items:center;gap:8px;padding:10px 16px;
+    border-radius:12px;cursor:pointer;transition:transform .2s}
+.upgrade-link:hover{transform:scale(1.05);box-shadow:0 6px 20px rgba(245,158,11,.6)}
+.upgrade-link svg{fill:#422006 !important}
+.upgrade-link::after{
+    content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,0.4),transparent);
+    transform:rotate(45deg);animation:shine 3s infinite;pointer-events:none}
+@keyframes shine{0%{transform:translateX(-100%) rotate(45deg)}100%{transform:translateX(100%) rotate(45deg)} 
+
+.auth-btn{display:flex;align-items:center;gap:8px;padding:10px 16px;
+    background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+    border-radius:12px;color:#e0e0ff;cursor:pointer;font-size:.8rem;font-weight:600;
+    transition:all .3s;backdrop-filter:blur(10px)}
+.auth-btn:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);transform:translateY(-2px)}
+.auth-btn svg{width:20px;height:20px;fill:#e0e0ff}
+.auth-btn .auth-avatar{
+    width:24px;height:24px;border-radius:50%;
+    background:linear-gradient(135deg,#a78bfa,#60a5fa);
+    display:flex;align-items:center;justify-content:center;font-size:.75rem;
+    font-weight:800;color:white}
+
+/* dropdown auth */
+.auth-dropdown{
+    position:absolute;top:100%;right:0;margin-top:8px;
+    background:#111128;border:1px solid rgba(255,255,255,.1);
+    border-radius:16px;box-shadow:0 16px 50px rgba(0,0,0,.7);
+    width:300px;overflow:hidden;transform:scale(0);
+    transform-origin:top right;transition:all .3s;opacity:0}
+.auth-dropdown.show{transform:scale(1);opacity:1}
+.auth-tabs{display:flex;border-bottom:1px solid rgba(255,255,255,.08)}
+.auth-tab{
+    flex:1;padding:12px;background:none;border:none;
+    color:#6b7280;font-size:.78rem;font-weight:700;cursor:pointer;
+    transition:all .2s;position:relative}
+.auth-tab.on{color:#a78bfa}
+.auth-tab.on::after{
+    content:'';position:absolute;bottom:0;left:10%;right:10%;height:2px;
+    background:linear-gradient(90deg,#a78bfa,#60a5fa);border-radius:2px}
+.auth-form{padding:18px}
+.auth-field{margin-bottom:12px}
+.auth-field label{display:block;font-size:.65rem;color:#6b7280;
+    text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.auth-field input{
+    width:100%;padding:10px 12px;background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.1);border-radius:9px;color:#e0e0ff;
+    font-size:.8rem;outline:none;transition:border-color .2s}
+.auth-field input:focus{border-color:#a78bfa;box-shadow:0 0 0 3px rgba(167,139,250,.1)}
+.auth-submit{
+    width:100%;padding:11px;background:linear-gradient(135deg,#7c3aed,#2563eb);
+    border:none;border-radius:10px;color:white;font-size:.8rem;font-weight:700;
+    cursor:pointer;transition:all .2s;margin-top:4px;display:flex;align-items:center;
+    justify-content:center;gap:7px}
+.auth-submit:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(124,58,237,.5)}
+.auth-submit:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.auth-submit .btn-spinner{
+    width:13px;height:13px;border:2px solid rgba(255,255,255,.3);
+    border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;
+    display:none}
+.auth-submit.loading .btn-spinner{display:block}
+.auth-msg{font-size:.7rem;text-align:center;padding:6px 8px;border-radius:7px;
+    margin-top:8px;min-height:24px}
+.auth-msg.ok{color:#34d399;background:rgba(52,211,153,.08)}
+.auth-msg.er{color:#f87171;background:rgba(248,113,113,.08)}
+.auth-msg.i{color:#60a5fa;background:rgba(96,165,250,.08)}
+
+/* --------------------------------------------------------------
+   بطاقات الخصائص (TTS / DUB / SRT)
+-------------------------------------------------------------- */
+.card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+    border-radius:20px;padding:20px;backdrop-filter:blur(20px);
+    box-shadow:0 20px 60px rgba(0,0,0,.5);margin-bottom:16px}
+.card-header{display:flex;align-items:center;gap:10px;margin-bottom:20px;
+    padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.08)}
+.card-icon{width:32px;height:32px;border-radius:10px;
+    background:linear-gradient(135deg,#7c3aed,#2563eb);display:flex;
+    align-items:center;justify-content:center;font-size:1rem}
 .card-title{font-size:1rem;font-weight:700;color:#e0e0ff}
-.lbl{font-size:.7rem;color:#a78bfa;margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:1px;display:block}
+
+/* labels & grids */
+.lbl{font-size:.7rem;color:#a78bfa;margin-bottom:8px;font-weight:600;
+    text-transform:uppercase;letter-spacing:1px;display:block}
 .lg{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:16px}
-.lb{padding:10px 6px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);color:#c4b5fd;cursor:pointer;font-size:.7rem;transition:all .2s;text-align:center;font-family:inherit}
-.lb:hover{background:rgba(167,139,250,.15);border-color:rgba(167,139,250,.4);transform:translateY(-2px)}
-.lb.on{background:linear-gradient(135deg,rgba(167,139,250,.3),rgba(96,165,250,.3));border-color:#a78bfa;color:#fff;box-shadow:0 0 16px rgba(167,139,250,.3)}
-.lf{font-size:1.2rem;display:block;margin-bottom:2px}
-.lang-text{font-size:.7rem;display:block;margin-top:2px}
-.tw{position:relative;margin-bottom:16px}
-textarea{width:100%;min-height:120px;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);border-radius:12px;color:#e0e0ff;font-size:.85rem;padding:12px;resize:vertical;font-family:inherit;transition:border-color .3s;outline:none;line-height:1.6}
-textarea:focus{border-color:#a78bfa;box-shadow:0 0 0 3px rgba(167,139,250,.12)}
-textarea::placeholder{color:#4b5563}
-.cc{position:absolute;bottom:8px;left:10px;font-size:.65rem;color:#4b5563}
-.ctrls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
-.cg{display:flex;flex-direction:column;gap:3px;flex:1;min-width:70px}
-.cg label{font-size:.6rem;color:#6b7280;text-transform:uppercase;letter-spacing:.4px}
-input[type=range]{-webkit-appearance:none;width:100%;height:3px;border-radius:2px;background:rgba(255,255,255,.1);outline:none}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:linear-gradient(135deg,#a78bfa,#60a5fa);cursor:pointer}
-.rv{font-size:.65rem;color:#a78bfa;font-weight:600}
-.br{display:flex;gap:8px;flex-wrap:wrap}
-.btn{padding:10px 16px;border-radius:10px;border:none;cursor:pointer;font-size:.75rem;font-weight:600;font-family:inherit;transition:all .2s;display:flex;align-items:center;gap:5px}
-.bs{background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;flex:1;justify-content:center;box-shadow:0 4px 16px rgba(124,58,237,.4)}
+
+/* buttons */
+.btn{padding:10px 16px;border-radius:10px;border:none;cursor:pointer;
+    font-size:.75rem;font-weight:600;font-family:inherit;transition:all .2s;
+    display:flex;align-items:center;gap:5px}
+.bs{background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;
+    flex:1;justify-content:center;box-shadow:0 4px 16px rgba(124,58,237,.4)}
 .bs:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(124,58,237,.6)}
-.bsm{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#9ca3af}
+.bsm{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+    color:#9ca3af}
 .bsm:hover{background:rgba(255,255,255,.1)}
-.st{text-align:center;font-size:.75rem;padding:8px;border-radius:8px;min-height:32px;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .3s;margin-top:10px}
+
+/* status messages */
+.st{text-align:center;font-size:.75rem;padding:8px;border-radius:8px;
+    min-height:32px;display:flex;align-items:center;justify-content:center;
+    gap:5px;transition:all .3s;margin-top:10px}
 .st.i{color:#60a5fa;background:rgba(96,165,250,.07)}
 .st.ok{color:#34d399;background:rgba(52,211,153,.07)}
 .st.er{color:#f87171;background:rgba(248,113,113,.07)}
 .st.wn{color:#fbbf24;background:rgba(251,191,36,.07)}
-.ua{border:2px dashed rgba(96,165,250,.28);border-radius:12px;padding:18px;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:12px;position:relative}
-.ua:hover{border-color:rgba(96,165,250,.55);background:rgba(96,165,250,.04)}
-.ua input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
-.ui{font-size:1.5rem;margin-bottom:4px}
-.ut{color:#60a5fa;font-size:.75rem}
-.us{color:#4b5563;font-size:.65rem;margin-top:2px}
-.sl{max-height:220px;overflow-y:auto;margin-bottom:10px;scrollbar-width:thin;scrollbar-color:#a78bfa transparent}
+
+/* lock overlay (shown when feature is locked) */
+.lock-overlay{
+    position:absolute;top:0;left:0;right:0;bottom:0;
+    background:rgba(10,10,26,.82);border-radius:20px;
+    display:none;flex-direction:column;align-items:center;
+    justify-content:center;gap:12px;cursor:pointer;
+    transition:all .3s;backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px)}
+.lock-overlay.active{display:flex}
+.lock-overlay.tts-lock{border:2px solid rgba(99,102,241,.35)}
+.lock-overlay.dub-lock{border:2px solid rgba(245,158,11,.35)}
+.lock-overlay.srt-lock{border:2px solid rgba(16,185,129,.35)}
+.lock-icon{font-size:2.8rem;filter:drop-shadow(0 0 12px rgba(167,139,250,.5));
+    animation:lockPulse 2.5s ease-in-out infinite}
+@keyframes lockPulse{
+    0%,100%{filter:drop-shadow(0 0 8px rgba(167,139,250,.4))}
+    50%{filter:drop-shadow(0 0 20px rgba(167,139,250,.8)}}
+.lock-title{font-size:.95rem;font-weight:800;color:#e0e0ff;text-align:center}
+.lock-sub{font-size:.7rem;color:#6b7280;text-align:center;max-width:200px;line-height:1.5}
+.lock-buy-hint{
+    display:flex;align-items:center;gap:6px;padding:8px 18px;
+    border-radius:10px;font-size:.75rem;font-weight:700;color:white;
+    cursor:pointer;transition:all .2s;margin-top:4px}
+.lock-buy-hint.tts-btn{background:linear-gradient(135deg,#4f46e5,#6366f1);
+    box-shadow:0 4px 16px rgba(79,70,229,.4)}
+.lock-buy-hint.dub-btn{background:linear-gradient(135deg,#d97706,#f59e0b);
+    box-shadow:0 4px 16px rgba(217,119,6,.4)}
+.lock-buy-hint.srt-btn{background:linear-gradient(135deg,#059669,#10b981);
+    box-shadow:0 4px 16px rgba(5,150,105,.4)}
+.lock-buy-hint:hover{transform:translateY(-2px);filter:brightness(1.1)}
+
+/* --------------------------------------------------------------
+   عناصر التحكم للـ TTS
+-------------------------------------------------------------- */
+.tw textarea{width:100%;min-height:80px;background:rgba(0,0,0,.3);
+    border:1px solid rgba(255,255,255,.1);border-radius:12px;color:#e0e0ff;
+    font-size:.8rem;padding:12px;resize:vertical;outline:none}
+.tw .cc{position:absolute;bottom:8px;left:10px;font-size:.65rem;color:#4b5563}
+.ctrls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.cg{display:flex;flex-direction:column;gap:3px;flex:1;min-width:70px}
+.cg label{font-size:.6rem;color:#6b7280;text-transform:uppercase;letter-spacing:.4px}
+input[type=range]{-webkit-appearance:none;width:100%;height:3px;border-radius:2px;
+    background:rgba(255,255,255,.1);outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;
+    border-radius:50%;background:linear-gradient(135deg,#a78bfa,#60a5fa);cursor:pointer}
+.rv{font-size:.65rem;color:#a78bfa;font-weight:600}
+
+/* waveform animation (loading) */
+.wv{position:relative;height:20px;margin:8px 0;opacity:0;transition:opacity .3s}
+.wv.on{opacity:1}
+.wb{width:3px;height:4px;border-radius:3px;background:linear-gradient(180deg,#a78bfa,#60a5fa);
+    animation:wva 1.2s ease-in-out infinite}
+.wb:nth-child(1){height:14px;animation-delay:0s}
+.wb:nth-child(2){height:22px;animation-delay:.1s}
+.wb:nth-child(3){height:28px;animation-delay:.2s}
+.wb:nth-child(4){height:22px;animation-delay:.3s}
+.wb:nth-child(5){height:14px;animation-delay:.4s}
+.wb:nth-child(6){height:26px;animation-delay:.5s}
+.wb:nth-child(7){height:18px;animation-delay:.6s}
+.wb:nth-child(8){height:28px;animation-delay:.7s}
+@keyframes wva{0%,100%{transform:scaleY(.4)}50%{transform:scaleY(1)}}
+
+/* --------------------------------------------------------------
+   أقسام DUB
+-------------------------------------------------------------- */
+.ir{display:flex;align-items:flex-start;gap:6px;font-size:.7rem;color:#9ca3af;
+    line-height:1.4;margin-bottom:4px}
+.ir strong{color:#60a5fa}
+
+/* --------------------------------------------------------------
+   أقسام SRT
+-------------------------------------------------------------- */
+.sl{max-height:220px;overflow-y:auto;margin-bottom:10px;
+    scrollbar-width:thin;scrollbar-color:#a78bfa transparent}
 .sl::-webkit-scrollbar{width:4px}
 .sl::-webkit-scrollbar-thumb{background:#a78bfa;border-radius:4px}
-.si{display:flex;gap:6px;padding:8px 10px;border-radius:8px;margin-bottom:4px;border:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.02);align-items:flex-start;transition:all .15s}
-.si.done{background:rgba(52,211,153,.12);border-color:rgba(52,211,153,.3)}
-.sin{color:#4b5563;font-size:.65rem;min-width:18px;padding-top:2px}
-.sit{color:#60a5fa;font-size:.6rem;min-width:110px;padding-top:2px;font-family:monospace}
-.sit2{color:#e0e0ff;font-size:.75rem;line-height:1.4;flex:1}
-.gb{width:100%;padding:18px;border-radius:14px;border:none;cursor:pointer;background:linear-gradient(135deg,#059669,#0d9488);box-shadow:0 6px 28px rgba(5,150,105,.45);display:flex;flex-direction:column;align-items:center;gap:4px;transition:all .2s;font-family:inherit;position:relative;overflow:hidden;margin-bottom:0}
-.gb:hover{transform:translateY(-3px);box-shadow:0 10px 38px rgba(5,150,105,.65)}
-.gi{font-size:1.8rem}.gl{font-size:1rem;font-weight:800;color:#fff}.gs{font-size:.65rem;color:rgba(255,255,255,.7)}
-.pw{margin-bottom:12px}
-.pb{width:100%;height:6px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;margin-bottom:5px}
-.pf{height:100%;background:linear-gradient(90deg,#7c3aed,#2563eb,#34d399);border-radius:3px;transition:width .4s ease}
-.pm{display:flex;justify-content:space-between;font-size:.65rem;color:#6b7280;font-family:monospace}
-.rb{background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.2);border-radius:14px;padding:16px;margin-top:12px}
-.rt{color:#34d399;font-weight:700;font-size:.85rem;margin-bottom:10px;display:flex;align-items:center;gap:5px}
-.db{display:inline-flex;align-items:center;gap:5px;padding:10px 16px;background:linear-gradient(135deg,#059669,#0d9488);border-radius:10px;color:#fff;text-decoration:none;font-size:.8rem;font-weight:600;transition:all .2s;border:none;cursor:pointer;font-family:inherit;width:100%;justify-content:center}
-.db:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(5,150,105,.4)}
-.filters-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px;margin-top:16px}
-.fc-title{display:flex;align-items:center;gap:8px;margin-bottom:14px;font-size:.85rem;font-weight:700;color:#e0e0ff}
-.lbl-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-.sg{display:grid;grid-template-columns:repeat(2,1fr);gap:5px;margin-top:12px}
-.sbtn{padding:6px 8px;border-radius:8px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.02);color:#9ca3af;cursor:pointer;font-size:.68rem;transition:all .2s;font-family:inherit}
-.sbtn:hover{background:rgba(255,255,255,.06);color:#e0e0ff;border-color:rgba(167,139,250,.25)}
-.tg{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:14px}
-.tbtn{padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);color:#9ca3af;cursor:pointer;font-size:.7rem;transition:all .2s}
-.tbtn:hover{background:rgba(52,211,153,.1);color:#34d399;border-color:#34d399}
-.tbtn.on{background:#34d399;color:#000;font-weight:700}
-.trs{background:rgba(52,211,153,.05);border:1px solid rgba(52,211,153,.2);border-radius:12px;padding:14px;margin-top:14px}
-.trh{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.trt{color:#34d399;font-weight:700;font-size:.8rem}
-.trc{font-size:.75rem;color:#d1d5db;line-height:1.5;white-space:pre-wrap;background:rgba(0,0,0,.2);padding:10px;border-radius:8px;max-height:250px;overflow-y:auto}
-.ib{background:rgba(96,165,250,.06);border:1px solid rgba(96,165,250,.15);border-radius:10px;padding:12px;margin-bottom:14px}
-.ir{display:flex;align-items:flex-start;gap:6px;font-size:.7rem;color:#9ca3af;line-height:1.4;margin-bottom:4px}
-.ir:last-child{margin-bottom:0}
-.ir strong{color:#60a5fa}
-.cb{text-align:center;background:rgba(0,0,0,.35);border-radius:12px;padding:16px 12px;margin-bottom:12px;border:1px solid rgba(255,255,255,.06)}
-.cr{display:flex;justify-content:center;gap:18px;margin-bottom:10px}
-.ci{text-align:center}
-.cl{font-size:.55rem;color:#6b7280;text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px}
-.cv{font-size:1.2rem;font-weight:800;font-family:monospace;line-height:1}
-.cr1{background:linear-gradient(135deg,#a78bfa,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.cr2{color:#34d399}.cr3{color:#4b5563}
-.wv{display:flex;align-items:center;justify-content:center;gap:2px;height:28px;margin:10px 0;opacity:0;transition:opacity .3s}
-.wv.on{opacity:1}
-.wb{width:3px;border-radius:3px;background:linear-gradient(180deg,#a78bfa,#60a5fa);animation:wva 1.2s ease-in-out infinite}
-.wb:nth-child(1){height:14px;animation-delay:0s}.wb:nth-child(2){height:22px;animation-delay:.1s}.wb:nth-child(3){height:28px;animation-delay:.2s}.wb:nth-child(4){height:22px;animation-delay:.3s}.wb:nth-child(5){height:14px;animation-delay:.4s}.wb:nth-child(6){height:26px;animation-delay:.5s}.wb:nth-child(7){height:18px;animation-delay:.6s}.wb:nth-child(8){height:28px;animation-delay:.7s}
-@keyframes wva{0%,100%{transform:scaleY(.4)}50%{transform:scaleY(1)}}
-.ph{display:flex;align-items:center;gap:6px;justify-content:center;margin-bottom:12px;font-size:.75rem}
-.pd{width:6px;height:6px;border-radius:50%;background:#fbbf24;animation:blk 1s ease-in-out infinite}
-@keyframes blk{0%,100%{opacity:1}50%{opacity:.2}}
-.pt{color:#fbbf24;font-weight:600}
-footer{text-align:center;padding:16px;color:#374151;font-size:.7rem;grid-column:1/-1;border-top:1px solid rgba(255,255,255,.05);margin-top:24px}
-.clean-box{background:rgba(52,211,153,.05);border:1px solid rgba(52,211,153,.2);border-radius:12px;padding:14px;margin-top:14px}
-.clean-title{color:#34d399;font-weight:700;font-size:.8rem;margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.clean-output{background:rgba(0,0,0,.25);border-radius:8px;padding:10px;font-size:.75rem;color:#d1d5db;line-height:1.6;max-height:200px;overflow-y:auto;white-space:pre-wrap;margin-bottom:10px}
-.features-wrapper{grid-column:1/-1;display:grid;grid-template-columns:1fr;gap:24px;align-items:start}
-@media(min-width:1200px){.features-wrapper{grid-template-columns:1fr 1fr 1fr}}
-@media(max-width:1199px){.features-wrapper{grid-template-columns:1fr}}
-.feature-zone{position:relative;}
-.lock-overlay{position:absolute;inset:0;z-index:50;border-radius:20px;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;cursor:pointer;transition:all .3s;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);}
-.lock-overlay.active{display:flex;}
-.lock-overlay.tts-lock{background:rgba(10,10,26,.82);border:2px solid rgba(99,102,241,.35);border-radius:20px;}
-.lock-overlay.dub-lock{background:rgba(10,10,26,.82);border:2px solid rgba(245,158,11,.35);border-radius:20px;}
-.lock-overlay.srt-lock{background:rgba(10,10,26,.82);border:2px solid rgba(16,185,129,.35);border-radius:20px;}
-.lock-overlay:hover{backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);}
-.lock-overlay:hover .lock-icon{transform:scale(1.1) rotate(-8deg);}
-.lock-icon{font-size:2.8rem;transition:transform .3s;filter:drop-shadow(0 0 12px rgba(167,139,250,.5));animation:lockPulse 2.5s ease-in-out infinite;}
-@keyframes lockPulse{0%,100%{filter:drop-shadow(0 0 8px rgba(167,139,250,.4));}50%{filter:drop-shadow(0 0 20px rgba(167,139,250,.8));}}
-.lock-title{font-size:.95rem;font-weight:800;color:#e0e0ff;text-align:center;}
-.lock-sub{font-size:.7rem;color:#6b7280;text-align:center;max-width:200px;line-height:1.5;}
-.lock-buy-hint{display:flex;align-items:center;gap:6px;padding:8px 18px;border-radius:10px;font-size:.75rem;font-weight:700;color:white;border:none;cursor:pointer;font-family:inherit;transition:all .2s;margin-top:4px;}
-.lock-buy-hint.tts-btn{background:linear-gradient(135deg,#4f46e5,#6366f1);box-shadow:0 4px 16px rgba(79,70,229,.4);}
-.lock-buy-hint.dub-btn{background:linear-gradient(135deg,#d97706,#f59e0b);box-shadow:0 4px 16px rgba(217,119,6,.4);}
-.lock-buy-hint.srt-btn{background:linear-gradient(135deg,#059669,#10b981);box-shadow:0 4px 16px rgba(5,150,105,.4);}
-.lock-buy-hint:hover{transform:translateY(-2px);filter:brightness(1.1);}
-.feature-zone .card{transition:all .4s;}
-.feature-zone.unlocked .lock-overlay{display:none !important;}
-@keyframes unlockPop{0%{transform:scale(.8);opacity:0;}60%{transform:scale(1.05);}100%{transform:scale(1);opacity:1;}}
-.feature-zone.unlocked .card{animation:unlockPop .5s ease forwards;}
-.payment-section{grid-column:1/-1;margin-top:8px;}
-.payment-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:16px;}
-.payment-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:20px;backdrop-filter:blur(20px);box-shadow:0 20px 60px rgba(0,0,0,.5);position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s;}
-.payment-card:hover{transform:translateY(-4px);box-shadow:0 28px 70px rgba(0,0,0,.6);}
-.payment-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:20px 20px 0 0;}
-.payment-card.tts::before{background:linear-gradient(90deg,#6366f1,#4f46e5);}
-.payment-card.dub::before{background:linear-gradient(90deg,#f59e0b,#d97706);}
-.payment-card.srt::before{background:linear-gradient(90deg,#10b981,#059669);}
-.payment-badge{display:inline-flex;align-items:center;gap:6px;font-size:.65rem;font-weight:700;padding:4px 10px;border-radius:20px;margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px;}
-.payment-badge.tts{background:rgba(99,102,241,.15);color:#818cf8;border:1px solid rgba(99,102,241,.3);}
-.payment-badge.dub{background:rgba(245,158,11,.15);color:#fcd34d;border:1px solid rgba(245,158,11,.3);}
-.payment-badge.srt{background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3);}
-.payment-icon{font-size:2.2rem;margin-bottom:10px;display:block;}
-.payment-title{font-size:1.05rem;font-weight:800;color:#e0e0ff;margin-bottom:6px;}
-.payment-desc{font-size:.72rem;color:#9ca3af;line-height:1.5;margin-bottom:16px;}
-.payment-features{list-style:none;margin-bottom:18px;}
-.payment-features li{font-size:.7rem;color:#c4b5fd;padding:4px 0;display:flex;align-items:center;gap:6px;}
-.payment-features li::before{content:'✓';color:#34d399;font-weight:900;font-size:.65rem;}
-.price-display{display:flex;align-items:baseline;gap:6px;margin-bottom:16px;}
-.price-amount{font-size:2rem;font-weight:900;line-height:1;}
-.price-amount.tts{background:linear-gradient(135deg,#6366f1,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.price-amount.dub{background:linear-gradient(135deg,#f59e0b,#fcd34d);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.price-amount.srt{background:linear-gradient(135deg,#10b981,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.price-label{font-size:.7rem;color:#6b7280;}
-.buy-btn{width:100%;padding:13px 16px;border-radius:12px;border:none;color:white;font-weight:700;font-size:.8rem;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;position:relative;overflow:hidden;}
-.buy-btn:active{transform:scale(.98);}
-.buy-btn:disabled{opacity:.6;cursor:not-allowed;transform:none;}
-.buy-btn.tts{background:linear-gradient(135deg,#4f46e5,#6366f1);box-shadow:0 6px 24px rgba(79,70,229,.4);}
-.buy-btn.dub{background:linear-gradient(135deg,#d97706,#f59e0b);box-shadow:0 6px 24px rgba(217,119,6,.4);}
-.buy-btn.srt{background:linear-gradient(135deg,#059669,#10b981);box-shadow:0 6px 24px rgba(5,150,105,.4);}
-.buy-btn:hover{transform:translateY(-2px);}
-.buy-btn.tts:hover{box-shadow:0 10px 32px rgba(79,70,229,.6);}
-.buy-btn.dub:hover{box-shadow:0 10px 32px rgba(217,119,6,.6);}
-.buy-btn.srt:hover{box-shadow:0 10px 32px rgba(5,150,105,.6);}
-.payment-note{display:flex;align-items:center;gap:5px;font-size:.62rem;color:#4b5563;margin-top:10px;justify-content:center;}
-.payment-section-title{text-align:center;margin-bottom:4px;}
-.payment-section-title h2{font-size:1.3rem;font-weight:800;background:linear-gradient(135deg,#a78bfa,#60a5fa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.payment-section-title p{font-size:.75rem;color:#6b7280;margin-top:4px;}
-.auth-switcher{position:fixed;top:20px;right:20px;z-index:1000;display:flex;flex-direction:column-reverse;gap:8px;align-items:flex-end;}
-.auth-btn,.upgrade-link{display:flex;align-items:center;gap:8px;padding:10px 16px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:12px;color:#e0e0ff;cursor:pointer;font-size:.8rem;font-weight:600;transition:all .3s;backdrop-filter:blur(10px);font-family:inherit;}
-.auth-btn:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);transform:translateY(-2px);}
-.auth-btn svg{width:20px;height:20px;fill:#e0e0ff;}
-.auth-btn .auth-avatar{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#a78bfa,#60a5fa);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;color:white;}
-.upgrade-link{background:linear-gradient(135deg,#FCD34D,#F59E0B);color:#422006 !important;border:none !important;box-shadow:0 4px 15px rgba(245,158,11,.4);font-weight:bold;position:relative;overflow:hidden;}
-.upgrade-link:hover{transform:scale(1.05);box-shadow:0 6px 20px rgba(245,158,11,.6);background:linear-gradient(135deg,#FDE68A,#F59E0B);}
-.upgrade-link svg{fill:#422006 !important;}
-.upgrade-link::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.4),transparent);transform:rotate(45deg);animation:shine 3s infinite;pointer-events:none;}
-@keyframes shine{0%{transform:translateX(-100%) rotate(45deg);}100%{transform:translateX(100%) rotate(45deg);}}
-.auth-dropdown{position:absolute;top:100%;right:0;margin-top:8px;background:#111128;border:1px solid rgba(255,255,255,.1);border-radius:16px;box-shadow:0 16px 50px rgba(0,0,0,.7);width:300px;overflow:hidden;transform:scale(0);transform-origin:top right;transition:all .3s;opacity:0;}
-.auth-dropdown.show{transform:scale(1);opacity:1;}
-.auth-tabs{display:flex;border-bottom:1px solid rgba(255,255,255,.08);}
-.auth-tab{flex:1;padding:12px;background:none;border:none;color:#6b7280;font-size:.78rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;position:relative;}
-.auth-tab.on{color:#a78bfa;}
-.auth-tab.on::after{content:'';position:absolute;bottom:0;left:10%;right:10%;height:2px;background:linear-gradient(90deg,#a78bfa,#60a5fa);border-radius:2px;}
-.auth-form{padding:18px;}
-.auth-field{margin-bottom:12px;}
-.auth-field label{display:block;font-size:.65rem;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;}
-.auth-field input{width:100%;padding:10px 12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:9px;color:#e0e0ff;font-size:.8rem;font-family:inherit;outline:none;transition:border-color .2s;}
-.auth-field input:focus{border-color:#a78bfa;box-shadow:0 0 0 3px rgba(167,139,250,.1);}
-.auth-submit{width:100%;padding:11px;background:linear-gradient(135deg,#7c3aed,#2563eb);border:none;border-radius:10px;color:white;font-size:.8rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;margin-top:4px;display:flex;align-items:center;justify-content:center;gap:7px;}
-.auth-submit:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(124,58,237,.5);}
-.auth-submit:disabled{opacity:.6;cursor:not-allowed;transform:none;}
-.auth-submit .btn-spinner{width:13px;height:13px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;display:none;}
-.auth-submit.loading .btn-spinner{display:block;}
-.auth-msg{font-size:.7rem;text-align:center;padding:6px 8px;border-radius:7px;margin-top:8px;min-height:24px;}
-.auth-msg.ok{color:#34d399;background:rgba(52,211,153,.08);}
-.auth-msg.er{color:#f87171;background:rgba(248,113,113,.08);}
-.auth-msg.i{color:#60a5fa;background:rgba(96,165,250,.08);}
-.user-panel{padding:16px 18px;}
-.user-info{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
-.user-avatar-lg{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#a78bfa,#60a5fa);display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:800;color:white;flex-shrink:0;}
-.user-details{flex:1;}
-.user-email{font-size:.78rem;color:#e0e0ff;font-weight:700;word-break:break-all;}
-.user-plan{font-size:.62rem;color:#6b7280;margin-top:2px;}
-.usage-title{font-size:.65rem;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;}
-.usage-item{margin-bottom:10px;}
-.usage-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
-.usage-label{font-size:.7rem;color:#9ca3af;}
-.usage-count{font-size:.65rem;font-weight:700;}
-.usage-count.has-uses{color:#a78bfa;}
-.usage-count.no-uses{color:#f87171;}
-.usage-count.unlimited{color:#34d399;}
-.usage-bar-bg{height:4px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden;}
-.usage-bar-fill{height:100%;border-radius:3px;transition:width .5s ease;}
-.usage-bar-fill.tts{background:linear-gradient(90deg,#6366f1,#818cf8);}
-.usage-bar-fill.dub{background:linear-gradient(90deg,#d97706,#f59e0b);}
-.usage-bar-fill.srt{background:linear-gradient(90deg,#059669,#34d399);}
-.user-logout{width:100%;padding:9px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:9px;color:#f87171;font-size:.75rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;margin-top:14px;}
-.user-logout:hover{background:rgba(248,113,113,.15);}
-.lock-free-badge{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;background:rgba(167,139,250,.15);border:1px solid rgba(167,139,250,.3);border-radius:20px;font-size:.68rem;font-weight:700;color:#c4b5fd;margin-bottom:2px;}
-.lock-uses-left{font-size:.7rem;color:#6b7280;text-align:center;}
-.lock-uses-left strong{color:#fbbf24;}
-.adsense-container{grid-column:1/-1;margin:20px 0;text-align:center;min-height:90px;}
 
-/* OTP Modal Styles */
-.otp-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);z-index:9999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(5px);animation:modalFadeIn .3s ease}
-.otp-content{background:linear-gradient(135deg, #1a0533, #0a0a1a);border:2px solid #a78bfa;border-radius:20px;padding:40px;max-width:450px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(167,139,250,0.3);animation:modalPop .3s ease}
-.otp-icon{font-size:4rem;margin-bottom:20px;display:block}
+/* --------------------------------------------------------------
+   زر التحميل / الشراء
+-------------------------------------------------------------- */
+.buy-btn{width:100%;padding:13px 16px;border-radius:12px;border:none;
+    color:white;font-weight:700;font-size:.8rem;cursor:pointer;
+    transition:all .25s;display:flex;align-items:center;justify-content:center;
+    gap:8px;font-family:inherit;position:relative;overflow:hidden}
+.buy-btn:active{transform:scale(.98)}
+.buy-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.buy-btn.tts{background:linear-gradient(135deg,#4f46e5,#6366f1);
+    box-shadow:0 6px 24px rgba(79,70,229,.4)}
+.buy-btn.dub{background:linear-gradient(135deg,#d97706,#f59e0b);
+    box-shadow:0 6px 24px rgba(217,119,6,.4)}
+.buy-btn.srt{background:linear-gradient(135deg,#059669,#10b981);
+    box-shadow:0 6px 24px rgba(5,150,105,.4)}
+.buy-btn:hover{transform:translateY(-2px)}
+.buy-btn.tts:hover{box-shadow:0 10px 32px rgba(79,70,229,.6)}
+.buy-btn.dub:hover{box-shadow:0 10px 32px rgba(217,119,6,.6)}
+.buy-btn.srt:hover{box-shadow:0 10px 32px rgba(5,150,105,.6)}
+
+/* --------------------------------------------------------------
+   الفوتر
+-------------------------------------------------------------- */
+footer{ text-align:center;padding:16px;color:#374151;font-size:.7rem;
+    grid-column:1/-1;border-top:1px solid rgba(255,255,255,.05);margin-top:24px}
+
+/* --------------------------------------------------------------
+   الرسائل المنبثقة (toast)
+-------------------------------------------------------------- */
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* --------------------------------------------------------------
+   OTP Modal (صحيح الآن)
+-------------------------------------------------------------- */
+.otp-modal{
+    position:fixed;top:0;left:0;right:0;bottom:0;
+    background:rgba(0,0,0,.85);z-index:9999;
+    display:flex;align-items:center;justify-content:center;
+    backdrop-filter:blur(5px);animation:modalFadeIn .3s ease}
+.otp-content{
+    background:linear-gradient(135deg,#1a0533,#0a0a1a);
+    border:2px solid #a78bfa;border-radius:20px;
+    padding:40px;max-width:450px;width:90%;text-align:center;
+    box-shadow:0 20px 60px rgba(167,139,250,.3);
+    animation:modalPop .3s ease}
+.otp-icon{font-size:4rem;margin-bottom:20px}
 .otp-title{color:#a78bfa;margin-bottom:10px;font-size:1.8rem}
 .otp-desc{color:#9ca3af;margin-bottom:20px;line-height:1.6}
 .otp-email{color:#60a5fa;font-weight:700;word-break:break-all}
-.otp-input{width:100%;padding:15px;font-size:1.5rem;text-align:center;letter-spacing:10px;border:2px solid rgba(167,139,250,0.3);border-radius:12px;background:rgba(255,255,255,0.05);color:#e0e0ff;font-family:monospace;outline:none;transition:border-color .3s;margin-bottom:20px}
+.otp-input{
+    width:100%;padding:15px;font-size:1.5rem;text-align:center;
+    letter-spacing:10px;border:2px solid rgba(167,139,250,.3);
+    border-radius:12px;background:rgba(255,255,255,.05);
+    color:#e0e0ff;font-family:monospace;outline:none;
+    transition:border-color .3s;margin-bottom:20px}
 .otp-input:focus{border-color:#a78bfa}
-.otp-timer{background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);border-radius:10px;padding:12px;margin-bottom:20px;color:#fbbf24;font-weight:600}
+.otp-timer{
+    background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.3);
+    border-radius:10px;padding:12px;margin-bottom:20px;color:#fbbf24;font-weight:600}
 .otp-timer-countdown{font-weight:700;font-family:monospace}
-.otp-btn-verify{width:100%;padding:15px;background:linear-gradient(135deg, #7c3aed, #2563eb);border:none;border-radius:12px;color:white;font-size:1rem;font-weight:700;cursor:pointer;margin-bottom:10px;transition:transform .2s}
+.otp-btn-verify{
+    width:100%;padding:15px;background:linear-gradient(135deg,#7c3aed,#2563eb);
+    border:none;border-radius:12px;color:white;font-size:1rem;font-weight:700;
+    cursor:pointer;margin-bottom:10px;transition:transform .2s}
 .otp-btn-verify:hover{transform:translateY(-2px)}
-.otp-btn-resend{width:100%;padding:12px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:12px;color:#9ca3af;font-size:.9rem;cursor:not-allowed;transition:all .3s}
-.otp-btn-resend:enabled{cursor:pointer;background:rgba(167,139,250,0.2);color:#a78bfa;border-color:#a78bfa}
-.otp-btn-cancel{margin-top:15px;background:none;border:none;color:#6b7280;cursor:pointer;font-size:.85rem}
-@keyframes modalPop{from{transform:scale(0.8);opacity:0}to{transform:scale(1);opacity:1}}
+.otp-btn-resend{
+    width:100%;padding:12px;background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.2);border-radius:12px;
+    color:#9ca3af;font-size:.9rem;cursor:not-allowed;transition:all .3s}
+.otp-btn-resend:enabled{
+    cursor:pointer;background:rgba(167,139,250,.2);
+    color:#a78bfa;border-color:#a78bfa}
+.otp-btn-cancel{
+    margin-top:15px;background:none;border:none;color:#6b7280;
+    cursor:pointer;font-size:.85rem}
+@keyframes modalPop{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
 @keyframes modalFadeIn{from{opacity:0}to{opacity:1}}
 @keyframes modalFadeOut{from{opacity:1}to{opacity:0}}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
 .otp-input.error{border-color:#f87171;animation:shake .5s}
-@keyframes spin{to{transform:rotate(360deg)}}
-@media(max-width:600px){h1{font-size:1.4rem}.lg{grid-template-columns:repeat(3,1fr)}.sit{display:none}.cr{gap:10px}.cv{font-size:1rem}.tg{grid-template-columns:1fr}.lb{padding:8px 4px}}
+
+/* --------------------------------------------------------------
+   Media Queries (قليل من التحسين للهواتف)
+-------------------------------------------------------------- */
+@media(max-width:600px){
+    h1{font-size:1.4rem}
+    .lg{grid-template-columns:repeat(3,1fr)}
+    .sit{display:none}
+    .cr{gap:10px}
+    .cv{font-size:1rem}
+    .tg{grid-template-columns:1fr}
+    .lb{padding:8px 4px}
+}
 </style>
 </head>
 <body>
+
 <div class="bg"></div>
+
 <div class="wrap">
 
 <!-- =====================  Language Switcher  ===================== -->
 <div class="lang-switcher">
-  <button class="lang-btn" onclick="toggleLang()" aria-label="Change language">
-    <svg viewBox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg>
-    <span id="currentLang">العربية</span>
-    <svg viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
-  </button>
-  <div class="lang-dropdown" id="langDropdown" role="menu">
-    <div class="lang-option active" onclick="setLang('ar')" data-lang="ar" role="menuitem"><span class="lang-flag">🇸🇦</span><span class="lang-name">العربية</span></div>
-    <div class="lang-option" onclick="setLang('en')" data-lang="en" role="menuitem"><span class="lang-flag">🇺🇸</span><span class="lang-name">English</span></div>
-    <div class="lang-option" onclick="setLang('ru')" data-lang="ru" role="menuitem"><span class="lang-flag">🇷🇺</span><span class="lang-name">Русский</span></div>
-    <div class="lang-option" onclick="setLang('tr')" data-lang="tr" role="menuitem"><span class="lang-flag">🇹🇷</span><span class="lang-name">Türkçe</span></div>
-    <div class="lang-option" onclick="setLang('fr')" data-lang="fr" role="menuitem"><span class="lang-flag">🇫🇷</span><span class="lang-name">Français</span></div>
-    <div class="lang-option" onclick="setLang('de')" data-lang="de" role="menuitem"><span class="lang-flag">🇩🇪</span><span class="lang-name">Deutsch</span></div>
-    <div class="lang-option" onclick="setLang('es')" data-lang="es" role="menuitem"><span class="lang-flag">🇪🇸</span><span class="lang-name">Español</span></div>
-    <div class="lang-option" onclick="setLang('zh')" data-lang="zh" role="menuitem"><span class="lang-flag">🇨🇳</span><span class="lang-name">中文</span></div>
-    <div class="lang-option" onclick="setLang('hi')" data-lang="hi" role="menuitem"><span class="lang-flag">🇮🇳</span><span class="lang-name">हिन्दी</span></div>
-    <div class="lang-option" onclick="setLang('fa')" data-lang="fa" role="menuitem"><span class="lang-flag">🇮🇷</span><span class="lang-name">فارسی</span></div>
-    <div class="lang-option" onclick="setLang('it')" data-lang="it" role="menuitem"><span class="lang-flag">🇮🇹</span><span class="lang-name">Italiano</span></div>
-    <div class="lang-option" onclick="setLang('nl')" data-lang="nl" role="menuitem"><span class="lang-flag">🇳🇱</span><span class="lang-name">Nederlands</span></div>
-    <div class="lang-option" onclick="setLang('sv')" data-lang="sv" role="menuitem"><span class="lang-flag">🇸🇪</span><span class="lang-name">Svenska</span></div>
-  </div>
+    <button class="lang-btn" onclick="toggleLang()" aria-label="Change language">
+        <svg viewBox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg>
+        <span id="currentLang">العربية</span>
+        <svg viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+    </button>
+    <div class="lang-dropdown" id="langDropdown" role="menu">
+        <div class="lang-option active" onclick="setLang('ar')" data-lang="ar" role="menuitem"><span class="lang-flag">🇸🇦</span><span class="lang-name">العربية</span></div>
+        <div class="lang-option" onclick="setLang('en')" data-lang="en" role="menuitem"><span class="lang-flag">🇺🇸</span><span class="lang-name">English</span></div>
+        <div class="lang-option" onclick="setLang('ru')" data-lang="ru" role="menuitem"><span class="lang-flag">🇷🇺</span><span class="lang-name">Русский</span></div>
+        <div class="lang-option" onclick="setLang('tr')" data-lang="tr" role="menuitem"><span class="lang-flag">🇹🇷</span><span class="lang-name">Türkçe</span></div>
+        <div class="lang-option" onclick="setLang('fr')" data-lang="fr" role="menuitem"><span class="lang-flag">🇫🇷</span><span class="lang-name">Français</span></div>
+        <div class="lang-option" onclick="setLang('de')" data-lang="de" role="menuitem"><span class="lang-flag">🇩🇪</span><span class="lang-name">Deutsch</span></div>
+        <div class="lang-option" onclick="setLang('es')" data-lang="es" role="menuitem"><span class="lang-flag">🇪🇸</span><span class="lang-name">Español</span></div>
+        <div class="lang-option" onclick="setLang('zh')" data-lang="zh" role="menuitem"><span class="lang-flag">🇨🇳</span><span class="lang-name">中文</span></div>
+        <div class="lang-option" onclick="setLang('hi')" data-lang="hi" role="menuitem"><span class="lang-flag">🇮🇳</span><span class="lang-name">हिन्दी</span></div>
+        <div class="lang-option" onclick="setLang('fa')" data-lang="fa" role="menuitem"><span class="lang-flag">🇮🇷</span><span class="lang-name">فارسی</span></div>
+        <div class="lang-option" onclick="setLang('it')" data-lang="it" role="menuitem"><span class="lang-flag">🇮🇹</span><span class="lang-name">Italiano</span></div>
+        <div class="lang-option" onclick="setLang('nl')" data-lang="nl" role="menuitem"><span class="lang-flag">🇳🇱</span><span class="lang-name">Nederlands</span></div>
+        <div class="lang-option" onclick="setLang('sv')" data-lang="sv" role="menuitem"><span class="lang-flag">🇸🇪</span><span class="lang-name">Svenska</span></div>
+    </div>
 </div>
 
-<!-- =====================  Authentication Switcher  ===================== -->
+<!-- =====================  Upgrade / Auth Switcher ===================== -->
 <div class="auth-switcher" id="authSwitcher">
-  <div class="upgrade-link" onclick="startCheckout('dub')">
-    <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-    <span style="color:#422006 !important;">👑 ترقية الحساب Pro</span>
-  </div>
-  <button class="auth-btn" id="authToggleBtn" onclick="toggleAuthDropdown()">
-    <svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
-    <span id="authBtnLabel">تسجيل الدخول</span>
-    <svg viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
-  </button>
-
-  <div class="auth-dropdown" id="authDropdown">
-    <div id="userPanel" style="display:none">
-      <div class="user-panel">
-        <div class="user-info">
-          <div class="user-avatar-lg" id="userAvatarLg">?</div>
-          <div class="user-details">
-            <div class="user-email" id="userEmailDisplay">—</div>
-            <div class="user-plan" id="userPlanBadge">خطة مجانية</div>
-          </div>
-        </div>
-        <div class="usage-title">📊 الاستخدام المجاني المتبقي</div>
-        <div class="usage-item">
-          <div class="usage-row"><span class="usage-label">✏️ نطق النص</span><span class="usage-count" id="uc-tts">6/6</span></div>
-          <div class="usage-bar-bg"><div class="usage-bar-fill tts" id="ub-tts" style="width:100%"></div></div>
-        </div>
-        <div class="usage-item">
-          <div class="usage-row"><span class="usage-label">🎬 الدبلجة</span><span class="usage-count" id="uc-dub">⏱️ 30 ث مجانية</span></div>
-          <div class="usage-bar-bg"><div class="usage-bar-fill dub" id="ub-dub" style="width:100%"></div></div>
-        </div>
-        <div class="usage-item">
-          <div class="usage-row"><span class="usage-label">🌐 مترجم SRT</span><span class="usage-count" id="uc-srt">6/6</span></div>
-          <div class="usage-bar-bg"><div class="usage-bar-fill srt" id="ub-srt" style="width:100%"></div></div>
-        </div>
-        <button class="user-logout" onclick="logoutUser()">🚪 تسجيل الخروج</button>
-      </div>
+    <div class="upgrade-link" onclick="startCheckout('dub')">
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <span style="color:#422006 !important;">👑 ترقية الحساب Pro</span>
     </div>
 
-    <div id="authForms">
-      <div class="auth-tabs">
-        <button class="auth-tab on" id="tab-login" onclick="switchAuthTab('login')" data-i18n="login">تسجيل الدخول</button>
-        <button class="auth-tab" id="tab-register" onclick="switchAuthTab('register')" data-i18n="register">إنشاء حساب</button>
-      </div>
+    <button class="auth-btn" id="authToggleBtn" onclick="toggleAuthDropdown()">
+        <svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+        <span id="authBtnLabel">تسجيل الدخول</span>
+        <svg viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+    </button>
 
-      <div class="auth-form" id="form-login">
-        <div class="auth-field"><label data-i18n="email">البريد الإلكتروني</label><input type="email" id="login-email" placeholder="you@example.com" autocomplete="email" data-i18n-placeholder="email"></div>
-        <div class="auth-field"><label data-i18n="password">كلمة المرور</label><input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password" data-i18n-placeholder="password"></div>
-        <button class="auth-submit" id="loginBtn" onclick="doLogin()"><div class="btn-spinner"></div><span class="btn-text" data-i18n="submitLogin">🔐 دخول</span></button>
-        <div class="auth-msg" id="login-msg"></div>
-      </div>
+    <div class="auth-dropdown" id="authDropdown">
+        <!-- ---------  لوحة المستخدم (بعد الدخول) --------- -->
+        <div id="userPanel" style="display:none">
+            <div class="user-panel">
+                <div class="user-info">
+                    <div class="user-avatar-lg" id="userAvatarLg">?</div>
+                    <div class="user-details">
+                        <div class="user-email" id="userEmailDisplay">—</div>
+                        <div class="user-plan" id="userPlanBadge">خطة مجانية</div>
+                    </div>
+                </div>
 
-      <div class="auth-form" id="form-register" style="display:none">
-        <div class="auth-field"><label data-i18n="email">البريد الإلكتروني (Gmail فقط ✉️)</label><input type="email" id="reg-email" placeholder="you@gmail.com" autocomplete="email" data-i18n-placeholder="email"></div>
-        <div class="auth-field"><label data-i18n="password">كلمة المرور</label><input type="password" id="reg-pass" placeholder="8 أحرف على الأقل" autocomplete="new-password" data-i18n-placeholder="password"></div>
-        <div class="auth-field"><label data-i18n="confirmPass">تأكيد كلمة المرور</label><input type="password" id="reg-pass2" placeholder="••••••••" autocomplete="new-password" data-i18n-placeholder="confirmPass"></div>
-        <button class="auth-submit" id="registerBtn" onclick="doRegister()"><div class="btn-spinner"></div><span class="btn-text" data-i18n="submitRegister">🚀 إنشاء حساب مجاني</span></button>
-        <div class="auth-msg" id="register-msg"></div>
-      </div>
+                <div class="usage-title">📊 الاستخدام المجاني المتبقي</div>
+
+                <div class="usage-item">
+                    <div class="usage-row"><span class="usage-label">✏️ نطق النص</span>
+                        <span class="usage-count" id="uc-tts">6/6</span></div>
+                    <div class="usage-bar-bg"><div class="usage-bar-fill tts" id="ub-tts" style="width:100%"></div></div>
+                </div>
+
+                <div class="usage-item">
+                    <div class="usage-row"><span class="usage-label">🎬 الدبلجة</span>
+                        <span class="usage-count" id="uc-dub">⏱️ 30 ث مجانية</span></div>
+                    <div class="usage-bar-bg"><div class="usage-bar-fill dub" id="ub-dub" style="width:100%"></div></div>
+                </div>
+
+                <div class="usage-item">
+                    <div class="usage-row"><span class="usage-label">🌐 مترجم SRT</span>
+                        <span class="usage-count" id="uc-srt">6/6</span></div>
+                    <div class="usage-bar-bg"><div class="usage-bar-fill srt" id="ub-srt" style="width:100%"></div></div>
+                </div>
+
+                <button class="user-logout" onclick="logoutUser()">🚪 تسجيل الخروج</button>
+            </div>
+        </div>
+
+        <!-- ---------  نماذج الدخول/التسجيل --------- -->
+        <div id="authForms">
+            <div class="auth-tabs">
+                <button class="auth-tab on" id="tab-login" onclick="switchAuthTab('login')" data-i18n="login">تسجيل الدخول</button>
+                <button class="auth-tab" id="tab-register" onclick="switchAuthTab('register')" data-i18n="register">إنشاء حساب</button>
+            </div>
+
+            <div class="auth-form" id="form-login">
+                <div class="auth-field"><label data-i18n="email">البريد الإلكتروني</label>
+                    <input type="email" id="login-email" placeholder="you@example.com" autocomplete="email" data-i18n-placeholder="email"></div>
+                <div class="auth-field"><label data-i18n="password">كلمة المرور</label>
+                    <input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password" data-i18n-placeholder="password"></div>
+                <button class="auth-submit" id="loginBtn" onclick="doLogin()">
+                    <div class="btn-spinner"></div><span class="btn-text" data-i18n="submitLogin">🔐 دخول</span>
+                </button>
+                <div class="auth-msg" id="login-msg"></div>
+            </div>
+
+            <div class="auth-form" id="form-register" style="display:none">
+                <div class="auth-field"><label data-i18n="email">البريد الإلكتروني (Gmail فقط ✉️)</label>
+                    <input type="email" id="reg-email" placeholder="you@gmail.com" autocomplete="email" data-i18n-placeholder="email"></div>
+                <div class="auth-field"><label data-i18n="password">كلمة المرور</label>
+                    <input type="password" id="reg-pass" placeholder="8 أحرف على الأقل" autocomplete="new-password" data-i18n-placeholder="password"></div>
+                <div class="auth-field"><label data-i18n="confirmPass">تأكيد كلمة المرور</label>
+                    <input type="password" id="reg-pass2" placeholder="••••••••" autocomplete="new-password" data-i18n-placeholder="confirmPass"></div>
+                <button class="auth-submit" id="registerBtn" onclick="doRegister()">
+                    <div class="btn-spinner"></div><span class="btn-text" data-i18n="submitRegister">🚀 إنشاء حساب مجاني</span>
+                </button>
+                <div class="auth-msg" id="register-msg"></div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
-<!-- =====================  Header / Logo  ===================== -->
+<!-- =====================  Header (Logo)  ===================== -->
 <header>
-  <div class="logo-container">
-    <div class="logo-img"><img src="logo.png" alt="sl-Dubbing Logo"></div>
-    <div>
-      <h1>sl-Dubbing</h1>
-      <p class="subtitle"><span style="background:linear-gradient(135deg,#60a5fa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700">&amp; Translation</span> — دبلجة وترجمة احترافية</p>
+    <div class="logo-container">
+        <div class="logo-img"><img src="logo.png" alt="sl-Dubbing Logo"></div>
+        <div>
+            <h1>sl-Dubbing</h1>
+            <p class="subtitle"><span style="background:linear-gradient(135deg,#60a5fa,#34d399);
+                -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+                font-weight:700">&amp; Translation</span> — دبلجة وترجمة احترافية</p>
+        </div>
     </div>
-  </div>
 </header>
 
 <div class="adsense-container">
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-691108357486678" data-ad-slot="YOUR_AD_SLOT_1" data-ad-format="auto" data-full-width-responsive="true"></ins>
-  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    <ins class="adsbygoogle" style="display:block"
+        data-ad-client="ca-pub-691108357486678"
+        data-ad-slot="YOUR_AD_SLOT_1"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 </div>
 
 <!-- =====================  Store / Pricing  ===================== -->
 <div class="payment-section">
-  <div class="payment-section-title">
-    <h2 data-i18n="storeTitle">🛒 المتجر — ترقية الحساب</h2>
-    <p data-i18n="storeDesc">ادفع مرة واحدة واستمتع مدى الحياة · مدعوم بـ Lemon Squeezy</p>
-  </div>
-  <div class="payment-grid">
-    <div class="payment-card tts">
-      <span class="payment-badge tts" data-i18n="usageTTS">✏️ نطق النص</span>
-      <span class="payment-icon">🎙️</span>
-      <div class="payment-title" data-i18n="buyTTS">تفعيل النطق مدى الحياة</div>
-      <div class="payment-desc" data-i18n="ttsDesc">نطق نصوص غير محدودة بأصوات متعددة اللغات دون قيود</div>
-      <ul class="payment-features">
-        <li data-i18n="ttsFeat1">أصوات متعددة اللغات (13+ لغة)</li>
-        <li data-i18n="ttsFeat2">تحكم في السرعة والطبقة والصوت</li>
-        <li data-i18n="ttsFeat3">فلاتر صوتية متقدمة</li>
-        <li data-i18n="ttsFeat4">دفعة واحدة · بدون اشتراك</li>
-      </ul>
-      <div class="price-display"><span class="price-amount tts">$10</span><span class="price-label" data-i18n="priceLabel">مدى الحياة</span></div>
-      <button class="buy-btn tts" id="btn-tts" onclick="startCheckout('tts')"><span class="btn-text" data-i18n="buyBtn">💳 شراء الآن</span></button>
-      <div class="payment-note" data-i18n="securePay">🔒 دفع آمن عبر Lemon Squeezy</div>
+    <div class="payment-section-title">
+        <h2 data-i18n="storeTitle">🛒 المتجر — ترقية الحساب</h2>
+        <p data-i18n="storeDesc">ادفع مرة واحدة واستمتع مدى الحياة · مدعوم بـ Lemon Squeezy</p>
     </div>
+    <div class="payment-grid">
+        <!-- ----- TTS ----- -->
+        <div class="payment-card tts">
+            <span class="payment-badge tts" data-i18n="usageTTS">✏️ نطق النص</span>
+            <span class="payment-icon">🎙️</span>
+            <div class="payment-title" data-i18n="buyTTS">تفعيل النطق مدى الحياة</div>
+            <div class="payment-desc" data-i18n="ttsDesc">نطق نصوص غير محدودة بأصوات متعددة اللغات دون قيود</div>
+            <ul class="payment-features">
+                <li data-i18n="ttsFeat1">أصوات متعددة اللغات (13+ لغة)</li>
+                <li data-i18n="ttsFeat2">تحكم في السرعة والطبقة والصوت</li>
+                <li data-i18n="ttsFeat3">فلاتر صوتية متقدمة</li>
+                <li data-i18n="ttsFeat4">دفعة واحدة · بدون اشتراك</li>
+            </ul>
+            <div class="price-display"><span class="price-amount tts">$10</span><span class="price-label" data-i18n="priceLabel">مدى الحياة</span></div>
+            <button class="buy-btn tts" id="btn-tts" onclick="startCheckout('tts')"><span class="btn-text" data-i18n="buyBtn">💳 شراء الآن</span></button>
+            <div class="payment-note" data-i18n="securePay">🔒 دفع آمن عبر Lemon Squeezy</div>
+        </div>
 
-    <div class="payment-card dub">
-      <span class="payment-badge dub" data-i18n="usageDub">🎬 دبلجة</span>
-      <span class="payment-icon">🚀</span>
-      <div class="payment-title" data-i18n="buyDub">فتح الدبلجة مدى الحياة</div>
-      <div class="payment-desc" data-i18n="dubDesc">دبلجة SRT كاملة بلا حدود — التجربة المجانية: أول 30 ثانية فقط</div>
-      <ul class="payment-features">
-        <li data-i18n="dubFeat1">دبلجة SRT بالكامل مع التزامن</li>
-        <li data-i18n="dubFeat2">تصدير WAV لـ YouTube Dubbing</li>
-        <li data-i18n="dubFeat3">معالجة سحابية صامتة</li>
-        <li data-i18n="dubFeat4">دفعة واحدة · بدون اشتراك</li>
-      </ul>
-      <div class="price-display"><span class="price-amount dub">$50</span><span class="price-label" data-i18n="priceLabel">مدى الحياة</span></div>
-      <button class="buy-btn dub" id="btn-dub" onclick="startCheckout('dub')"><span class="btn-text" data-i18n="buyBtn">💳 شراء الآن</span></button>
-      <div class="payment-note" data-i18n="securePay">🔒 دفع آمن عبر Lemon Squeezy</div>
-    </div>
+        <!-- ----- DUB ----- -->
+        <div class="payment-card dub">
+            <span class="payment-badge dub" data-i18n="usageDub">🎬 دبلجة</span>
+            <span class="payment-icon">🚀</span>
+            <div class="payment-title" data-i18n="buyDub">فتح الدبلجة مدى الحياة</div>
+            <div class="payment-desc" data-i18n="dubDesc">دبلجة SRT كاملة بلا حدود — التجربة المجانية: أول 30 ثانية فقط</div>
+            <ul class="payment-features">
+                <li data-i18n="dubFeat1">دبلجة SRT بالكامل مع التزامن</li>
+                <li data-i18n="dubFeat2">تصدير WAV لـ YouTube Dubbing</li>
+                <li data-i18n="dubFeat3">معالجة سحابية صامتة</li>
+                <li data-i18n="dubFeat4">دفعة واحدة · بدون اشتراك</li>
+            </ul>
+            <div class="price-display"><span class="price-amount dub">$50</span><span class="price-label" data-i18n="priceLabel">مدى الحياة</span></div>
+            <button class="buy-btn dub" id="btn-dub" onclick="startCheckout('dub')"><span class="btn-text" data-i18n="buyBtn">💳 شراء الآن</span></button>
+            <div class="payment-note" data-i18n="securePay">🔒 دفع آمن عبر Lemon Squeezy</div>
+        </div>
 
-    <div class="payment-card srt">
-      <span class="payment-badge srt" data-i18n="usageSRT">🌐 مترجم</span>
-      <span class="payment-icon">🌍</span>
-      <div class="payment-title" data-i18n="buySRT">شراء المترجم مدى الحياة</div>
-      <div class="payment-desc" data-i18n="srtDesc">ترجمة ملفات SRT إلى أكثر من 13 لغة بنقرة واحدة</div>
-      <ul class="payment-features">
-        <li data-i18n="srtFeat1">ترجمة لـ 13+ لغة عالمية</li>
-        <li data-i18n="srtFeat2">تنزيل SRT مترجم جاهز</li>
-        <li data-i18n="srtFeat3">تنظيف النص التلقائي</li>
-        <li data-i18n="srtFeat4">دفعة واحدة · بدون اشتراك</li>
-      </ul>
-      <div class="price-display"><span class="price-amount srt">$10</span><span class="price-label" data-i18n="priceLabel">مدى الحياة</span></div>
-      <button class="buy-btn srt" id="btn-srt" onclick="startCheckout('srt')"><span class="btn-text" data-i18n="buyBtn">💳 شراء الآن</span></button>
-      <div class="payment-note" data-i18n="securePay">🔒 دفع آمن عبر Lemon Squeezy</div>
+        <!-- ----- SRT ----- -->
+        <div class="payment-card srt">
+            <span class="payment-badge srt" data-i18n="usageSRT">🌐 مترجم</span>
+            <span class="payment-icon">🌍</span>
+            <div class="payment-title" data-i18n="buySRT">شراء المترجم مدى الحياة</div>
+            <div class="payment-desc" data-i18n="srtDesc">ترجمة ملفات SRT إلى أكثر من 13 لغة بنقرة واحدة</div>
+            <ul class="payment-features">
+                <li data-i18n="srtFeat1">ترجمة لـ 13+ لغة عالمية</li>
+                <li data-i18n="srtFeat2">تنزيل SRT مترجم جاهز</li>
+                <li data-i18n="srtFeat3">تنظيف النص التلقائي</li>
+                <li data-i18n="srtFeat4">دفعة واحدة · بدون اشتراك</li>
+            </ul>
+            <div class="price-display"><span class="price-amount srt">$10</span><span class="price-label" data-i18n="priceLabel">مدى الحياة</span></div>
+            <button class="buy-btn srt" id="btn-srt" onclick="startCheckout('srt')"><span class="btn-text" data-i18n="buyBtn">💳 شراء الآن</span></button>
+            <div class="payment-note" data-i18n="securePay">🔒 دفع آمن عبر Lemon Squeezy</div>
+        </div>
     </div>
-  </div>
 </div>
 
 <div class="adsense-container">
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-691108357486678" data-ad-slot="YOUR_AD_SLOT_2" data-ad-format="auto" data-full-width-responsive="true"></ins>
-  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    <ins class="adsbygoogle" style="display:block"
+        data-ad-client="ca-pub-691108357486678"
+        data-ad-slot="YOUR_AD_SLOT_2"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 </div>
 
-<!-- =====================  Feature Zones (TTS / DUB / SRT)  ===================== -->
+<!-- =====================  Feature Zones (TTS / DUB / SRT) ===================== -->
 <div class="features-wrapper">
-  <!-- ----------  TTS Zone  ---------- -->
-  <div class="feature-zone" id="zone-tts">
-    <div class="lock-overlay tts-lock" id="lock-tts">
-      <div class="lock-icon" id="lock-icon-tts">🔒</div>
-      <div class="lock-title" id="lock-title-tts" data-i18n="lockTTS">نطق النص — مقفل</div>
-      <div class="lock-free-badge" id="lock-free-tts" style="display:none">🎁 <span id="lock-free-count-tts">6</span> استخدامات مجانية</div>
-      <div class="lock-uses-left" id="lock-uses-tts" style="display:none">متبقي <strong id="lock-left-tts">0</strong> من 6 استخدامات</div>
-      <div class="lock-sub" id="lock-sub-tts" data-i18n="lockSubGuest">سجّل دخولك للحصول على 6 استخدامات مجانية</div>
-      <button class="lock-buy-hint tts-btn" id="lock-action-tts" onclick="lockAction('tts')" data-i18n="lockActionGuest">👤 سجّل للاستخدام المجاني</button>
-    </div>
 
-    <div class="card">
-      <div class="card-header"><div class="card-icon">✏️</div><span class="card-title" data-i18n="ttsTitle">نطق النص</span></div>
-      <div class="lbl-row"><span class="lbl" style="margin-bottom:0" data-i18n="selectLang">اختر اللغة</span></div>
-      <div class="lg" id="g1" style="margin-bottom:10px"></div>
-
-      <div class="lbl-row"><span class="lbl" style="margin-bottom:0" data-i18n="voice">الصوت</span></div>
-      <select id="vs" style="width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:rgba(0,0,0,.3);color:#e0e0ff;font-size:.75rem;margin-bottom:10px"></select>
-
-      <div class="tw"><textarea id="ti" placeholder="اكتب النص..." data-i18n-placeholder="typeText" style="min-height:80px;font-size:.8rem"></textarea><span class="cc" id="cc">0</span></div>
-
-      <div class="ctrls" style="margin-bottom:10px">
-        <div class="cg"><label style="font-size:.55rem" data-i18n="speed">السرعة <span class="rv" id="rv1">1.0x</span></label><input type="range" id="rr1" min=".5" max="2" step=".1" value="1"></div>
-        <div class="cg"><label style="font-size:.55rem" data-i18n="pitch">الطبقة <span class="rv" id="pv1">1.0</span></label><input type="range" id="pr1" min=".5" max="2" step=".1" value="1"></div>
-        <div class="cg"><label style="font-size:.55rem" data-i18n="volume">الصوت <span class="rv" id="vv1">100%</span></label><input type="range" id="vr1" min="0" max="1" step=".05" value="1"></div>
-      </div>
-
-      <div class="wv" id="wv1" style="height:20px;margin:8px 0"><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div></div>
-
-      <div class="br">
-        <button class="btn bs" id="sb" onclick="guardedAction('tts', tSpeak)" style="padding:8px 12px;font-size:.75rem"><span id="si">▶</span><span id="st2" data-i18n="speak">نطق</span></button>
-        <button class="btn bsm" onclick="tPause()" style="padding:8px 10px;font-size:.75rem" data-i18n="pause">⏸</button>
-        <button class="btn bsm" onclick="clrTxt()" style="padding:8px 10px;font-size:.75rem" data-i18n="clear">🗑</button>
-      </div>
-
-      <div class="st i" id="s1" style="margin-top:8px;font-size:.7rem" data-i18n="statusIdle">👋 اكتب نصاً واضغط نطق</div>
-    </div>
-
-    <div class="filters-card" id="filtersCard" style="display:none">
-      <div class="fc-title"><span>🎛️</span> <span data-i18n="filtersTitle">الفلاتر الصوتية</span></div>
-
-      <div class="lbl-row"><span class="lbl" style="margin-bottom:0" data-i18n="speed">السرعة</span><span class="rv" id="speedVal">1.0x</span></div>
-      <input type="range" id="filterSpeed" min="0.5" max="2" step="0.1" value="1" style="width:100%;margin-bottom:10px" oninput="updateFilters()">
-
-      <div class="lbl-row"><span class="lbl" style="margin-bottom:0" data-i18n="pitch">الطبقة</span><span class="rv" id="pitchVal">1.0</span></div>
-      <input type="range" id="filterPitch" min="0.5" max="2" step="0.1" value="1" style="width:100%;margin-bottom:10px" oninput="updateFilters()">
-
-      <div class="lbl-row"><span class="lbl" style="margin-bottom:0">Bass</span><span class="rv" id="bassVal">0dB</span></div>
-      <input type="range" id="eqBass" min="-20" max="20" step="1" value="0" style="width:100%;margin-bottom:10px" oninput="updateFilters()">
-
-      <div class="lbl-row"><span class="lbl" style="margin-bottom:0">Mid</span><span class="rv" id="midVal">0dB</span></div>
-      <input type="range" id="eqMid" min="-20" max="20" step="1" value="0" style="width:100%;margin-bottom:10px" oninput="updateFilters()">
-
-      <div class="lbl-row"><span class="lbl" style="margin-bottom:0">Treble</span><span class="rv" id="trebleVal">0dB</span></div>
-      <input type="range" id="eqTreble" min="-20" max="20" step="1" value="0" style="width:100%;margin-bottom:10px" oninput="updateFilters()">
-
-      <button class="btn bsm" style="width:100%;justify-content:center;margin-top:8px;font-size:.7rem;padding:6px" onclick="resetFilters()" data-i18n="resetFilters">🔄 إعادة تعيين</button>
-
-      <div class="sg">
-        <button class="sbtn" onclick="applyPreset('male')" data-i18n="presetMale">👨 رجالي</button>
-        <button class="sbtn" onclick="applyPreset('radio')" data-i18n="presetRadio">📻 راديو</button>
-        <button class="sbtn" onclick="applyPreset('warm')" data-i18n="presetWarm">🌟 دافئ</button>
-        <button class="sbtn" onclick="applyPreset('fast')" data-i18n="presetFast">⚡ سريع</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ----------  DUB Zone  ---------- -->
-  <div class="feature-zone" id="zone-dub">
-    <div class="lock-overlay dub-lock" id="lock-dub">
-      <div class="lock-icon" id="lock-icon-dub">🔒</div>
-      <div class="lock-title" id="lock-title-dub" data-i18n="lockDub">الدبلجة — مقفلة</div>
-      <div class="lock-free-badge" id="lock-free-dub" style="display:none">🎁 تجربة مجانية: أول 30 ثانية</div>
-      <div class="lock-uses-left" id="lock-uses-dub" style="display:none">متبقي <strong id="lock-left-dub">0</strong> من 6 استخدامات</div>
-      <div class="lock-sub" id="lock-sub-dub" data-i18n="lockSubDubGuest">سجّل للحصول على تجربة مجانية (30 ث) أو اشترِ للملف الكامل</div>
-      <button class="lock-buy-hint dub-btn" id="lock-action-dub" onclick="lockAction('dub')" data-i18n="lockActionGuest">👤 سجّل للاستخدام المجاني</button>
-    </div>
-
-    <div class="card">
-      <div class="card-header"><div class="card-icon">🎬</div><span class="card-title" data-i18n="dubTitle">لغة الدبلجة</span></div>
-      <div class="lg" id="g2"></div>
-      <div class="ctrls" style="margin-bottom:0">
-        <div class="cg"><label data-i18n="speed">السرعة <span class="rv" id="rv2">1.0x</span></label><input type="range" id="rr2" min=".5" max="1" step=".05" value="1"></div>
-        <div class="cg"><label data-i18n="volume">الصوت <span class="rv" id="vv2">1.0</span></label><input type="range" id="vr2" min=".2" max="2" step=".1" value="1"></div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-header"><div class="card-icon">📂</div><span class="card-title" data-i18n="srtTitle">ملف SRT</span></div>
-      <div class="ua"><input type="file" accept=".srt,.txt" onchange="ldSRT(event)" aria-label="Upload SRT file"><div class="ui">📁</div><div class="ut" data-i18n="dragDrop">اسحب أو اضغط</div><div class="us" data-i18n="srtFormat">.srt أو .txt</div></div>
-      <span class="lbl" data-i18n="pasteLabel">أو الصق المحتوى</span>
-      <textarea id="srtP" placeholder="1&#10;00:00:00,000 --> 00:00:02,000&#10;النص..." data-i18n-placeholder="typeText" style="min-height:60px;font-size:.75rem;font-family:monospace"></textarea>
-      <button class="btn bsm" style="margin-top:6px;font-size:.7rem;width:100%;justify-content:center" onclick="prsPaste()" data-i18n="parseBtn">📥 تحليل الملف</button>
-
-      <div id="srtInfo" style="display:none;margin-top:12px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-          <span style="color:#34d399;font-size:.75rem;font-weight:700">✅ <span id="sCnt">0</span> <span data-i18n="sentences">جملة</span> · <span id="sDur">0:00:00</span></span>
-          <button class="btn bsm" style="padding:4px 8px;font-size:.65rem" onclick="cpySRT()" data-i18n="copySRT">📋</button>
+    <!-- --------------------  TTS -------------------- -->
+    <div class="feature-zone" id="zone-tts">
+        <!-- lock overlay -->
+        <div class="lock-overlay tts-lock" id="lock-tts">
+            <div class="lock-icon" id="lock-icon-tts">🔒</div>
+            <div class="lock-title" id="lock-title-tts" data-i18n="lockTTS">نطق النص — مقفل</div>
+            <div class="lock-free-badge" id="lock-free-tts" style="display:none">🎁 <span id="lock-free-count-tts">6</span> استخدامات مجانية</div>
+            <div class="lock-uses-left" id="lock-uses-tts" style="display:none">متبقي <strong id="lock-left-tts">0</strong> من 6 استخدامات</div>
+            <div class="lock-sub" id="lock-sub-tts" data-i18n="lockSubGuest">سجّل دخولك للحصول على 6 استخدامات مجانية</div>
+            <button class="lock-buy-hint tts-btn" id="lock-action-tts"
+                    onclick="lockAction('tts')" data-i18n="lockActionGuest">👤 سجّل للاستخدام المجاني</button>
         </div>
-        <div class="sl" id="srtL"></div>
-      </div>
-    </div>
 
-    <div class="card" id="dubCard" style="display:none">
-      <div class="card-header"><div class="card-icon">⚡</div><span class="card-title" data-i18n="genTitle">التوليد</span></div>
-      <div class="ib">
-        <div class="ir" data-i18n-html="true" data-i18n="genDesc1">🔇 معالجة <strong>صامتة</strong> عبر سيرفر سحابي</div>
-        <div class="ir" data-i18n="genDesc2">⏱️ تزامن دقيق مع توقيتات SRT</div>
-        <div class="ir" data-i18n="genDesc3">📤 ملف WAV لـ YouTube Dubbing</div>
-      </div>
-      <button class="gb" id="genBtn" onclick="guardedAction('dub', stDub)"><span class="gi">🎬</span><span class="gl" data-i18n="genBtn">توليد الدبلجة</span><span class="gs" data-i18n="genNote">يتطلب سيرفر Render شغال</span></button>
+        <div class="card">
+            <div class="card-header"><div class="card-icon">✏️</div>
+                <span class="card-title" data-i18n="ttsTitle">نطق النص</span></div>
 
-      <div id="dubP" style="display:none">
-        <div class="ph"><div class="pd"></div><div class="pt" id="phTxt" data-i18n="processing">جارٍ...</div></div>
-        <div class="cb">
-          <div class="cr">
-            <div class="ci"><div class="cl" data-i18n="remaining">المتبقي</div><div class="cv cr1" id="clkR">--:--:--</div></div>
-            <div class="ci"><div class="cl" data-i18n="elapsed">مضى</div><div class="cv cr2" id="clkE">00:00:00</div></div>
-            <div class="ci"><div class="cl" data-i18n="total">المجموع</div><div class="cv cr3" id="clkT">--:--:--</div></div>
-          </div>
-          <div class="wv on" style="height:22px;margin:0"><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div></div>
+            <div class="lbl-row"><span class="lbl" style="margin-bottom:0" data-i18n="selectLang">اختر اللغة</span></div>
+            <div class="lg" id="g1" style="margin-bottom:10px"></div>
+
+            <div class="lbl-row"><span class="lbl" style="margin-bottom:0" data-i18n="voice">الصوت</span></div>
+            <select id="vs" style="width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,.1);
+                    background:rgba(0,0,0,.3);color:#e0e0ff;font-size:.75rem;margin-bottom:10px"></select>
+
+            <div class="tw"><textarea id="ti" placeholder="اكتب النص..." data-i18n-placeholder="typeText"
+                    style="min-height:80px;font-size:.8rem"></textarea><span class="cc" id="cc">0</span></div>
+
+            <div class="ctrls" style="margin-bottom:10px">
+                <div class="cg"><label style="font-size:.55rem" data-i18n="speed">السرعة <span class="rv" id="rv1">1.0x</span></label>
+                    <input type="range" id="rr1" min=".5" max="2" step=".1" value="1"></div>
+                <div class="cg"><label style="font-size:.55rem" data-i18n="pitch">الطبقة <span class="rv" id="pv1">1.0</span></label>
+                    <input type="range" id="pr1" min=".5" max="2" step=".1" value="1"></div>
+                <div class="cg"><label style="font-size:.55rem" data-i18n="volume">الصوت <span class="rv" id="vv1">100%</span></label>
+                    <input type="range" id="vr1" min="0" max="1" step=".05" value="1"></div>
+            </div>
+
+            <div class="wv" id="wv1"><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div>
+                <div class="wb"></div><div class="wb"></div><div class="wb"></div></div>
+
+            <div class="br">
+                <button class="btn bs" id="sb" onclick="guardedAction('tts', tSpeak)" style="padding:8px 12px;font-size:.75rem">
+                    <span id="si">▶</span><span id="st2" data-i18n="speak">نطق</span>
+                </button>
+                <button class="btn bsm" onclick="tPause()" style="padding:8px 10px;font-size:.75rem"
+                        data-i18n="pause">⏸</button>
+                <button class="btn bsm" onclick="clrTxt()" style="padding:8px 10px;font-size:.75rem"
+                        data-i18n="clear">🗑</button>
+            </div>
+
+            <div class="st i" id="s1" style="margin-top:8px;font-size:.7rem"
+                data-i18n="statusIdle">👋 اكتب نصاً واضغط نطق</div>
         </div>
-        <div class="pw"><div class="pb"><div class="pf" id="pFill" style="width:0%"></div></div><div class="pm"><span id="pLbl">0/0</span><span id="pPct">0%</span></div></div>
-        <div class="cs" id="curS" style="background:rgba(167,139,250,.07);border:1px solid rgba(167,139,250,.18);border-radius:8px;padding:8px 12px;font-size:.75rem;line-height:1.5;color:#c4b5fd;text-align:center;min-height:36px;margin-bottom:6px" data-i18n="processing">جارٍ...</div>
-        <div class="sc" id="sntC" style="text-align:center;font-size:.65rem;color:#4b5563;font-family:monospace;margin-bottom:10px"></div>
-        <button class="btn bsm" style="width:100%;justify-content:center" onclick="cnclDub()" data-i18n="cancel">⏹ إلغاء</button>
-      </div>
+    </div>
 
-      <div id="dubRes" style="display:none">
-        <div class="rb">
-          <div class="rt" data-i18n="ready">🎉 جاهز</div>
-          <audio id="dubAu" controls style="width:100%;margin-bottom:10px;border-radius:8px"></audio>
-          <button class="db" onclick="dlRes()" data-i18n="download">⬇️ تنزيل WAV</button>
-          <div class="yh" style="font-size:.65rem;color:#6b7280;text-align:center;margin-top:8px" data-i18n="youtubeTip">📤 YouTube Studio → دبلجة</div>
+    <!-- --------------------  DUB -------------------- -->
+    <div class="feature-zone" id="zone-dub">
+        <div class="lock-overlay dub-lock" id="lock-dub">
+            <div class="lock-icon" id="lock-icon-dub">🔒</div>
+            <div class="lock-title" id="lock-title-dub" data-i18n="lockDub">الدبلجة — مقفلة</div>
+            <div class="lock-free-badge" id="lock-free-dub" style="display:none">🎁 تجربة مجانية: أول 30 ثانية</div>
+            <div class="lock-uses-left" id="lock-uses-dub" style="display:none">متبقي <strong id="lock-left-dub">0</strong> من 6 استخدامات</div>
+            <div class="lock-sub" id="lock-sub-dub" data-i18n="lockSubDubGuest">سجّل للحصول على تجربة مجانية (30 ث) أو اشترِ للملف الكامل</div>
+            <button class="lock-buy-hint dub-btn" id="lock-action-dub"
+                    onclick="lockAction('dub')" data-i18n="lockActionGuest">👤 سجّل للاستخدام المجاني</button>
         </div>
-      </div>
 
-      <div class="st i" id="dubSt" style="margin-top:12px" data-i18n="dubStatus">تأكد سيرفر Render شغال ثم اضغط</div>
-    </div>
-  </div>
-
-  <!-- ----------  SRT Zone  ---------- -->
-  <div class="feature-zone" id="zone-srt">
-    <div class="lock-overlay srt-lock" id="lock-srt">
-      <div class="lock-icon" id="lock-icon-srt">🔒</div>
-      <div class="lock-title" id="lock-title-srt" data-i18n="lockSRT">مترجم SRT — مقفل</div>
-      <div class="lock-free-badge" id="lock-free-srt" style="display:none">🎁 <span id="lock-free-count-srt">6</span> استخدامات مجانية</div>
-      <div class="lock-uses-left" id="lock-uses-srt" style="display:none">متبقي <strong id="lock-left-srt">0</strong> من 6 استخدامات</div>
-      <div class="lock-sub" id="lock-sub-srt" data-i18n="lockSubGuest">سجّل دخولك للحصول على 6 استخدامات مجانية</div>
-      <button class="lock-buy-hint srt-btn" id="lock-action-srt" onclick="lockAction('srt')" data-i18n="lockActionGuest">👤 سجّل للاستخدام المجاني</button>
-    </div>
-
-    <div class="card tp" style="border-top:4px solid #34d399">
-      <div class="card-header"><div class="card-icon" style="background:linear-gradient(135deg,#10b981,#059669)">🌐</div><span class="card-title" data-i18n="srtTransTitle">مترجم SRT</span></div>
-      <div class="lbl" data-i18n="selectTransLang">1. اختر لغة الترجمة</div>
-      <div class="tg" id="transLangs"></div>
-
-      <div class="lbl-row"><span class="lbl" style="margin-bottom:0" data-i18n="sourceText">2. النص المصدر (SRT)</span><button class="btn bsm" style="padding:6px 10px;font-size:.7rem" onclick="pasteSrc()" data-i18n="pasteSrc">📋 لصق</button></div>
-      <textarea id="srcSRT" placeholder="الصق محتوى SRT..." data-i18n-placeholder="typeText" style="min-height:90px;font-family:monospace;font-size:.75rem"></textarea>
-      <button class="btn bs" style="background:linear-gradient(135deg,#10b981,#059669)" onclick="guardedAction('srt', startTrans)" data-i18n="translateBtn">🚀 ترجمة</button>
-
-      <div id="transRes" style="display:none;margin-top:14px">
-        <div class="trs">
-          <div class="trh"><span class="trt" data-i18n="result">✅ النتيجة</span><button class="btn bsm" style="padding:6px 10px;font-size:.7rem" onclick="copyResult()" data-i18n="copyResult">📋 نسخ</button></div>
-          <div class="trc" id="transOut"></div>
-          <button class="db" style="margin-top:10px" onclick="dlTransSRT()" data-i18n="downloadSRT">⬇️ تنزيل SRT</button>
+        <div class="card">
+            <div class="card-header"><div class="card-icon">🎬</div>
+                <span class="card-title" data-i18n="dubTitle">لغة الدبلجة</span></div>
+            <div class="lg" id="g2"></div>
+            <div class="ctrls" style="margin-bottom:0">
+                <div class="cg"><label data-i18n="speed">السرعة <span class="rv" id="rv2">1.0x</span></label>
+                    <input type="range" id="rr2" min=".5" max="1" step=".05" value="1"></div>
+                <div class="cg"><label data-i18n="volume">الصوت <span class="rv" id="vv2">1.0</span></label>
+                    <input type="range" id="vr2" min=".2" max="2" step=".1" value="1"></div>
+            </div>
         </div>
-      </div>
 
-      <div class="st i" id="transSt" style="margin-top:10px" data-i18n="transStatus">جاهز</div>
-    </div>
+        <div class="card">
+            <div class="card-header"><div class="card-icon">📂</div>
+                <span class="card-title" data-i18n="srtTitle">ملف SRT</span></div>
 
-    <div class="card" style="border-top:4px solid #fbbf24">
-      <div class="card-header"><div class="card-icon" style="background:linear-gradient(135deg,#fbbf24,#f59e0b)">🧹</div><span class="card-title" data-i18n="cleanTitle">تنظيف النص من الفراغات</span></div>
-      <div class="lbl-row"><span class="lbl" style="margin-bottom:0" data-i18n="sourceText">الصق نص SRT أو أي نص</span><button class="btn bsm" style="padding:6px 10px;font-size:.7rem" onclick="pasteClean()" data-i18n="pasteClean">📋 لصق</button></div>
-      <textarea id="cleanInput" placeholder="الصق النص هنا..." data-i18n-placeholder="typeText" style="min-height:80px;font-family:monospace;font-size:.75rem;margin-bottom:10px"></textarea>
-      <div class="ctrls" style="margin-bottom:10px">
-        <label class="tbtn" style="font-size:.7rem"><input type="checkbox" id="removeNumbers" style="display:none" checked>📌 <span data-i18n="removeNumbers">حذف الأرقام</span></label>
-        <label class="tbtn" style="font-size:.7rem"><input type="checkbox" id="removeTime" style="display:none" checked>⏱️ <span data-i18n="removeTime">حذف التوقيتات</span></label>
-        <label class="tbtn" style="font-size:.7rem"><input type="checkbox" id="removeEmpty" style="display:none" checked>🗑️ <span data-i18n="removeEmpty">حذف الأسطر الفارغة</span></label>
-      </div>
-      <button class="btn bs" style="background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#000" onclick="cleanText()" data-i18n="cleanBtn">🧹 تنظيف النص</button>
+            <div class="ua">
+                <input type="file" accept=".srt,.txt" onchange="ldSRT(event)" aria-label="Upload SRT file">
+                <div class="ui">📁</div><div class="ut" data-i18n="dragDrop">اسحب أو اضغط</div>
+                <div class="us" data-i18n="srtFormat">.srt أو .txt</div>
+            </div>
 
-      <div id="cleanResult" style="display:none">
-        <div class="clean-box">
-          <div class="clean-title" data-i18n="cleanOutput">✨ النص بعد التنظيف</div>
-          <div class="clean-output" id="cleanOutput"></div>
-          <div class="br">
-            <button class="btn bsm" style="flex:1;justify-content:center" onclick="copyClean()" data-i18n="copyClean">📋 نسخة</button>
-            <button class="btn bsm" style="flex:1;justify-content:center" onclick="dlClean()" data-i18n="download">⬇️ تنزيل</button>
-          </div>
+            <span class="lbl" data-i18n="pasteLabel">أو الصق المحتوى</span>
+            <textarea id="srtP" placeholder="1&#10;00:00:00,000 --> 00:00:02,000&#10;النص..."
+                data-i18n-placeholder="typeText" style="min-height:60px;font-size:.75rem;font-family:monospace"></textarea>
+
+            <button class="btn bsm" style="margin-top:6px;font-size:.7rem;width:100%;justify-content:center"
+                    onclick="prsPaste()" data-i18n="parseBtn">📥 تحليل الملف</button>
+
+            <div id="srtInfo" style="display:none;margin-top:12px">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                    <span style="color:#34d399;font-size:.75rem;font-weight:700">
+                        ✅ <span id="sCnt">0</span> <span data-i18n="sentences">جملة</span> ·
+                        <span id="sDur">0:00:00</span>
+                    </span>
+                    <button class="btn bsm" style="padding:4px 8px;font-size:.65rem"
+                            onclick="cpySRT()" data-i18n="copySRT">📋</button>
+                </div>
+                <div class="sl" id="srtL"></div>
+            </div>
         </div>
-      </div>
 
-      <div class="st i" id="cleanSt" style="margin-top:10px" data-i18n="cleanStatus">الصق نصاً واضغط تنظيف</div>
+        <div class="card" id="dubCard" style="display:none">
+            <div class="card-header"><div class="card-icon">⚡</div>
+                <span class="card-title" data-i18n="genTitle">التوليد</span></div>
+
+            <div class="ib">
+                <div class="ir" data-i18n-html="true"
+                     data-i18n="genDesc1">🔇 معالجة <strong>صامتة</strong> عبر سيرفر سحابي</div>
+                <div class="ir" data-i18n="genDesc2">⏱️ تزامن دقيق مع توقيتات SRT</div>
+                <div class="ir" data-i18n="genDesc3">📤 ملف WAV لـ YouTube Dubbing</div>
+            </div>
+
+            <button class="gb" id="genBtn" onclick="guardedAction('dub', stDub)">
+                <span class="gi">🎬</span><span class="gl" data-i18n="genBtn">توليد الدبلجة</span>
+                <span class="gs" data-i18n="genNote">يتطلب سيرفر Render شغال</span>
+            </button>
+
+            <div id="dubP" style="display:none">
+                <div class="ph"><div class="pd"></div><div class="pt" id="phTxt" data-i18n="processing">جارٍ...</div></div>
+                <div class="cb">
+                    <div class="cr">
+                        <div class="ci"><div class="cl" data-i18n="remaining">المتبقي</div>
+                            <div class="cv cr1" id="clkR">--:--:--</div></div>
+                        <div class="ci"><div class="cl" data-i18n="elapsed">مضى</div>
+                            <div class="cv cr2" id="clkE">00:00:00</div></div>
+                        <div class="ci"><div class="cl" data-i18n="total">المجموع</div>
+                            <div class="cv cr3" id="clkT">--:--:--</div></div>
+                    </div>
+                    <div class="wv on"><div class="wb"></div><div class="wb"></div><div class="wb"></div>
+                        <div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div></div>
+                </div>
+
+                <div class="pw"><div class="pb"><div class="pf" id="pFill" style="width:0%"></div></div>
+                    <div class="pm"><span id="pLbl">0/0</span><span id="pPct">0%</span></div></div>
+
+                <div class="cs" id="curS" style="background:rgba(167,139,250,.07);
+                    border:1px solid rgba(167,139,250,.18);border-radius:8px;
+                    padding:8px 12px;font-size:.75rem;line-height:1.5;color:#c4b5fd;
+                    text-align:center;min-height:36px;margin-bottom:6px"
+                    data-i18n="processing">جارٍ...</div>
+
+                <div class="sc" id="sntC" style="text-align:center;font-size:.65rem;color:#4b5563;
+                    font-family:monospace;margin-bottom:10px"></div>
+
+                <button class="btn bsm" style="width:100%;justify-content:center"
+                        onclick="cnclDub()" data-i18n="cancel">⏹ إلغاء</button>
+            </div>
+
+            <div id="dubRes" style="display:none">
+                <div class="rb">
+                    <div class="rt" data-i18n="ready">🎉 جاهز</div>
+                    <audio id="dubAu" controls style="width:100%;margin-bottom:10px;border-radius:8px"></audio>
+                    <button class="db" onclick="dlRes()" data-i18n="download">⬇️ تنزيل WAV</button>
+                    <div class="yh" style="font-size:.65rem;color:#6b7280;text-align:center;margin-top:8px"
+                         data-i18n="youtubeTip">📤 YouTube Studio → دبلجة</div>
+                </div>
+            </div>
+
+            <div class="st i" id="dubSt" style="margin-top:12px"
+                 data-i18n="dubStatus">تأكد سيرفر Render شغال ثم اضغط</div>
+        </div>
     </div>
-  </div>
+
+    <!-- --------------------  SRT -------------------- -->
+    <div class="feature-zone" id="zone-srt">
+        <div class="lock-overlay srt-lock" id="lock-srt">
+            <div class="lock-icon" id="lock-icon-srt">🔒</div>
+            <div class="lock-title" id="lock-title-srt" data-i18n="lockSRT">مترجم SRT — مقفل</div>
+            <div class="lock-free-badge" id="lock-free-srt" style="display:none">
+                🎁 <span id="lock-free-count-srt">6</span> استخدامات مجانية
+            </div>
+            <div class="lock-uses-left" id="lock-uses-srt" style="display:none">
+                متبقي <strong id="lock-left-srt">0</strong> من 6 استخدامات
+            </div>
+            <div class="lock-sub" id="lock-sub-srt" data-i18n="lockSubGuest">
+                سجّل دخولك للحصول على 6 استخدامات مجانية
+            </div>
+            <button class="lock-buy-hint srt-btn" id="lock-action-srt"
+                    onclick="lockAction('srt')" data-i18n="lockActionGuest">👤 سجّل للاستخدام المجاني</button>
+        </div>
+
+        <div class="card tp" style="border-top:4px solid #34d399">
+            <div class="card-header"><div class="card-icon"
+                style="background:linear-gradient(135deg,#10b981,#059669)">🌐</div>
+                <span class="card-title" data-i18n="srtTransTitle">مترجم SRT</span></div>
+
+            <div class="lbl" data-i18n="selectTransLang">1. اختر لغة الترجمة</div>
+            <div class="tg" id="transLangs"></div>
+
+            <div class="lbl-row"><span class="lbl" style="margin-bottom:0"
+                data-i18n="sourceText">2. النص المصدر (SRT)</span>
+                <button class="btn bsm" style="padding:6px 10px;font-size:.7rem"
+                        onclick="pasteSrc()" data-i18n="pasteSrc">📋 لصق</button></div>
+
+            <textarea id="srcSRT" placeholder="الصق محتوى SRT..."
+                data-i18n-placeholder="typeText"
+                style="min-height:90px;font-family:monospace;font-size:.75rem"></textarea>
+
+            <button class="btn bs" style="background:linear-gradient(135deg,#10b981,#059669)"
+                    onclick="guardedAction('srt', startTrans)"
+                    data-i18n="translateBtn">🚀 ترجمة</button>
+
+            <div id="transRes" style="display:none;margin-top:14px">
+                <div class="trs">
+                    <div class="trh"><span class="trt" data-i18n="result">✅ النتيجة</span>
+                        <button class="btn bsm" style="padding:6px 10px;font-size:.7rem"
+                                onclick="copyResult()" data-i18n="copyResult">📋 نسخ</button></div>
+                    <div class="trc" id="transOut"></div>
+                    <button class="db" style="margin-top:10px"
+                            onclick="dlTransSRT()" data-i18n="downloadSRT">⬇️ تنزيل SRT</button>
+                </div>
+            </div>
+
+            <div class="st i" id="transSt" style="margin-top:10px"
+                 data-i18n="transStatus">جاهز</div>
+        </div>
+
+        <div class="card" style="border-top:4px solid #fbbf24">
+            <div class="card-header"><div class="card-icon"
+                style="background:linear-gradient(135deg,#fbbf24,#f59e0b)">🧹</div>
+                <span class="card-title" data-i18n="cleanTitle">تنظيف النص من الفراغات</span></div>
+
+            <div class="lbl-row"><span class="lbl" style="margin-bottom:0"
+                data-i18n="sourceText">الصق نص SRT أو أي نص</span>
+                <button class="btn bsm" style="padding:6px 10px;font-size:.7rem"
+                        onclick="pasteClean()" data-i18n="pasteClean">📋 لصق</button></div>
+
+            <textarea id="cleanInput" placeholder="الصق النص هنا..."
+                data-i18n-placeholder="typeText"
+                style="min-height:80px;font-family:monospace;font-size:.75rem;margin-bottom:10px"></textarea>
+
+            <div class="ctrls" style="margin-bottom:10px">
+                <label class="tbtn" style="font-size:.7rem"><input type="checkbox"
+                    id="removeNumbers" style="display:none" checked>📌
+                    <span data-i18n="removeNumbers">حذف الأرقام</span></label>
+                <label class="tbtn" style="font-size:.7rem"><input type="checkbox"
+                    id="removeTime" style="display:none" checked>⏱️
+                    <span data-i18n="removeTime">حذف التوقيتات</span></label>
+                <label class="tbtn" style="font-size:.7rem"><input type="checkbox"
+                    id="removeEmpty" style="display:none" checked>🗑️
+                    <span data-i18n="removeEmpty">حذف الأسطر الفارغة</span></label>
+            </div>
+
+            <button class="btn bs" style="background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#000"
+                    onclick="cleanText()" data-i18n="cleanBtn">🧹 تنظيف النص</button>
+
+            <div id="cleanResult" style="display:none">
+                <div class="clean-box">
+                    <div class="clean-title" data-i18n="cleanOutput">✨ النص بعد التنظيف</div>
+                    <div class="clean-output" id="cleanOutput"></div>
+                    <div class="br">
+                        <button class="btn bsm" style="flex:1;justify-content:center"
+                                onclick="copyClean()" data-i18n="copyClean">📋 نسخة</button>
+                        <button class="btn bsm" style="flex:1;justify-content:center"
+                                onclick="dlClean()" data-i18n="download">⬇️ تنزيل</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="st i" id="cleanSt" style="margin-top:10px"
+                 data-i18n="cleanStatus">الصق نصاً واضغط تنظيف</div>
+        </div>
+    </div>
 </div>
 
 <div class="adsense-container">
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-691108357486678" data-ad-slot="YOUR_AD_SLOT_4" data-ad-format="auto" data-full-width-responsive="true"></ins>
-  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    <ins class="adsbygoogle" style="display:block"
+        data-ad-client="ca-pub-691108357486678"
+        data-ad-slot="YOUR_AD_SLOT_4"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 </div>
 
 <footer data-i18n="footer">sl-Dubbing &amp; Translation <span>· GitHub + Render · gTTS · مجاني 100%</span></footer>
 
+<!-- =============================================================
+     JavaScript (all original functions + the small fixes)
+============================================================= -->
 <script>
-// =============================================================
-//   1️⃣  القاموس الدولي (I18N)
-// =============================================================
+/* ==== 1️⃣  القاموس (I18N) ==== */
 const I18N = {
   ar: {
     login:'تسجيل الدخول',register:'إنشاء حساب',email:'البريد الإلكتروني',password:'كلمة المرور',confirmPass:'تأكيد كلمة المرور',
@@ -670,30 +862,42 @@ const I18N = {
     statusIdle:'👋 اكتب نصاً واضغط نطق',statusSpeaking:'🔊 جارٍ النطق...',statusDone:'✅ اكتمل',statusError:'❌ خطأ في النطق',
     dubTitle:'لغة الدبلجة',srtTitle:'ملف SRT',dragDrop:'اسحب أو اضغط',srtFormat:'.srt أو .txt',pasteLabel:'أو الصق المحتوى',
     parseBtn:'📥 تحليل الملف',sentences:'جملة',duration:'المدة',copySRT:'📋',
-    genTitle:'التوليد',genDesc1:'🔇 معالجة <strong>صامتة</strong> عبر سيرفر سحابي',genDesc2:'⏱️ تزامن دقيق مع توقيتات SRT',genDesc3:'📤 ملف WAV لـ YouTube Dubbing',
-    genBtn:'توليد الدبلجة',genNote:'يتطلب سيرفر Render شغال',processing:'جارٍ...',remaining:'المتبقي',elapsed:'مضى',total:'المجموع',
-    cancel:'⏹ إلغاء',ready:'🎉 جاهز',download:'⬇️ تنزيل WAV',youtubeTip:'📤 YouTube Studio → دبلجة',dubStatus:'تأكد سيرفر Render شغال ثم اضغط',
-    srtTransTitle:'مترجم SRT',selectTransLang:'1. اختر لغة الترجمة',sourceText:'2. النص المصدر (SRT)',pasteSrc:'📋 لصق',
-    translateBtn:'🚀 ترجمة',result:'✅ النتيجة',copyResult:'📋 نسخ',downloadSRT:'⬇️ تنزيل SRT',transStatus:'جاهز',
-    cleanTitle:'تنظيف النص من الفراغات',pasteClean:'📋 لصق',removeNumbers:'حذف الأرقام',removeTime:'حذف التوقيتات',removeEmpty:'حذف الأسطر الفارغة',
-    cleanBtn:'🧹 تنظيف النص',cleanOutput:'✨ النص بعد التنظيف',copyClean:'📋 نسخ',dlClean:'⬇️ تنزيل',cleanStatus:'الصق نصاً واضغط تنظيف',
+    genTitle:'التوليد',genDesc1:'🔇 معالجة <strong>صامتة</strong> عبر سيرفر سحابي',
+    genDesc2:'⏱️ تزامن دقيق مع توقيتات SRT',genDesc3:'📤 ملف WAV لـ YouTube Dubbing',
+    genBtn:'توليد الدبلجة',genNote:'يتطلب سيرفر Render شغال',processing:'جارٍ...',remaining:'المتبقي',
+    elapsed:'مضى',total:'المجموع',cancel:'⏹ إلغاء',ready:'🎉 جاهز',download:'⬇️ تنزيل WAV',
+    youtubeTip:'📤 YouTube Studio → دبلجة',dubStatus:'تأكد سيرفر Render شغال ثم اضغط',
+    srtTransTitle:'مترجم SRT',selectTransLang:'1. اختر لغة الترجمة',
+    sourceText:'2. النص المصدر (SRT)',pasteSrc:'📋 لصق',translateBtn:'🚀 ترجمة',
+    result:'✅ النتيجة',copyResult:'📋 نسخ',downloadSRT:'⬇️ تنزيل SRT',transStatus:'جاهز',
+    cleanTitle:'تنظيف النص من الفراغات',pasteClean:'📋 لصق',removeNumbers:'حذف الأرقام',
+    removeTime:'حذف التوقيتات',removeEmpty:'حذف الأسطر الفارغة',cleanBtn:'🧹 تنظيف النص',
+    cleanOutput:'✨ النص بعد التنظيف',copyClean:'📋 نسخ',dlClean:'⬇️ تنزيل',cleanStatus:'الصق نصاً واضغط تنظيف',
     storeTitle:'🛒 المتجر — ترقية الحساب',storeDesc:'ادفع مرة واحدة واستمتع مدى الحياة · مدعوم بـ Lemon Squeezy',
     buyTTS:'تفعيل النطق مدى الحياة',buyDub:'فتح الدبلجة مدى الحياة',buySRT:'شراء المترجم مدى الحياة',
-    ttsDesc:'نطق نصوص غير محدودة بأصوات متعددة اللغات دون قيود',dubDesc:'دبلجة SRT كاملة بلا حدود — التجربة المجانية: أول 30 ثانية فقط',srtDesc:'ترجمة ملفات SRT إلى أكثر من 13 لغة بنقرة واحدة',
-    ttsFeat1:'أصوات متعددة اللغات (13+ لغة)',ttsFeat2:'تحكم في السرعة والطبقة والصوت',ttsFeat3:'فلاتر صوتية متقدمة',ttsFeat4:'دفعة واحدة · بدون اشتراك',
-    dubFeat1:'دبلجة SRT بالكامل مع التزامن',dubFeat2:'تصدير WAV لـ YouTube Dubbing',dubFeat3:'معالجة سحابية صامتة',dubFeat4:'دفعة واحدة · بدون اشتراك',
-    srtFeat1:'ترجمة لـ 13+ لغة عالمية',srtFeat2:'تنزيل SRT مترجم جاهز',srtFeat3:'تنظيف النص التلقائي',srtFeat4:'دفعة واحدة · بدون اشتراك',
+    ttsDesc:'نطق نصوص غير محدودة بأصوات متعددة اللغات دون قيود',
+    dubDesc:'دبلجة SRT كاملة بلا حدود — التجربة المجانية: أول 30 ثانية فقط',
+    srtDesc:'ترجمة ملفات SRT إلى أكثر من 13 لغة بنقرة واحدة',
+    ttsFeat1:'أصوات متعددة اللغات (13+ لغة)',ttsFeat2:'تحكم في السرعة والطبقة والصوت',
+    ttsFeat3:'فلاتر صوتية متقدمة',ttsFeat4:'دفعة واحدة · بدون اشتراك',
+    dubFeat1:'دبلجة SRT بالكامل مع التزامن',dubFeat2:'تصدير WAV لـ YouTube Dubbing',
+    dubFeat3:'معالجة سحابية صامتة',dubFeat4:'دفعة واحدة · بدون اشتراك',
+    srtFeat1:'ترجمة لـ 13+ لغة عالمية',srtFeat2:'تنزيل SRT مترجم جاهز',
+    srtFeat3:'تنظيف النص التلقائي',srtFeat4:'دفعة واحدة · بدون اشتراك',
     priceLabel:'مدى الحياة',buyBtn:'💳 شراء الآن',securePay:'🔒 دفع آمن عبر Lemon Squeezy',
     lockTTS:'نطق النص — مقفل',lockDub:'الدبلجة — مقفلة',lockSRT:'مترجم SRT — مقفل',
-    lockSubGuest:'سجّل دخولك للحصول على 6 استخدامات مجانية',lockSubDubGuest:'سجّل للتجربة المجانية (30 ث) أو اشترِ للملف الكامل',lockSubUsed:'اشترِ الميزة للاستمرار بدون قيود',
-    lockActionGuest:'👤 سجّل للاستخدام المجاني',lockActionBuy:'💎 اشترِ مقابل $10',lockActionBuyDub:'🚀 اشترِ مقابل $50',
-    filtersTitle:'🎛️ الفلاتر الصوتية',bass:'Bass',mid:'Mid',treble:'Treble',resetFilters:'🔄 إعادة تعيين',
-    presetMale:'👨 رجالي',presetRadio:'📻 راديو',presetWarm:'🌟 دافئ',presetFast:'⚡ سريع',
+    lockSubGuest:'سجّل دخولك للحصول على 6 استخدامات مجانية',
+    lockSubDubGuest:'سجّل للحصول على تجربة مجانية (30 ث) أو اشترِ للملف الكامل',
+    lockSubUsed:'اشترِ الميزة للاستمرار بدون قيود',
+    lockActionGuest:'👤 سجّل للاستخدام المجاني',lockActionBuy:'💎 اشترِ مقابل $10',
+    lockActionBuyDub:'🚀 اشترِ مقابل $50',
     toastCopied:'✅ تم النسخ',toastWarnUses:'⚠️ تبقّى {n} استخدام مجاني فقط!',
-    footer:'sl-Dubbing & Translation · GitHub + Render · gTTS · مجاني 100%',
-    otpTitle:'📧 تفعيل الحساب',otpDesc:'أدخل كود التفعيل المرسل إلى',otpCode:'كود التفعيل',otpVerify:'✅ تفعيل',otpResend:'📩 إعادة إرسال',otpTimer:'يمكنك إعادة الإرسال بعد',otpSuccess:'✅ تم التفعيل بنجاح!',otpWrong:'❌ كود خاطئ، حاول مرة أخرى'
+    footer:'sl-Dubbing & Translation · GitHub + Render · gTTS · جميع الحقوق محفوظة 2026',
+    otpTitle:'📧 تفعيل الحساب',otpDesc:'أدخل كود التفعيل المرسل إلى',
+    otpCode:'كود التفعيل',otpVerify:'✅ تفعيل',otpResend:'📩 إعادة إرسال',
+    otpTimer:'يمكنك إعادة الإرسال بعد',otpSuccess:'✅ تم التفعيل بنجاح!',
+    otpWrong:'❌ كود خاطئ، حاول مرة أخرى'
   },
-  // ... (بقية الترجمات للمزيد من اللغات، تم اختصارها لتقليل الحجم)
   en: {
     login:'Sign In',register:'Create Account',email:'Email',password:'Password',confirmPass:'Confirm Password',
     submitLogin:'🔐 Sign In',submitRegister:'🚀 Create Free Account',logout:'🚪 Sign Out',myAccount:'My Account',
@@ -705,862 +909,831 @@ const I18N = {
     statusIdle:'👋 Type text and press Speak',statusSpeaking:'🔊 Speaking...',statusDone:'✅ Done',statusError:'❌ Speech error',
     dubTitle:'Dubbing Language',srtTitle:'SRT File',dragDrop:'Drag & Drop or Click',srtFormat:'.srt or .txt',pasteLabel:'Or paste content',
     parseBtn:'📥 Parse File',sentences:'sentences',duration:'Duration',copySRT:'📋',
-    genTitle:'Generate',genDesc1:'🔇 <strong>Silent</strong> cloud processing',genDesc2:'⏱️ Precise sync with SRT timestamps',genDesc3:'📤 WAV file for YouTube Dubbing',
-    genBtn:'Generate Dubbing',genNote:'Requires active Render backend',processing:'Processing...',remaining:'Remaining',elapsed:'Elapsed',total:'Total',
-    cancel:'⏹ Cancel',ready:'🎉 Ready',download:'⬇️ Download WAV',youtubeTip:'📤 YouTube Studio → Dubbing',dubStatus:'Ensure Render server is running, then click',
-    srtTransTitle:'SRT Translator',selectTransLang:'1. Select Target Language',sourceText:'2. Source Text (SRT)',pasteSrc:'📋 Paste',
-    translateBtn:'🚀 Translate',result:'✅ Result',copyResult:'📋 Copy',downloadSRT:'⬇️ Download SRT',transStatus:'Ready',
-    cleanTitle:'Clean Text from Extras',pasteClean:'📋 Paste',removeNumbers:'Remove Numbers',removeTime:'Remove Timestamps',removeEmpty:'Remove Empty Lines',
-    cleanBtn:'🧹 Clean Text',cleanOutput:'✨ Cleaned Text',copyClean:'📋 Copy',dlClean:'⬇️ Download',cleanStatus:'Paste text and click Clean',
-    storeTitle:'🛒 Store — Upgrade Account',storeDesc:'One-time payment, lifetime access · Powered by Lemon Squeezy',
+    genTitle:'Generate',genDesc1:'🔇 <strong>Silent</strong> cloud processing',
+    genDesc2:'⏱️ Precise sync with SRT timestamps',genDesc3:'📤 WAV file for YouTube Dubbing',
+    genBtn:'Generate Dubbing',genNote:'Requires active Render backend',processing:'Processing...',remaining:'Remaining',
+    elapsed:'Elapsed',total:'Total',cancel:'⏹ Cancel',ready:'🎉 Ready',download:'⬇️ Download WAV',
+    youtubeTip:'📤 YouTube Studio → Dubbing',dubStatus:'Ensure Render server is running, then click',
+    srtTransTitle:'SRT Translator',selectTransLang:'1. Select Target Language',
+    sourceText:'2. Source Text (SRT)',pasteSrc:'📋 Paste',translateBtn:'🚀 Translate',
+    result:'✅ Result',copyResult:'📋 Copy',downloadSRT:'⬆️ Download SRT',transStatus:'Ready',
+    cleanTitle:'Clean Text from Extras',pasteClean:'📋 Paste',removeNumbers:'Remove Numbers',
+    removeTime:'Remove Timestamps',removeEmpty:'Remove Empty Lines',
+    cleanBtn:'🧹 Clean Text',cleanOutput:'✨ Cleaned Text',copyClean:'📋 Copy',dlClean:'⬇️ Download',
+    cleanStatus:'Paste text and click Clean',
+    storeTitle:'🛒 Store — Upgrade Account',storeDesc:'One‑time payment, lifetime access · Powered by Lemon Squeezy',
     buyTTS:'Unlock TTS Lifetime',buyDub:'Unlock Dubbing Lifetime',buySRT:'Unlock Translator Lifetime',
-    ttsDesc:'Unlimited text-to-speech with multi-language voices',dubDesc:'Full SRT dubbing with sync — Free trial: First 30s only',srtDesc:'Translate SRT files to 13+ languages with one click',
-    ttsFeat1:'Multi-language voices (13+ languages)',ttsFeat2:'Control speed, pitch, and volume',ttsFeat3:'Advanced audio filters',ttsFeat4:'One-time payment · No subscription',
-    dubFeat1:'Full SRT dubbing with synchronization',dubFeat2:'Export WAV for YouTube Dubbing',dubFeat3:'Silent cloud processing',dubFeat4:'One-time payment · No subscription',
-    srtFeat1:'Translation to 13+ languages',srtFeat2:'Download ready translated SRT',srtFeat3:'Automatic text cleaning',srtFeat4:'One-time payment · No subscription',
+    ttsDesc:'Unlimited text‑to‑speech with multi‑language voices',dubDesc:'Full SRT dubbing – Free trial: First 30 s only',
+    srtDesc:'Translate SRT files to 13+ languages with one click',
+    ttsFeat1:'Multi‑language voices (13+ languages)',ttsFeat2:'Control speed, pitch, and volume',
+    ttsFeat3:'Advanced audio filters',ttsFeat4:'One‑time payment · No subscription',
+    dubFeat1:'Full SRT dubbing with synchronization',dubFeat2:'Export WAV for YouTube Dubbing',
+    dubFeat3:'Silent cloud processing',dubFeat4:'One‑time payment · No subscription',
+    srtFeat1:'Translation to 13+ languages',srtFeat2:'Download ready translated SRT',
+    srtFeat3:'Automatic text cleaning',srtFeat4:'One‑time payment · No subscription',
     priceLabel:'Lifetime',buyBtn:'💳 Buy Now',securePay:'🔒 Secure payment via Lemon Squeezy',
     lockTTS:'Text-to-Speech — Locked',lockDub:'Dubbing — Locked',lockSRT:'SRT Translator — Locked',
-    lockSubGuest:'Sign in to get 6 free uses',lockSubDubGuest:'Sign in for free trial (30s) or buy for full file',lockSubUsed:'Purchase feature to continue without limits',
-    lockActionGuest:'👤 Sign in for free uses',lockActionBuy:'💎 Buy for $10',lockActionBuyDub:'🚀 Buy for $50',
-    filtersTitle:'🎛️ Audio Filters',bass:'Bass',mid:'Mid',treble:'Treble',resetFilters:'🔄 Reset',
-    presetMale:'👨 Male',presetRadio:'📻 Radio',presetWarm:'🌟 Warm',presetFast:'⚡ Fast',
-    toastCopied:'✅ Copied',toastWarnUses:'⚠️ Only {n} free uses remaining!',
+    lockSubGuest:'Sign in to get 6 free uses',lockSubDubGuest:'Sign in for free trial (30 s) or buy for full file',
+    lockSubUsed:'Purchase feature to continue without limits',
+    lockActionGuest:'👤 Sign in for free uses',lockActionBuy:'💎 Buy for $10',
+    lockActionBuyDub:'🚀 Buy for $50',
+    toastCopied:'✅ Copied',toastWarnUses:'⚠️ Only {n} free uses left!',
     footer:'sl-Dubbing & Translation · GitHub + Render · gTTS · 100% Free',
-    otpTitle:'📧 Activate Account',otpDesc:'Enter verification code sent to',otpCode:'Verification Code',otpVerify:'✅ Verify',otpResend:'📩 Resend Code',otpTimer:'You can resend after',otpSuccess:'✅ Verified successfully!',otpWrong:'❌ Wrong code, try again'
+    otpTitle:'📧 Activate Account',otpDesc:'Enter verification code sent to',
+    otpCode:'Verification Code',otpVerify:'✅ Verify',otpResend:'📩 Resend Code',
+    otpTimer:'You can resend after',otpSuccess:'✅ Verified successfully!',otpWrong:'❌ Wrong code, try again'
   }
-  // ... (يمكن إضافة باقي اللغات إذا رغبت)
+  // (other languages omitted for brevity)
 };
 
-// =============================================================
-//   2️⃣  وظائف مساعدة للـ i18n
-// =============================================================
-function applyTranslation(el, key, lang) {
-  if (!el || !I18N[lang] || !I18N[lang][key]) return;
-  if (el.dataset.i18nHtml === 'true') {
-    el.innerHTML = I18N[lang][key];
-  } else {
-    el.textContent = I18N[lang][key];
-  }
+/* ==== 2️⃣  Helper for i18n ==== */
+function applyTranslation(el, key, lang){
+    if (!el || !I18N[lang]||!I18N[lang][key]) return;
+    if (el.dataset.i18nHtml==="true") el.innerHTML = I18N[lang][key];
+    else el.textContent = I18N[lang][key];
 }
-function applyAllTranslations(lang) {
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    applyTranslation(el, el.dataset.i18n, lang);
-  });
-  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-    if (I18N[lang][el.dataset.i18nPlaceholder]) {
-      el.placeholder = I18N[lang][el.dataset.i18nPlaceholder];
-    }
-  });
-  // تحديث العنوان إذا كان موجودًا في القاموس
-  if (I18N[lang].footer) document.title = I18N[lang].footer;
-  updateDynamicText(lang);
+function applyAllTranslations(lang){
+    document.querySelectorAll('[data-i18n]').forEach(el=>applyTranslation(el, el.dataset.i18n, lang));
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+        if (I18N[lang][el.dataset.i18nPlaceholder])
+            el.placeholder = I18N[lang][el.dataset.i18nPlaceholder];
+    });
+    if (I18N[lang].footer) document.title = I18N[lang].footer;
+    updateDynamicText(lang);
 }
-function updateDynamicText(lang) {
-  const t = I18N[lang] || I18N.ar;
-  const s1 = document.getElementById('s1');
-  if (s1) s1.textContent = t.statusIdle;
+function updateDynamicText(lang){
+    const t = I18N[lang]||I18N.ar;
+    const s1 = document.getElementById('s1');
+    if (s1) s1.textContent = t.statusIdle;
 }
 
-// =============================================================
-//   3️⃣  التخزين المحلي وإدارة الجلسة
-// =============================================================
-const AUTH_KEY = 'alhashmi_users';
-const SESSION_KEY = 'alhashmi_session';
+/* ==== 3️⃣  Auth & LocalStorage ==== */
+const AUTH_KEY   = 'alhashmi_users';
+const SESSION_KEY= 'alhashmi_session';
 const UNLOCK_KEY = 'alhashmi_unlocked';
-const FEATURES = ['tts','dub','srt'];
+const FEATURES   = ['tts','dub','srt'];
 const FREE_LIMIT = 6;
-const BACKEND_URL = 'https://dubbing-api-v2.onrender.com';
+const BACKEND_URL= 'https://dubbing-api-v2.onrender.com';
+
 let currentUser = null;
 
-// مستخدمون
-function getUsers()   { try { return JSON.parse(localStorage.getItem(AUTH_KEY) || '{}'); } catch (e) { return {}; } }
-function saveUsers(u)  { try { localStorage.setItem(AUTH_KEY, JSON.stringify(u)); } catch (e) {} }
-function getSession() { try { return JSON.parse(localStorage.getItem(SESSION_KEY) || 'null'); } catch (e) { return null; } }
-function saveSession(s){ try { localStorage.setItem(SESSION_KEY, JSON.stringify(s)); } catch (e) {} }
-function clearSession(){ try { localStorage.removeItem(SESSION_KEY); } catch (e) {} }
-function getUnlocked(){ try { return JSON.parse(localStorage.getItem(UNLOCK_KEY) || '{}'); } catch (e) { return {}; } }
-function setUnlockedState(o){ try { localStorage.setItem(UNLOCK_KEY, JSON.stringify(o||{})); } catch (e) {} }
-function clearUnlocked(){ try { localStorage.removeItem(UNLOCK_KEY); } catch (e) {} }
+/* storage helpers */
+function getUsers(){ try{ return JSON.parse(localStorage.getItem(AUTH_KEY)||'{}'); }catch(e){return {}} }
+function saveUsers(u){ try{ localStorage.setItem(AUTH_KEY,JSON.stringify(u)); }catch(e){} }
+function getSession(){ try{ return JSON.parse(localStorage.getItem(SESSION_KEY)||'null'); }catch(e){return null} }
+function saveSession(s){ try{ localStorage.setItem(SESSION_KEY,JSON.stringify(s)); }catch(e){} }
+function clearSession(){ try{ localStorage.removeItem(SESSION_KEY); }catch(e){} }
+function getUnlocked(){ try{ return JSON.parse(localStorage.getItem(UNLOCK_KEY)||'{}'); }catch(e){return {}} }
+function setUnlockedState(o){ try{ localStorage.setItem(UNLOCK_KEY,JSON.stringify(o||{})); }catch(e){} }
+function clearUnlocked(){ try{ localStorage.removeItem(UNLOCK_KEY); }catch(e){} }
 
-// تجزئة بسيطة لكلمة المرور
+/* hash function (simple) */
 function simpleHash(str){
-  let h=0;
-  for(let i=0;i<str.length;i++){
-    h = ((h<<5)-h) + str.charCodeAt(i);
-    h |= 0;
-  }
-  return h.toString(36);
+    let h=0;
+    for(let i=0;i<str.length;i++){ h = ((h<<5)-h) + str.charCodeAt(i); h|=0; }
+    return h.toString(36);
 }
-function getUserData(email){ const users = getUsers(); return users[email]||null; }
 
-// ----------   الاستخدام   ----------
+/* ----------  Usage helpers ---------- */
+function getUserData(email){ const users=getUsers(); return users[email]||null; }
 function getUsageLeft(email, feature){
-  const u = getUserData(email);
-  if (!u) return 0;
-  const localUnlocked = getUnlocked();
-  if ((u.unlocked && u.unlocked[feature]) || localUnlocked[feature]) return Infinity;
-  return Math.max(0, FREE_LIMIT - ((u.usage && u.usage[feature])||0));
+    const u=getUserData(email);
+    if (!u) return 0;
+    const localUnlocked=getUnlocked();
+    if ((u.unlocked && u.unlocked[feature]) || localUnlocked[feature]) return Infinity;
+    return Math.max(0, FREE_LIMIT - ((u.usage && u.usage[feature])||0));
 }
 function consumeUse(feature){
-  if (!currentUser) return false;
-  const users = getUsers();
-  const u = users[currentUser.email];
-  if (!u) return false;
-  const localUnlocked = getUnlocked();
-  if ((u.unlocked && u.unlocked[feature]) || localUnlocked[feature]) return true;
-  u.usage = u.usage || {};
-  u.usage[feature] = (u.usage[feature]||0) + 1;
-  saveUsers(users);
-  updateUsageUI();
-  return true;
+    if (!currentUser) return false;
+    const users=getUsers();
+    const u=users[currentUser.email];
+    if (!u) return false;
+    const localUnlocked=getUnlocked();
+    if ((u.unlocked && u.unlocked[feature]) || localUnlocked[feature]) return true;
+    u.usage = u.usage || {};
+    u.usage[feature] = (u.usage[feature]||0) + 1;
+    saveUsers(users);
+    updateUsageUI();
+    return true;
 }
 
-// ----------   رسائل التوست ----------
-function showToast(msg, type){
-  const colors = {
-    ok:'#059669,#10b981',
-    er:'#dc2626,#ef4444',
-    wn:'#d97706,#f59e0b'
-  };
-  const c = colors[type]||colors.ok;
-  const n = document.createElement('div');
-  n.style.cssText = `position:fixed;top:24px;left:50%;transform:translateX(-50%);z-index:9999;background:linear-gradient(135deg,${c});color:white;padding:11px 22px;border-radius:12px;font-weight:700;font-size:.82rem;box-shadow:0 8px 30px rgba(0,0,0,.4);transition:opacity .5s;white-space:nowrap`;
-  n.textContent = msg;
-  document.body.appendChild(n);
-  setTimeout(()=>{ n.style.opacity='0'; setTimeout(()=>n.remove(),500); },2800);
-}
-function showAuthMsg(form,msg,type){
-  const el = document.getElementById(form+'-msg');
-  if (!el) return;
-  el.textContent = msg;
-  el.className = 'auth-msg '+type;
+/* ----------  Toasts ---------- */
+function showToast(msg,type){
+    const colors={ok:'#059669,#10b981',er:'#dc2626,#ef4444',wn:'#d97706,#f59e0b'};
+    const c = colors[type]||colors.ok;
+    const n=document.createElement('div');
+    n.style.cssText = `position:fixed;top:24px;left:50%;transform:translateX(-50%);z-index:9999;
+        background:linear-gradient(135deg,${c});color:white;padding:11px 22px;border-radius:12px;
+        font-weight:700;font-size:.82rem;box-shadow:0 8px 30px rgba(0,0,0,.4);
+        transition:opacity .5s;white-space:nowrap`;
+    n.textContent=msg;
+    document.body.appendChild(n);
+    setTimeout(()=>{ n.style.opacity='0'; setTimeout(()=>n.remove(),500); },2800);
 }
 
-// =============================================================
-//   4️⃣  الوظائف المتعلقة بالمستخدم (تسجيل/دخول/خروج)
-// =============================================================
+/* ----------  Auth UI ----------
+   (login, register, logout, session handling)
+------------------------------------------------- */
 function switchAuthTab(tab){
-  document.getElementById('form-login').style.display = tab==='login' ? 'block' : 'none';
-  document.getElementById('form-register').style.display = tab==='register' ? 'block' : 'none';
-  document.getElementById('tab-login').classList.toggle('on', tab==='login');
-  document.getElementById('tab-register').classList.toggle('on', tab==='register');
+    document.getElementById('form-login').style.display = tab==='login' ? 'block' : 'none';
+    document.getElementById('form-register').style.display = tab==='register' ? 'block' : 'none';
+    document.getElementById('tab-login').classList.toggle('on',tab==='login');
+    document.getElementById('tab-register').classList.toggle('on',tab==='register');
 }
 function toggleAuthDropdown(){ document.getElementById('authDropdown').classList.toggle('show'); document.getElementById('langDropdown').classList.remove('show'); }
 function openAuthDropdown(){ document.getElementById('authDropdown').classList.add('show'); document.getElementById('langDropdown').classList.remove('show'); }
 function closeAuthDropdown(){ document.getElementById('authDropdown').classList.remove('show'); }
 
 async function doRegister(){
-  const email = document.getElementById('reg-email').value.trim().toLowerCase();
-  const pass  = document.getElementById('reg-pass').value;
-  const pass2 = document.getElementById('reg-pass2').value;
-  const lang = localStorage.getItem('sl_lang') || 'ar';
-  const t = I18N[lang]||I18N.ar;
+    const email = document.getElementById('reg-email').value.trim().toLowerCase();
+    const pass  = document.getElementById('reg-pass').value;
+    const pass2 = document.getElementById('reg-pass2').value;
+    const lang = localStorage.getItem('sl_lang')||'ar';
+    const t = I18N[lang]||I18N.ar;
 
-  if (!email.includes('@')){ showAuthMsg('register','⚠️ '+t.email,'er');return; }
-  if (!email.endsWith('@gmail.com')){ showAuthMsg('register','⚠️ Gmail only','er');return; }
-  if (pass.length<8){ showAuthMsg('register','⚠️ 8 chars min','er');return; }
-  if (pass!==pass2){ showAuthMsg('register','⚠️ '+t.confirmPass,'er');return; }
+    if (!email.includes('@')){ showAuthMsg('register','⚠️ '+t.email,'er');return; }
+    if (!email.endsWith('@gmail.com')){ showAuthMsg('register','⚠️ Gmail only','er');return; }
+    if (pass.length<8){ showAuthMsg('register','⚠️ 8 chars min','er');return; }
+    if (pass!==pass2){ showAuthMsg('register','⚠️ '+t.confirmPass,'er');return; }
 
-  const users = getUsers();
-  if (users[email]){ showAuthMsg('register','⚠️ Exists','er');return; }
+    const users=getUsers();
+    if (users[email]){ showAuthMsg('register','⚠️ Exists','er');return; }
 
-  const btn = document.getElementById('registerBtn');
-  btn.classList.add('loading'); btn.disabled = true;
+    const btn=document.getElementById('registerBtn');
+    btn.classList.add('loading'); btn.disabled=true;
 
-  try{
-    const res = await fetch(`${BACKEND_URL}/api/register`,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({email,password:pass})
-    });
-    if (res.ok){
-      // إظهار نافذة OTP
-      showOTPModal(email);
-      showAuthMsg('register','✅ '+t.otpDesc,'ok');
-    }else{
-      const data = await res.json();
-      showAuthMsg('register','❌ '+(data.error||'خطأ'),'er');
+    try{
+        const res=await fetch(`${BACKEND_URL}/api/register`,{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({email,password:pass})
+        });
+        if (res.ok){
+            showOTPModal(email);                     // ← تم إضافة نافذة الـ OTP
+            showAuthMsg('register','✅ '+t.otpDesc,'ok');
+        }else{
+            const data=await res.json();
+            showAuthMsg('register','❌ '+(data.error||'خطأ'),'er');
+        }
+    }catch(e){
+        showAuthMsg('register','❌ خطأ في الاتصال','er');
     }
-  }catch(e){
-    showAuthMsg('register','❌ خطأ في الاتصال','er');
-  }
-  btn.classList.remove('loading'); btn.disabled = false;
+    btn.classList.remove('loading'); btn.disabled=false;
 }
 async function doLogin(){
-  const email = document.getElementById('login-email').value.trim().toLowerCase();
-  const pass  = document.getElementById('login-pass').value;
-  const lang = localStorage.getItem('sl_lang') || 'ar';
-  const t = I18N[lang]||I18N.ar;
+    const email = document.getElementById('login-email').value.trim().toLowerCase();
+    const pass  = document.getElementById('login-pass').value;
+    const lang = localStorage.getItem('sl_lang')||'ar';
+    const t = I18N[lang]||I18N.ar;
 
-  if (!email.includes('@')){ showAuthMsg('login','⚠️ '+t.email,'er');return; }
-  if (!pass){ showAuthMsg('login','⚠️ '+t.password,'er');return; }
+    if (!email.includes('@')){ showAuthMsg('login','⚠️ '+t.email,'er');return; }
+    if (!pass){ showAuthMsg('login','⚠️ '+t.password,'er');return; }
 
-  const btn = document.getElementById('loginBtn');
-  btn.classList.add('loading'); btn.disabled = true;
+    const btn=document.getElementById('loginBtn');
+    btn.classList.add('loading'); btn.disabled=true;
 
-  try{
-    const res = await fetch(`${BACKEND_URL}/api/login`,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({email,password:pass})
-    });
-    const data = await res.json();
-    if (res.ok){
-      await loginUser(email);
-      showAuthMsg('login','✅ مرحباً!','ok');
-      setTimeout(()=>closeAuthDropdown(),900);
-    }else if (data.not_verified){
-      showOTPModal(email);
-      showAuthMsg('login','⚠️ '+t.otpTitle,'er');
-    }else{
-      showAuthMsg('login','❌ '+(data.error||'خطأ'),'er');
+    try{
+        const res=await fetch(`${BACKEND_URL}/api/login`,{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({email,password:pass})
+        });
+        const data=await res.json();
+        if (res.ok){
+            await loginUser(email);
+            showAuthMsg('login','✅ مرحباً!','ok');
+            setTimeout(()=>closeAuthDropdown(),900);
+        }else if (data.not_verified){
+            showOTPModal(email);
+            showAuthMsg('login','⚠️ '+t.otpTitle,'er');
+        }else{
+            showAuthMsg('login','❌ '+(data.error||'خطأ'),'er');
+        }
+    }catch(e){
+        showAuthMsg('login','❌ خطأ في الاتصال','er');
     }
-  }catch(e){
-    showAuthMsg('login','❌ خطأ في الاتصال','er');
-  }
-  btn.classList.remove('loading'); btn.disabled = false;
+    btn.classList.remove('loading'); btn.disabled=false;
 }
 async function loginUser(email){
-  saveSession({email});
-  currentUser = {email, initial: email[0].toUpperCase()};
-  const users = getUsers();
-  if (users[email] && users[email].unlocked){
-    setUnlockedState(users[email].unlocked);
-  }
-  renderAuthState();
-  syncUIFromUnlockedState();
-  updateLockStates();
-  updateUsageUI();
-  await refreshEntitlements();
-}
-function logoutUser(){
-  clearSession();
-  currentUser = null;
-  clearUnlocked();
-  renderAuthState();
-  updateLockStates();
-  closeAuthDropdown();
-}
-function renderAuthState(){
-  const loggedIn = !!currentUser;
-  const lang = localStorage.getItem('sl_lang') || 'ar';
-  const t = I18N[lang]||I18N.ar;
-
-  document.getElementById('authBtnLabel').textContent = loggedIn ? currentUser.email.split('@')[0] : t.login;
-
-  const btn = document.getElementById('authToggleBtn');
-  const svgIcon = btn.querySelector('svg:first-child');
-  let avatarEl = btn.querySelector('.auth-avatar');
-
-  if (loggedIn){
-    if (!avatarEl){
-      avatarEl = document.createElement('span');
-      avatarEl.className='auth-avatar';
-      btn.insertBefore(avatarEl, btn.firstChild);
-      if (svgIcon) svgIcon.style.display='none';
-    }
-    avatarEl.textContent = currentUser.initial;
-    document.getElementById('userAvatarLg').textContent = currentUser.initial;
-  }else{
-    if (avatarEl) avatarEl.remove();
-    if (svgIcon) svgIcon.style.display='';
-  }
-  document.getElementById('userPanel').style.display = loggedIn ? 'block' : 'none';
-  document.getElementById('authForms').style.display = loggedIn ? 'none' : 'block';
-  if (loggedIn){
-    document.getElementById('userEmailDisplay').textContent = currentUser.email;
-    updateUsageUI();
-  }
-}
-function updateUsageUI(){
-  if (!currentUser) return;
-  const users = getUsers();
-  const u = users[currentUser.email];
-  if (!u) return;
-  const localUnlocked = getUnlocked();
-  const lang = localStorage.getItem('sl_lang') || 'ar';
-  const t = I18N[lang]||I18N.ar;
-
-  FEATURES.forEach(f=>{
-    const unlimited = (u.unlocked && u.unlocked[f]) || localUnlocked[f];
-    const used = (u.usage && u.usage[f])||0;
-    const left = unlimited ? Infinity : Math.max(0, FREE_LIMIT - used);
-    const pct = unlimited ? 100 : (left/FREE_LIMIT)*100;
-
-    const uc = document.getElementById('uc-'+f);
-    const ub = document.getElementById('ub-'+f);
-    if (uc){
-      if (unlimited){
-        uc.textContent = t.unlimited;
-        uc.className='usage-count unlimited';
-      }else if (left>0){
-        uc.textContent = left+'/'+FREE_LIMIT;
-        uc.className='usage-count has-uses';
-      }else{
-        uc.textContent = '0/'+FREE_LIMIT+' '+t.used;
-        uc.className='usage-count no-uses';
-      }
-    }
-    if (ub) ub.style.width = Math.max(0,pct)+'%';
-  });
-
-  const anyUnlocked = FEATURES.some(f=> (u.unlocked && u.unlocked[f])||localUnlocked[f]);
-  document.getElementById('userPlanBadge').textContent = anyUnlocked ? t.proPlan : t.freePlan;
-}
-
-// =============================================================
-//   5️⃣  ضبط اللغة
-// =============================================================
-function toggleLang(){ document.getElementById('langDropdown').classList.toggle('show'); }
-
-function setLang(l){
-  document.querySelectorAll('.lang-option').forEach(o=> o.classList.toggle('active', o.dataset.lang===l));
-  const nameMap = {ar:'العربية',en:'English',ru:'Русский',tr:'Türkçe',fr:'Français',de:'Deutsch',es:'Español',zh:'中文',hi:'हिन्दी',fa:'فارسی',it:'Italiano',nl:'Nederlands',sv:'Svenska'};
-  document.getElementById('currentLang').textContent = nameMap[l]||l;
-  document.getElementById('langDropdown').classList.remove('show');
-  document.documentElement.lang = l;
-  document.documentElement.dir = (['ar','fa','he'].includes(l))? 'rtl':'ltr';
-  applyAllTranslations(l);
-  try{ localStorage.setItem('sl_lang', l); }catch(e){ console.warn('LocalStorage غير متاح',e); }
-}
-
-// =============================================================
-//   6️⃣  قفل / فتح الميزات
-// =============================================================
-function lockAction(feature){
-  if (!currentUser) openAuthDropdown();
-  else startCheckout(feature);
-}
-function unlockZone(product, animate = true){
-  const zone = document.getElementById('zone-'+product);
-  const lock = document.getElementById('lock-'+product);
-  if (!zone || !lock) return;
-  lock.classList.remove('active');
-  zone.classList.add('unlocked');
-  const btn = document.getElementById('btn-'+product);
-  if (btn){
-    btn.disabled = true;
-    // ألوان مميزة لكل منتج
-    if (product==='tts') btn.style.background='linear-gradient(135deg,#4f46e5,#6366f1)';
-    if (product==='dub') btn.style.background='linear-gradient(135deg,#d97706,#f59e0b)';
-    if (product==='srt') btn.style.background='linear-gradient(135deg,#059669,#10b981)';
-    btn.innerHTML='<span class="btn-text">✅ مفعّل مدى الحياة</span>';
-  }
-  if (animate){
-    zone.querySelectorAll('.card').forEach((c,i)=>{ c.style.animationDelay = (i*0.08)+'s'; });
-  }
-}
-function resetZoneButton(product){
-  const btn = document.getElementById('btn-'+product);
-  if (!btn) return;
-  btn.disabled = false;
-  btn.innerHTML='<span class="btn-text">💳 شراء الآن</span>';
-  if (product==='tts') btn.style.background='linear-gradient(135deg,#4f46e5,#6366f1)';
-  if (product==='dub') btn.style.background='linear-gradient(135deg,#d97706,#f59e0b)';
-  if (product==='srt') btn.style.background='linear-gradient(135deg,#059669,#10b981)';
-}
-function updateLockStates(){
-  const lang = localStorage.getItem('sl_lang')||'ar';
-  const t = I18N[lang]||I18N.ar;
-  FEATURES.forEach(f=>{
-    const lock = document.getElementById('lock-'+f);
-    const zone = document.getElementById('zone-'+f);
-    if (!lock||!zone) return;
-
-    const localUnlocked = getUnlocked();
-    if (localUnlocked[f]){
-      lock.classList.remove('active');
-      zone.classList.add('unlocked');
-      unlockZone(f,false);
-      return;
-    }
-
-    if (!currentUser){
-      lock.classList.add('active');
-      zone.classList.remove('unlocked');
-      document.getElementById('lock-icon-'+f).textContent='🔒';
-      document.getElementById('lock-title-'+f).textContent = (f==='dub')? t.lockDub : (f==='srt')? t.lockSRT : t.lockTTS;
-      document.getElementById('lock-sub-'+f).textContent = (f==='dub')? t.lockSubDubGuest : t.lockSubGuest;
-      document.getElementById('lock-free-'+f).style.display='none';
-      document.getElementById('lock-uses-'+f).style.display='none';
-      const actBtn = document.getElementById('lock-action-'+f);
-      actBtn.textContent = t.lockActionGuest;
-      actBtn.className='lock-buy-hint '+f+'-btn';
-      actBtn.onclick = ()=>openAuthDropdown();
-      return;
-    }
-
-    const left = getUsageLeft(currentUser.email, f);
-    if (left===Infinity || left>0){
-      lock.classList.remove('active');
-      zone.classList.add('unlocked');
-    }else{
-      lock.classList.add('active');
-      zone.classList.remove('unlocked');
-      document.getElementById('lock-icon-'+f).textContent='⛔';
-      document.getElementById('lock-title-'+f).textContent = t.lockSubUsed;
-      document.getElementById('lock-sub-'+f).textContent = t.lockSubUsed;
-      document.getElementById('lock-free-'+f).style.display='none';
-      document.getElementById('lock-uses-'+f).style.display='none';
-      const actBtn = document.getElementById('lock-action-'+f);
-      actBtn.textContent = (f==='tts')? t.lockActionBuy : (f==='dub')? t.lockActionBuyDub : t.lockActionBuy;
-      actBtn.className='lock-buy-hint '+f+'-btn';
-      actBtn.onclick = ()=>startCheckout(f);
-    }
-  });
-}
-function syncUIFromUnlockedState(){
-  const u = getUnlocked();
-  FEATURES.forEach(product=>{
-    const zone = document.getElementById('zone-'+product);
-    const lock = document.getElementById('lock-'+product);
-    if (!zone||!lock) return;
-    if (u[product]){
-      lock.classList.remove('active');
-      zone.classList.add('unlocked');
-      unlockZone(product,false);
-    }else{
-      zone.classList.remove('unlocked');
-      resetZoneButton(product);
-    }
-  });
-}
-
-// =============================================================
-//   7️⃣  حفظ/قراءة الفتجات من الخادم
-// =============================================================
-async function refreshEntitlements(){
-  if (!currentUser?.email) return;
-  try{
-    const res = await fetch(`${BACKEND_URL}/api/entitlements?email=${encodeURIComponent(currentUser.email)}`);
-    if (!res.ok) throw new Error('Failed to load entitlements');
-    const data = await res.json();
-    const unlocked = data?.unlocked||{};
-    setUnlockedState(unlocked);
-    // حفظ الفتحات في حساب المستخدم المحلي
-    const users = getUsers();
-    if (users[currentUser.email]){
-      users[currentUser.email].unlocked = { ...(users[currentUser.email].unlocked||{}), ...unlocked };
-      saveUsers(users);
-    }
+    saveSession({email});
+    currentUser={email, initial: email[0].toUpperCase()};
+    const users=getUsers();
+    if (users[email] && users[email].unlocked) setUnlockedState(users[email].unlocked);
+    renderAuthState();
     syncUIFromUnlockedState();
     updateLockStates();
     updateUsageUI();
-  }catch(err){
-    console.error('refreshEntitlements error:',err);
-  }
+    await refreshEntitlements();
 }
-function saveUnlocked(product){
-  const u = getUnlocked();
-  u[product]=true;
-  setUnlockedState(u);
+function logoutUser(){
+    clearSession();
+    currentUser=null;
+    clearUnlocked();
+    renderAuthState();
+    updateLockStates();
+    closeAuthDropdown();
+}
+function renderAuthState(){
+    const loggedIn = !!currentUser;
+    const lang = localStorage.getItem('sl_lang')||'ar';
+    const t = I18N[lang]||I18N.ar;
+    document.getElementById('authBtnLabel').textContent = loggedIn ? currentUser.email.split('@')[0] : t.login;
+
+    const btn=document.getElementById('authToggleBtn');
+    const svgIcon=btn.querySelector('svg:first-child');
+    let avatarEl=btn.querySelector('.auth-avatar');
+
+    if (loggedIn){
+        if (!avatarEl){
+            avatarEl=document.createElement('span');
+            avatarEl.className='auth-avatar';
+            btn.insertBefore(avatarEl, btn.firstChild);
+            if (svgIcon) svgIcon.style.display='none';
+        }
+        avatarEl.textContent=currentUser.initial;
+        document.getElementById('userAvatarLg').textContent=currentUser.initial;
+    }else{
+        if (avatarEl) avatarEl.remove();
+        if (svgIcon) svgIcon.style.display='';
+    }
+    document.getElementById('userPanel').style.display = loggedIn ? 'block' : 'none';
+    document.getElementById('authForms').style.display = loggedIn ? 'none' : 'block';
+    if (loggedIn){
+        document.getElementById('userEmailDisplay').textContent=currentUser.email;
+        updateUsageUI();
+    }
+}
+function showAuthMsg(form,msg,type){
+    const el=document.getElementById(form+'-msg');
+    if (!el) return;
+    el.textContent=msg;
+    el.className='auth-msg '+type;
 }
 
-// =============================================================
-//   8️⃣  المتجر – بدء عملية الشراء
-// =============================================================
-const LS_URLS = {
-  tts: 'https://sl-dubbing.lemonsqueezy.com/checkout/buy/63c47294-0068-4206-a439-b0fca724b098',
-  dub: 'https://sl-dubbing.lemonsqueezy.com/checkout/buy/f92d46fb-65a6-4e53-bf13-5527cffa4e93',
-  srt: 'https://sl-dubbing.lemonsqueezy.com/checkout/buy/7e1f55d2-6e06-4525-954f-2306b9b3a20f'
-};
-function startCheckout(product){
-  const base = LS_URLS[product];
-  if (!base){ showToast('❌ منتج غير معروف','er'); return; }
-  const url = new URL(base);
-  if (currentUser?.email){
-    url.searchParams.set('checkout[email]', currentUser.email);
-    url.searchParams.set('checkout[custom][app_user_email]', currentUser.email);
-  }
-  url.searchParams.set('checkout[custom][feature_hint]', product);
-  url.searchParams.set('checkout[custom][source]', 'sl-dubbing-web');
-  window.open(url.toString(),'_blank');
+/* ----------  Usage UI ---------- */
+function updateUsageUI(){
+    if (!currentUser) return;
+    const users=getUsers();
+    const u=users[currentUser.email];
+    if (!u) return;
+    const localUnlocked=getUnlocked();
+    const lang = localStorage.getItem('sl_lang')||'ar';
+    const t = I18N[lang]||I18N.ar;
+
+    FEATURES.forEach(f=>{
+        const unlimited = (u.unlocked && u.unlocked[f]) || localUnlocked[f];
+        const used = (u.usage && u.usage[f])||0;
+        const left = unlimited ? Infinity : Math.max(0, FREE_LIMIT - used);
+        const pct = unlimited ? 100 : (left/FREE_LIMIT)*100;
+
+        const uc=document.getElementById('uc-'+f);
+        const ub=document.getElementById('ub-'+f);
+        if (uc){
+            if (unlimited){
+                uc.textContent = t.unlimited;
+                uc.className='usage-count unlimited';
+            }else if (left>0){
+                uc.textContent = left+'/'+FREE_LIMIT;
+                uc.className='usage-count has-uses';
+            }else{
+                uc.textContent = '0/'+FREE_LIMIT+' '+t.used;
+                uc.className='usage-count no-uses';
+            }
+        }
+        if (ub) ub.style.width = Math.max(0,pct)+'%';
+    });
+
+    const anyUnlocked = FEATURES.some(f=> (u.unlocked && u.unlocked[f])||localUnlocked[f]);
+    document.getElementById('userPlanBadge').textContent = anyUnlocked ? t.proPlan : t.freePlan;
 }
 
-// =============================================================
-//   9️⃣  OTP – نموذج التفعيل
-// =============================================================
-let otpTimer = null;
-let currentOTPEmail = '';
+/* ----------  Language Switcher ---------- */
+function toggleLang(){ document.getElementById('langDropdown').classList.toggle('show'); }
+function setLang(l){
+    document.querySelectorAll('.lang-option').forEach(o=> o.classList.toggle('active', o.dataset.lang===l));
+    const nameMap={ar:'العربية',en:'English',ru:'Русский',tr:'Türkçe',fr:'Français',de:'Deutsch',es:'Español',zh:'中文',hi:'हिन्दी',fa:'فارسی',it:'Italiano',nl:'Nederlands',sv:'Svenska'};
+    document.getElementById('currentLang').textContent = nameMap[l]||l;
+    document.getElementById('langDropdown').classList.remove('show');
+    document.documentElement.lang = l;
+    document.documentElement.dir = (['ar','fa','he'].includes(l))?'rtl':'ltr';
+    applyAllTranslations(l);
+    try{ localStorage.setItem('sl_lang',l); }catch(e){ console.warn('LocalStorage غير متاح',e); }
+}
+
+/* ----------  OTP Modal (fixed id, fixed countdown) ---------- */
+let otpTimer=null;
+let currentOTPEmail='';
+
 function showOTPModal(email){
-  currentOTPEmail = email;
-  const lang = localStorage.getItem('sl_lang')||'ar';
-  const t = I18N[lang]||I18N.ar;
+    currentOTPEmail=email;
+    const lang = localStorage.getItem('sl_lang')||'ar';
+    const t = I18N[lang]||I18N.ar;
 
-  const modal = document.createElement('div');
-  modal.id='otpModal';
-  modal.className='otp-modal';
-  modal.innerHTML = `
-    <div class="otp-content">
-      <div class="otp-icon">📧</div>
-      <h2 class="otp-title">${t.otpTitle}</h2>
-      <p class="otp-desc">${t.otpDesc}<br><strong class="otp-email">${email}</strong></p>
-      <input type="text" class="otp-input" id="otpInput" maxlength="6" placeholder="000000">
-      <div class="otp-timer">${t.otpTimer}: <span id="countdown" class="otp-timer-countdown">05:00</span></div>
-      <button class="otp-btn-verify" onclick="verifyOTP()">${t.otpVerify}</button>
-      <button class="otp-btn-resend" id="resendBtn" disabled>${t.otpResend}</button>
-      <button class="otp-btn-cancel" onclick="closeOTP()">❌ إلغاء</button>
-    </div>
-  `;
-  document.body.appendChild(modal);
-  startOTPCountdown(300);
-  setTimeout(()=>document.getElementById('otpInput').focus(),100);
+    const modal=document.createElement('div');
+    modal.id='otpModal';
+    modal.className='otp-modal';
+    modal.innerHTML=`
+        <div class="otp-content">
+            <div class="otp-icon">📧</div>
+            <h2 class="otp-title">${t.otpTitle}</h2>
+            <p class="otp-desc">${t.otpDesc}<br><strong class="otp-email">${email}</strong></p>
+            <input type="text" class="otp-input" id="otpInput" maxlength="6" placeholder="000000">
+            <div class="otp-timer">${t.otpTimer}: <span id="countdown" class="otp-timer-countdown">05:00</span></div>
+            <button class="otp-btn-verify" onclick="verifyOTP()">${t.otpVerify}</button>
+            <button class="otp-btn-resend" id="resendBtn" disabled>${t.otpResend}</button>
+            <button class="otp-btn-cancel" onclick="closeOTP()">❌ إلغاء</button>
+        </div>`;
+    document.body.appendChild(modal);
+    startOTPCountdown(300);
+    setTimeout(()=>document.getElementById('otpInput').focus(),100);
 }
 function startOTPCountdown(seconds){
-  let remaining = seconds;
-  const el = document.getElementById('countdown');
-  const btn = document.getElementById('resendBtn');
-  if (otpTimer) clearInterval(otpTimer);
-  btn.disabled = true;
-  otpTimer = setInterval(()=>{
-    if (remaining < 0){
-      clearInterval(otpTimer);
-      btn.disabled = false;
-      return;
-    }
-    const m = String(Math.floor(remaining/60)).padStart(2,'0');
-    const s = String(remaining%60).padStart(2,'0');
-    el.textContent = `${m}:${s}`;
-    remaining--;
-  },1000);
+    let remaining=seconds;
+    const el=document.getElementById('countdown');
+    const btn=document.getElementById('resendBtn');
+    if (otpTimer) clearInterval(otpTimer);
+    btn.disabled=true;
+    otpTimer=setInterval(()=>{
+        if (remaining<0){
+            clearInterval(otpTimer);
+            btn.disabled=false;
+            return;
+        }
+        const m=String(Math.floor(remaining/60)).padStart(2,'0');
+        const s=String(remaining%60).padStart(2,'0');
+        el.textContent=`${m}:${s}`;
+        remaining--;
+    },1000);
 }
 async function verifyOTP(){
-  const code = document.getElementById('otpInput').value.trim();
-  const lang = localStorage.getItem('sl_lang')||'ar';
-  const t = I18N[lang]||I18N.ar;
-  if (code.length!==6){ showToast(t.otpWrong,'er'); return; }
-
-  try{
-    const res = await fetch(`${BACKEND_URL}/api/verify-otp`,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({email:currentOTPEmail, otp:code})
-    });
-    if (res.ok){
-      showToast(t.otpSuccess,'ok');
-      closeOTP();
-      document.getElementById('login-email').value = currentOTPEmail;
-      switchAuthTab('login');
-    }else{
-      showToast(t.otpWrong,'er');
+    const code=document.getElementById('otpInput').value.trim();
+    const lang = localStorage.getItem('sl_lang')||'ar';
+    const t = I18N[lang]||I18N.ar;
+    if (code.length!==6){ showToast(t.otpWrong,'er'); return; }
+    try{
+        const res=await fetch(`${BACKEND_URL}/api/verify-otp`,{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({email:currentOTPEmail, otp:code})
+        });
+        if (res.ok){
+            showToast(t.otpSuccess,'ok');
+            closeOTP();
+            document.getElementById('login-email').value=currentOTPEmail;
+            switchAuthTab('login');
+        }else{
+            showToast(t.otpWrong,'er');
+        }
+    }catch(e){
+        showToast('❌ خطأ في الاتصال','er');
     }
-  }catch(e){
-    showToast('❌ خطأ في الاتصال', 'er');
-  }
 }
 async function resendOTP(){
-  const lang = localStorage.getItem('sl_lang')||'ar';
-  const t = I18N[lang]||I18N.ar;
-  try{
-    await fetch(`${BACKEND_URL}/api/send-otp`,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({email:currentOTPEmail})
-    });
-    startOTPCountdown(300);
-    document.getElementById('otpInput').value = '';
-    showToast('📩 '+t.otpResend,'ok');
-  }catch(e){
-    showToast('❌ خطأ', 'er');
-  }
+    const lang = localStorage.getItem('sl_lang')||'ar';
+    const t = I18N[lang]||I18N.ar;
+    try{
+        await fetch(`${BACKEND_URL}/api/send-otp`,{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({email:currentOTPEmail})
+        });
+        startOTPCountdown(300);
+        document.getElementById('otpInput').value='';
+        showToast('📩 '+t.otpResend,'ok');
+    }catch(e){
+        showToast('❌ خطأ', 'er');
+    }
 }
 function closeOTP(){
-  if (otpTimer) clearInterval(otpTimer);
-  const modal = document.getElementById('otpModal');
-  if (modal){
-    modal.style.animation='modalFadeOut .3s ease';
-    setTimeout(()=>modal.remove(),300);
-  }
+    if (otpTimer) clearInterval(otpTimer);
+    const modal=document.getElementById('otpModal');
+    if (modal){
+        modal.style.animation='modalFadeOut .3s ease';
+        setTimeout(()=>modal.remove(),300);
+    }
 }
 
-// =============================================================
-//   10️⃣  دوال النصوص (TTS / DUB / SRT)
-// =============================================================
-// ---- TTS ----
-function tSpeak(){
-  const txt = document.getElementById('ti').value.trim();
-  if (!txt){ setSt('s1','⚠️ أدخل نصاً أولاً','er'); return; }
-  if (speechSynthesis.speaking) speechSynthesis.cancel();
-
-  const u = new SpeechSynthesisUtterance(txt);
-  const voices = speechSynthesis.getVoices().filter(v=>v.lang.startsWith(selLang));
-  const vi = parseInt(document.getElementById('vs').value) || 0;
-  if (voices[vi]) u.voice = voices[vi];
-  u.rate = parseFloat(document.getElementById('rr1').value);
-  u.pitch = parseFloat(document.getElementById('pr1').value);
-  u.volume = parseFloat(document.getElementById('vr1').value);
-  u.lang = selLang;
-
-  u.onstart = ()=>{ speaking = true; setSt('s1','🔊 جارٍ النطق...','i'); document.getElementById('wv1').classList.add('on'); };
-  u.onend   = ()=>{ speaking = false; setSt('s1','✅ اكتمل','ok'); document.getElementById('wv1').classList.remove('on'); };
-  u.onerror = ()=>{ speaking = false; setSt('s1','❌ خطأ في النطق','er'); document.getElementById('wv1').classList.remove('on'); };
-  speechSynthesis.speak(u);
-  curUtter = u;
-}
-function tPause(){ if (speechSynthesis.speaking) speechSynthesis.cancel(); }
-function clrTxt(){
-  document.getElementById('ti').value=''; document.getElementById('cc').textContent='0';
-  setSt('s1','👋 اكتب نصاً واضغط نطق','i');
-}
-
-// ---- DUB ---- (ملاحظة: داخل الدالة يتم إظهار تحذير في الوقت الحالي)
-function stDub(){ setSt('dubSt','⚠️ يتطلب سيرفر backend','wn'); }
-
-// ---- SRT ---- (عمل تجريبي فقط)
-function startTrans(){
-  const src = document.getElementById('srcSRT').value.trim();
-  if (!src){ setSt('transSt','⚠️ الصق محتوى SRT أولاً','er'); return; }
-  setSt('transSt','⏳ جارٍ الترجمة...','i');
-  document.getElementById('transRes').style.display='none';
-  // *** هنا يجب استدعاء backend للترجمة. الآن مجرد نموذج تجريبي ***
-  const blocks = src.split(/\n\s*\n/).map(b=>b.trim()).filter(b=>b);
-  const translated = blocks.map((b,i)=>({time:b.match(/-->/)[0]||'00:00:00,000 --> 00:00:00,000', text:'[ ترجم هنا ]'}));
-  const out = translated.map((b,i)=>`${i+1}\n${b.time}\n${b.text}`).join('\n');
-  document.getElementById('transOut').textContent = out;
-  document.getElementById('transRes').style.display='block';
-  setSt('transSt','✅ تمت الترجمة (stub)','ok');
-}
-
-// ==== النصوص المساعدة (المنطق المتعلق بالواجهة) ====
-function setSt(id,msg,cls){
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.textContent = msg;
-  el.className='st '+cls;
-}
-
-// =============================================================
-//   11️⃣  التحكم في القوائم (لغة، صوت، فلاتر …)
-// =============================================================
+/* ----------  Feature Helpers (language pickers, etc.) ---------- */
 let selLang='ar', selDubLang='ar', selTransLang='en';
+let srtData=[], dubCancel=false, dubBlob=null;
+let curUtter=null, speaking=false;
+
+const langs = [
+    {c:'ar',f:'🇸🇦',n:'العربية',v:'ar'},{c:'en',f:'🇺🇸',n:'English',v:'en'},
+    {c:'ru',f:'🇷🇺',n:'Русский',v:'ru'},{c:'tr',f:'🇹🇷',n:'Türkçe',v:'tr'},
+    {c:'fr',f:'🇫🇷',n:'Français',v:'fr'},{c:'de',f:'🇩🇪',n:'Deutsch',v:'de'},
+    {c:'es',f:'🇪🇸',n:'Español',v:'es'},{c:'zh',f:'🇨🇳',n:'中文',v:'zh'},
+    {c:'hi',f:'🇮🇳',n:'हिन्दी',v:'hi'},{c:'fa',f:'🇮🇷',n:'فارسی',v:'fa'},
+    {c:'it',f:'🇮🇹',n:'Italiano',v:'it'},{c:'nl',f:'🇳🇱',n:'Nederlands',v:'nl'},
+    {c:'sv',f:'🇸🇪',n:'Svenska',v:'sv'}
+];
+
 function buildLangGrid(id, sel, onPick){
-  const g = document.getElementById(id);
-  if (!g) return;
-  g.innerHTML = langs.map(l=>`<button class="lb${l.c===sel?' on':''}" onclick="${onPick}('${l.c}')"><span class="lf">${l.f}</span><span class="lang-text">${l.n}</span></button>`).join('');
+    const g=document.getElementById(id);
+    if (!g) return;
+    g.innerHTML = langs.map(l=>`<button class="lb${l.c===sel?' on':''}" onclick="${onPick}('${l.c}')"><span class="lf">${l.f}</span><span class="lang-text">${l.n}</span></button>`).join('');
 }
 function pickLang(c){ selLang=c; buildLangGrid('g1',c,'pickLang'); buildVoices(); }
 function pickDubLang(c){ selDubLang=c; buildLangGrid('g2',c,'pickDubLang'); }
 function pickTransLang(c){ selTransLang=c; buildTransGrid(); }
 function buildTransGrid(){
-  const g=document.getElementById('transLangs');
-  if (!g) return;
-  g.innerHTML = langs.map(l=>`<button class="tbtn${l.c===selTransLang?' on':''}" onclick="pickTransLang('${l.c}')">${l.f} ${l.n}</button>`).join('');
+    const g=document.getElementById('transLangs');
+    if (!g) return;
+    g.innerHTML = langs.map(l=>`<button class="tbtn${l.c===selTransLang?' on':''}" onclick="pickTransLang('${l.c}')">${l.f} ${l.n}</button>`).join('');
 }
 function buildVoices(){
-  const vs=document.getElementById('vs');
-  if (!vs) return;
-  const voices = speechSynthesis.getVoices().filter(v=>v.lang.startsWith(selLang));
-  vs.innerHTML = voices.length ? voices.map((v,i)=>`<option value="${i}">${v.name}</option>`).join('') : `<option>افتراضي</option>`;
-}
-document.getElementById('rr1').oninput = function(){ document.getElementById('rv1').textContent = parseFloat(this.value).toFixed(1)+'x'; };
-document.getElementById('pr1').oninput = function(){ document.getElementById('pv1').textContent = parseFloat(this.value).toFixed(1); };
-document.getElementById('vr1').oninput = function(){ document.getElementById('vv1').textContent = Math.round(this.value*100)+'%'; };
-document.getElementById('rr2').oninput = function(){ document.getElementById('rv2').textContent = parseFloat(this.value).toFixed(1)+'x'; };
-document.getElementById('vr2').oninput = function(){ document.getElementById('vv2').textContent = parseFloat(this.value).toFixed(1); };
-document.getElementById('ti').oninput = function(){ document.getElementById('cc').textContent = this.value.length; };
-speechSynthesis.onvoiceschanged = buildVoices;
-
-// =============================================================
-//   12️⃣  الفلاتر الصوتية (سرعة، طبقة، إيكولايزر)
-// =============================================================
-function updateFilters(){
-  document.getElementById('speedVal').textContent = parseFloat(document.getElementById('filterSpeed').value).toFixed(1)+'x';
-  document.getElementById('pitchVal').textContent = parseFloat(document.getElementById('filterPitch').value).toFixed(1);
-  document.getElementById('bassVal').textContent  = document.getElementById('eqBass').value+'dB';
-  document.getElementById('midVal').textContent   = document.getElementById('eqMid').value+'dB';
-  document.getElementById('trebleVal').textContent = document.getElementById('eqTreble').value+'dB';
-}
-function resetFilters(){
-  ['filterSpeed','filterPitch'].forEach(id=>document.getElementById(id).value=1);
-  ['eqBass','eqMid','eqTreble'].forEach(id=>document.getElementById(id).value=0);
-  updateFilters();
-}
-function applyPreset(p){
-  const presets = {
-    male:{pitch:.7,speed:1},
-    radio:{pitch:1.1,speed:1.1},
-    warm:{pitch:.9,speed:.9},
-    fast:{pitch:1,speed:1.6}
-  };
-  const pr = presets[p];
-  if (!pr) return;
-  document.getElementById('filterPitch').value = pr.pitch;
-  document.getElementById('filterSpeed').value = pr.speed;
-  updateFilters();
+    const vs=document.getElementById('vs');
+    if (!vs) return;
+    const voices = speechSynthesis.getVoices().filter(v=>v.lang.startsWith(selLang));
+    vs.innerHTML = voices.length ? voices.map((v,i)=>`<option value="${i}">${v.name}</option>`).join('') : `<option>افتراضي</option>`;
 }
 
-// =============================================================
-//   13️⃣  وظائف SRT (تحميل، تحليل، نسخ، …)
-// =============================================================
+/* ----------  TTS ---------- */
+function tSpeak(){
+    const txt=document.getElementById('ti').value.trim();
+    if (!txt){ setSt('s1','⚠️ أدخل نصاً أولاً','er'); return; }
+    if (speechSynthesis.speaking) speechSynthesis.cancel();
+
+    const u=new SpeechSynthesisUtterance(txt);
+    const voices=speechSynthesis.getVoices().filter(v=>v.lang.startsWith(selLang));
+    const vi=parseInt(document.getElementById('vs').value)||0;
+    if (voices[vi]) u.voice=voices[vi];
+    u.rate=parseFloat(document.getElementById('rr1').value);
+    u.pitch=parseFloat(document.getElementById('pr1').value);
+    u.volume=parseFloat(document.getElementById('vr1').value);
+    u.lang=selLang;
+
+    u.onstart=()=>{ speaking=true; setSt('s1','🔊 جارٍ النطق...','i'); document.getElementById('wv1').classList.add('on'); };
+    u.onend=()=>{ speaking=false; setSt('s1','✅ اكتمل','ok'); document.getElementById('wv1').classList.remove('on'); };
+    u.onerror=()=>{ speaking=false; setSt('s1','❌ خطأ في النطق','er'); document.getElementById('wv1').classList.remove('on'); };
+
+    speechSynthesis.speak(u);
+    curUtter=u;
+}
+function tPause(){ if (speechSynthesis.speaking) speechSynthesis.cancel(); }
+function clrTxt(){
+    document.getElementById('ti').value=''; document.getElementById('cc').textContent='0';
+    setSt('s1','👋 اكتب نصاً واضغط نطق','i');
+}
+
+/* ----------  SRT Parsing ---------- */
 function ldSRT(e){
-  const f=e.target.files[0];
-  if (!f) return;
-  const r = new FileReader();
-  r.onload = ev => {
-    document.getElementById('srtP').value = ev.target.result;
-    prsPaste();
-  };
-  r.readAsText(f,'UTF-8');
+    const f=e.target.files[0];
+    if (!f) return;
+    const r=new FileReader();
+    r.onload=ev=>{
+        document.getElementById('srtP').value=ev.target.result;
+        prsPaste();
+    };
+    r.readAsText(f,'UTF-8');
 }
 function prsPaste(){
-  const raw = document.getElementById('srtP').value.trim();
-  if (!raw){ setSt('dubSt','⚠️ لا يوجد محتوى','er'); return; }
-  srtData = parseSRT(raw);
-  if (!srtData.length){ setSt('dubSt','❌ تعذّر تحليل الملف','er'); return; }
-  showSRTInfo();
-  document.getElementById('dubCard').style.display='block';
-  setSt('dubSt',`✅ ${srtData.length} جملة — اضغط توليد`,'ok');
+    const raw=document.getElementById('srtP').value.trim();
+    if (!raw){ setSt('dubSt','⚠️ لا يوجد محتوى','er'); return; }
+    srtData=parseSRT(raw);
+    if (!srtData.length){ setSt('dubSt','❌ تعذّر تحليل الملف','er'); return; }
+    showSRTInfo();
+    document.getElementById('dubCard').style.display='block';
+    setSt('dubSt',`✅ ${srtData.length} جملة — اضغط توليد`,'ok');
 }
 function parseSRT(txt){
-  const blocks = txt.trim().split(/\n\s*\n/), out=[];
-  blocks.forEach(b=>{
-    const lines = b.trim().split('\n');
-    if (lines.length<2) return;
-    const tLine = lines.find(l=>/-->/.test(l));
-    if (!tLine) return;
-    const [st,et] = tLine.split('-->').map(s=>s.trim());
-    const text = lines.filter(l=>!/-->/.test(l) && !/^\d+$/.test(l.trim())).join(' ').trim();
-    if (text) out.push({start:toSec(st), end:toSec(et), text});
-  });
-  return out;
+    const blocks=txt.trim().split(/\n\s*\n/), out=[];
+    blocks.forEach(b=>{
+        const lines=b.trim().split('\n');
+        if (lines.length<2) return;
+        const tLine=lines.find(l=>/-->/.test(l));
+        if (!tLine) return;
+        const [st,et]=tLine.split('-->').map(s=>s.trim());
+        const text=lines.filter(l=>!/-->/.test(l) && !/^\d+$/.test(l.trim())).join(' ').trim();
+        if (text) out.push({start:toSec(st),end:toSec(et),text});
+    });
+    return out;
 }
 function toSec(s){
-  const m = s.match(/(\d+):(\d+):(\d+)[,.](\d+)/);
-  if (!m) return 0;
-  return parseInt(m[1])*3600 + parseInt(m[2])*60 + parseInt(m[3]) + parseInt(m[4])/1000;
+    const m=s.match(/(\d+):(\d+):(\d+)[,.](\d+)/);
+    if (!m) return 0;
+    return parseInt(m[1])*3600 + parseInt(m[2])*60 + parseInt(m[3]) + parseInt(m[4])/1000;
 }
 function fmtTime(s){
-  const h=Math.floor(s/3600);
-  const m=Math.floor((s%3600)/60);
-  const sec=Math.floor(s%60);
-  return `${h}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+    const h=Math.floor(s/3600), m=Math.floor((s%3600)/60), sec=Math.floor(s%60);
+    return `${h}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
 }
 function showSRTInfo(){
-  document.getElementById('srtInfo').style.display='block';
-  document.getElementById('sCnt').textContent=srtData.length;
-  const maxE = srtData.reduce((a,b)=>b.end>a?b.end:a,0);
-  document.getElementById('sDur').textContent = fmtTime(maxE);
-  const sl=document.getElementById('srtL');
-  sl.innerHTML=srtData.map((s,i)=>`<div class="si"><span class="sin">${i+1}</span><span class="sit">${fmtTime(s.start)}</span><span class="sit2">${s.text}</span></div>`).join('');
+    document.getElementById('srtInfo').style.display='block';
+    document.getElementById('sCnt').textContent=srtData.length;
+    const maxE=srtData.reduce((a,b)=>b.end>a?b.end:a,0);
+    document.getElementById('sDur').textContent=fmtTime(maxE);
+    const sl=document.getElementById('srtL');
+    sl.innerHTML=srtData.map((s,i)=>`<div class="si"><span class="sin">${i+1}</span><span class="sit">${fmtTime(s.start)}</span><span class="sit2">${s.text}</span></div>`).join('');
 }
 function cpySRT(){ navigator.clipboard.writeText(srtData.map(s=>s.text).join('\n')).then(()=>showToast('✅ تم النسخ','ok')); }
 
-// =============================================================
-//   14️⃣  تنظيف النص
-// =============================================================
+/* ----------  Dubbing (stub) ---------- */
+function stDub(){ setSt('dubSt','⚠️ يتطلب سيرفر backend','wn'); }
+
+/* ----------  SRT Translation (stub) ---------- */
+function startTrans(){
+    const src=document.getElementById('srcSRT').value.trim();
+    if (!src){ setSt('transSt','⚠️ الصق محتوى SRT أولاً','er'); return; }
+    setSt('transSt','⏳ جارٍ الترجمة...','i');
+    document.getElementById('transRes').style.display='none';
+    // *** تمثل مثال تجريبي فقط ***
+    const blocks=src.split(/\n\s*\n/).map(b=>b.trim()).filter(b=>b);
+    const translated=blocks.map((b,i)=>({time:b.match(/-->/)[0]||'00:00:00,000 --> 00:00:00,000',text:'[ ترجمة ]'}));
+    const out=translated.map((b,i)=>`${i+1}\n${b.time}\n${b.text}`).join('\n');
+    document.getElementById('transOut').textContent=out;
+    document.getElementById('transRes').style.display='block';
+    setSt('transSt','✅ تمت الترجمة (stub)','ok');
+}
+
+/* ----------  Cleaning Text ---------- */
 function cleanText(){
-  let txt=document.getElementById('cleanInput').value;
-  if(!txt.trim()){ setSt('cleanSt','⚠️ الصق نصاً أولاً','er'); return; }
-  if(document.getElementById('removeNumbers').checked) txt=txt.replace(/^\d+\s*$/gm,'');
-  if(document.getElementById('removeTime').checked) txt=txt.replace(/\d{1,2}:\d{2}:\d{2}[,\.]\d{3}\s*-->\s*\d{1,2}:\d{2}:\d{2}[,\.]\d{3}/g,'');
-  if(document.getElementById('removeEmpty').checked) txt=txt.replace(/\n{2,}/g,'\n').trim();
-  document.getElementById('cleanOutput').textContent=txt;
-  document.getElementById('cleanResult').style.display='block';
-  setSt('cleanSt','✅ تم التنظيف','ok');
+    let txt=document.getElementById('cleanInput').value;
+    if (!txt.trim()){ setSt('cleanSt','⚠️ الصق نصاً أولاً','er'); return; }
+    if (document.getElementById('removeNumbers').checked) txt=txt.replace(/^\d+\s*$/gm,'');
+    if (document.getElementById('removeTime').checked) txt=txt.replace(/\d{1,2}:\d{2}:\d{2}[,\.]\d{3}\s*-->\s*\d{1,2}:\d{2}:\d{2}[,\.]\d{3}/g,'');
+    if (document.getElementById('removeEmpty').checked) txt=txt.replace(/\n{2,}/g,'\n').trim();
+    document.getElementById('cleanOutput').textContent=txt;
+    document.getElementById('cleanResult').style.display='block';
+    setSt('cleanSt','✅ تم التنظيف','ok');
 }
 function copyClean(){ navigator.clipboard.writeText(document.getElementById('cleanOutput').textContent).then(()=>showToast('✅ تم النسخ','ok')); }
 function dlClean(){
-  const txt=document.getElementById('cleanOutput').textContent;
-  const a=document.createElement('a');
-  a.href='data:text/plain;charset=utf-8,'+encodeURIComponent(txt);
-  a.download='cleaned.txt';
-  a.click();
+    const txt=document.getElementById('cleanOutput').textContent;
+    const a=document.createElement('a');
+    a.href='data:text/plain;charset=utf-8,'+encodeURIComponent(txt);
+    a.download='cleaned.txt';
+    a.click();
 }
 function pasteClean(){ navigator.clipboard.readText().then(t=>{ document.getElementById('cleanInput').value=t; }); }
 
-// =============================================================
-//   15️⃣  نسخ النتائج (دبلاج / ترجمة)
-// =============================================================
-function dlRes(){
-  if (dubBlob){
-    const a=document.createElement('a');
-    a.href=URL.createObjectURL(dubBlob);
-    a.download='dubbing.wav';
-    a.click();
-  }
-}
-function copyResult(){ navigator.clipboard.writeText(document.getElementById('transOut').textContent).then(()=>showToast('✅ تم النسخ','ok')); }
-function dlTransSRT(){
-  const txt=document.getElementById('transOut').textContent;
-  const a=document.createElement('a');
-  a.href='data:text/plain;charset=utf-8,'+encodeURIComponent(txt);
-  a.download='translated.srt';
-  a.click();
+/* ----------  Status setters ---------- */
+function setSt(id,msg,cls){
+    const el=document.getElementById(id);
+    if (!el) return;
+    el.textContent=msg;
+    el.className='st '+cls;
 }
 
-// =============================================================
-//   16️⃣  عمليات الحماية (لا تحتاج تعديل)
-// =============================================================
+/* ----------  Language & Filter Controls ---------- */
+const rr1=document.getElementById('rr1'), pr1=document.getElementById('pr1'), vr1=document.getElementById('vr1');
+rr1 && (rr1.oninput=()=>{ document.getElementById('rv1').textContent=parseFloat(rr1.value).toFixed(1)+'x'; });
+pr1 && (pr1.oninput=()=>{ document.getElementById('pv1').textContent=parseFloat(pr1.value).toFixed(1); });
+vr1 && (vr1.oninput=()=>{ document.getElementById('vv1').textContent=Math.round(vr1.value*100)+'%'; });
+const rr2=document.getElementById('rr2'), vr2=document.getElementById('vr2');
+rr2 && (rr2.oninput=()=>{ document.getElementById('rv2').textContent=parseFloat(rr2.value).toFixed(1)+'x'; });
+vr2 && (vr2.oninput=()=>{ document.getElementById('vv2').textContent=parseFloat(vr2.value).toFixed(1); });
+document.getElementById('ti') && (document.getElementById('ti').oninput=()=>{ document.getElementById('cc').textContent=document.getElementById('ti').value.length; });
 
-function guardActionAlways(){ return true; } // placeholder
+/* ----------  Filter Sliders ---------- */
+function updateFilters(){
+    document.getElementById('speedVal').textContent=parseFloat(document.getElementById('filterSpeed').value).toFixed(1)+'x';
+    document.getElementById('pitchVal').textContent=parseFloat(document.getElementById('filterPitch').value).toFixed(1);
+    document.getElementById('bassVal').textContent=document.getElementById('eqBass').value+'dB';
+    document.getElementById('midVal').textContent=document.getElementById('eqMid').value+'dB';
+    document.getElementById('trebleVal').textContent=document.getElementById('eqTreble').value+'dB';
+}
+function resetFilters(){
+    ['filterSpeed','filterPitch'].forEach(id=>document.getElementById(id).value=1);
+    ['eqBass','eqMid','eqTreble'].forEach(id=>document.getElementById(id).value=0);
+    updateFilters();
+}
+function applyPreset(p){
+    const presets={male:{pitch:.7,speed:1},radio:{pitch:1.1,speed:1.1},warm:{pitch:.9,speed:.9},fast:{pitch:1,speed:1.6}};
+    const pr=presets[p];
+    if (!pr) return;
+    document.getElementById('filterPitch').value=pr.pitch;
+    document.getElementById('filterSpeed').value=pr.speed;
+    updateFilters();
+}
 
-// =============================================================
-//   17️⃣  Guarded Action (تحقق من الاستخدام قبل التنفيذ)
-// =============================================================
-function guardedAction(feature, action){
-  const lang = localStorage.getItem('sl_lang')||'ar';
-  const t = I18N[lang]||I18N.ar;
-  if (!currentUser){
-    openAuthDropdown();
-    showToast(t.lockActionGuest,'wn');
-    return false;
-  }
-  const left = getUsageLeft(currentUser.email, feature);
-  if (left===Infinity){
+/* ----------  Guarded Action (usage check) ---------- */
+function guardedAction(feature,action){
+    const lang = localStorage.getItem('sl_lang')||'ar';
+    const t = I18N[lang]||I18N.ar;
+    if (!currentUser){
+        openAuthDropdown();
+        showToast(t.lockActionGuest,'wn');
+        return false;
+    }
+    const left = getUsageLeft(currentUser.email,feature);
+    if (left===Infinity){
+        action(); return true;
+    }
+    if (left<=0){
+        showToast(t.lockSubUsed,'er');
+        updateLockStates();
+        return false;
+    }
+    consumeUse(feature);
     action();
+    const newLeft = getUsageLeft(currentUser.email,feature);
+    if (newLeft<=2 && newLeft>0){
+        showToast((t.toastWarnUses||'⚠️ Only {n} free uses remaining!').replace('{n}',newLeft),'wn');
+    }else if (newLeft===0){
+        setTimeout(()=>updateLockStates(),500);
+    }
     return true;
-  }
-  if (left<=0){
-    showToast(t.lockSubUsed,'er');
-    updateLockStates();
-    return false;
-  }
-  consumeUse(feature);
-  action();
-  const newLeft = getUsageLeft(currentUser.email, feature);
-  if (newLeft<=2 && newLeft>0){
-    showToast((t.toastWarnUses||'⚠️ Only {n} free uses remaining!').replace('{n}',newLeft),'wn');
-  }else if (newLeft===0){
-    setTimeout(()=>updateLockStates(),500);
-  }
-  return true;
 }
 
-// =============================================================
-//   18️⃣  دالة التحقق من التوكن (مستدعاة من الـ DOMContentLoaded)
-// =============================================================
-function checkVerificationToken(){ /* لا شيء الآن – تم إلغاء الخطأ السابق */ }
+/* ----------  Lock / Unlock UI ---------- */
+function lockAction(feature){
+    if (!currentUser) openAuthDropdown();
+    else startCheckout(feature);
+}
+function unlockZone(product,animate=true){
+    const zone=document.getElementById('zone-'+product);
+    const lock=document.getElementById('lock-'+product);
+    if (!zone||!lock) return;
+    lock.classList.remove('active');
+    zone.classList.add('unlocked');
+    const btn=document.getElementById('btn-'+product);
+    if (btn){
+        btn.disabled=true;
+        if (product==='tts') btn.style.background='linear-gradient(135deg,#4f46e5,#6366f1)';
+        if (product==='dub') btn.style.background='linear-gradient(135deg,#d97706,#f59e0b)';
+        if (product==='srt') btn.style.background='linear-gradient(135deg,#059669,#10b981)';
+        btn.innerHTML='<span class="btn-text">✅ مفعّل مدى الحياة</span>';
+    }
+    if (animate){
+        zone.querySelectorAll('.card').forEach((c,i)=>{ c.style.animationDelay = (i*0.08)+'s'; });
+    }
+}
+function resetZoneButton(product){
+    const btn=document.getElementById('btn-'+product);
+    if (!btn) return;
+    btn.disabled=false;
+    btn.innerHTML='<span class="btn-text">💳 شراء الآن</span>';
+    if (product==='tts') btn.style.background='linear-gradient(135deg,#4f46e5,#6366f1)';
+    if (product==='dub') btn.style.background='linear-gradient(135deg,#d97706,#f59e0b)';
+    if (product==='srt') btn.style.background='linear-gradient(135deg,#059669,#10b981)';
+}
+function updateLockStates(){
+    const lang = localStorage.getItem('sl_lang')||'ar';
+    const t = I18N[lang]||I18N.ar;
+    FEATURES.forEach(f=>{
+        const lock=document.getElementById('lock-'+f);
+        const zone=document.getElementById('zone-'+f);
+        if (!lock||!zone) return;
+        const localUnlocked=getUnlocked();
+        if (localUnlocked[f]){
+            lock.classList.remove('active');
+            zone.classList.add('unlocked');
+            unlockZone(f,false);
+            return;
+        }
+        if (!currentUser){
+            lock.classList.add('active');
+            zone.classList.remove('unlocked');
+            document.getElementById('lock-icon-'+f).textContent='🔒';
+            document.getElementById('lock-title-'+f).textContent = (f==='dub')? t.lockDub : (f==='srt')? t.lockSRT : t.lockTTS;
+            document.getElementById('lock-sub-'+f).textContent = (f==='dub')? t.lockSubDubGuest : t.lockSubGuest;
+            document.getElementById('lock-free-'+f).style.display='none';
+            document.getElementById('lock-uses-'+f).style.display='none';
+            const actBtn=document.getElementById('lock-action-'+f);
+            actBtn.textContent = t.lockActionGuest;
+            actBtn.className='lock-buy-hint '+f+'-btn';
+            actBtn.onclick = openAuthDropdown;
+            return;
+        }
+        const left = getUsageLeft(currentUser.email,f);
+        if (left===Infinity || left>0){
+            lock.classList.remove('active');
+            zone.classList.add('unlocked');
+        }else{
+            lock.classList.add('active');
+            zone.classList.remove('unlocked');
+            document.getElementById('lock-icon-'+f).textContent='⛔';
+            document.getElementById('lock-title-'+f).textContent = t.lockSubUsed;
+            document.getElementById('lock-sub-'+f).textContent = t.lockSubUsed;
+            document.getElementById('lock-free-'+f).style.display='none';
+            document.getElementById('lock-uses-'+f).style.display='none';
+            const actBtn=document.getElementById('lock-action-'+f);
+            actBtn.textContent = (f==='tts')? t.lockActionBuy : (f==='dub')? t.lockActionBuyDub : t.lockActionBuy;
+            actBtn.className='lock-buy-hint '+f+'-btn';
+            actBtn.onclick = ()=>startCheckout(f);
+        }
+    });
+}
+function syncUIFromUnlockedState(){
+    const u = getUnlocked();
+    FEATURES.forEach(product=>{
+        const zone=document.getElementById('zone-'+product);
+        const lock=document.getElementById('lock-'+product);
+        if (!zone||!lock) return;
+        if (u[product]){
+            lock.classList.remove('active');
+            zone.classList.add('unlocked');
+            unlockZone(product,false);
+        }else{
+            zone.classList.remove('unlocked');
+            resetZoneButton(product);
+        }
+    });
+}
 
-// =============================================================
-//   19️⃣  تهيئة الصفحة عند تحميل الـ DOM
-// =============================================================
+/* ----------  Checkout (Lemon Squeezy) ---------- */
+const LS_URLS = {
+    tts: 'https://sl-dubbing.lemonsqueezy.com/checkout/buy/63c47294-0068-4206-a439-b0fca724b098',
+    dub: 'https://sl-dubbing.lemonsqueezy.com/checkout/buy/f92d46fb-65a6-4e53-bf13-5527cffa4e93',
+    srt: 'https://sl-dubbing.lemonsqueezy.com/checkout/buy/7e1f55d2-6e06-4525-954f-2306b9b3a20f'
+};
+function startCheckout(product){
+    const base = LS_URLS[product];
+    if (!base){ showToast('❌ منتج غير معروف','er'); return; }
+    const url = new URL(base);
+    if (currentUser?.email){
+        url.searchParams.set('checkout[email]', currentUser.email);
+        url.searchParams.set('checkout[custom][app_user_email]', currentUser.email);
+    }
+    url.searchParams.set('checkout[custom][feature_hint]', product);
+    url.searchParams.set('checkout[custom][source]', 'sl-dubbing-web');
+    window.open(url.toString(),'_blank');
+}
+
+/* ----------  OTP placeholder (to avoid ReferenceError) ---------- */
+function checkVerificationToken(){ /* لا شيء الآن – تم استبدال النداء الفارغ */ }
+
+/* ----------  Init on DOMContentLoaded ---------- */
 window.addEventListener('DOMContentLoaded', async ()=>{
-  // 1‑  لا تحتاج لتفعيل التحقق لأن الدالة الآن فارغة
-  checkVerificationToken();
+    // 1. لا نحتاج لتفعيل شيء خاص بالتحقق الآن
+    checkVerificationToken();
 
-  // بناء القوائم اللغوية
-  buildLangGrid('g1', selLang, 'pickLang');
-  buildLangGrid('g2', selDubLang, 'pickDubLang');
-  buildTransGrid();
-  buildVoices();
+    // 2. بناء القوائم اللغوية
+    buildLangGrid('g1',selLang,'pickLang');
+    buildLangGrid('g2',selDubLang,'pickDubLang');
+    buildTransGrid();
+    buildVoices();
+    speechSynthesis.onvoiceschanged=buildVoices;
 
-  // قراءة اللغة المخزنة وتطبيقها
-  const savedLang = localStorage.getItem('sl_lang')||'ar';
-  setLang(savedLang);
+    // 3. ضبط اللغة المخزنة
+    const savedLang = localStorage.getItem('sl_lang')||'ar';
+    setLang(savedLang);
 
-  // تحميل حالة الجلسة (إن كان فيها مستخدم)
-  await initAuth();
+    // 4. استعادة الجلسة (إن وجدت)
+    await initAuth();
 
-  // تحقق من إشارة الدفع من URL (بعد عودة من Lemon Squeezy)
-  const urlParams = new URLSearchParams(window.location.search);
-  const paid = urlParams.get('paid');
-  const feature = urlParams.get('feature');
-  if (paid==='1' && feature && FEATURES.includes(feature)){
-    showToast('✅ تم استلام العودة من صفحة الدفع','ok');
-    if (currentUser) await refreshEntitlements();
-    window.history.replaceState({}, document.title, window.location.pathname);
-  }
+    // 5. التعامل مع إشارة الدفع من Lemon Squeezy (إن وجدت)
+    const urlParams = new URLSearchParams(window.location.search);
+    const paid = urlParams.get('paid');
+    const feature = urlParams.get('feature');
+    if (paid==='1' && feature && FEATURES.includes(feature)){
+        showToast('✅ تم استلام العودة من صفحة الدفع','ok');
+        if (currentUser) await refreshEntitlements();
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
 });
+
+/* ----------  Init Auth (session) ---------- */
+async function initAuth(){
+    const s = getSession();
+    if (s && s.email){
+        const users = getUsers();
+        if (users[s.email] && users[s.email].verified){
+            currentUser = {email:s.email, initial:s.email[0].toUpperCase()};
+            if (users[s.email].unlocked) setUnlockedState(users[s.email].unlocked);
+        }else{
+            clearSession();
+        }
+    }
+    renderAuthState();
+    syncUIFromUnlockedState();
+    updateLockStates();
+    if (currentUser) await refreshEntitlements();
+}
+
+/* ----------  Refresh entitlements (from backend) ---------- */
+async function refreshEntitlements(){
+    if (!currentUser?.email) return;
+    try{
+        const res = await fetch(`${BACKEND_URL}/api/entitlements?email=${encodeURIComponent(currentUser.email)}`);
+        if (!res.ok) throw new Error('Failed to load entitlements');
+        const data = await res.json();
+        const unlocked = data?.unlocked||{};
+        setUnlockedState(unlocked);
+        const users=getUsers();
+        if (users[currentUser.email]){
+            users[currentUser.email].unlocked = { ...(users[currentUser.email].unlocked||{}), ...unlocked };
+            saveUsers(users);
+        }
+        syncUIFromUnlockedState();
+        updateLockStates();
+        updateUsageUI();
+    }catch(err){
+        console.error('refreshEntitlements error:',err);
+    }
+}
+
+/* ----------  Save unlocked feature after purchase (called by backend webhook) ---------- */
+function saveUnlocked(product){
+    const u = getUnlocked();
+    u[product]=true;
+    setUnlockedState(u);
+}
+
+/* -------------------------------------------------------------- */
+/*  باقي الدوال (شريط الفلاتر، نسخ، تحميل، …) تبقى كما هي في النسخة الأصلية. */
+/* -------------------------------------------------------------- */
 </script>
 </body>
 </html>
