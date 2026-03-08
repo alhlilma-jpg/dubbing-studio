@@ -17,12 +17,12 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:var(--da
 .wrap{position:relative;z-index:1;max-width:1600px;margin:0 auto;padding:24px 16px;display:grid;grid-template-columns:1fr;gap:24px}
 
 header{text-align:center;margin-bottom:32px;grid-column:1/-1;display:flex;justify-content:center}
-.logo-container{display:flex;flex-direction:column;align-items:center;gap:12px;position:relative;z-index:10}
-.logo-img{width:100px;height:100px;background:transparent;border:none;border-radius:50%;overflow:visible;display:flex;align-items:center;justify-content:center;padding:5px;animation:logoFloat 3s ease-in-out infinite}
-@keyframes logoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-.logo-img img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 15px rgba(167,139,250,.6))}
-.logo-container h1{font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,#a78bfa,#60a5fa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:3px}
-.logo-container .subtitle{color:#a78bfa;font-size:.85rem;font-weight:600}
+.logo-container{display:flex;flex-direction:column;align-items:center;gap:16px;position:relative;z-index:10}
+.logo-img{width:160px;height:160px;background:transparent;border:none;border-radius:50%;overflow:visible;display:flex;align-items:center;justify-content:center;padding:8px;animation:logoFloat 3s ease-in-out infinite}
+@keyframes logoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
+.logo-img img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 20px rgba(167,139,250,.7))}
+.logo-container h1{font-size:2.4rem;font-weight:900;background:linear-gradient(135deg,#a78bfa,#60a5fa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:3px}
+.logo-container .subtitle{color:#a78bfa;font-size:1rem;font-weight:600}
 
 .lang-switcher{position:fixed;top:20px;left:20px;z-index:1000}
 .lang-btn{display:flex;align-items:center;gap:8px;padding:10px 16px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:12px;color:#e0e0ff;cursor:pointer;font-size:.8rem;font-weight:600;transition:all .3s;backdrop-filter:blur(10px)}
@@ -232,11 +232,13 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;heigh
 .footer-badges{display:flex;gap:16px}
 .badge{display:flex;align-items:center;gap:6px;padding:8px 16px;background:var(--card);border:1px solid var(--border);border-radius:20px;font-size:.8rem;color:var(--text-muted)}
 
-@media(max-width:1024px){.footer-container{grid-template-columns:1fr 1fr;gap:40px}}
+@media(max-width:1024px){.footer-container{grid-template-columns:1fr 1fr;gap:40px}.logo-img{width:140px;height:140px}.logo-container h1{font-size:2rem}}
 @media(max-width:768px){
     .payment-grid{grid-template-columns:1fr}
     .footer-container{grid-template-columns:1fr}
     .footer-bottom{flex-direction:column;text-align:center}
+    .logo-img{width:120px;height:120px}
+    .logo-container h1{font-size:1.8rem}
 }
 </style>
 <base target="_blank">
