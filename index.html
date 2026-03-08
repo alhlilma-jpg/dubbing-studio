@@ -301,7 +301,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;heigh
                 <div class="user-info">
                     <div class="user-avatar-lg" id="userAvatar">👤</div>
                     <div>
-                        <div class="user-email" id="userEmail">user@gmail.com</div>
+                        <div class="user-email" id="userEmail"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7c090f190e3c1b111d1510521f1311">[email&#160;protected]</a></div>
                         <div class="user-plan" data-i18n="freePlan">خطة مجانية</div>
                     </div>
                 </div>
@@ -326,7 +326,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;heigh
     <!-- Header -->
     <header>
         <div class="logo-container">
-            <div class="logo-img"><img src="logo.png" alt="Logo" onerror="this.style.display='none';this.parentElement.innerHTML='🎙️'"></div>
+            <div class="logo-img"><img src="logo.gif" alt="Logo" onerror="this.style.display='none';this.parentElement.innerHTML='🎙️'"></div>
             <div>
                 <h1>sl-Dubbing</h1>
                 <p class="subtitle"><span style="background:linear-gradient(135deg,#60a5fa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:700">&amp; Translation</span> — <span data-i18n="subtitle">دبلجة وترجمة احترافية</span></p>
@@ -607,7 +607,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;heigh
     </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // Translations
 const translations = {
     ar: {
@@ -1730,18 +1730,4 @@ function saveLogin(userData) {
 
 // استعادة تسجيل الدخول
 function restoreLogin() {
-    const user = localStorage.getItem('user');
-    if (user) {
-        currentUser = JSON.parse(user);
-        updateAuthUI();
-    }
-}
-
-// استدعاء عند تحميل الصفحة
-window.addEventListener('load', restoreLogin);
-</script>
-</body>
-</html>
-
-
-
+    const user = localStorage.getIt
