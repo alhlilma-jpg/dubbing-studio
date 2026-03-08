@@ -140,6 +140,7 @@ def index():
             'verify-otp': '/api/verify-otp',
             'send-otp': '/api/send-otp',
             'entitlements': '/api/entitlements',
+            'consume': '/api/consume',
             'dub': '/api/dub',
             'download': '/api/download/<filename>'
         }
@@ -187,7 +188,7 @@ def register():
         logger.info(f"New user registered: {email}")
         return jsonify({
             'success': True,
-            'message': 'تم التسجيل بنجاح',
+            'message': 'تم التسجيل بنجاح، تحقق من بريدك الإلكتروني لكود التفعيل',
             'email': email
         }), 201
         
@@ -337,9 +338,50 @@ def get_entitlements():
         logger.error(f"Entitlements Error: {e}")
         return jsonify({'error': 'حدث خطأ'}), 500
 
+@app.route('/api/consume', methods=['POST'])
+def consume():
+    """تسجيل استهلاك استخدام لميزة محلية (مثل النطق باستخدام Web Speech API)"""
+    try:
+        data = request.get_json()
+        email = data.get('email', '').strip().lower()
+        feature = data.get('feature')
+        
+        if not email or feature not in ['tts', 'dub', 'srt']:
+            return jsonify({'error': 'طلب غير صالح'}), 400
+        
+        user = User.query.filter_by(email=email).first()
+        if not user or not user.is_verified:
+            return jsonify({'error': 'المستخدم غير موجود أو غير مفعل'}), 403
+        
+        unlocked_field = f'unlocked_{feature}'
+        usage_field = f'usage_{feature}'
+        
+        if getattr(user, unlocked_field):
+            remaining = 'unlimited'
+        else:
+            current_usage = getattr(user, usage_field)
+            if current_usage >= GUEST_LIMIT:
+                return jsonify({
+                    'error': 'انتهى الحد المجاني',
+                    'limit_reached': True
+                }), 403
+            setattr(user, usage_field, current_usage + 1)
+            db.session.commit()
+            remaining = GUEST_LIMIT - getattr(user, usage_field)
+        
+        return jsonify({
+            'success': True,
+            'remaining': remaining,
+            'message': 'تم تسجيل الاستخدام'
+        })
+        
+    except Exception as e:
+        logger.error(f"Consume Error: {e}")
+        return jsonify({'error': 'حدث خطأ'}), 500
+
 @app.route('/api/dub', methods=['POST'])
 def dub():
-    """معالجة الدبلجة/النطق"""
+    """معالجة الدبلجة/النطق (هنا يتم دمج الاستهلاك مع المعالجة الفعلية)"""
     try:
         data = request.get_json()
         text = data.get('text', '')
@@ -350,7 +392,7 @@ def dub():
         if feature not in ['tts', 'dub', 'srt']:
             feature = 'dub'
         
-        # فحص الحد للضيوف
+        # فحص الحد للضيوف أو المستخدمين
         if not email:
             ip = request.remote_addr
             reset_guest_usage_if_needed(ip)
@@ -374,7 +416,7 @@ def dub():
             unlocked_field = f'unlocked_{feature}'
             usage_field = f'usage_{feature}'
             
-            if not getattr(user, unlocked_field, False):
+            if not getattr(user, unlocked_field):
                 current_usage = getattr(user, usage_field, 0)
                 if current_usage >= GUEST_LIMIT:
                     return jsonify({
@@ -384,17 +426,17 @@ def dub():
                 
                 setattr(user, usage_field, current_usage + 1)
                 db.session.commit()
-                remaining = GUEST_LIMIT - getattr(user, usage_field, 0)
+                remaining = GUEST_LIMIT - getattr(user, usage_field)
             else:
                 remaining = 'unlimited'
         
-        # هنا تضع كود المعالجة الفعلي
-        # مثال: إنشاء ملف صوتي باستخدام gTTS
-        
+        # هنا تضع كود المعالجة الفعلي (مثل إنشاء ملف صوتي باستخدام gTTS)
+        # للتبسيط، نعيد رسالة نجاح
         return jsonify({
             'success': True,
             'remaining': remaining,
-            'message': 'تمت المعالجة'
+            'message': 'تمت المعالجة',
+            'audio_url': None  # يمكن إضافة رابط الملف لاحقاً
         })
         
     except Exception as e:
