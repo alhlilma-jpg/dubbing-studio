@@ -1,0 +1,44 @@
+/* البطاقات */
+.stat-card {
+    background: var(--bg-card);
+    padding: 1.5rem;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    transition: var(--transition);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow);
+}
+
+/* الأزرار */
+.control-btn {
+    background: var(--bg-hover);
+    border: none;
+    color: var(--text-primary);
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+/* عناصر الترجمة */
+.subtitle-item {
+    background: var(--bg-dark);
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 0.75rem;
+    border-right: 3px solid transparent;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.subtitle-item.active {
+    background: rgba(99, 102, 241, 0.2);
+    border-right-color: var(--primary);
+}
