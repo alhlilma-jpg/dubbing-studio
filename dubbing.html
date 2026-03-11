@@ -6,65 +6,71 @@
   <title>دبلجة AI - sl-Dubbing</title>
   <link rel="stylesheet" href="css/style.css">
   <style>
+    :root{--primary:#7c3aed;--border:rgba(255,255,255,.08);--text:#e0e0ff;--text-muted:#9ca3af;--text-dim:#6b7280}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Segoe UI',Tahoma,sans-serif;background:linear-gradient(135deg,#1a0533 0%,#0a0a1a 50%,#001233 100%);color:var(--text);min-height:100vh}
+    .wrap{max-width:1200px;margin:0 auto;padding:24px 16px}
+    header{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;padding:20px 0}
+    .logo-header{display:flex;align-items:center;gap:12px;font-size:1.3rem;font-weight:900;background:linear-gradient(135deg,#a78bfa,#60a5fa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none}
+    .logo-header img{width:45px;height:45px;object-fit:contain}
+    .user-info{display:flex;align-items:center;gap:12px}
+    .login-btn{padding:10px 20px;background:linear-gradient(135deg,#7c3aed,#2563eb);border:none;border-radius:10px;color:white;cursor:pointer;font-weight:700;text-decoration:none;font-size:.9rem}
+    .logout-btn{padding:8px 16px;background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.3);border-radius:8px;color:#f87171;cursor:pointer;font-weight:600}
+    .user-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#a78bfa,#2563eb);display:flex;align-items:center;justify-content:center;font-weight:700;color:white}
     .tool-header{display:flex;align-items:center;gap:15px;margin-bottom:30px;padding-bottom:20px;border-bottom:1px solid var(--border)}
-    .tool-header h1{font-size:2rem;font-weight:800;color:white}
-    .back-btn{padding:10px 20px;background:rgba(255,255,255,.05);border:1px solid rgba(167,139,250,.2);border-radius:10px;color:var(--text-muted);cursor:pointer;transition:all .3s;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+    .tool-header h1{font-size:1.8rem;font-weight:800;color:white}
+    .back-btn{padding:10px 20px;background:rgba(255,255,255,.05);border:1px solid rgba(167,139,250,.2);border-radius:10px;color:#9ca3af;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
     .back-btn:hover{background:rgba(167,139,250,.1);color:white}
-    .tool-container{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:30px}
+    .box{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:20px;padding:30px}
     .lang-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:10px;margin-bottom:20px}
-    .lang-btn{padding:12px 8px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);color:#c4b5fd;cursor:pointer;transition:all .2s;text-align:center;font-size:.85rem}
-    .lang-btn:hover{background:rgba(167,139,250,.15);border-color:rgba(167,139,250,.4);transform:translateY(-2px)}
-    .lang-btn.active{background:linear-gradient(135deg,rgba(167,139,250,.3),rgba(96,165,250,.3));border-color:#a78bfa;color:#fff;box-shadow:0 0 16px rgba(167,139,250,.3)}
+    .lang-btn{padding:12px 8px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);color:#c4b5fd;cursor:pointer;text-align:center;font-size:.85rem;transition:all .2s}
+    .lang-btn:hover{background:rgba(167,139,250,.15);transform:translateY(-2px)}
+    .lang-btn.active{background:linear-gradient(135deg,rgba(167,139,250,.3),rgba(96,165,250,.3));border-color:#a78bfa;color:#fff}
     .lang-flag{font-size:1.2rem;display:block;margin-bottom:4px}
     .controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-bottom:20px}
-    .control-group{display:flex;flex-direction:column;gap:8px}
-    .control-group label{font-size:.9rem;color:var(--text-muted);font-weight:600}
-    .control-group input[type="range"]{width:100%;height:6px;border-radius:3px;background:rgba(255,255,255,.1);outline:none;-webkit-appearance:none}
-    .control-group input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#a78bfa,#60a5fa);cursor:pointer}
-    .control-value{color:#a78bfa;font-weight:700}
-    .upload-area{border:2px dashed rgba(96,165,250,.28);border-radius:12px;padding:40px;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:20px;background:rgba(96,165,250,.04)}
-    .upload-area:hover{border-color:rgba(96,165,250,.55);background:rgba(96,165,250,.08)}
+    .cg{display:flex;flex-direction:column;gap:8px}
+    .cg label{font-size:.9rem;color:#9ca3af;font-weight:600}
+    .cg input[type=range]{width:100%;height:6px;border-radius:3px;background:rgba(255,255,255,.1);outline:none;-webkit-appearance:none}
+    .cg input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#a78bfa,#60a5fa);cursor:pointer}
+    .cv{color:#a78bfa;font-weight:700}
+    .upload-area{border:2px dashed rgba(96,165,250,.3);border-radius:12px;padding:40px;text-align:center;cursor:pointer;margin-bottom:20px;background:rgba(96,165,250,.04)}
+    .upload-area:hover{border-color:rgba(96,165,250,.6);background:rgba(96,165,250,.08)}
     .upload-area input{display:none}
-    .text-area{width:100%;min-height:100px;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);border-radius:12px;color:#e0e0ff;font-size:.9rem;padding:15px;resize:vertical;font-family:monospace;outline:none;margin-bottom:15px;box-sizing:border-box}
-    .text-area:focus{border-color:#a78bfa}
-    .secondary-btn{padding:12px 24px;background:rgba(255,255,255,.05);border:1px solid rgba(167,139,250,.2);border-radius:10px;color:var(--text-muted);cursor:pointer;transition:all .3s;font-weight:600;width:100%;margin-bottom:20px}
-    .secondary-btn:hover{background:rgba(167,139,250,.1);color:white}
-    .srt-list{max-height:300px;overflow-y:auto;margin:20px 0;padding:15px;background:rgba(0,0,0,.2);border-radius:12px;border:1px solid rgba(255,255,255,.05);display:none}
-    .srt-item{padding:12px;border-bottom:1px solid rgba(255,255,255,.05);display:flex;gap:15px;align-items:flex-start}
-    .srt-item:last-child{border-bottom:none}
-    .srt-time{color:#a78bfa;font-family:monospace;font-size:.85rem;min-width:100px}
-    .srt-text{color:var(--text);flex:1;font-size:.9rem}
-    .srt-index{color:var(--text-dim);font-size:.8rem;min-width:30px}
-    .voice-section{background:rgba(124,58,237,.05);border:1px solid rgba(124,58,237,.2);border-radius:12px;padding:20px;margin:20px 0}
-    .voice-section h3{color:#a78bfa;margin-bottom:15px;font-size:1.1rem}
-    .record-btn{padding:12px 24px;background:linear-gradient(135deg,#dc2626,#ef4444);border:none;border-radius:10px;color:white;cursor:pointer;font-weight:700;transition:all .3s;display:flex;align-items:center;gap:8px}
-    .record-btn.recording{animation:recPulse 1.5s infinite}
-    @keyframes recPulse{0%,100%{opacity:1}50%{opacity:.7}}
-    .action-btn{padding:16px 32px;background:linear-gradient(135deg,#7c3aed,#2563eb);border:none;border-radius:12px;color:white;cursor:pointer;font-weight:700;font-size:1.1rem;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:10px;width:100%;box-shadow:0 6px 20px rgba(124,58,237,.4)}
-    .action-btn:hover{transform:translateY(-2px)}
-    .action-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
-    .progress-container{display:none;margin:20px 0}
-    .progress-container.active{display:block}
-    .progress-bar{height:10px;background:rgba(255,255,255,.1);border-radius:5px;overflow:hidden}
-    .progress-fill{height:100%;background:linear-gradient(90deg,#7c3aed,#34d399);border-radius:5px;transition:width .3s;width:0%}
-    .progress-text{text-align:center;margin-top:10px;color:#a78bfa;font-weight:600}
-    .audio-player{width:100%;margin:20px 0;border-radius:12px;display:none}
-    .audio-player.show{display:block}
-    .download-btn{padding:14px 24px;background:linear-gradient(135deg,#059669,#10b981);border:none;border-radius:10px;color:white;cursor:pointer;font-weight:700;transition:all .3s;align-items:center;justify-content:center;gap:10px;text-decoration:none;width:100%;display:none}
-    .download-btn.show{display:flex}
+    .textarea{width:100%;min-height:100px;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);border-radius:12px;color:#e0e0ff;font-size:.9rem;padding:15px;resize:vertical;font-family:monospace;outline:none;margin-bottom:15px}
+    .sec-btn{padding:12px 24px;background:rgba(255,255,255,.05);border:1px solid rgba(167,139,250,.2);border-radius:10px;color:#9ca3af;cursor:pointer;font-weight:600;width:100%;margin-bottom:20px}
+    .srt-list{max-height:250px;overflow-y:auto;margin:10px 0 20px;padding:15px;background:rgba(0,0,0,.2);border-radius:12px;border:1px solid rgba(255,255,255,.05);display:none}
+    .srt-item{padding:10px;border-bottom:1px solid rgba(255,255,255,.05);display:flex;gap:12px;font-size:.85rem}
+    .srt-time{color:#a78bfa;font-family:monospace;min-width:110px}
+    .voice-sec{background:rgba(124,58,237,.05);border:1px solid rgba(124,58,237,.2);border-radius:12px;padding:20px;margin:20px 0}
+    .voice-sec h3{color:#a78bfa;margin-bottom:12px}
+    .rec-btn{padding:12px 20px;background:linear-gradient(135deg,#dc2626,#ef4444);border:none;border-radius:10px;color:white;cursor:pointer;font-weight:700;display:flex;align-items:center;gap:8px}
+    .rec-btn.on{animation:rp 1.5s infinite}
+    @keyframes rp{0%,100%{opacity:1}50%{opacity:.6}}
+    .action-btn{padding:16px;background:linear-gradient(135deg,#7c3aed,#2563eb);border:none;border-radius:12px;color:white;cursor:pointer;font-weight:700;font-size:1.1rem;width:100%;display:flex;align-items:center;justify-content:center;gap:10px}
+    .action-btn:disabled{opacity:.5;cursor:not-allowed}
+    .prog-wrap{display:none;margin:20px 0}
+    .prog-wrap.on{display:block}
+    .prog-bar{height:10px;background:rgba(255,255,255,.1);border-radius:5px;overflow:hidden}
+    .prog-fill{height:100%;background:linear-gradient(90deg,#7c3aed,#34d399);border-radius:5px;width:0%;transition:width .3s}
+    .prog-txt{text-align:center;margin-top:10px;color:#a78bfa;font-weight:600}
+    audio{width:100%;margin:20px 0;display:none}
+    audio.show{display:block}
+    .dl-btn{padding:14px;background:linear-gradient(135deg,#059669,#10b981);border:none;border-radius:10px;color:white;font-weight:700;width:100%;display:none;align-items:center;justify-content:center;gap:8px;text-decoration:none}
+    .dl-btn.show{display:flex}
+    .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:linear-gradient(135deg,#7c3aed,#2563eb);color:white;padding:16px 32px;border-radius:12px;font-weight:600;z-index:2000;transition:transform .3s}
+    .toast.show{transform:translateX(-50%) translateY(0)}
+    footer{text-align:center;padding:40px 0 20px;color:#6b7280;font-size:.85rem;border-top:1px solid rgba(255,255,255,.08);margin-top:60px}
+    footer a{color:#9ca3af;text-decoration:none}
   </style>
 </head>
 <body>
-<div class="bg"></div>
 <div class="wrap">
-
   <header>
     <a class="logo-header" href="index.html">
-      <img src="logo.gif" onerror="this.src='logo.png'" alt="sl-Dubbing"
-           style="width:50px;height:50px;object-fit:contain;filter:drop-shadow(0 0 10px rgba(167,139,250,.5))">
-      <span>sl-Dubbing & Translation</span>
+      <img src="logo.gif" onerror="this.src='logo.png'" alt="logo">
+      sl-Dubbing & Translation
     </a>
-    <div class="user-info" id="headerUserZone">
+    <div class="user-info" id="hdr">
       <a href="login.html" class="login-btn">تسجيل الدخول</a>
     </div>
   </header>
@@ -74,200 +80,93 @@
     <h1>🎬 دبلجة AI</h1>
   </div>
 
-  <div class="tool-container">
+  <div class="box">
     <label style="display:block;margin-bottom:10px;font-weight:600">اختر لغة الدبلجة:</label>
-    <div class="lang-grid" id="dubLangs"></div>
+    <div class="lang-grid" id="langs"></div>
 
     <div class="controls">
-      <div class="control-group">
-        <label>السرعة: <span class="control-value" id="rateValue">1.0x</span></label>
-        <input type="range" id="rateControl" min="0.5" max="1" step="0.05" value="1"
-               oninput="document.getElementById('rateValue').textContent=this.value+'x'">
-      </div>
-      <div class="control-group">
-        <label>الصوت: <span class="control-value" id="volumeValue">1.0x</span></label>
-        <input type="range" id="volumeControl" min="0.2" max="2" step="0.1" value="1"
-               oninput="document.getElementById('volumeValue').textContent=this.value+'x'">
-      </div>
+      <div class="cg"><label>السرعة: <span class="cv" id="rv">1.0x</span></label><input type="range" min=".5" max="1" step=".05" value="1" oninput="document.getElementById('rv').textContent=this.value+'x'" id="rc"></div>
+      <div class="cg"><label>الصوت: <span class="cv" id="vv">1.0x</span></label><input type="range" min=".2" max="2" step=".1" value="1" oninput="document.getElementById('vv').textContent=this.value+'x'" id="vc"></div>
     </div>
 
-    <label style="display:block;margin:20px 0 10px;font-weight:600">ملف SRT:</label>
+    <label style="display:block;margin:10px 0;font-weight:600">ملف SRT:</label>
     <div class="upload-area" onclick="document.getElementById('srtFile').click()">
-      <input type="file" id="srtFile" accept=".srt,.txt" onchange="handleSRTUpload(event)">
-      <div style="font-size:3rem;margin-bottom:10px">📁</div>
-      <div style="color:#60a5fa;font-weight:600">اسحب الملف هنا أو انقر للاختيار</div>
-      <div style="color:var(--text-dim);font-size:.85rem;margin-top:5px">يدعم .srt و .txt</div>
+      <input type="file" id="srtFile" accept=".srt,.txt" onchange="loadSRT(event)">
+      <div style="font-size:2.5rem;margin-bottom:8px">📁</div>
+      <div style="color:#60a5fa;font-weight:600">اسحب أو انقر للاختيار</div>
+      <div style="color:#6b7280;font-size:.85rem;margin-top:4px">يدعم .srt و .txt</div>
     </div>
 
-    <textarea class="text-area" id="srtContent" placeholder="أو الصق محتوى SRT هنا..."></textarea>
-    <button class="secondary-btn" onclick="parseSRT()">📥 تحليل الملف</button>
+    <textarea class="textarea" id="srtTxt" placeholder="أو الصق محتوى SRT هنا..."></textarea>
+    <button class="sec-btn" onclick="parseSRT()">📥 تحليل الملف</button>
     <div class="srt-list" id="srtList"></div>
 
-    <div class="voice-section">
+    <div class="voice-sec">
       <h3>🎙️ عينة الصوت (اختياري)</h3>
-      <p style="color:var(--text-muted);font-size:.9rem;margin-bottom:15px">سجل 10-30 ثانية لنسخ نبرة صوتك</p>
-      <button class="record-btn" id="recordBtn" onclick="toggleRecording()">
-        <span id="recordIcon">🔴</span>
-        <span id="recordText">بدء التسجيل</span>
+      <p style="color:#9ca3af;font-size:.9rem;margin-bottom:12px">سجل 10-30 ثانية لنسخ نبرة صوتك</p>
+      <button class="rec-btn" id="recBtn" onclick="toggleRec()">
+        <span id="recIcon">🔴</span><span id="recTxt">بدء التسجيل</span>
       </button>
-      <p id="recordStatus" style="color:var(--text-muted);font-size:.85rem;margin-top:10px;min-height:20px"></p>
+      <p id="recStatus" style="color:#9ca3af;font-size:.85rem;margin-top:10px;min-height:20px"></p>
     </div>
 
-    <button class="action-btn" id="dubBtn" onclick="generateDubbing()">
-      <span>🎬</span><span>توليد الدبلجة</span>
-    </button>
+    <button class="action-btn" id="dubBtn" onclick="generateDub()">🎬 توليد الدبلجة</button>
 
-    <div class="progress-container" id="dubProgress">
-      <div class="progress-bar"><div class="progress-fill" id="dubProgressFill"></div></div>
-      <div class="progress-text" id="dubProgressText">جاري توليد الدبلجة...</div>
+    <div class="prog-wrap" id="progWrap">
+      <div class="prog-bar"><div class="prog-fill" id="pf"></div></div>
+      <div class="prog-txt" id="pt">جاري توليد الدبلجة...</div>
     </div>
 
-    <audio class="audio-player" id="dubAudio" controls></audio>
-    <a class="download-btn" id="dubDownload" download="dubbed_audio.wav">
-      <span>⬇️</span><span>تحميل الدبلجة (WAV)</span>
-    </a>
+    <audio id="dubAud" controls></audio>
+    <a class="dl-btn" id="dubDl" download="dubbed.wav">⬇️ تحميل الدبلجة (WAV)</a>
   </div>
 
-  <footer style="text-align:center;padding:40px 0 20px;color:var(--text-dim);font-size:.85rem;border-top:1px solid var(--border);margin-top:60px">
-    <p>ALHASHMI © 2026 - جميع الحقوق محفوظة</p>
-    <p style="margin-top:8px"><a href="privacy.html" style="color:var(--text-muted);text-decoration:none">سياسة الخصوصية</a></p>
-  </footer>
+  <footer><p>ALHASHMI © 2026</p><p style="margin-top:8px"><a href="privacy.html">سياسة الخصوصية</a></p></footer>
 </div>
-
 <div class="toast" id="toast"></div>
-
 <script>
-const LANGUAGES = [
-  {code:'ar',name:'العربية',flag:'🇸🇦'},{code:'en',name:'English',flag:'🇺🇸'},
-  {code:'es',name:'Español',flag:'🇪🇸'},{code:'fr',name:'Français',flag:'🇫🇷'},
-  {code:'de',name:'Deutsch',flag:'🇩🇪'},{code:'it',name:'Italiano',flag:'🇮🇹'},
-  {code:'ru',name:'Русский',flag:'🇷🇺'},{code:'tr',name:'Türkçe',flag:'🇹🇷'},
-  {code:'zh',name:'中文',flag:'🇨🇳'},{code:'hi',name:'हिन्दी',flag:'🇮🇳'}
-];
-
-let selectedLang='ar', srtData=[], isRecording=false, mediaRecorder=null, audioChunks=[];
-const BACKEND = 'https://sl-dubbing.onrender.com';
-
-function showToast(msg,duration=3000){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.classList.add('show');
-  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),duration);
+const LANGS=[{code:'ar',name:'العربية',flag:'🇸🇦'},{code:'en',name:'English',flag:'🇺🇸'},{code:'es',name:'Español',flag:'🇪🇸'},{code:'fr',name:'Français',flag:'🇫🇷'},{code:'de',name:'Deutsch',flag:'🇩🇪'},{code:'it',name:'Italiano',flag:'🇮🇹'},{code:'ru',name:'Русский',flag:'🇷🇺'},{code:'tr',name:'Türkçe',flag:'🇹🇷'},{code:'zh',name:'中文',flag:'🇨🇳'},{code:'hi',name:'हिन्दी',flag:'🇮🇳'}];
+let lang='ar',srtData=[],isRec=false,rec=null,chunks=[];
+const BE='https://sl-dubbing.onrender.com';
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),3000)}
+function init(){
+  try{const u=JSON.parse(localStorage.getItem('sl_user'));
+    if(u){document.getElementById('hdr').innerHTML=`<div class="user-avatar">${u.avatar||'👤'}</div><span style="color:#9ca3af;font-size:.9rem">${u.name||u.email}</span><button class="logout-btn" onclick="localStorage.removeItem('sl_user');location.href='index.html'">خروج</button>`;}
+    else{sessionStorage.setItem('returnUrl',location.href);location.href='login.html';return;}
+  }catch{location.href='login.html';return;}
+  document.getElementById('langs').innerHTML=LANGS.map(l=>`<button class="lang-btn ${l.code==='ar'?'active':''}" onclick="selLang('${l.code}',this)"><span class="lang-flag">${l.flag}</span><span>${l.name}</span></button>`).join('');
 }
-
-function initPage(){
-  try {
-    const user=JSON.parse(localStorage.getItem('sl_user'));
-    if(user){
-      document.getElementById('headerUserZone').innerHTML=`
-        <div class="user-avatar" title="${user.email}">${user.avatar||'👤'}</div>
-        <span style="color:var(--text-muted);font-size:.9rem">${user.name||user.email}</span>
-        <button class="logout-btn" onclick="logout()">خروج</button>`;
-    } else {
-      sessionStorage.setItem('returnUrl',location.href);
-      location.href='login.html'; return;
-    }
-  } catch(e){ location.href='login.html'; return; }
-
-  const container=document.getElementById('dubLangs');
-  container.innerHTML=LANGUAGES.map(l=>`
-    <button class="lang-btn ${l.code==='ar'?'active':''}" onclick="selectLang('${l.code}',this)">
-      <span class="lang-flag">${l.flag}</span><span>${l.name}</span>
-    </button>`).join('');
-}
-
-function logout(){ localStorage.removeItem('sl_user'); location.href='index.html'; }
-function selectLang(code,btn){ selectedLang=code; document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); }
-
-function handleSRTUpload(e){
-  const file=e.target.files[0]; if(!file)return;
-  const reader=new FileReader();
-  reader.onload=(ev)=>{ document.getElementById('srtContent').value=ev.target.result; parseSRT(); };
-  reader.readAsText(file);
-}
-
+function selLang(c,b){lang=c;document.querySelectorAll('.lang-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active')}
+function loadSRT(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{document.getElementById('srtTxt').value=ev.target.result;parseSRT()};r.readAsText(f)}
 function parseSRT(){
-  const content=document.getElementById('srtContent').value;
+  const content=document.getElementById('srtTxt').value;
   if(!content){showToast('الرجاء إدخال محتوى SRT');return;}
-  srtData=[];let currentItem=null;
-  for(let line of content.split('\n')){
-    line=line.trim();if(!line)continue;
-    if(/^\d+$/.test(line)){if(currentItem)srtData.push(currentItem);currentItem={index:parseInt(line),time:'',text:''};}
-    else if(line.includes('-->')){if(currentItem)currentItem.time=line;}
-    else{if(currentItem)currentItem.text+=line+' ';}
-  }
-  if(currentItem)srtData.push(currentItem);
+  srtData=[];let cur=null;
+  for(let line of content.split('\n')){line=line.trim();if(!line)continue;if(/^\d+$/.test(line)){if(cur)srtData.push(cur);cur={index:parseInt(line),time:'',text:''}}else if(line.includes('-->')){if(cur)cur.time=line}else{if(cur)cur.text+=line+' '}}
+  if(cur)srtData.push(cur);
   const list=document.getElementById('srtList');
-  list.innerHTML=srtData.map(item=>`
-    <div class="srt-item">
-      <span class="srt-index">${item.index}</span>
-      <span class="srt-time">${item.time}</span>
-      <span class="srt-text">${item.text}</span>
-    </div>`).join('');
-  list.style.display='block';
-  showToast(`✅ تم تحليل ${srtData.length} جملة`);
+  list.innerHTML=srtData.map(i=>`<div class="srt-item"><span class="srt-time">${i.time}</span><span>${i.text}</span></div>`).join('');
+  list.style.display='block';showToast(`✅ تم تحليل ${srtData.length} جملة`);
 }
-
-async function toggleRecording(){
-  const btn=document.getElementById('recordBtn');
-  if(!isRecording){
-    try{
-      const stream=await navigator.mediaDevices.getUserMedia({audio:true});
-      mediaRecorder=new MediaRecorder(stream); audioChunks=[];
-      mediaRecorder.ondataavailable=(e)=>audioChunks.push(e.data);
-      mediaRecorder.onstop=()=>{ window.recordedBlob=new Blob(audioChunks,{type:'audio/wav'}); document.getElementById('recordStatus').textContent='✅ تم حفظ التسجيل'; };
-      mediaRecorder.start(); isRecording=true; btn.classList.add('recording');
-      document.getElementById('recordIcon').textContent='⏹';
-      document.getElementById('recordText').textContent='إيقاف التسجيل';
-      document.getElementById('recordStatus').textContent='⏺️ جاري التسجيل...';
-    }catch{showToast('❌ لا يمكن الوصول للميكروفون');}
-  }else{
-    mediaRecorder.stop(); mediaRecorder.stream.getTracks().forEach(t=>t.stop());
-    isRecording=false; btn.classList.remove('recording');
-    document.getElementById('recordIcon').textContent='🔴';
-    document.getElementById('recordText').textContent='بدء التسجيل';
-  }
+async function toggleRec(){
+  if(!isRec){
+    try{const s=await navigator.mediaDevices.getUserMedia({audio:true});rec=new MediaRecorder(s);chunks=[];rec.ondataavailable=e=>chunks.push(e.data);rec.onstop=()=>{window.recBlob=new Blob(chunks,{type:'audio/wav'});document.getElementById('recStatus').textContent='✅ تم حفظ التسجيل'};rec.start();isRec=true;document.getElementById('recBtn').classList.add('on');document.getElementById('recIcon').textContent='⏹';document.getElementById('recTxt').textContent='إيقاف';document.getElementById('recStatus').textContent='⏺️ جاري التسجيل...';}
+    catch{showToast('❌ لا يمكن الوصول للميكروفون')}
+  }else{rec.stop();rec.stream.getTracks().forEach(t=>t.stop());isRec=false;document.getElementById('recBtn').classList.remove('on');document.getElementById('recIcon').textContent='🔴';document.getElementById('recTxt').textContent='بدء التسجيل';}
 }
-
-async function generateDubbing(){
-  if(srtData.length===0){showToast('الرجاء تحميل ملف SRT أولاً');return;}
-  const btn=document.getElementById('dubBtn');
-  const progress=document.getElementById('dubProgress');
-  btn.disabled=true; progress.classList.add('active');
+async function generateDub(){
+  if(!srtData.length){showToast('الرجاء تحميل ملف SRT أولاً');return;}
+  const btn=document.getElementById('dubBtn'),pw=document.getElementById('progWrap');
+  btn.disabled=true;pw.classList.add('on');
   const user=JSON.parse(localStorage.getItem('sl_user')||'{}');
-
   try{
-    const res=await fetch(`${BACKEND}/api/dub`,{
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({text:srtData.map(i=>i.text).join('\n'),lang:selectedLang,email:user.email,feature:'dub'}),
-      signal:AbortSignal.timeout(30000)
-    });
+    const res=await fetch(`${BE}/api/dub`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:srtData.map(i=>i.text).join('\n'),lang,email:user.email,feature:'dub'}),signal:AbortSignal.timeout(30000)});
     const data=await res.json();
-    if(data.success && data.audio_url){
-      progress.classList.remove('active'); btn.disabled=false;
-      document.getElementById('dubAudio').src=data.audio_url;
-      document.getElementById('dubAudio').classList.add('show');
-      document.getElementById('dubDownload').href=data.audio_url;
-      document.getElementById('dubDownload').classList.add('show');
-      showToast('✅ تم توليد الدبلجة!'); return;
-    }
+    if(data.success&&data.audio_url){pw.classList.remove('on');btn.disabled=false;document.getElementById('dubAud').src=data.audio_url;document.getElementById('dubAud').classList.add('show');document.getElementById('dubDl').href=data.audio_url;document.getElementById('dubDl').classList.add('show');showToast('✅ تم!');return;}
   }catch{}
-
-  // وضع المحاكاة
-  let prog=0;
-  const interval=setInterval(()=>{
-    prog+=5;
-    document.getElementById('dubProgressFill').style.width=prog+'%';
-    document.getElementById('dubProgressText').textContent=`جاري توليد الدبلجة... ${prog}%`;
-    if(prog>=100){
-      clearInterval(interval); progress.classList.remove('active'); btn.disabled=false;
-      document.getElementById('dubAudio').classList.add('show');
-      document.getElementById('dubDownload').classList.add('show');
-      showToast('✅ تم توليد الدبلجة (وضع المحاكاة)');
-    }
-  },300);
+  let p=0;const iv=setInterval(()=>{p+=5;document.getElementById('pf').style.width=p+'%';document.getElementById('pt').textContent=`جاري... ${p}%`;if(p>=100){clearInterval(iv);pw.classList.remove('on');btn.disabled=false;document.getElementById('dubAud').classList.add('show');document.getElementById('dubDl').classList.add('show');showToast('✅ تم (وضع المحاكاة)')}},300);
 }
-
-initPage();
+init();
 </script>
 </body>
 </html>
