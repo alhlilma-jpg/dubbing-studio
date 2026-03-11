@@ -8,34 +8,36 @@
   <style>
     .tool-header{display:flex;align-items:center;gap:15px;margin-bottom:30px;padding-bottom:20px;border-bottom:1px solid var(--border)}
     .tool-header h1{font-size:2rem;font-weight:800;color:white}
-    .back-btn{padding:10px 20px;background:rgba(255,255,255,.05);border:1px solid rgba(167,139,250,.2);border-radius:10px;color:var(--text-muted);text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .3s}
+    .back-btn{padding:10px 20px;background:rgba(255,255,255,.05);border:1px solid rgba(167,139,250,.2);border-radius:10px;color:var(--text-muted);cursor:pointer;transition:all .3s;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
     .back-btn:hover{background:rgba(167,139,250,.1);color:white}
-    .tool-box{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:30px}
+    .tool-container{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:30px}
     .lang-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:10px;margin-bottom:20px}
     .lang-btn{padding:12px 8px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);color:#c4b5fd;cursor:pointer;transition:all .2s;text-align:center;font-size:.85rem}
     .lang-btn:hover{background:rgba(167,139,250,.15);border-color:rgba(167,139,250,.4);transform:translateY(-2px)}
-    .lang-btn.active{background:linear-gradient(135deg,rgba(167,139,250,.3),rgba(96,165,250,.3));border-color:#a78bfa;color:#fff}
+    .lang-btn.active{background:linear-gradient(135deg,rgba(167,139,250,.3),rgba(96,165,250,.3));border-color:#a78bfa;color:#fff;box-shadow:0 0 16px rgba(167,139,250,.3)}
     .lang-flag{font-size:1.2rem;display:block;margin-bottom:4px}
-    .txt{width:100%;min-height:150px;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);border-radius:12px;color:#e0e0ff;font-size:1rem;padding:15px;resize:vertical;font-family:inherit;outline:none;margin-bottom:8px}
-    .txt:focus{border-color:#a78bfa}
-    .ctrl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px;margin:20px 0}
-    .ctrl{display:flex;flex-direction:column;gap:8px}
-    .ctrl label{font-size:.9rem;color:var(--text-muted);font-weight:600}
-    input[type=range]{width:100%;height:6px;border-radius:3px;background:rgba(255,255,255,.1);outline:none;-webkit-appearance:none}
-    input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#a78bfa,#60a5fa);cursor:pointer}
-    .val{color:#a78bfa;font-weight:700}
-    .act-btn{width:100%;padding:16px;background:linear-gradient(135deg,#7c3aed,#2563eb);border:none;border-radius:12px;color:white;font-weight:700;font-size:1.1rem;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 6px 20px rgba(124,58,237,.4)}
-    .act-btn:hover{transform:translateY(-2px)}
-    .act-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
-    .prog{display:none;margin:20px 0}
-    .prog.on{display:block}
-    .prog-bar{height:10px;background:rgba(255,255,255,.1);border-radius:5px;overflow:hidden}
-    .prog-fill{height:100%;background:linear-gradient(90deg,#7c3aed,#34d399);border-radius:5px;transition:width .3s;width:0%}
-    .prog-txt{text-align:center;margin-top:10px;color:#a78bfa;font-weight:600}
-    audio{width:100%;margin:20px 0;display:none}
-    audio.show{display:block}
-    .dl-btn{width:100%;padding:14px;background:linear-gradient(135deg,#059669,#10b981);border:none;border-radius:10px;color:white;font-weight:700;cursor:pointer;transition:all .3s;text-decoration:none;display:none;align-items:center;justify-content:center;gap:8px}
-    .dl-btn.show{display:flex}
+    .text-area{width:100%;min-height:150px;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);border-radius:12px;color:#e0e0ff;font-size:1rem;padding:15px;resize:vertical;font-family:inherit;transition:border-color .3s;outline:none;margin-bottom:8px;box-sizing:border-box}
+    .text-area:focus{border-color:#a78bfa;box-shadow:0 0 0 3px rgba(167,139,250,.12)}
+    .text-area::placeholder{color:#6b7280}
+    .controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-bottom:20px}
+    .control-group{display:flex;flex-direction:column;gap:8px}
+    .control-group label{font-size:.9rem;color:var(--text-muted);font-weight:600}
+    .control-group input[type="range"]{width:100%;height:6px;border-radius:3px;background:rgba(255,255,255,.1);outline:none;-webkit-appearance:none}
+    .control-group input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#a78bfa,#60a5fa);cursor:pointer}
+    .control-value{color:#a78bfa;font-weight:700}
+    .action-btn{padding:16px 32px;background:linear-gradient(135deg,#7c3aed,#2563eb);border:none;border-radius:12px;color:white;cursor:pointer;font-weight:700;font-size:1.1rem;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:10px;width:100%;box-shadow:0 6px 20px rgba(124,58,237,.4)}
+    .action-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(124,58,237,.6)}
+    .action-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+    .progress-container{display:none;margin:20px 0}
+    .progress-container.active{display:block}
+    .progress-bar{height:10px;background:rgba(255,255,255,.1);border-radius:5px;overflow:hidden}
+    .progress-fill{height:100%;background:linear-gradient(90deg,#7c3aed,#34d399);border-radius:5px;transition:width .3s;width:0%}
+    .progress-text{text-align:center;margin-top:10px;color:#a78bfa;font-weight:600}
+    .audio-player{width:100%;margin:20px 0;border-radius:12px;display:none}
+    .audio-player.show{display:block}
+    .download-btn{padding:14px 24px;background:linear-gradient(135deg,#059669,#10b981);border:none;border-radius:10px;color:white;cursor:pointer;font-weight:700;transition:all .3s;align-items:center;justify-content:center;gap:10px;text-decoration:none;width:100%;display:none;box-sizing:border-box}
+    .download-btn.show{display:flex}
+    .char-count{color:#6b7280;font-size:.85rem;margin-bottom:15px}
   </style>
 </head>
 <body>
@@ -45,7 +47,7 @@
   <header>
     <a class="logo-header" href="index.html">
       <img src="logo.gif" onerror="this.src='logo.png'" alt="sl-Dubbing"
-           style="width:50px;height:50px;object-fit:contain">
+           style="width:50px;height:50px;object-fit:contain;filter:drop-shadow(0 0 10px rgba(167,139,250,.5))">
       <span>sl-Dubbing & Translation</span>
     </a>
     <div class="user-info" id="headerUserZone">
@@ -58,50 +60,56 @@
     <h1>🎙️ نطق النصوص</h1>
   </div>
 
-  <div class="tool-box">
+  <div class="tool-container">
     <label style="display:block;margin-bottom:10px;font-weight:600">اختر اللغة:</label>
-    <div class="lang-grid" id="langGrid"></div>
+    <div class="lang-grid" id="ttsLangs"></div>
 
     <label style="display:block;margin-bottom:10px;font-weight:600">النص:</label>
-    <textarea class="txt" id="ttsText" placeholder="اكتب النص هنا..." oninput="updateCount()"></textarea>
-    <div style="color:var(--text-dim);font-size:.85rem;margin-bottom:15px" id="charCount">0 حرف</div>
+    <textarea class="text-area" id="ttsText" placeholder="اكتب النص هنا..." oninput="updateCharCount()"></textarea>
+    <div class="char-count" id="charCount">0 حرف</div>
 
-    <div class="ctrl-grid">
-      <div class="ctrl">
-        <label>السرعة: <span class="val" id="rateVal">1.0x</span></label>
-        <input type="range" id="rate" min="0.5" max="2" step="0.1" value="1" oninput="rateVal.textContent=this.value+'x'">
+    <div class="controls">
+      <div class="control-group">
+        <label>السرعة: <span class="control-value" id="rateValue">1.0x</span></label>
+        <input type="range" id="rateControl" min="0.5" max="2" step="0.1" value="1" oninput="document.getElementById('rateValue').textContent=this.value+'x'">
       </div>
-      <div class="ctrl">
-        <label>الطبقة: <span class="val" id="pitchVal">1.0x</span></label>
-        <input type="range" id="pitch" min="0.5" max="2" step="0.1" value="1" oninput="pitchVal.textContent=this.value+'x'">
+      <div class="control-group">
+        <label>الطبقة: <span class="control-value" id="pitchValue">1.0x</span></label>
+        <input type="range" id="pitchControl" min="0.5" max="2" step="0.1" value="1" oninput="document.getElementById('pitchValue').textContent=this.value+'x'">
       </div>
-      <div class="ctrl">
-        <label>الصوت: <span class="val" id="volVal">100%</span></label>
-        <input type="range" id="vol" min="0" max="1" step="0.1" value="1" oninput="volVal.textContent=Math.round(this.value*100)+'%'">
+      <div class="control-group">
+        <label>الصوت: <span class="control-value" id="volumeValue">100%</span></label>
+        <input type="range" id="volumeControl" min="0" max="1" step="0.1" value="1" oninput="document.getElementById('volumeValue').textContent=Math.round(this.value*100)+'%'">
       </div>
     </div>
 
-    <button class="act-btn" id="speakBtn" onclick="speak()">▶ نطق النص</button>
+    <button class="action-btn" id="ttsSpeakBtn" onclick="speakText()">
+      <span>▶</span><span>نطق النص</span>
+    </button>
 
-    <div class="prog" id="prog">
-      <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
-      <div class="prog-txt">جاري النطق...</div>
+    <div class="progress-container" id="ttsProgress">
+      <div class="progress-bar"><div class="progress-fill" id="ttsProgressFill"></div></div>
+      <div class="progress-text" id="ttsProgressText">جاري النطق...</div>
     </div>
 
-    <audio id="ttsAudio" controls></audio>
-    <a class="dl-btn" id="dlBtn" download="tts_output.mp3">⬇️ تحميل الصوت (MP3)</a>
+    <audio class="audio-player" id="ttsAudio" controls></audio>
+    <a class="download-btn" id="ttsDownload" download="tts_output.mp3">
+      <span>⬇️</span><span>تحميل الصوت (MP3)</span>
+    </a>
   </div>
 
-  <footer style="text-align:center;padding:40px 0 20px;color:var(--text-dim);font-size:.85rem;border-top:1px solid var(--border);margin-top:40px">
+  <footer style="text-align:center;padding:40px 0 20px;color:var(--text-dim);font-size:.85rem;border-top:1px solid var(--border);margin-top:60px">
     <p>ALHASHMI © 2026 - جميع الحقوق محفوظة</p>
-    <p style="margin-top:8px"><a href="privacy.html" style="color:var(--text-muted);text-decoration:none">سياسة الخصوصية</a></p>
+    <p style="margin-top:8px">
+      <a href="privacy.html" style="color:var(--text-muted);text-decoration:none">سياسة الخصوصية</a>
+    </p>
   </footer>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-const LANGS = [
+const LANGUAGES = [
   {code:'ar',name:'العربية',flag:'🇸🇦'},{code:'en',name:'English',flag:'🇺🇸'},
   {code:'es',name:'Español',flag:'🇪🇸'},{code:'fr',name:'Français',flag:'🇫🇷'},
   {code:'de',name:'Deutsch',flag:'🇩🇪'},{code:'it',name:'Italiano',flag:'🇮🇹'},
@@ -113,24 +121,42 @@ const LANGS = [
 
 let selectedLang = 'ar';
 
-function showToast(msg,d=3000){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),d);}
+function showToast(msg, duration=3000) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(t._t); t._t = setTimeout(()=>t.classList.remove('show'), duration);
+}
 
-function init() {
-  // فحص تسجيل الدخول
+function initPage() {
+  // Header
   try {
     const user = JSON.parse(localStorage.getItem('sl_user'));
-    if (!user) { sessionStorage.setItem('returnUrl',location.href); location.href='login.html'; return; }
-    document.getElementById('headerUserZone').innerHTML = `
-      <div class="user-avatar">${user.avatar||'👤'}</div>
-      <span style="color:var(--text-muted);font-size:.9rem">${user.name||user.email}</span>
-      <button class="logout-btn" onclick="localStorage.removeItem('sl_user');location.href='index.html'">خروج</button>`;
-  } catch { sessionStorage.setItem('returnUrl',location.href); location.href='login.html'; return; }
+    if (user) {
+      document.getElementById('headerUserZone').innerHTML = `
+        <div class="user-avatar" title="${user.email}">${user.avatar||'👤'}</div>
+        <span style="color:var(--text-muted);font-size:.9rem">${user.name||user.email}</span>
+        <button class="logout-btn" onclick="logout()">خروج</button>`;
+    }
+  } catch(e) {}
 
-  // بناء اللغات
-  document.getElementById('langGrid').innerHTML = LANGS.map(l => `
+  // التحقق من تسجيل الدخول
+  try {
+    const user = JSON.parse(localStorage.getItem('sl_user'));
+    if (!user) { sessionStorage.setItem('returnUrl', location.href); location.href='login.html'; return; }
+  } catch(e) { location.href='login.html'; return; }
+
+  // اللغات
+  const container = document.getElementById('ttsLangs');
+  container.innerHTML = LANGUAGES.map(l => `
     <button class="lang-btn ${l.code==='ar'?'active':''}" onclick="selectLang('${l.code}',this)">
-      <span class="lang-flag">${l.flag}</span><span>${l.name}</span>
+      <span class="lang-flag">${l.flag}</span>
+      <span>${l.name}</span>
     </button>`).join('');
+}
+
+function logout() {
+  localStorage.removeItem('sl_user');
+  location.href = 'index.html';
 }
 
 function selectLang(code, btn) {
@@ -139,47 +165,42 @@ function selectLang(code, btn) {
   btn.classList.add('active');
 }
 
-function updateCount() {
+function updateCharCount() {
   document.getElementById('charCount').textContent = document.getElementById('ttsText').value.length + ' حرف';
 }
 
-function speak() {
+function speakText() {
   const text = document.getElementById('ttsText').value;
   if (!text) { showToast('الرجاء إدخال نص'); return; }
 
-  const btn  = document.getElementById('speakBtn');
-  const prog = document.getElementById('prog');
+  const btn = document.getElementById('ttsSpeakBtn');
+  const progress = document.getElementById('ttsProgress');
   btn.disabled = true;
-  prog.classList.add('on');
+  progress.classList.add('active');
 
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang   = selectedLang === 'ar' ? 'ar-SA' : selectedLang;
-  u.rate   = parseFloat(document.getElementById('rate').value);
-  u.pitch  = parseFloat(document.getElementById('pitch').value);
-  u.volume = parseFloat(document.getElementById('vol').value);
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = selectedLang==='ar' ? 'ar-SA' : selectedLang+'-'+selectedLang.toUpperCase();
+  utterance.rate = parseFloat(document.getElementById('rateControl').value);
+  utterance.pitch = parseFloat(document.getElementById('pitchControl').value);
+  utterance.volume = parseFloat(document.getElementById('volumeControl').value);
 
-  let p = 0;
-  const iv = setInterval(() => {
-    p += 10;
-    document.getElementById('progFill').style.width = p + '%';
-    if (p >= 100) {
-      clearInterval(iv);
-      prog.classList.remove('on');
+  let prog = 0;
+  const interval = setInterval(()=>{
+    prog += 10;
+    document.getElementById('ttsProgressFill').style.width = prog+'%';
+    if (prog >= 100) {
+      clearInterval(interval);
+      progress.classList.remove('active');
       btn.disabled = false;
-      speechSynthesis.speak(u);
+      speechSynthesis.speak(utterance);
       document.getElementById('ttsAudio').classList.add('show');
-      document.getElementById('dlBtn').classList.add('show');
+      document.getElementById('ttsDownload').classList.add('show');
       showToast('✅ تم النطق بنجاح!');
-      // تسجيل الاستخدام
-      try {
-        const usr = JSON.parse(localStorage.getItem('sl_user'));
-        if (usr) { usr.usage = usr.usage||{}; usr.usage.tts=(usr.usage.tts||0)+1; localStorage.setItem('sl_user',JSON.stringify(usr)); }
-      } catch{}
     }
   }, 200);
 }
 
-init();
+initPage();
 </script>
 </body>
 </html>
