@@ -5,60 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SL-Dubbing | منصة الدبلجة الذكية</title>
   <link rel="stylesheet" href="css/style.css">
-  <style>
-    :root{--primary:#7c3aed;--border:rgba(255,255,255,.08);--text:#e0e0ff;--text-muted:#9ca3af;--text-dim:#6b7280;--card:rgba(255,255,255,.03)}
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:'Segoe UI',Tahoma,sans-serif;background:linear-gradient(135deg,#1a0533 0%,#0a0a1a 50%,#001233 100%);color:var(--text);min-height:100vh;overflow-x:hidden}
-    .wrap{max-width:1200px;margin:0 auto;padding:24px 16px}
-    header{display:flex;justify-content:space-between;align-items:center;padding:20px 0;margin-bottom:20px}
-    .logo-header{display:flex;align-items:center;gap:12px;font-size:1.3rem;font-weight:900;background:linear-gradient(135deg,#a78bfa,#60a5fa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none}
-    .logo-header img{width:50px;height:50px;object-fit:contain;filter:drop-shadow(0 0 10px rgba(167,139,250,.5))}
-    .user-info{display:flex;align-items:center;gap:12px}
-    .login-btn{padding:12px 24px;background:linear-gradient(135deg,#7c3aed,#2563eb);border:none;border-radius:10px;color:white;cursor:pointer;font-weight:700;text-decoration:none;font-size:.95rem;box-shadow:0 4px 15px rgba(124,58,237,.4)}
-    .logout-btn{padding:8px 16px;background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.3);border-radius:8px;color:#f87171;cursor:pointer;font-weight:600}
-    .user-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#a78bfa,#2563eb);display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:1rem}
-    .server-status{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);border-radius:10px;margin-bottom:30px;font-size:.8rem;color:#f87171;cursor:pointer}
-    .server-status.online{background:rgba(52,211,153,.1);border-color:rgba(52,211,153,.3);color:#34d399}
-    .dot{width:8px;height:8px;border-radius:50%;background:currentColor;animation:blink 2s infinite}
-    @keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
-    .hero{text-align:center;padding:50px 0 40px}
-    .hero h1{font-size:clamp(1.8rem,5vw,3.2rem);font-weight:900;background:linear-gradient(135deg,#a78bfa,#60a5fa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:14px;line-height:1.2}
-    .hero p{color:var(--text-muted);font-size:1.05rem;max-width:580px;margin:0 auto}
-    .tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;margin:40px 0 60px}
-    .tool-card{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:32px;cursor:pointer;transition:transform .3s,box-shadow .3s;position:relative;overflow:hidden}
-    .tool-card:hover{transform:translateY(-8px);box-shadow:0 30px 60px rgba(0,0,0,.4)}
-    .tool-card .stripe{position:absolute;top:0;left:0;right:0;height:4px;border-radius:4px 4px 0 0}
-    .tool-card .icon{font-size:2.8rem;margin-bottom:14px}
-    .tool-card h3{font-size:1.2rem;font-weight:800;color:white;margin-bottom:10px}
-    .tool-card p{color:var(--text-muted);font-size:.88rem;line-height:1.7;margin-bottom:18px}
-    .tool-card .cta{font-weight:700;font-size:.9rem}
-    .pricing-section{margin:20px 0 60px}
-    .pricing-header{text-align:center;margin-bottom:40px}
-    .pricing-header h2{font-size:1.9rem;font-weight:800;background:linear-gradient(135deg,#a78bfa,#60a5fa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px}
-    .pricing-header p{color:var(--text-muted)}
-    .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
-    .price-card{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:30px;transition:transform .3s;position:relative;overflow:hidden}
-    .price-card:hover{transform:translateY(-6px);box-shadow:0 25px 60px rgba(0,0,0,.4)}
-    .price-card .stripe{position:absolute;top:0;left:0;right:0;height:4px}
-    .badge{display:inline-flex;align-items:center;gap:6px;font-size:.7rem;font-weight:700;padding:5px 12px;border-radius:20px;margin-bottom:18px;text-transform:uppercase}
-    .p-icon{width:60px;height:60px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin-bottom:16px}
-    .p-title{font-size:1.2rem;font-weight:800;color:white;margin-bottom:8px}
-    .p-desc{font-size:.85rem;color:var(--text-muted);line-height:1.6;margin-bottom:20px}
-    .p-features{list-style:none;margin-bottom:20px}
-    .p-features li{font-size:.82rem;color:#c4b5fd;padding:7px 0;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,.05)}
-    .p-features li::before{content:'✓';width:18px;height:18px;background:rgba(52,211,153,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#34d399;font-size:.65rem;font-weight:900;flex-shrink:0}
-    .price-box{background:rgba(0,0,0,.2);border-radius:14px;padding:18px;text-align:center;margin-bottom:18px}
-    .price-amt{font-size:2.3rem;font-weight:900}
-    .price-lbl{font-size:.78rem;color:var(--text-dim);margin-top:4px}
-    .buy-btn{width:100%;padding:14px;border-radius:12px;border:none;color:white;font-weight:800;font-size:.95rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;transition:all .3s}
-    .buy-btn:hover{filter:brightness(1.1);transform:translateY(-2px)}
-    footer{text-align:center;padding:40px 0 20px;color:var(--text-dim);font-size:.85rem;border-top:1px solid var(--border);margin-top:40px}
-    footer a{color:var(--text-muted);text-decoration:none;margin:0 8px}
-    footer a:hover{color:#a78bfa}
-    .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:linear-gradient(135deg,#7c3aed,#2563eb);color:white;padding:16px 32px;border-radius:12px;font-weight:600;box-shadow:0 10px 40px rgba(0,0,0,.4);transition:transform .3s;z-index:2000}
-    .toast.show{transform:translateX(-50%) translateY(0)}
-    @media(max-width:600px){header{flex-direction:column;gap:16px}.tools-grid,.pricing-grid{grid-template-columns:1fr}}
-  </style>
 </head>
 <body>
 <div class="wrap">
@@ -74,7 +20,7 @@
   </header>
 
   <div class="server-status" id="srv" onclick="checkServer()">
-    <span class="dot"></span>
+    <span class="server-status-icon"></span>
     <span id="srvTxt">جاري الفحص...</span>
   </div>
 
@@ -83,7 +29,6 @@
     <p>دبلجة وترجمة بالذكاء الاصطناعي — نطق النصوص، دبلجة الفيديو، ترجمة SRT</p>
   </div>
 
-  <!-- الأدوات -->
   <div class="tools-grid">
     <div class="tool-card" onclick="goTool('tts.html')">
       <div class="stripe" style="background:#6366f1"></div>
@@ -108,80 +53,51 @@
     </div>
   </div>
 
-  <!-- الأسعار -->
   <div class="pricing-section">
     <div class="pricing-header">
       <h2>احصل على وصول مدى الحياة</h2>
       <p>دفعة واحدة — وصول غير محدود — بدون رسوم شهرية</p>
     </div>
     <div class="pricing-grid">
-
       <div class="price-card">
         <div class="stripe" style="background:linear-gradient(90deg,#4f46e5,#6366f1)"></div>
         <div class="badge" style="background:rgba(99,102,241,.15);color:#818cf8;border:1px solid rgba(99,102,241,.3)">🎙️ TTS</div>
         <div class="p-icon" style="background:rgba(99,102,241,.2)">🎙️</div>
         <div class="p-title">نطق النصوص</div>
         <div class="p-desc">حوّل أي نص إلى صوت بالذكاء الاصطناعي بـ 13 لغة.</div>
-        <ul class="p-features">
-          <li>وصول غير محدود للنطق</li>
-          <li>13 لغة مدعومة</li>
-          <li>تحكم بالسرعة والطبقة</li>
-          <li>تحميل الصوت MP3</li>
-        </ul>
+        <ul class="p-features"><li>وصول غير محدود للنطق</li><li>13 لغة مدعومة</li><li>تحكم بالسرعة والطبقة</li><li>تحميل الصوت MP3</li></ul>
         <div class="price-box">
           <div class="price-amt" style="background:linear-gradient(135deg,#6366f1,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent">$10</div>
           <div class="price-lbl">دفعة واحدة — مدى الحياة</div>
         </div>
-        <a href="https://payhip.com/b/jQdFJ" target="_blank"
-           class="buy-btn" style="background:linear-gradient(135deg,#4f46e5,#6366f1);box-shadow:0 6px 20px rgba(79,70,229,.4)">
-          🛒 شراء مدى الحياة
-        </a>
+        <a href="https://sl-dubbing.lemonsqueezy.com/buy/tts" target="_blank" class="buy-btn" style="background:linear-gradient(135deg,#4f46e5,#6366f1)">🛒 شراء مدى الحياة</a>
       </div>
-
       <div class="price-card">
         <div class="stripe" style="background:linear-gradient(90deg,#d97706,#f59e0b)"></div>
         <div class="badge" style="background:rgba(245,158,11,.15);color:#fcd34d;border:1px solid rgba(245,158,11,.3)">🎬 AI DUB</div>
         <div class="p-icon" style="background:rgba(245,158,11,.2)">🎬</div>
         <div class="p-title">دبلجة AI</div>
         <div class="p-desc">دبلج مقاطعك بصوتك الحقيقي مع تقنية XTTS v2.</div>
-        <ul class="p-features">
-          <li>دبلجة غير محدودة</li>
-          <li>نسخ الصوت XTTS v2</li>
-          <li>رفع ملفات SRT</li>
-          <li>تصدير WAV احترافي</li>
-        </ul>
+        <ul class="p-features"><li>دبلجة غير محدودة</li><li>نسخ الصوت XTTS v2</li><li>رفع ملفات SRT</li><li>تصدير WAV احترافي</li></ul>
         <div class="price-box">
-          <div class="price-amt" style="background:linear-gradient(135deg,#f59e0b,#fcd34d);-webkit-background-clip:text;-webkit-text-fill-color:transparent">$30</div>
+          <div class="price-amt" style="background:linear-gradient(135deg,#f59e0b,#fcd34d);-webkit-background-clip:text;-webkit-text-fill-color:transparent">$50</div>
           <div class="price-lbl">دفعة واحدة — مدى الحياة</div>
         </div>
-        <a href="https://payhip.com/b/5XbaQ" target="_blank"
-           class="buy-btn" style="background:linear-gradient(135deg,#d97706,#f59e0b);box-shadow:0 6px 20px rgba(217,119,6,.4)">
-          🛒 شراء مدى الحياة
-        </a>
+        <a href="https://sl-dubbing.lemonsqueezy.com/buy/dubbing" target="_blank" class="buy-btn" style="background:linear-gradient(135deg,#d97706,#f59e0b)">🛒 شراء مدى الحياة</a>
       </div>
-
       <div class="price-card">
         <div class="stripe" style="background:linear-gradient(90deg,#059669,#10b981)"></div>
         <div class="badge" style="background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3)">📝 SRT</div>
         <div class="p-icon" style="background:rgba(16,185,129,.2)">📝</div>
         <div class="p-title">ترجمة SRT</div>
         <div class="p-desc">ترجم ملفات SRT تلقائياً مع حفظ التوقيت الكامل.</div>
-        <ul class="p-features">
-          <li>ترجمة غير محدودة</li>
-          <li>دعم 13 لغة</li>
-          <li>حفظ توقيت الترجمة</li>
-          <li>تنزيل ملف SRT مترجم</li>
-        </ul>
+        <ul class="p-features"><li>ترجمة غير محدودة</li><li>دعم 13 لغة</li><li>حفظ توقيت الترجمة</li><li>تنزيل ملف SRT مترجم</li></ul>
         <div class="price-box">
-          <div class="price-amt" style="background:linear-gradient(135deg,#10b981,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent">$50</div>
+          <div class="price-amt" style="background:linear-gradient(135deg,#10b981,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent">$10</div>
           <div class="price-lbl">دفعة واحدة — مدى الحياة</div>
         </div>
-        <a href="https://payhip.com/b/2E6sT" target="_blank"
-           class="buy-btn" style="background:linear-gradient(135deg,#059669,#10b981);box-shadow:0 6px 20px rgba(5,150,105,.4)">
-          🛒 شراء مدى الحياة
-        </a>
+        <a href="https://sl-dubbing.lemonsqueezy.com/buy/srt" target="_blank" class="buy-btn" style="background:linear-gradient(135deg,#059669,#10b981)">🛒 شراء مدى الحياة</a>
       </div>
-
     </div>
   </div>
 
@@ -193,46 +109,13 @@
       <a href="https://github.com/alhlilma-jpg" target="_blank">GitHub</a>
     </p>
   </footer>
-
 </div>
 <div class="toast" id="toast"></div>
-
 <script>
 function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),3000)}
-
-// Header
-(function(){
-  try{
-    const u=JSON.parse(localStorage.getItem('sl_user'));
-    if(u){
-      document.getElementById('hdr').innerHTML=
-        `<div class="user-avatar">${u.avatar||'👤'}</div>
-         <span style="color:#9ca3af;font-size:.9rem">${u.name||u.email}</span>
-         <button class="logout-btn" onclick="localStorage.removeItem('sl_user');location.reload()">خروج</button>`;
-    }
-  }catch(e){}
-})();
-
-// التنقل
-function goTool(page){
-  try{
-    if(JSON.parse(localStorage.getItem('sl_user'))){window.location.href=page;return;}
-  }catch(e){}
-  sessionStorage.setItem('returnUrl',page);
-  window.location.href='login.html';
-}
-
-// فحص الخادم
-async function checkServer(){
-  try{
-    const r=await fetch('https://sl-dubbing.onrender.com/api/health',{signal:AbortSignal.timeout(5000)});
-    document.getElementById('srv').className='server-status'+(r.ok?' online':'');
-    document.getElementById('srvTxt').textContent=r.ok?'الخادم متصل':'الخادم غير متاح';
-  }catch{
-    document.getElementById('srv').className='server-status';
-    document.getElementById('srvTxt').textContent='الخادم غير متاح';
-  }
-}
+(function(){try{const u=JSON.parse(localStorage.getItem('sl_user'));if(u)document.getElementById('hdr').innerHTML=`<div class="user-avatar">${u.avatar||'👤'}</div><span style="color:#9ca3af;font-size:.9rem">${u.name||u.email}</span><button class="logout-btn" onclick="localStorage.removeItem('sl_user');location.reload()">خروج</button>`;}catch(e){}})();
+function goTool(p){try{if(JSON.parse(localStorage.getItem('sl_user'))){location.href=p;return;}}catch(e){}sessionStorage.setItem('returnUrl',p);location.href='login.html';}
+async function checkServer(){try{const r=await fetch('https://sl-dubbing.onrender.com/api/health',{signal:AbortSignal.timeout(5000)});document.getElementById('srv').className='server-status'+(r.ok?' online':'');document.getElementById('srvTxt').textContent=r.ok?'الخادم متصل':'الخادم غير متاح';}catch{document.getElementById('srv').className='server-status';document.getElementById('srvTxt').textContent='الخادم غير متاح';}}
 checkServer();
 </script>
 </body>
