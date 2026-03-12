@@ -1,346 +1,361 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>دبلجة AI - sl-Dubbing</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: #fff;
-            min-height: 100vh;
-            padding: 20px;
-        }
-        .container { max-width: 900px; margin: 0 auto; }
-        header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 30px;
-        }
-        .logo { font-size: 1.5rem; font-weight: bold; color: #e94560; }
-        .nav-links a {
-            color: #fff; text-decoration: none; margin-right: 20px;
-            padding: 8px 16px; border-radius: 20px;
-            background: rgba(233,69,96,0.2);
-        }
-        .card {
-            background: rgba(255,255,255,0.05);
-            border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .card h2 { margin-bottom: 20px; color: #e94560; }
-        label { display: block; margin: 15px 0 8px; font-weight: 500; }
-        select, textarea {
-            width: 100%; padding: 12px; border-radius: 8px;
-            border: 1px solid rgba(255,255,255,0.2);
-            background: rgba(255,255,255,0.1);
-            color: #fff; font-size: 1rem;
-        }
-        textarea { min-height: 120px; resize: vertical; }
-        .status {
-            margin: 10px 0; padding: 10px; border-radius: 8px;
-            background: rgba(255,255,255,0.1);
-        }
-        .status.success { background: rgba(46,204,113,0.2); color: #2ecc71; }
-        .status.error { background: rgba(231,76,60,0.2); color: #e74c3c; }
-        .voice-box {
-            background: rgba(255,255,255,0.05);
-            border: 2px dashed rgba(255,255,255,0.3);
-            border-radius: 12px;
-            padding: 30px;
-            text-align: center;
-            cursor: pointer;
-            transition: 0.3s;
-            margin: 10px 0;
-        }
-        .voice-box:hover, .voice-box.active {
-            border-color: #e94560;
-            background: rgba(233,69,96,0.1);
-        }
-        .voice-box input { display: none; }
-        .voice-icon { font-size: 2.5rem; margin-bottom: 10px; }
-        .btn {
-            width: 100%; padding: 14px; border: none;
-            border-radius: 8px; background: #e94560;
-            color: #fff; font-size: 1.1rem;
-            font-weight: bold; cursor: pointer;
-            margin-top: 15px;
-        }
-        .btn:hover { background: #c73e54; }
-        .btn:disabled { background: #666; cursor: not-allowed; }
-        .loading { display: none; text-align: center; padding: 20px; }
-        .loading.show { display: block; }
-        .spinner {
-            width: 40px; height: 40px;
-            border: 4px solid rgba(255,255,255,0.3);
-            border-top-color: #e94560;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 15px;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .result {
-            display: none; margin-top: 20px;
-            padding: 20px; background: rgba(46,204,113,0.1);
-            border-radius: 12px;
-            border: 1px solid rgba(46,204,113,0.3);
-        }
-        .result.show { display: block; }
-        .result audio { width: 100%; margin: 15px 0; }
-        .download-btn {
-            display: inline-block; padding: 10px 25px;
-            background: #2ecc71; color: #fff;
-            text-decoration: none; border-radius: 25px;
-            font-weight: bold;
-        }
-        .method-info { font-size: 0.9rem; color: #aaa; margin-top: 10px; }
-        footer {
-            text-align: center; padding: 30px 0;
-            margin-top: 40px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            color: #888;
-        }
-        footer a { color: #e94560; text-decoration: none; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <header>
-            <div class="logo">sl-Dubbing & Translation</div>
-            <nav class="nav-links">
-                <a href="login.html">تسجيل الدخول</a>
-                <a href="index.html">← رجوع</a>
-            </nav>
-        </header>
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+sl-Dubbing & Translation — Backend
+XTTS v2 Voice Cloning | Flask
+"""
+import os, uuid, logging, time
+from pathlib import Path
+from flask import Flask, request, jsonify, send_file
+from flask_cors import CORS
+from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
 
-        <main>
-            <div class="card">
-                <h2>🎬 دبلجة AI</h2>
-                
-                <label for="langSelect">اختر لغة الدبلجة:</label>
-                <select id="langSelect">
-                    <option value="ar">🇸🇦 العربية</option>
-                    <option value="en">🇬 English</option>
-                    <option value="es">🇪 Español</option>
-                    <option value="fr">🇫🇷 Français</option>
-                    <option value="de">🇩 Deutsch</option>
-                    <option value="it">🇮 Italiano</option>
-                    <option value="ru">🇷 Русский</option>
-                    <option value="tr">🇹 Türkçe</option>
-                    <option value="zh">🇨 中文</option>
-                    <option value="hi">🇮 हिन्दी</option>
-                    <option value="fa">🇮🇷 فارسی</option>
-                    <option value="sv">🇸🇪 Svenska</option>
-                    <option value="nl">🇳🇱 Nederlands</option>
-                </select>
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
-                <label for="textInput">النص:</label>
-                <textarea id="textInput" placeholder="أدخل النص المراد دبلجته..."></textarea>
-                <div style="text-align: left; font-size: 0.85rem; color: #888;">
-                    <span id="charCount">0</span> حرف
-                </div>
+app = Flask(__name__)
 
-                <div style="margin: 20px 0;">
-                    <label>🎙️ عينة الصوت لنسخ النبرة</label>
-                    <p style="font-size: 0.9rem; color: #aaa; margin-bottom: 15px;">
-                        ارفع تسجيلاً — سيُستخدم نفس الصوت في كل اللغات
-                    </p>
-                    
-                    <div id="voiceStatus" class="status">
-                        ⚠️ لا توجد عينة صوت — سيُستخدم صوت افتراضي
-                    </div>
-                    
-                    <label class="voice-box" id="uploadBox">
-                        <div class="voice-icon">📁</div>
-                        <div>رفع ملف صوتي</div>
-                        <input type="file" id="voiceFile" accept=".wav,.mp3,.ogg,.m4a">
-                    </label>
-                    
-                    <p style="font-size: 0.8rem; color: #888; margin-top: 10px;">
-                        WAV / MP3 / OGG / M4A — 10-30 ثانية
-                    </p>
-                </div>
+# CORS - مهم جداً للسماح لـ GitHub Pages بالاتصال
+CORS(app, resources={r"/api/*": {
+    "origins": [
+        "https://sl-dubbing.github.io",
+        "http://localhost:5000",
+        "http://127.0.0.1:5000",
+        "*"
+    ],
+    "methods": ["GET", "POST", "OPTIONS"],
+    "allow_headers": ["Content-Type", "Authorization"]
+}})
 
-                <button class="btn" id="generateDub">🎬 توليد الدبلجة</button>
-            </div>
+# Config
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024
+db = SQLAlchemy(app)
 
-            <div class="loading" id="loading">
-                <div class="spinner"></div>
-                <p>جاري توليد الدبلجة...</p>
-            </div>
+# مجلدات الملفات
+AUDIO_DIR = Path('/tmp/sl_audio')
+VOICE_DIR = Path('/tmp/sl_voices')
+AUDIO_DIR.mkdir(parents=True, exist_ok=True)
+VOICE_DIR.mkdir(parents=True, exist_ok=True)
 
-            <div class="result" id="result">
-                <h3>✅ تم التوليد بنجاح!</h3>
-                <audio id="audioPlayer" controls></audio>
-                <a id="downloadBtn" class="download-btn" download>⬇️ تحميل الدبلجة</a>
-                <p class="method-info" id="methodInfo"></p>
-            </div>
-        </main>
+# XTTS v2
+TTS_ENGINE = None
 
-        <footer>
-            <p>ALHASHMI © 2026 — <a href="privacy.html">سياسة الخصوصية</a></p>
-        </footer>
-    </div>
+def load_tts():
+    global TTS_ENGINE
+    if TTS_ENGINE is not None:
+        return TTS_ENGINE
+    try:
+        from TTS.api import TTS
+        logger.info("Loading XTTS v2 model...")
+        TTS_ENGINE = TTS("tts_models/multilingual/multi-dataset/xtts_v2")
+        logger.info("✅ XTTS v2 loaded")
+        return TTS_ENGINE
+    except Exception as e:
+        logger.error(f"❌ XTTS load error: {e}")
+        return None
 
-    <script>
-        let uploadedVoiceBlob = null;
-        let userEmail = localStorage.getItem('userEmail') || '';
+# خرائط اللغات
+XTTS_LANG_MAP = {
+    'ar': 'ar', 'en': 'en', 'es': 'es', 'fr': 'fr',
+    'de': 'de', 'it': 'it', 'ru': 'ru', 'tr': 'tr',
+    'zh': 'zh-cn', 'hi': 'hi', 'nl': 'nl',
+    'fa': None, 'sv': None,
+}
 
-        document.addEventListener('DOMContentLoaded', () => {
-            // عداد الأحرف
-            document.getElementById('textInput').addEventListener('input', (e) => {
-                document.getElementById('charCount').textContent = e.target.value.length;
-            });
+GTTS_LANG_MAP = {
+    'ar': 'ar', 'en': 'en', 'es': 'es', 'fr': 'fr',
+    'de': 'de', 'it': 'it', 'ru': 'ru', 'tr': 'tr',
+    'zh': 'zh', 'hi': 'hi', 'fa': 'fa', 'sv': 'sv', 'nl': 'nl'
+}
 
-            // فحص حالة المستخدم
-            if (userEmail) {
-                fetch(`/api/entitlements?email=${encodeURIComponent(userEmail)}`)
-                    .then(r => r.json())
-                    .then(data => {
-                        if (data.success && data.has_voice) {
-                            document.getElementById('voiceStatus').innerHTML = '✅ عينة الصوت محفوظة';
-                            document.getElementById('voiceStatus').className = 'status success';
-                        }
-                    });
-            }
+# نموذج المستخدم
+class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(200), nullable=False)
+    voice_sample = db.Column(db.String(500))
+    usage_tts = db.Column(db.Integer, default=0)
+    usage_dub = db.Column(db.Integer, default=0)
+    usage_srt = db.Column(db.Integer, default=0)
+    unlocked_tts = db.Column(db.Boolean, default=False)
+    unlocked_dub = db.Column(db.Boolean, default=False)
+    unlocked_srt = db.Column(db.Boolean, default=False)
 
-            // معاينة الرفع
-            document.getElementById('voiceFile').addEventListener('change', (e) => {
-                if (e.target.files[0]) {
-                    document.getElementById('uploadBox').classList.add('active');
-                    document.getElementById('uploadBox').querySelector('.voice-icon').textContent = '✅';
-                }
-            });
-        });
+with app.app_context():
+    db.create_all()
 
-        // رفع الصوت
-        document.getElementById('voiceFile').addEventListener('change', async (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
+GUEST_LIMIT = 6
+GUEST_USAGE = {}
 
-            if (file.size > 10 * 1024 * 1024) {
-                alert('⚠️ حجم الملف كبير جداً! (الحد 10MB)');
-                return;
-            }
+def reset_guest(ip):
+    if ip not in GUEST_USAGE:
+        GUEST_USAGE[ip] = {'tts': 0, 'dub': 0, 'srt': 0, 'ts': time.time()}
+    elif time.time() - GUEST_USAGE[ip].get('ts', 0) > 86400:
+        GUEST_USAGE[ip] = {'tts': 0, 'dub': 0, 'srt': 0, 'ts': time.time()}
 
-            const formData = new FormData();
-            formData.append('voice', file);
-            if (userEmail) formData.append('email', userEmail);
+def get_voice_sample(email=None):
+    if email:
+        user = User.query.filter_by(email=email).first()
+        if user and user.voice_sample and Path(user.voice_sample).exists():
+            logger.info(f"Found voice sample for {email}")
+            return user.voice_sample
+    samples = list(VOICE_DIR.glob('*.wav')) + list(VOICE_DIR.glob('*.mp3'))
+    return str(samples[-1]) if samples else None
 
-            try {
-                document.getElementById('voiceStatus').innerHTML = '🔄 جاري الرفع...';
-                document.getElementById('voiceStatus').className = 'status';
+def synthesize_xtts(text, lang_code, voice_path, output_path):
+    tts = load_tts()
+    if not tts:
+        return False
+    try:
+        xtts_lang = XTTS_LANG_MAP.get(lang_code)
+        if not xtts_lang:
+            return False
+        tts.tts_to_file(
+            text=text,
+            speaker_wav=voice_path,
+            language=xtts_lang,
+            file_path=str(output_path)
+        )
+        return True
+    except Exception as e:
+        logger.error(f"XTTS error: {e}")
+        return False
 
-                const response = await fetch('/api/upload-voice', {
-                    method: 'POST',
-                    body: formData
-                });
+def synthesize_gtts(text, lang_code, output_path):
+    try:
+        from gtts import gTTS
+        gtts_lang = GTTS_LANG_MAP.get(lang_code, 'en')
+        gTTS(text=text, lang=gtts_lang, slow=False).save(str(output_path))
+        return True
+    except Exception as e:
+        logger.error(f"gTTS error: {e}")
+        return False
 
-                const result = await response.json();
-                
-                if (result.success) {
-                    document.getElementById('voiceStatus').innerHTML = '✅ ' + result.message;
-                    document.getElementById('voiceStatus').className = 'status success';
-                    uploadedVoiceBlob = file;
-                    if (userEmail) localStorage.setItem('hasVoice', 'true');
-                } else {
-                    document.getElementById('voiceStatus').innerHTML = '❌ ' + result.error;
-                    document.getElementById('voiceStatus').className = 'status error';
-                }
-            } catch (error) {
-                console.error('Upload error:', error);
-                document.getElementById('voiceStatus').innerHTML = '❌ فشل الاتصال';
-                document.getElementById('voiceStatus').className = 'status error';
-            }
-        });
+def generate_audio(text, lang_code, email=None, voice_override=None):
+    output_file = AUDIO_DIR / f"{uuid.uuid4()}.wav"
+    voice_path = voice_override if voice_override else get_voice_sample(email)
+    
+    if voice_path and XTTS_LANG_MAP.get(lang_code):
+        logger.info(f"Using XTTS v2 with voice for {lang_code}")
+        if synthesize_xtts(text, lang_code, voice_path, output_file):
+            return str(output_file), 'xtts_v2', True
+    
+    logger.info(f"Using gTTS for {lang_code}")
+    mp3_file = output_file.with_suffix('.mp3')
+    if synthesize_gtts(text, lang_code, mp3_file):
+        return str(mp3_file), 'gtts', False
+    
+    return None, None, False
 
-        // توليد الدبلجة
-        document.getElementById('generateDub').addEventListener('click', async () => {
-            const text = document.getElementById('textInput').value.trim();
-            const lang = document.getElementById('langSelect').value;
+# Endpoints
+@app.route('/')
+def root():
+    return jsonify({'status': 'ok', 'service': 'sl-Dubbing Backend'})
 
-            if (!text) {
-                alert('⚠️ أدخل نصاً للدبلجة');
-                return;
-            }
+@app.route('/api/health')
+def health():
+    return jsonify({
+        'status': 'ok',
+        'xtts_ready': TTS_ENGINE is not None
+    })
 
-            if (text.length > 5000) {
-                alert('⚠️ النص طويل جداً! (الحد 5000 حرف)');
-                return;
-            }
+@app.route('/api/register', methods=['POST'])
+def register():
+    try:
+        data = request.get_json()
+        email = data.get('email', '').strip().lower()
+        pw = data.get('password', '')
+        
+        if not email or '@' not in email:
+            return jsonify({'error': 'بريد غير صحيح'}), 400
+        
+        if User.query.filter_by(email=email).first():
+            return jsonify({'error': 'البريد مسجل'}), 400
+        
+        user = User(email=email, password=generate_password_hash(pw))
+        db.session.add(user)
+        db.session.commit()
+        
+        return jsonify({'success': True, 'email': email}), 201
+    except Exception as e:
+        logger.error(f"Register error: {e}")
+        return jsonify({'error': 'خطأ في التسجيل'}), 500
 
-            const formData = new FormData();
-            formData.append('text', text);
-            formData.append('lang', lang);
-            formData.append('feature', 'dub');
-            if (userEmail) formData.append('email', userEmail);
-            if (uploadedVoiceBlob) formData.append('voice', uploadedVoiceBlob);
+@app.route('/api/login', methods=['POST'])
+def login():
+    try:
+        data = request.get_json()
+        email = data.get('email', '').strip().lower()
+        pw = data.get('password', '')
+        
+        user = User.query.filter_by(email=email).first()
+        if not user or not check_password_hash(user.password, pw):
+            return jsonify({'error': 'بيانات غير صحيحة'}), 401
+        
+        return jsonify({
+            'success': True,
+            'email': user.email,
+            'has_voice': bool(user.voice_sample)
+        })
+    except Exception as e:
+        logger.error(f"Login error: {e}")
+        return jsonify({'error': 'خطأ في الدخول'}), 500
 
-            try {
-                document.getElementById('loading').classList.add('show');
-                document.getElementById('result').classList.remove('show');
-                document.getElementById('generateDub').disabled = true;
+@app.route('/api/upload-voice', methods=['POST'])
+def upload_voice():
+    try:
+        email = request.form.get('email', '').strip().lower()
+        logger.info(f"Upload voice request - Email: {email}")
+        
+        if 'voice' not in request.files:
+            return jsonify({'error': 'لم يتم رفع ملف'}), 400
+        
+        file = request.files['voice']
+        if not file.filename:
+            return jsonify({'error': 'اسم الملف فارغ'}), 400
+        
+        ext = Path(file.filename).suffix.lower()
+        if ext not in ['.wav', '.mp3', '.ogg', '.m4a']:
+            return jsonify({'error': 'WAV/MP3/OGG/M4A فقط'}), 400
+        
+        filename = f"voice_{uuid.uuid4()}{ext}"
+        save_path = VOICE_DIR / filename
+        file.save(str(save_path))
+        
+        # تحويل إلى WAV
+        if ext != '.wav':
+            try:
+                import subprocess
+                wav_path = save_path.with_suffix('.wav')
+                subprocess.run(
+                    ['ffmpeg', '-y', '-i', str(save_path), '-ar', '22050', '-ac', '1', str(wav_path)],
+                    capture_output=True, timeout=60
+                )
+                if wav_path.exists():
+                    os.remove(str(save_path))
+                    save_path = wav_path
+            except Exception as e:
+                logger.warning(f"FFmpeg error: {e}")
+        
+        if email:
+            user = User.query.filter_by(email=email).first()
+            if user:
+                user.voice_sample = str(save_path)
+                db.session.commit()
+        
+        logger.info(f"Voice saved: {save_path}")
+        return jsonify({
+            'success': True,
+            'message': 'تم الحفظ بنجاح ✅',
+            'voice_path': str(save_path)
+        })
+    except Exception as e:
+        logger.error(f"Upload error: {e}")
+        return jsonify({'error': f'فشل الرفع: {str(e)}'}), 500
 
-                const response = await fetch('/api/dub', {
-                    method: 'POST',
-                    body: formData
-                });
+@app.route('/api/dub', methods=['POST'])
+def dub():
+    try:
+        if request.content_type and 'multipart' in request.content_type:
+            text = request.form.get('text', '')
+            lang = request.form.get('lang', 'ar')
+            email = request.form.get('email', '').strip().lower()
+            inline_voice = request.files.get('voice')
+        else:
+            data = request.get_json() or {}
+            text = data.get('text', '')
+            lang = data.get('lang', 'ar')
+            email = (data.get('email') or '').strip().lower()
+            inline_voice = None
+        
+        if not text:
+            return jsonify({'error': 'النص فارغ'}), 400
+        
+        # حفظ العينة المرفوعة
+        temp_voice_path = None
+        if inline_voice and inline_voice.filename:
+            ext = Path(inline_voice.filename).suffix.lower() or '.wav'
+            temp_path = VOICE_DIR / f"tmp_{uuid.uuid4()}{ext}"
+            inline_voice.save(str(temp_path))
+            temp_voice_path = str(temp_path)
+            logger.info(f"Inline voice uploaded: {temp_voice_path}")
+            
+            if email:
+                user = User.query.filter_by(email=email).first()
+                if user:
+                    user.voice_sample = temp_voice_path
+                    db.session.commit()
+        
+        # توليد الصوت
+        audio_path, method, used_voice = generate_audio(
+            text, lang, email, voice_override=temp_voice_path
+        )
+        
+        # تنظيف
+        if temp_voice_path:
+            try:
+                stored = get_voice_sample(email)
+                if temp_voice_path != stored:
+                    os.remove(temp_voice_path)
+            except:
+                pass
+        
+        if not audio_path or not Path(audio_path).exists():
+            return jsonify({'error': 'فشل التوليد'}), 500
+        
+        filename = Path(audio_path).name
+        audio_url = f"{request.host_url}api/download/{filename}"
+        
+        logger.info(f"Dub OK: {method}, used_voice={used_voice}")
+        
+        return jsonify({
+            'success': True,
+            'audio_url': audio_url,
+            'filename': filename,
+            'method': method,
+            'used_voice': used_voice
+        })
+    except Exception as e:
+        logger.error(f"Dub error: {e}")
+        import traceback
+        logger.error(traceback.format_exc())
+        return jsonify({'error': f'خطأ: {str(e)}'}), 500
 
-                const data = await response.json();
+@app.route('/api/download/<filename>')
+def download(filename):
+    try:
+        filename = Path(filename).name
+        filepath = AUDIO_DIR / filename
+        if not filepath.exists():
+            return jsonify({'error': 'الملف غير موجود'}), 404
+        
+        mime = 'audio/wav' if str(filepath).endswith('.wav') else 'audio/mpeg'
+        return send_file(str(filepath), as_attachment=True, download_name=filename, mimetype=mime)
+    except Exception as e:
+        logger.error(f"Download error: {e}")
+        return jsonify({'error': 'فشل التنزيل'}), 500
 
-                if (data.success) {
-                    document.getElementById('audioPlayer').src = data.audio_url;
-                    document.getElementById('downloadBtn').href = data.audio_url;
-                    document.getElementById('downloadBtn').download = data.filename;
-                    
-                    const methodText = data.method === 'xtts_v2' ? '🎙️ XTTS v2' : '📢 gTTS';
-                    const voiceText = data.used_voice ? '✅ مع عينة صوتك' : '⚠️ صوت افتراضي';
-                    document.getElementById('methodInfo').innerHTML = `${methodText} — ${voiceText}`;
-                    
-                    document.getElementById('result').classList.add('show');
-                } else {
-                    alert('❌ ' + (data.error || 'فشل التوليد'));
-                }
-            } catch (error) {
-                console.error('Dub error:', error);
-                alert('❌ فشل الاتصال بالخادم');
-            } finally {
-                document.getElementById('loading').classList.remove('show');
-                document.getElementById('generateDub').disabled = false;
-            }
-        });
+@app.route('/api/entitlements')
+def entitlements():
+    try:
+        email = request.args.get('email', '').strip().lower()
+        user = User.query.filter_by(email=email).first()
+        if not user:
+            return jsonify({'error': 'غير موجود'}), 404
+        
+        return jsonify({
+            'success': True,
+            'has_voice': bool(user.voice_sample)
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
-        // السحب والإفلات
-        const uploadBox = document.getElementById('uploadBox');
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            uploadBox.addEventListener(eventName, (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-            });
-        });
-        ['dragenter', 'dragover'].forEach(eventName => {
-            uploadBox.addEventListener(eventName, () => {
-                uploadBox.style.borderColor = '#e94560';
-                uploadBox.style.background = 'rgba(233,69,96,0.2)';
-            });
-        });
-        ['dragleave', 'drop'].forEach(eventName => {
-            uploadBox.addEventListener(eventName, () => {
-                uploadBox.style.borderColor = '';
-                uploadBox.style.background = '';
-            });
-        });
-        uploadBox.addEventListener('drop', (e) => {
-            const files = e.dataTransfer.files;
-            if (files.length) {
-                document.getElementById('voiceFile').files = files;
-                document.getElementById('voiceFile').dispatchEvent(new Event('change'));
-            }
-        });
-    </script>
-</body>
-</html>
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5000))
+    logger.info(f"Starting server on port {port}")
+    app.run(host='0.0.0.0', port=port, debug=False)
