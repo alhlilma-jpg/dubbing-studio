@@ -301,7 +301,7 @@ footer a:hover{color:#a78bfa}
 <div class="toast" id="toast"></div>
 
 <script>
-const BE = 'https://sl-dubbing-backend.onrender.com';
+const BE = 'https://abdulselam1996-sl-dubbing-backend.hf.space';
 const LANGS = [
   {c:'ar',n:'العربية',f:'🇸🇦'},{c:'en',n:'English',f:'🇺🇸'},{c:'es',n:'Español',f:'🇪🇸'},
   {c:'fr',n:'Français',f:'🇫🇷'},{c:'de',n:'Deutsch',f:'🇩🇪'},{c:'it',n:'Italiano',f:'🇮🇹'},
@@ -452,22 +452,18 @@ async function genDub(){
 
   try{
     // إذا كانت العينة موجودة محلياً ولم تُرفع بعد، أرفعها مع الطلب
-    let fd, useFormData=false;
-    if(voiceBlob && !voiceUploaded){
-      useFormData=true;
-      fd=new FormData();
-      fd.append('text', fullText);
-      fd.append('lang', lang);
-      fd.append('feature','dub');
-      if(user.email) fd.append('email', user.email);
-      const ext=voiceBlob.type.includes('wav')?'.wav':'.mp3';
-      fd.append('voice', voiceBlob, 'voice_sample'+ext);
-    }
-
-    const res = useFormData
-      ? await fetch(BE+'/api/dub',{method:'POST',body:fd,signal:AbortSignal.timeout(60000)})
-      : await fetch(BE+'/api/dub',{method:'POST',headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({text:fullText,lang,email:user.email,feature:'dub'}),signal:AbortSignal.timeout(60000)});
+    // دائماً نرسل JSON — أبسط وأكثر توافقاً
+    const res = await fetch(BE+'/api/dub', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        text: fullText,
+        lang: lang,
+        email: user.email || '',
+        feature: 'dub'
+      }),
+      signal: AbortSignal.timeout(60000)
+    });
 
     clearInterval(iv);
     document.getElementById('pf').style.width='100%';
