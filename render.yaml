@@ -1,9 +1,15 @@
 services:
   - type: web
-    name: dubbing-api-v2
+    name: sl-dubbing-backend
     env: python
+    region: frankfurt
+    plan: free
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn server:app --bind 0.0.0.0:$PORT
+    startCommand: gunicorn server:app --bind 0.0.0.0:$PORT --timeout 120 --workers 1
     envVars:
       - key: PORT
         value: 5000
+    disk:
+      name: voices
+      mountPath: /tmp
+      sizeGB: 1
