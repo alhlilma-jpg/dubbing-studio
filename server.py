@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 
-# CORS - مهم جداً
+# CORS - مهم جداً للسماح بالاتصال من GitHub Pages
 CORS(app, resources={r"/api/*": {
     "origins": ["https://sl-dubbing.github.io", "http://localhost:*", "*"],
     "methods": ["GET", "POST", "OPTIONS"],
