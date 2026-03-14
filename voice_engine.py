@@ -1,225 +1,235 @@
 # =============================================================
-# voice_engine.py — محرك الصوت الاحترافي
-# يُستخدم من app.py لتوليد الصوت بنبرة ABDU SELAM
+# app.py (server.py) — sl-Dubbing Backend
+# HF Spaces + Cloudinary + XTTS v2 + gTTS
 # =============================================================
-import os, uuid, logging, requests, hashlib
+import os, uuid, time, logging, subprocess, json as _json
 from pathlib import Path
+from datetime import datetime
 
+from flask import Flask, request, jsonify, send_file
+from flask_cors import CORS
+from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
+
+from utils import upload_to_cloudinary, fetch_voice_sample, mp3_to_wav, purge_tmp_folder
+from voice_engine import synthesize as voice_synthesize
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
 logger = logging.getLogger(__name__)
 
-# ── إعدادات Cloudinary ───────────────────────────────────────
-CLOUD_NAME    = os.environ.get('CLOUDINARY_CLOUD_NAME', 'dxbmvzsiz')
-API_KEY       = os.environ.get('CLOUDINARY_API_KEY',    '432687952743126')
-API_SECRET    = os.environ.get('CLOUDINARY_API_SECRET', 'BrFvzlPFXBJZ-B-cZyxCc-0wHRo')
-FOLDER        = "sl_voices"
-DEFAULT_VOICE = os.environ.get('DEFAULT_VOICE_ID', '5_gtygjb')
+app = Flask(__name__)
+CORS(app, origins=["https://sl-dubbing.github.io", "http://localhost:*", "*"])
+app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# مسارات مؤقتة
-TMP = Path('/tmp')
-TMP.mkdir(exist_ok=True)
+db = SQLAlchemy(app)
 
-# ── خريطة اللغات ─────────────────────────────────────────────
-XTTS_LANGS = {
-    'ar':'ar', 'en':'en', 'es':'es', 'fr':'fr', 'de':'de',
-    'it':'it', 'ru':'ru', 'tr':'tr', 'zh':'zh-cn', 'hi':'hi', 'nl':'nl'
-}
-GTTS_LANGS = {
-    'ar':'ar', 'en':'en', 'es':'es', 'fr':'fr', 'de':'de', 'it':'it',
-    'ru':'ru', 'tr':'tr', 'zh':'zh-TW', 'hi':'hi', 'fa':'fa', 'sv':'sv', 'nl':'nl'
-}
+AUDIO_DIR = Path('/tmp/sl_audio')
+AUDIO_DIR.mkdir(parents=True, exist_ok=True)
 
-# ── XTTS v2 ───────────────────────────────────────────────────
-_TTS_ENGINE = None
+# ── نموذج المستخدم ────────────────────────────────────────────
+class User(db.Model):
+    __tablename__ = 'users'
+    id              = db.Column(db.Integer, primary_key=True)
+    email           = db.Column(db.String(120), unique=True, nullable=False)
+    password        = db.Column(db.String(200), nullable=False)
+    voice_public_id = db.Column(db.String(255))
+    usage_tts       = db.Column(db.Integer, default=0)
+    usage_dub       = db.Column(db.Integer, default=0)
+    usage_srt       = db.Column(db.Integer, default=0)
+    unlocked_tts    = db.Column(db.Boolean, default=False)
+    unlocked_dub    = db.Column(db.Boolean, default=False)
+    unlocked_srt    = db.Column(db.Boolean, default=False)
 
-def get_tts_engine():
-    global _TTS_ENGINE
-    if _TTS_ENGINE is not None:
-        return _TTS_ENGINE
+with app.app_context():
+    db.create_all()
+
+GUEST_LIMIT = 6
+GUEST_USAGE = {}
+
+def reset_guest(ip):
+    now = time.time()
+    if ip not in GUEST_USAGE or now - GUEST_USAGE[ip].get('ts',0) > 86400:
+        GUEST_USAGE[ip] = {'tts':0,'dub':0,'srt':0,'ts':now}
+
+@app.before_request
+def before_any():
+    purge_tmp_folder()
+
+# ══════════════════════════════════════════════════════════════
+# Routes
+# ══════════════════════════════════════════════════════════════
+
+@app.route('/')
+@app.route('/api/health')
+def health():
+    return jsonify({
+        'status':     'ok',
+        'service':    'sl-Dubbing Backend',
+        'cloudinary': os.environ.get('CLOUDINARY_CLOUD_NAME','dxbmvzsiz')
+    })
+
+# ── تسجيل ─────────────────────────────────────────────────────
+@app.route('/api/register', methods=['POST'])
+def register():
     try:
-        from TTS.api import TTS
-        logger.info("⏳ Loading XTTS v2 model...")
-        _TTS_ENGINE = TTS("tts_models/multilingual/multi-dataset/xtts_v2")
-        logger.info("✅ XTTS v2 loaded")
-        return _TTS_ENGINE
+        d     = request.get_json() or {}
+        email = d.get('email','').strip().lower()
+        pw    = d.get('password','')
+        if not email or '@' not in email:
+            return jsonify({'error':'بريد غير صالح'}), 400
+        if User.query.filter_by(email=email).first():
+            return jsonify({'error':'البريد مسجّل مسبقاً'}), 400
+        db.session.add(User(email=email, password=generate_password_hash(pw)))
+        db.session.commit()
+        return jsonify({'success':True,'email':email}), 201
     except Exception as e:
-        logger.error(f"❌ XTTS load failed: {e}")
-        return None
+        logger.error(f"register: {e}")
+        return jsonify({'error':'خطأ داخلي'}), 500
 
-# ── Cloudinary ────────────────────────────────────────────────
-def _cloudinary_url(public_id):
-    return f"https://res.cloudinary.com/{CLOUD_NAME}/raw/upload/{FOLDER}/{public_id}"
-
-def fetch_voice_sample(public_id=None):
-    """
-    تحميل عينة الصوت من Cloudinary إلى /tmp
-    يُخزّن محلياً لتجنب التحميل في كل مرة
-    """
-    vid   = public_id or DEFAULT_VOICE
-    local = TMP / f"voice_{vid}.wav"
-
-    # إذا موجود محلياً وحجمه طبيعي → استخدمه مباشرة
-    if local.exists() and local.stat().st_size > 5000:
-        logger.info(f"✅ Using cached voice: {local}")
-        return str(local)
-
-    # حمّله من Cloudinary
-    url = _cloudinary_url(vid)
-    logger.info(f"⬇️ Downloading voice from Cloudinary: {url}")
+# ── دخول ──────────────────────────────────────────────────────
+@app.route('/api/login', methods=['POST'])
+def login():
     try:
-        r = requests.get(url, timeout=30)
-        if r.status_code == 200:
-            with open(local, 'wb') as f:
-                f.write(r.content)
-            logger.info(f"✅ Voice saved: {local} ({local.stat().st_size} bytes)")
-            return str(local)
-        else:
-            logger.error(f"❌ Cloudinary returned {r.status_code}")
+        d     = request.get_json() or {}
+        email = d.get('email','').strip().lower()
+        pw    = d.get('password','')
+        user  = User.query.filter_by(email=email).first()
+        if not user or not check_password_hash(user.password, pw):
+            return jsonify({'error':'بيانات غير صحيحة'}), 401
+        return jsonify({
+            'success':   True,
+            'email':     user.email,
+            'has_voice': bool(user.voice_public_id),
+            'usage':    {'tts':user.usage_tts,'dub':user.usage_dub,'srt':user.usage_srt},
+            'unlocked': {'tts':user.unlocked_tts,'dub':user.unlocked_dub,'srt':user.unlocked_srt}
+        })
     except Exception as e:
-        logger.error(f"❌ Download error: {e}")
-    return None
+        logger.error(f"login: {e}")
+        return jsonify({'error':'خطأ داخلي'}), 500
 
-# ── توليد الصوت بـ XTTS v2 ───────────────────────────────────
-def generate_xtts(text: str, lang: str, voice_path: str, out_path: str) -> bool:
-    """
-    توليد صوت بنفس نبرة voice_path
-    يدعم: ar en es fr de it ru tr zh hi nl
-    """
-    tts = get_tts_engine()
-    if tts is None:
-        return False
-
-    xtts_lang = XTTS_LANGS.get(lang)
-    if not xtts_lang:
-        logger.warning(f"XTTS لا يدعم اللغة: {lang}")
-        return False
-
-    # تقسيم النص إذا كان طويلاً (XTTS يدعم حتى ~400 حرف)
-    chunks = _split_text(text, max_chars=350)
-    if len(chunks) == 1:
-        try:
-            tts.tts_to_file(
-                text=text,
-                speaker_wav=voice_path,
-                language=xtts_lang,
-                file_path=out_path
-            )
-            logger.info(f"✅ XTTS generated: {out_path}")
-            return True
-        except Exception as e:
-            logger.error(f"❌ XTTS error: {e}")
-            return False
-    else:
-        # دمج أجزاء متعددة
-        return _generate_xtts_chunked(tts, chunks, xtts_lang, voice_path, out_path)
-
-def _generate_xtts_chunked(tts, chunks, lang, voice_path, out_path):
-    """توليد ودمج أجزاء النص الطويل"""
+# ── رفع عينة صوت ─────────────────────────────────────────────
+@app.route('/api/upload-voice', methods=['POST'])
+def upload_voice():
     try:
-        import wave, array
-        parts = []
-        for i, chunk in enumerate(chunks):
-            part = TMP / f"chunk_{uuid.uuid4()}.wav"
-            tts.tts_to_file(text=chunk, speaker_wav=voice_path,
-                            language=lang, file_path=str(part))
-            parts.append(part)
+        email = request.form.get('email','').strip().lower()
+        if 'voice' not in request.files:
+            return jsonify({'error':'لم يتم رفع ملف'}), 400
+        file = request.files['voice']
+        ext  = Path(file.filename).suffix.lower() or '.wav'
+        if ext not in {'.wav','.mp3','.ogg','.m4a'}:
+            return jsonify({'error':'امتداد غير مدعوم'}), 400
 
-        # دمج WAV files
-        _merge_wav(parts, out_path)
-        for p in parts:
-            p.unlink(missing_ok=True)
-        logger.info(f"✅ XTTS chunked ({len(chunks)} parts) → {out_path}")
-        return True
+        tmp = Path('/tmp') / f"voice_{uuid.uuid4()}{ext}"
+        file.save(str(tmp))
+
+        wav = tmp
+        if ext != '.wav':
+            w = tmp.with_suffix('.wav')
+            try:
+                subprocess.run(['ffmpeg','-y','-i',str(tmp),'-ar','22050','-ac','1',str(w)],
+                               capture_output=True, timeout=30)
+                if w.exists(): tmp.unlink(missing_ok=True); wav = w
+            except Exception as e:
+                logger.warning(f"ffmpeg: {e}")
+
+        public_id = f"{email}_{uuid.uuid4()}" if email else f"guest_{uuid.uuid4()}"
+        url = upload_to_cloudinary(str(wav), public_id)
+        wav.unlink(missing_ok=True)
+
+        if not url:
+            return jsonify({'error':'فشل الرفع إلى Cloudinary'}), 500
+
+        if email:
+            user = User.query.filter_by(email=email).first()
+            if user:
+                user.voice_public_id = public_id
+                db.session.commit()
+
+        return jsonify({'success':True,'message':'تم حفظ العينة ✅','url':url,'public_id':public_id})
     except Exception as e:
-        logger.error(f"❌ XTTS chunked error: {e}")
-        return False
+        logger.error(f"upload_voice: {e}")
+        return jsonify({'error':str(e)}), 500
 
-def _merge_wav(files, output):
-    """دمج ملفات WAV"""
-    import wave
-    data = []
-    params = None
-    for f in files:
-        with wave.open(str(f), 'rb') as w:
-            if params is None:
-                params = w.getparams()
-            data.append(w.readframes(w.getnframes()))
-    with wave.open(str(output), 'wb') as out:
-        out.setparams(params)
-        for d in data:
-            out.writeframes(d)
-
-def _split_text(text, max_chars=350):
-    """تقسيم النص إلى أجزاء عند علامات الترقيم"""
-    if len(text) <= max_chars:
-        return [text]
-    chunks, current = [], ""
-    for sentence in text.replace('،', '.').replace('؟', '.').replace('!', '.').split('.'):
-        sentence = sentence.strip()
-        if not sentence:
-            continue
-        if len(current) + len(sentence) < max_chars:
-            current += sentence + '. '
-        else:
-            if current:
-                chunks.append(current.strip())
-            current = sentence + '. '
-    if current:
-        chunks.append(current.strip())
-    return chunks if chunks else [text]
-
-# ── توليد بـ gTTS ────────────────────────────────────────────
-def generate_gtts(text: str, lang: str, out_path: str) -> bool:
-    """توليد صوت افتراضي بـ gTTS — يدعم كل اللغات"""
+# ── دبلجة ─────────────────────────────────────────────────────
+@app.route('/api/dub', methods=['POST'])
+def dub():
     try:
-        from gtts import gTTS
-        gtts_lang = GTTS_LANGS.get(lang, 'en')
-        gTTS(text=text, lang=gtts_lang, slow=False).save(out_path)
-        logger.info(f"✅ gTTS generated: {out_path}")
-        return True
+        d          = request.get_json() or {}
+        text       = d.get('text','').strip()
+        lang       = d.get('lang','ar')
+        email      = (d.get('email') or '').strip().lower()
+        voice_mode = d.get('voice_mode','gtts').lower()
+
+        if not text:
+            return jsonify({'error':'النص فارغ'}), 400
+
+        ip = request.remote_addr
+        reset_guest(ip)
+        if GUEST_USAGE[ip].get('dub',0) >= GUEST_LIMIT:
+            return jsonify({'error':'انتهى الحد المجاني','limit_reached':True}), 403
+        GUEST_USAGE[ip]['dub'] += 1
+        remaining = GUEST_LIMIT - GUEST_USAGE[ip]['dub']
+
+        file_path, method = voice_synthesize(
+            text=text,
+            lang=lang,
+            use_custom_voice=(voice_mode == 'xtts')
+        )
+
+        if not file_path:
+            return jsonify({'error':'فشل توليد الصوت'}), 500
+
+        filename  = Path(file_path).name
+        audio_url = f"{request.host_url.rstrip('/')}/api/download/{filename}"
+
+        return jsonify({
+            'success':True,'audio_url':audio_url,'filename':filename,
+            'method':method,'remaining':remaining,'lang':lang
+        })
     except Exception as e:
-        logger.error(f"❌ gTTS error: {e}")
-        return False
+        logger.error(f"dub: {e}")
+        return jsonify({'error':str(e)}), 500
 
-# ── الدالة الرئيسية ───────────────────────────────────────────
-def synthesize(text: str, lang: str, use_custom_voice: bool = False) -> tuple:
-    """
-    الدالة الرئيسية لتوليد الصوت
+# ── تحميل ─────────────────────────────────────────────────────
+@app.route('/api/download/<filename>')
+def download(filename):
+    safe = Path(filename).name
+    p    = AUDIO_DIR / safe
+    if not p.exists():
+        return jsonify({'error':'الملف غير موجود'}), 404
+    mime = 'audio/wav' if safe.endswith('.wav') else 'audio/mpeg'
+    return send_file(str(p), as_attachment=True, download_name=safe, mimetype=mime)
 
-    Args:
-        text: النص المراد تحويله
-        lang: رمز اللغة (ar, en, es, ...)
-        use_custom_voice: True = صوت ABDU SELAM | False = صوت افتراضي
+# ── الأسعار ───────────────────────────────────────────────────
+PRICES_FILE = Path(__file__).parent / 'prices.json'
 
-    Returns:
-        (file_path, method) أو (None, None) عند الفشل
-    """
-    out_wav = TMP / f"out_{uuid.uuid4()}.wav"
-    out_mp3 = TMP / f"out_{uuid.uuid4()}.mp3"
+@app.route('/api/prices')
+def prices():
+    try:
+        with open(PRICES_FILE, encoding='utf-8') as f:
+            return jsonify({'success':True,'prices':_json.load(f)})
+    except Exception as e:
+        return jsonify({'error':str(e)}), 500
 
-    if use_custom_voice:
-        voice = fetch_voice_sample()
-        if voice:
-            if generate_xtts(text, lang, voice, str(out_wav)):
-                return str(out_wav), 'xtts_v2'
-            logger.warning("XTTS فشل → gTTS fallback")
-        else:
-            logger.warning("العينة غير متاحة → gTTS fallback")
+# ── Webhook Lemon Squeezy / Payhip ───────────────────────────
+@app.route('/api/webhook/payment', methods=['POST'])
+def webhook():
+    try:
+        data  = request.get_json() or {}
+        email = (data.get('email') or '').lower()
+        feat  = data.get('feature','')
+        if email and feat in ['tts','dub','srt']:
+            user = User.query.filter_by(email=email).first()
+            if user:
+                setattr(user, f'unlocked_{feat}', True)
+                db.session.commit()
+                logger.info(f"✅ Unlocked {feat} for {email}")
+        return jsonify({'success':True})
+    except Exception as e:
+        return jsonify({'error':str(e)}), 500
 
-    # gTTS fallback
-    if generate_gtts(text, lang, str(out_mp3)):
-        return str(out_mp3), 'gtts'
-
-    return None, None
-
-# ── اختبار مباشر ─────────────────────────────────────────────
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
-    print("🧪 اختبار voice_engine...")
-
-    # اختبار gTTS
-    path, method = synthesize("مرحباً بك في sl-Dubbing", "ar", use_custom_voice=False)
-    print(f"gTTS: {method} → {path}")
-
-    # اختبار XTTS (يحتاج اتصال Cloudinary)
-    path, method = synthesize("Hello from sl-Dubbing", "en", use_custom_voice=True)
-    print(f"XTTS: {method} → {path}")
+    port = int(os.environ.get('PORT', 8000))
+    app.run(host='0.0.0.0', port=port, debug=False)
