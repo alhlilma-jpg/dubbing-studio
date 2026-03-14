@@ -1,5 +1,5 @@
 // غيّر هذا الرابط إلى رابط الـ backend اللي نشرته (Render أو HuggingFace Spaces)
-const API_BASE = "https://YOUR_BACKEND_URL";
+const API_BASE = "https://ABDULSELAM1996-sl-dubbing-backend.hf.space";
 
 // دبلجة بالنصوص باستخدام الصوت الافتراضي (gTTS)
 async function dubTextGtts() {
