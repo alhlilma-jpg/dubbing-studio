@@ -2,10 +2,11 @@
 # sl-Dubbing Backend — HF Spaces + Cloudinary Storage
 # عينات الصوت تُحفظ على Cloudinary (25GB مجاناً)
 # =============================================================
-import os, uuid, time, logging, requests
+import os, uuid, time, logging
 from pathlib import Path
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
+from voice_engine import synthesize, fetch_voice_sample
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -56,104 +57,6 @@ GUEST_USAGE = {}
 def reset_guest(ip):
     if ip not in GUEST_USAGE or time.time()-GUEST_USAGE[ip].get('ts',0) > 86400:
         GUEST_USAGE[ip] = {'tts':0,'dub':0,'srt':0,'ts':time.time()}
-
-# ── Cloudinary helpers ────────────────────────────────────────
-def upload_to_cloudinary(file_path, public_id):
-    """رفع ملف صوتي إلى Cloudinary"""
-    import hashlib, hmac, time as t
-    timestamp = int(t.time())
-    # توقيع الطلب
-    params = f"folder={FOLDER}&public_id={public_id}&timestamp={timestamp}"
-    sig = hashlib.sha1(f"{params}{API_SECRET}".encode()).hexdigest()
-    with open(file_path, 'rb') as f:
-        res = requests.post(UPLOAD_URL, data={
-            'api_key':   API_KEY,
-            'timestamp': timestamp,
-            'signature': sig,
-            'folder':    FOLDER,
-            'public_id': public_id,
-        }, files={'file': f}, timeout=60)
-    if res.status_code == 200:
-        data = res.json()
-        logger.info(f"✅ Cloudinary upload: {data.get('secure_url')}")
-        return data.get('secure_url')
-    else:
-        logger.error(f"Cloudinary error: {res.text}")
-        return None
-
-def download_from_cloudinary(public_id, dest_path):
-    """تحميل عينة الصوت من Cloudinary إلى /tmp"""
-    url = f"https://res.cloudinary.com/{CLOUD_NAME}/raw/upload/{FOLDER}/{public_id}"
-    try:
-        res = requests.get(url, timeout=30)
-        if res.status_code == 200:
-            with open(dest_path, 'wb') as f:
-                f.write(res.content)
-            logger.info(f"✅ Voice downloaded: {dest_path}")
-            return True
-    except Exception as e:
-        logger.error(f"Download voice error: {e}")
-    return False
-
-def get_voice_id(email):
-    """public_id للمستخدم في Cloudinary"""
-    if email:
-        return email.replace('@','_').replace('.','_')
-    return None
-
-# ── العينة الثابتة ───────────────────────────────────────────
-# غيّر هذا المتغير باسم الملف الذي رفعته على Cloudinary
-DEFAULT_VOICE_ID = os.environ.get('DEFAULT_VOICE_ID', 'abd199641_gmail_com')
-
-def fetch_voice_for_user(email=None):
-    """
-    يحمّل العينة الثابتة من Cloudinary مرة واحدة ويخزنها في /tmp
-    """
-    local = Path('/tmp') / f"voice_{DEFAULT_VOICE_ID}.wav"
-    # إذا موجود محلياً لا نحمله مجدداً
-    if local.exists() and local.stat().st_size > 1000:
-        return str(local)
-    logger.info(f"Downloading default voice from Cloudinary: {DEFAULT_VOICE_ID}")
-    if download_from_cloudinary(DEFAULT_VOICE_ID, str(local)):
-        return str(local)
-    logger.warning("Default voice not found on Cloudinary → gTTS fallback")
-    return None
-
-# ── TTS helpers ───────────────────────────────────────────────
-def synth_xtts(text, lang, voice_path, out):
-    tts = load_tts()
-    if not tts: return False
-    xtts_lang = XTTS_LANGS.get(lang)
-    if not xtts_lang: return False
-    try:
-        tts.tts_to_file(text=text, speaker_wav=voice_path,
-                        language=xtts_lang, file_path=str(out))
-        return True
-    except Exception as e:
-        logger.error(f"XTTS: {e}"); return False
-
-def synth_gtts(text, lang, out):
-    try:
-        from gtts import gTTS
-        gTTS(text=text, lang=GTTS_LANGS.get(lang,'en')).save(str(out))
-        return True
-    except Exception as e:
-        logger.error(f"gTTS: {e}"); return False
-
-def generate(text, lang, email=None):
-    voice = fetch_voice_for_user(email)
-    logger.info(f"generate: lang={lang} email={email} voice={'✅' if voice else '❌ none'}")
-    out = AUDIO_DIR / f"{uuid.uuid4()}.wav"
-    if voice:
-        logger.info(f"Trying XTTS v2...")
-        if synth_xtts(text, lang, voice, out):
-            logger.info("✅ XTTS v2 success")
-            return str(out), 'xtts_v2'
-        logger.warning("XTTS failed → fallback gTTS")
-    mp3 = out.with_suffix('.mp3')
-    if synth_gtts(text, lang, mp3):
-        return str(mp3), 'gtts'
-    return None, None
 
 # ══════════════════════════════════════════════════════════════
 # Routes
@@ -229,10 +132,11 @@ def upload_voice():
 def dub():
     try:
         d       = request.get_json() or {}
-        text    = d.get('text','')
-        lang    = d.get('lang','ar')
-        email   = (d.get('email') or '').strip().lower()
-        feature = d.get('feature','dub')
+        text       = d.get('text','')
+        lang       = d.get('lang','ar')
+        email      = (d.get('email') or '').strip().lower()
+        feature    = d.get('feature','dub')
+        voice_mode = d.get('voice_mode','gtts')  # 'gtts' أو 'xtts'
 
         if not text:
             return jsonify({'error':'النص فارغ'}), 400
@@ -245,7 +149,8 @@ def dub():
         GUEST_USAGE[ip][feature] = GUEST_USAGE[ip].get(feature,0) + 1
         remaining = GUEST_LIMIT - GUEST_USAGE[ip][feature]
 
-        audio_path, method = generate(text, lang, email)
+        # استخدم الصوت المطلوب
+        audio_path, method = generate(text, lang, use_custom=(voice_mode=='xtts'))
         if not audio_path:
             return jsonify({'error':'فشل توليد الصوت'}), 500
 
