@@ -205,6 +205,11 @@ def download(filename):
 # ── الأسعار ───────────────────────────────────────────────────
 PRICES_FILE = Path(__file__).parent / 'prices.json'
 
+@app.route('/api/status')
+def status():
+    from voice_engine import get_status
+    return jsonify({'success': True, **get_status()})
+
 @app.route('/api/prices')
 def prices():
     try:
