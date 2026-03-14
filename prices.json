@@ -1,0 +1,17 @@
+{
+  "tts": {
+    "price": 10,
+    "currency": "$",
+    "url": "https://payhip.com/b/jQdFJ"
+  },
+  "dubbing": {
+    "price": 50,
+    "currency": "$",
+    "url": "https://payhip.com/b/5XbaQ"
+  },
+  "srt": {
+    "price": 10,
+    "currency": "$",
+    "url": "https://payhip.com/b/2E6sT"
+  }
+}
