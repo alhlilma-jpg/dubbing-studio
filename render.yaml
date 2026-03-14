@@ -5,10 +5,26 @@ services:
     region: frankfurt
     plan: free
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn server:app --bind 0.0.0.0:$PORT --timeout 120 --workers 1
+    startCommand: gunicorn server:app --bind 0.0.0.0:$PORT --timeout 120 --workers 2
     envVars:
       - key: PORT
         value: 5000
+      - key: CLOUDINARY_CLOUD_NAME
+        fromService:
+          name: cloudinary
+          property: cloud_name
+      - key: CLOUDINARY_API_KEY
+        fromService:
+          name: cloudinary
+          property: api_key
+      - key: CLOUDINARY_API_SECRET
+        fromService:
+          name: cloudinary
+          property: api_secret
+      - key: DEFAULT_VOICE_ID
+        value: 5_gtygjb
+      - key: CORS_ORIGINS
+        value: https://sl-dubbing.github.io, http://localhost:*
     disk:
       name: voices
       mountPath: /tmp
