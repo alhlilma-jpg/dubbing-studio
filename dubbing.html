@@ -127,12 +127,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .srt-item{padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05);display:flex;gap:12px;font-size:.82rem}
 .srt-time{color:#a78bfa;font-family:monospace;min-width:110px}
 
-/* ── Voice section ── */
-.voice-sec{background:rgba(124,58,237,.06);border:1px solid rgba(124,58,237,.2);border-radius:12px;padding:20px;margin:20px 0}
-.voice-sec h3{color:#a78bfa;margin-bottom:10px}
-.rec-btn{padding:11px 20px;background:linear-gradient(135deg,#dc2626,#ef4444);border:none;border-radius:10px;color:white;cursor:pointer;font-weight:700;display:flex;align-items:center;gap:8px}
-.rec-btn.on{animation:rp 1.5s infinite}
-@keyframes rp{0%,100%{opacity:1}50%{opacity:.6}}
+50%{opacity:.6}}
 
 /* ── Audio / Download ── */
 audio{width:100%;margin:18px 0;display:none;border-radius:8px}
@@ -214,58 +209,28 @@ footer a:hover{color:#a78bfa}
 
   <div class="tool-box">
 
+    <!-- ── اختيار الصوت ── -->
+    <label class="lbl">اختر الصوت:</label>
+    <div style="display:flex;gap:12px;margin-bottom:24px">
+      <div class="voice-choice active" id="vc-default" onclick="selectVoice('gtts',this)"
+        style="flex:1;padding:16px;border:2px solid rgba(96,165,250,.3);border-radius:14px;cursor:pointer;text-align:center;background:rgba(96,165,250,.06);transition:all .3s">
+        <div style="font-size:1.8rem">🤖</div>
+        <div style="font-weight:700;color:#60a5fa;margin-top:6px">صوت افتراضي</div>
+        <div style="font-size:.78rem;color:#6b7280;margin-top:3px">سريع ومجاني</div>
+      </div>
+      <div class="voice-choice" id="vc-abdu" onclick="selectVoice('xtts',this)"
+        style="flex:1;padding:16px;border:2px solid rgba(167,139,250,.2);border-radius:14px;cursor:pointer;text-align:center;background:rgba(124,58,237,.04);transition:all .3s">
+        <div style="font-size:1.8rem">🎙️</div>
+        <div style="font-weight:700;color:#a78bfa;margin-top:6px">صوت ABDU SELAM</div>
+        <div style="font-size:.78rem;color:#6b7280;margin-top:3px">نبرة حقيقية بكل اللغات</div>
+      </div>
+    </div>
+
     <!-- ── اللغة ── -->
     <label class="lbl">اختر لغة الدبلجة:</label>
     <div class="lang-grid" id="langs"></div>
 
-    <!-- ── عينة الصوت ── -->
-    <div class="voice-sec" style="margin-bottom:24px">
-      <h3>🎙️ عينة الصوت لنسخ النبرة</h3>
-      <p style="color:#9ca3af;font-size:.85rem;margin-bottom:16px">
-        ارفع تسجيلاً أو سجّل مباشرة — سيُستخدم نفس الصوت في كل اللغات
-      </p>
-
-      <div id="voiceStatus">
-        <div class="status-badge warn">⚠️ لا توجد عينة صوت — سيُستخدم صوت افتراضي</div>
-      </div>
-
-      <!-- Tabs -->
-      <div class="method-tabs" style="margin-top:16px">
-        <div class="mtab active" onclick="switchTab('upload')">📁 رفع ملف</div>
-        <div class="mtab" onclick="switchTab('record')">🎙️ تسجيل مباشر</div>
-      </div>
-
-      <!-- رفع ملف -->
-      <div class="method-panel active" id="panelUpload">
-        <div class="voice-upload-area" id="voiceDropArea" onclick="document.getElementById('voiceFile').click()">
-          <input type="file" id="voiceFile" accept=".wav,.mp3,.ogg,.m4a" onchange="handleVoiceFile(event)">
-          <div style="font-size:2.2rem;margin-bottom:8px">🎵</div>
-          <div style="color:#a78bfa;font-weight:700;margin-bottom:4px">انقر لرفع عينة الصوت</div>
-          <div style="color:#6b7280;font-size:.8rem">WAV / MP3 / OGG / M4A — 10 إلى 30 ثانية للأفضل</div>
-        </div>
-        <div class="voice-preview" id="uploadPreview">
-          <audio id="uploadAudio" controls></audio>
-        </div>
-      </div>
-
-      <!-- تسجيل مباشر -->
-      <div class="method-panel" id="panelRecord">
-        <button class="rec-btn" id="recBtn" onclick="toggleRec()">
-          <span id="recIcon">🔴</span><span id="recTxt">بدء التسجيل</span>
-        </button>
-        <p id="recSt" style="color:#9ca3af;font-size:.82rem;margin-top:10px;min-height:18px"></p>
-        <div class="voice-preview" id="recordPreview">
-          <audio id="recordAudio" controls></audio>
-        </div>
-      </div>
-
-      <button class="sec-btn" id="uploadVoiceBtn" onclick="uploadVoice()" style="margin-top:14px;display:none">
-        ☁️ رفع العينة إلى الخادم
-      </button>
-      <button class="sec-btn" onclick="checkVoiceOnServer()" style="margin-top:8px;font-size:.8rem;opacity:.7">
-        🔍 تحقق من العينة على الخادم
-      </button>
-    </div>
+    
 
     <!-- ── SRT ── -->
     <label class="lbl">ملف SRT:</label>
@@ -312,8 +277,18 @@ const LANGS = [
   {c:'hi',n:'हिन्दी',f:'🇮🇳'},{c:'fa',n:'فارسی',f:'🇮🇷'},{c:'sv',n:'Svenska',f:'🇸🇪'},{c:'nl',n:'Nederlands',f:'🇳🇱'}
 ];
 
-let lang='ar', srtData=[], isRec=false, recObj=null, chunks=[];
+let lang='ar', srtData=[], voiceMode='gtts';
 let voiceBlob=null, voiceUploaded=false;
+
+function selectVoice(mode, el){
+  voiceMode = mode;
+  document.querySelectorAll('.voice-choice').forEach(e=>{
+    e.style.borderColor = 'rgba(255,255,255,.1)';
+    e.style.background  = 'rgba(255,255,255,.02)';
+  });
+  el.style.borderColor = mode==='xtts' ? '#a78bfa' : '#60a5fa';
+  el.style.background  = mode==='xtts' ? 'rgba(124,58,237,.15)' : 'rgba(96,165,250,.12)';
+}
 
 function showToast(m,d=3000){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),d)}
 
@@ -355,135 +330,6 @@ function handleVoiceFile(e){
   document.getElementById('voiceDropArea').classList.add('has-file');
   document.getElementById('uploadVoiceBtn').style.display='block';
   setVoiceStatus('ok','✅ عينة جاهزة — انقر "رفع إلى الخادم"');
-}
-
-// ── تسجيل مباشر ──────────────────────────────────────────────
-async function toggleRec(){
-  if(!isRec){
-    try{
-      const s=await navigator.mediaDevices.getUserMedia({audio:true});
-      recObj=new MediaRecorder(s); chunks=[];
-      recObj.ondataavailable=e=>chunks.push(e.data);
-      recObj.onstop=()=>{
-        voiceBlob=new Blob(chunks,{type:'audio/wav'});
-        const url=URL.createObjectURL(voiceBlob);
-        document.getElementById('recordAudio').src=url;
-        document.getElementById('recordPreview').classList.add('show');
-        document.getElementById('uploadVoiceBtn').style.display='block';
-        setVoiceStatus('ok','✅ تسجيل جاهز — انقر "رفع إلى الخادم"');
-        document.getElementById('recSt').textContent='✅ تم التسجيل';
-      };
-      recObj.start(); isRec=true;
-      document.getElementById('recBtn').classList.add('on');
-      document.getElementById('recIcon').textContent='⏹';
-      document.getElementById('recTxt').textContent='إيقاف التسجيل';
-      document.getElementById('recSt').textContent='⏺️ جاري التسجيل...';
-    }catch{showToast('❌ لا يمكن الوصول للميكروفون')}
-  }else{
-    recObj.stop(); recObj.stream.getTracks().forEach(t=>t.stop()); isRec=false;
-    document.getElementById('recBtn').classList.remove('on');
-    document.getElementById('recIcon').textContent='🔴';
-    document.getElementById('recTxt').textContent='بدء التسجيل';
-  }
-}
-
-// ── رفع العينة للخادم ────────────────────────────────────────
-async function uploadVoice(){
-  if(!voiceBlob){showToast('الرجاء اختيار أو تسجيل عينة أولاً');return;}
-  const btn=document.getElementById('uploadVoiceBtn');
-  btn.disabled=true;
-
-  const steps=[
-    {p:15, msg:'📤 جاري رفع الملف...'},
-    {p:35, msg:'🔍 تحليل خصائص الصوت...'},
-    {p:55, msg:'🎵 استخراج نبرة الصوت...'},
-    {p:75, msg:'🧠 تدريب نموذج النبرة...'},
-    {p:90, msg:'⚙️ تجهيز العينة للدبلجة...'},
-  ];
-
-  showVoiceProgress(0,'📤 جاري الرفع...');
-  let si=0;
-  const iv=setInterval(()=>{
-    if(si<steps.length){ showVoiceProgress(steps[si].p, steps[si].msg); si++; }
-  },600);
-
-  try{
-    const fd=new FormData();
-    const ext=voiceBlob.type.includes('wav')?'.wav':voiceBlob.name?'.'+voiceBlob.name.split('.').pop():'.wav';
-    fd.append('voice', voiceBlob, 'voice_sample'+ext);
-    const user=JSON.parse(localStorage.getItem('sl_user')||'{}');
-    if(user.email) fd.append('email', user.email);
-    const res=await fetch(BE+'/api/upload-voice',{method:'POST',body:fd,signal:AbortSignal.timeout(30000)});
-    const d=await res.json();
-    clearInterval(iv);
-    if(d.success){
-      showVoiceProgress(100,'✅ تم التعرف على الصوت!');
-      setTimeout(()=>{
-        hideVoiceProgress();
-        voiceUploaded=true;
-        setVoiceStatus('ok','✅ تم التعرف على صوتك — سيُستخدم في كل اللغات 🎤');
-        showToast('✅ تم التعرف على الصوت بنجاح!');
-        btn.disabled=false;
-      },800);
-      return;
-    }else{
-      hideVoiceProgress();
-      showToast('❌ '+(d.error||'فشل الرفع'));
-    }
-  }catch(e){
-    clearInterval(iv);
-    hideVoiceProgress();
-    showToast('❌ تعذر الاتصال بالخادم');
-  }
-  btn.disabled=false;
-}
-
-function showVoiceProgress(pct, msg){
-  let box=document.getElementById('voiceProgBox');
-  if(!box){
-    box=document.createElement('div');
-    box.id='voiceProgBox';
-    box.style.cssText='margin-top:14px;background:rgba(0,0,0,.3);border:1px solid rgba(167,139,250,.2);border-radius:12px;padding:16px';
-    document.getElementById('uploadVoiceBtn').insertAdjacentElement('afterend',box);
-  }
-  const dots=pct<100?
-    '<div style="margin-top:10px;display:flex;gap:6px;align-items:center">'+
-    '<span style="width:8px;height:8px;border-radius:50%;background:#a78bfa;animation:blink 1s infinite;display:inline-block"></span>'+
-    '<span style="width:8px;height:8px;border-radius:50%;background:#60a5fa;animation:blink 1s .3s infinite;display:inline-block"></span>'+
-    '<span style="width:8px;height:8px;border-radius:50%;background:#34d399;animation:blink 1s .6s infinite;display:inline-block"></span>'+
-    '<span style="color:#6b7280;font-size:.8rem;margin-right:4px">جاري التحليل</span></div>':'<div style="text-align:center;margin-top:8px;font-size:1.4rem">🎉</div>';
-  box.innerHTML=
-    '<div style="display:flex;justify-content:space-between;margin-bottom:8px">'+
-    '<span style="color:#a78bfa;font-weight:600;font-size:.88rem">'+msg+'</span>'+
-    '<span style="color:#6b7280;font-size:.85rem">'+pct+'%</span></div>'+
-    '<div style="height:8px;background:rgba(255,255,255,.08);border-radius:4px;overflow:hidden">'+
-    '<div style="height:100%;width:'+pct+'%;background:linear-gradient(90deg,#7c3aed,#34d399);border-radius:4px;transition:width .5s ease"></div></div>'+dots;
-}
-
-function hideVoiceProgress(){
-  const box=document.getElementById('voiceProgBox');
-  if(box) box.remove();
-}
-
-async function checkVoiceOnServer(){
-  try{
-    const res=await fetch(BE+'/api/debug',{signal:AbortSignal.timeout(8000)});
-    const d=await res.json();
-    if(d.voice_files && d.voice_files.length>0){
-      setVoiceStatus('ok','✅ العينة موجودة على الخادم: '+d.voice_files[0].name+' ('+Math.round(d.voice_files[0].size/1024)+'KB)');
-      showToast('✅ العينة موجودة — XTTS جاهز');
-    }else{
-      setVoiceStatus('warn','⚠️ لا توجد عينة على الخادم — ارفع العينة أولاً');
-      showToast('⚠️ لا توجد عينة على الخادم');
-    }
-  }catch(e){
-    showToast('❌ تعذر الاتصال');
-  }
-}
-
-function setVoiceStatus(type, msg){
-  document.getElementById('voiceStatus').innerHTML=
-    '<div class="status-badge '+type+'">'+msg+'</div>';
 }
 
 // ── SRT ──────────────────────────────────────────────────────
@@ -531,7 +377,8 @@ async function genDub(){
         text: fullText,
         lang: lang,
         email: user.email || '',
-        feature: 'dub'
+        feature: 'dub',
+        voice_mode: voiceMode
       }),
       signal: AbortSignal.timeout(60000)
     });
