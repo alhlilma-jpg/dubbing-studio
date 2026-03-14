@@ -283,17 +283,23 @@ def debug():
         'xtts_loaded': TTS_ENGINE is not None
     })
 
-# ── الأسعار — غيّرها من هنا فقط ────────────────────────────
-PRICES = {
-    'tts':     {'price': 10,  'currency': '$', 'url': 'https://payhip.com/b/jQdFJ'},
-    'dubbing': {'price': 50,  'currency': '$', 'url': 'https://payhip.com/b/5XbaQ'},
-    'srt':     {'price': 10,  'currency': '$', 'url': 'https://payhip.com/b/2E6sT'},
-}
+# ── الأسعار — تُقرأ من prices.json ──────────────────────────
+import json as _json
+
+PRICES_FILE = Path(__file__).parent / 'prices.json'
+
+def load_prices():
+    try:
+        with open(PRICES_FILE, 'r', encoding='utf-8') as f:
+            return _json.load(f)
+    except Exception as e:
+        logger.error(f"prices.json error: {e}")
+        return {}
 
 @app.route('/api/prices')
 def prices():
-    """يُرجع الأسعار الحالية — غيّرها في PRICES أعلاه"""
-    return jsonify({'success': True, 'prices': PRICES})
+    """يُرجع الأسعار من prices.json — غيّر الملف فقط"""
+    return jsonify({'success': True, 'prices': load_prices()})
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8000))
