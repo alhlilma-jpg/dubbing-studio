@@ -1,9 +1,9 @@
 # utils.py
 # ==========================================================
-# مجموعة أدوات مساعدة للـ backend:
+# أدوات مساعدة للـ backend:
 #   • رفع / تحميل عينات صوتية من Cloudinary
 #   • تحويل MP3 → WAV (ffmpeg)
-#   • تنظيف ملفات /tmp القديمة
+#   • حذف ملفات مؤقّتة قديمة
 # ==========================================================
 import os, logging, uuid, requests, subprocess, time
 from pathlib import Path
@@ -13,14 +13,12 @@ import cloudinary.api
 
 logger = logging.getLogger(__name__)
 
-# ---------------------- Cloudinary configuration ----------------------
+# ---------- Cloudinary configuration ----------
 CLOUD_NAME    = os.getenv('CLOUDINARY_CLOUD_NAME')
 API_KEY       = os.getenv('CLOUDINARY_API_KEY')
 API_SECRET    = os.getenv('CLOUDINARY_API_SECRET')
-# اسم المجلد داخل Cloudinary الذي يُخزن فيه أصواتنا
 FOLDER        = os.getenv('CLOUDINARY_FOLDER', 'sl_voices')
-# معرف العينة الافتراضية (ABDU SELAM) – سيتشّخص من المتغيّر البيئي
-DEFAULT_VOICE_ID = os.getenv('DEFAULT_VOICE_ID', '5_gtygjb')
+DEFAULT_VOICE_ID = os.getenv('DEFAULT_VOICE_ID', '5_gtygjb')   # ← معرف العينة الافتراضية
 
 if not all([CLOUD_NAME, API_KEY, API_SECRET]):
     raise RuntimeError('❌ Cloudinary credentials missing – set them in the environment.')
@@ -33,7 +31,7 @@ cloudinary.config(
     timeout    = 30,
 )
 
-# ---------------------- TMP directory ----------------------
+# ---------- TMP directory ----------
 TMP_DIR = Path('/tmp')
 TMP_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -42,11 +40,7 @@ TMP_DIR.mkdir(parents=True, exist_ok=True)
 # بناء URL للملف داخل Cloudinary
 # -----------------------------------------------------------------
 def _cloudinary_url(public_id: str, resource_type: str = "raw") -> str:
-    """
-    إرجاع URL للملف مع الـ public_id المحدد.
-    يتغيّر resource_type بين "raw" (الملفات العادية) و "video"
-    (الحالة التي تُخزن فيها MP3 داخل حاوية video).
-    """
+    """إرجاع URL للملف بحسب الـ public_id ونوع المورد."""
     url, _ = cloudinary.utils.cloudinary_url(
         f"{FOLDER}/{public_id}",
         resource_type = resource_type,
@@ -56,12 +50,10 @@ def _cloudinary_url(public_id: str, resource_type: str = "raw") -> str:
 
 
 # -----------------------------------------------------------------
-# رفع ملف RAW إلى Cloudinary
+# رفع ملف RAW (wav/mp3/…) إلى Cloudinary
 # -----------------------------------------------------------------
 def upload_to_cloudinary(local_path: str, public_id: str) -> str | None:
-    """
-    يُعيد الـ secure_url إذا نجح الرفع، وإلا None.
-    """
+    """يرجع secure_url إذا نجح الرفع، وإلا None."""
     try:
         result = cloudinary.uploader.upload(
             local_path,
@@ -79,24 +71,24 @@ def upload_to_cloudinary(local_path: str, public_id: str) -> str | None:
 
 
 # -----------------------------------------------------------------
-# تحميل عينة صوت (مع Cache) – يدعم RAW و VIDEO
+# تحميل عينة صوت (مع Cache). يدعم RAW و VIDEO
 # -----------------------------------------------------------------
 def fetch_voice_sample(public_id: str | None = None) -> Path | None:
     """
-    يحمّل عينة صوت من Cloudinary إلى /tmp (مع caching).
-    إذا لم يُعطى public_id يُستعمل DEFAULT_VOICE_ID.
-    تدعم أولاً تحميل كـ raw، وإذا فشل تحاول كـ video.
-    في كلتا الحالتين تُعيد مسار WAV محليًا (تحويل MP3 → WAV إذا لزم).
+    تحميل عينة صوت من Cloudinary إلى /tmp (مع caching).
+    إذا لم يُعطى public_id يتم استعمال DEFAULT_VOICE_ID.
+    يحاول أولاً كـ raw، وإن فشل يحاول كـ video (MP3 داخل حاوية video).
+    النتيجة دائماً ملف WAV على /tmp.
     """
     vid = public_id or DEFAULT_VOICE_ID
     local_path = TMP_DIR / f"voice_{vid}.wav"
 
-    # إذا كان موجوداً محلياً (أكبر من 5 KB) نعيده فوراً
+    # إذا كان موجوداً محلياً وحجمه > 5 KB → نعيده مباشرةً
     if local_path.exists() and local_path.stat().st_size > 5_000:
         logger.info(f"✅ Using cached voice sample: {local_path}")
         return local_path
 
-    # ==== 1️⃣ حاول تحميل كـ raw ==== #
+    # --------- 1️⃣ جرب RAW ----------
     raw_url = _cloudinary_url(vid, resource_type="raw")
     logger.info(f"⬇️ Trying raw download: {raw_url}")
     try:
@@ -111,18 +103,19 @@ def fetch_voice_sample(public_id: str | None = None) -> Path | None:
     except Exception as exc:
         logger.warning(f"⚠️ Raw download exception: {exc}")
 
-    # ==== 2️⃣ جرب تحميل كـ video (يتضمن MP3) ==== #
+    # --------- 2️⃣ جرب VIDEO ----------
     video_url = _cloudinary_url(vid, resource_type="video")
     logger.info(f"⬇️ Trying video download: {video_url}")
     try:
         r = requests.get(video_url, timeout=30)
         if r.status_code == 200 and len(r.content) > 5_000:
+            # الملف يأتي بصيغة MP3 داخل حاوية video
             tmp_mp3 = TMP_DIR / f"{vid}.mp3"
             with open(tmp_mp3, "wb") as f:
                 f.write(r.content)
             logger.info(f"✅ Video‑type MP3 downloaded → {tmp_mp3}")
 
-            # تحويل MP3 إلى WAV (22 kHz, mono)
+            # تحويل MP3 → WAV (22 kHz, mono)
             if mp3_to_wav(tmp_mp3, local_path):
                 logger.info(f"✅ Converted video MP3 → WAV: {local_path}")
                 return local_path
@@ -134,7 +127,6 @@ def fetch_voice_sample(public_id: str | None = None) -> Path | None:
     except Exception as exc:
         logger.error(f"❌ Video download exception: {exc}")
 
-    # ----- إذا وصلنا إلى هنا فكلّ المحاولات فشلت -----
     logger.error(f"❌ Unable to fetch voice sample for id `{vid}`")
     return None
 
@@ -143,10 +135,7 @@ def fetch_voice_sample(public_id: str | None = None) -> Path | None:
 # تحويل MP3 → WAV (ffmpeg)
 # -----------------------------------------------------------------
 def mp3_to_wav(mp3_path: Path, wav_path: Path) -> bool:
-    """
-    يستخدم ffmpeg لتحويل ملف MP3 إلى WAV (22050 Hz, mono).
-    يُعيد True إذا نجح التحويل.
-    """
+    """يحوّل ملف MP3 إلى WAV (22 kHz, mono) باستخدام ffmpeg."""
     try:
         subprocess.run(
             ["ffmpeg", "-y", "-i", str(mp3_path), "-ar", "22050", "-ac", "1", str(wav_path)],
@@ -162,13 +151,10 @@ def mp3_to_wav(mp3_path: Path, wav_path: Path) -> bool:
 
 
 # -----------------------------------------------------------------
-# تنظيف ملفات /tmp القديمة
+# تنظيف /tmp من الملفات القديمة
 # -----------------------------------------------------------------
 def purge_tmp_folder(older_than_seconds: int = 7_200):
-    """
-    يمسح جميع الملفات داخل /tmp التي مضى عليها أكثر من
-    `older_than_seconds` (الافتراضي 2 ساعات).
-    """
+    """يمسح جميع الملفات داخل /tmp التي مضى عليها أكثر من `older_than_seconds`."""
     now = time.time()
     for p in TMP_DIR.iterdir():
         if p.is_file() and (now - p.stat().st_mtime) > older_than_seconds:
