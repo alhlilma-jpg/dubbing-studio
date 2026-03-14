@@ -5,6 +5,7 @@
 #   • XTTS‑v2 مع عينة صوت مخصَّصة (ABDU SELAM أو أي عينة أخرى)
 #   • gTTS كبديل افتراضي
 # ==============================================================
+
 import os, uuid, logging
 from pathlib import Path
 
@@ -25,11 +26,11 @@ TMP = Path('/tmp')
 TMP.mkdir(parents=True, exist_ok=True)
 
 # -----------------------------------------------------------------
-# خرائط اللغات
+# خريطة اللغات (XTTS و gTTS)
 # -----------------------------------------------------------------
 XTTS_LANGS = {
-    'ar': 'ar', 'en': 'en', 'es': 'es', 'fr': 'fr',
-    'de': 'de', 'it': 'it', 'ru': 'ru', 'tr': 'tr',
+    'ar': 'ar', 'en': 'en', 'es': 'es', 'fr': 'fr', 'de': 'de',
+    'it': 'it', 'ru': 'ru', 'tr': 'tr',
     'zh': 'zh-cn', 'hi': 'hi', 'nl': 'nl'
 }
 GTTS_LANGS = {
@@ -66,10 +67,10 @@ def _load_xtts():
 
 
 # -----------------------------------------------------------------
-# توليد صوت بـ XTTS
+# توليد صوت بـ XTTS (يحتاج عينة صوت)
 # -----------------------------------------------------------------
 def _synthesize_xtts(text: str, lang: str, voice_path: str, out_path: str) -> bool:
-    """يُعيد True إذا نجح توليد الصوت بـ XTTS."""
+    """يُعيد True إذا نجح توليد الصوت باستخدام XTTS."""
     tts = _load_xtts()
     if not tts:
         return False
@@ -94,10 +95,10 @@ def _synthesize_xtts(text: str, lang: str, voice_path: str, out_path: str) -> bo
 
 
 # -----------------------------------------------------------------
-# توليد صوت بـ gTTS
+# توليد صوت بـ gTTS (fallback)
 # -----------------------------------------------------------------
 def _synthesize_gtts(text: str, lang: str, out_path: str) -> bool:
-    """يُعيد True إذا نجح توليد الصوت بـ gTTS."""
+    """يُعيد True إذا نجح توليد الصوت باستخدام gTTS."""
     try:
         from gtts import gTTS
         gtts_lang = GTTS_LANGS.get(lang, 'en')
@@ -110,7 +111,7 @@ def _synthesize_gtts(text: str, lang: str, out_path: str) -> bool:
 
 
 # -----------------------------------------------------------------
-# الدالة العامة التي يُستدعى منها من الـ backend
+# الواجهة العامة (تُستدعى من server.py)
 # -----------------------------------------------------------------
 def synthesize(text: str, lang: str, use_custom_voice: bool = False) -> tuple:
     """
@@ -118,31 +119,32 @@ def synthesize(text: str, lang: str, use_custom_voice: bool = False) -> tuple:
 
     Parameters
     ----------
-    text               : النص المطلوب تحويله.
-    lang               : رمز اللغة (ar, en, …).
-    use_custom_voice   : True → استخدم عينة الصوت المخصَّصة (ABDU SELAM أو غيرها)؛
-                         False → استخدم gTTS (الصوت الافتراضي).
+    text               – النص المراد تحويله.
+    lang               – رمز اللغة (ar, en, …).
+    use_custom_voice   – True → استخدم عينة صوت مخصَّصة (من Cloudinary);
+                         False → استخدم gTTS (الصوت الافتراضي).
 
     Returns
     -------
-    (file_path, method)   – `method` إما "xtts_v2" أو "gtts".
-    (None, None)         – عند الفشل.
+    (file_path, method)    – method إما "xtts_v2" أو "gtts".
+    (None, None)            – إذا فشل كل شيء.
     """
     out_wav = TMP / f"out_{uuid.uuid4()}.wav"
     out_mp3 = TMP / f"out_{uuid.uuid4()}.mp3"
 
     if use_custom_voice:
-        voice_path = fetch_voice_sample()            # تحمَّل/استخدم العينة الافتراضية
+        # تحميل عينة الصوت (قد تكون من Cloudinary أو الكاش)
+        voice_path = fetch_voice_sample()
         if voice_path:
             if _synthesize_xtts(text, lang, str(voice_path), str(out_wav)):
                 return str(out_wav), 'xtts_v2'
-            logger.warning("XTTS generation failed → fallback to gTTS")
+            logger.warning("XTTS generation failed → fallback إلى gTTS")
         else:
-            logger.warning("Voice sample not available → fallback to gTTS")
+            logger.warning("Voice sample غير متوفرة → fallback إلى gTTS")
 
-    # fallback إلى gTTS
+    # ----- fallback إلى gTTS -----
     if _synthesize_gtts(text, lang, str(out_mp3)):
-        # تحويل MP3 إلى WAV لتوحيد الصيغة مع باقي ال API
+        # تحويل MP3 إلى WAV لتوحيد الصيغة
         if mp3_to_wav(out_mp3, out_wav):
             return str(out_wav), 'gtts'
         else:
@@ -153,17 +155,17 @@ def synthesize(text: str, lang: str, use_custom_voice: bool = False) -> tuple:
 
 
 # -----------------------------------------------------------------
-# اختبار مباشر (python voice_engine.py)
+# اختبار سريع (يمكن تشغيله مباشرةً)
 # -----------------------------------------------------------------
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     print("\n🧪 اختبار voice_engine …")
 
-    # اختبار gTTS (بدون عينة مخصَّصة)
+    # gTTS (بدون عينة مخصَّصة)
     p, m = synthesize("مرحباً بكم في sl‑Dubbing", "ar", use_custom_voice=False)
     print(f"gTTS   → method: {m}, file: {p}")
 
-    # اختبار XTTS (يتطلب اتصال Cloudinary + العينة الافتراضية)
+    # XTTS (يحتاج وجود عينة صوت في Cloudinary – معرفها في DEFAULT_VOICE_ID)
     p, m = synthesize("Hello from sl‑Dubbing", "en", use_custom_voice=True)
     print(f"XTTS   → method: {m}, file: {p}")
 
