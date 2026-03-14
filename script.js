@@ -1,4 +1,4 @@
-// غيّر هذا الرابط إلى رابط الـ backend اللي نشرته (Render أو HuggingFace Spaces)
+// هذا هو رابط الـ backend المباشر على Hugging Face Spaces
 const API_BASE = "https://ABDULSELAM1996-sl-dubbing-backend.hf.space";
 
 // دبلجة بالنصوص باستخدام الصوت الافتراضي (gTTS)
