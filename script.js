@@ -256,7 +256,10 @@ function setBackendUrl(url) {
 }
 
 // ── تهيئة الصفحة ─────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  // جلب الرابط من Cloudinary أولاً
+  await fetchBackendUrl();
+
   // استرجع رابط Colab إن كان محفوظاً
   const saved = localStorage.getItem('sl_backend_url');
   if (saved) CONFIG.API_BASE = saved;
