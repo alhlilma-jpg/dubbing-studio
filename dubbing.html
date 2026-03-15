@@ -235,7 +235,7 @@ footer a:hover{color:#a78bfa}
     <!-- ── SRT ── -->
     <label class="lbl">ملف SRT:</label>
     <div class="upload-area" onclick="document.getElementById('srtFile').click()">
-      <input type="file" id="srtFile" accept=".srt,.txt" onchange="loadSRT(event)">
+      <input type="file" id="srtFile" accept=".srt,.txt" onchange="loadSRTFile(event)">
       <div style="font-size:2.2rem;margin-bottom:8px">📁</div>
       <div style="color:#60a5fa;font-weight:600">اسحب أو انقر لرفع ملف SRT</div>
       <div style="color:#6b7280;font-size:.82rem;margin-top:4px">يدعم .srt و .txt</div>
@@ -268,143 +268,21 @@ footer a:hover{color:#a78bfa}
 </div>
 <div class="toast" id="toast"></div>
 
-<script>
-const BE = 'https://abdulselam1996-sl-dubbing-backend.hf.space';
-const LANGS = [
-  {c:'ar',n:'العربية',f:'🇸🇦'},{c:'en',n:'English',f:'🇺🇸'},{c:'es',n:'Español',f:'🇪🇸'},
-  {c:'fr',n:'Français',f:'🇫🇷'},{c:'de',n:'Deutsch',f:'🇩🇪'},{c:'it',n:'Italiano',f:'🇮🇹'},
-  {c:'ru',n:'Русский',f:'🇷🇺'},{c:'tr',n:'Türkçe',f:'🇹🇷'},{c:'zh',n:'中文',f:'🇨🇳'},
-  {c:'hi',n:'हिन्दी',f:'🇮🇳'},{c:'fa',n:'فارسی',f:'🇮🇷'},{c:'sv',n:'Svenska',f:'🇸🇪'},{c:'nl',n:'Nederlands',f:'🇳🇱'}
-];
 
-let lang='ar', srtData=[], voiceMode='gtts';
-let voiceBlob=null, voiceUploaded=false;
 
-function selectVoice(mode, el){
-  voiceMode = mode;
-  document.querySelectorAll('.voice-choice').forEach(e=>{
-    e.style.borderColor = 'rgba(255,255,255,.1)';
-    e.style.background  = 'rgba(255,255,255,.02)';
-  });
-  el.style.borderColor = mode==='xtts' ? '#a78bfa' : '#60a5fa';
-  el.style.background  = mode==='xtts' ? 'rgba(124,58,237,.15)' : 'rgba(96,165,250,.12)';
-}
-
-function showToast(m,d=3000){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),d)}
-
-// ── Init ──────────────────────────────────────────────────────
-(function(){
-  try{
-    const u=JSON.parse(localStorage.getItem('sl_user'));
-    if(u){
-      document.getElementById('hdr').innerHTML=
-        '<div class="avatar">'+u.avatar+'</div>'+
-        '<span class="username">'+(u.name||u.email)+'</span>'+
-        '<button class="btn-logout" onclick="localStorage.removeItem(\'sl_user\');location.href=\'index.html\'">خروج</button>';
-    } else { sessionStorage.setItem('returnUrl',location.href); location.href='login.html'; }
-  }catch(e){ location.href='login.html'; }
-})();
-
-document.getElementById('langs').innerHTML = LANGS.map(l=>
-  '<button class="lang-btn '+(l.c==='ar'?'active':'')+'" onclick="selLang(\''+l.c+'\',this)">'+
-  '<span class="lang-flag">'+l.f+'</span><span>'+l.n+'</span></button>'
-).join('');
-
-// ── اللغة ─────────────────────────────────────────────────────
-function selLang(c,b){lang=c;document.querySelectorAll('.lang-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active')}
-
-// ── Tabs ──────────────────────────────────────────────────────
-function switchTab(id){
-  document.querySelectorAll('.mtab').forEach((t,i)=>t.classList.toggle('active',['upload','record'][i]===id));
-  document.querySelectorAll('.method-panel').forEach(p=>p.classList.remove('active'));
-  document.getElementById('panel'+id.charAt(0).toUpperCase()+id.slice(1)).classList.add('active');
-}
-
-// ── رفع ملف صوتي ─────────────────────────────────────────────
-function handleVoiceFile(e){
-  const file=e.target.files[0]; if(!file)return;
-  voiceBlob=file;
-  const url=URL.createObjectURL(file);
-  document.getElementById('uploadAudio').src=url;
-  document.getElementById('uploadPreview').classList.add('show');
-  document.getElementById('voiceDropArea').classList.add('has-file');
-  document.getElementById('uploadVoiceBtn').style.display='block';
-  setVoiceStatus('ok','✅ عينة جاهزة — انقر "رفع إلى الخادم"');
-}
-
-// ── SRT ──────────────────────────────────────────────────────
-function loadSRT(e){
-  const f=e.target.files[0]; if(!f)return;
-  const r=new FileReader(); r.onload=ev=>{document.getElementById('srtTxt').value=ev.target.result;parseSRT()}; r.readAsText(f);
-}
-function parseSRT(){
-  const ct=document.getElementById('srtTxt').value; if(!ct){showToast('الرجاء إدخال محتوى SRT');return;}
-  srtData=[];let cur=null;
-  for(let line of ct.split('\n')){
-    line=line.trim(); if(!line)continue;
-    if(/^\d+$/.test(line)){if(cur)srtData.push(cur);cur={i:parseInt(line),t:'',x:''}}
-    else if(line.includes('-->')){if(cur)cur.t=line}
-    else if(cur){cur.x+=line+' '}
-  }
-  if(cur)srtData.push(cur);
-  const list=document.getElementById('srtList');
-  list.innerHTML=srtData.map(i=>'<div class="srt-item"><span class="srt-time">'+i.t+'</span><span>'+i.x+'</span></div>').join('');
-  list.style.display='block';
-  showToast('✅ تم تحليل '+srtData.length+' جملة');
-}
-
-// ── توليد الدبلجة ─────────────────────────────────────────────
-async function genDub(){
-  if(!srtData.length){showToast('الرجاء تحميل ملف SRT أولاً');return;}
-  const btn=document.getElementById('dubBtn'),prog=document.getElementById('prog');
-  btn.disabled=true; prog.classList.add('on');
-  document.getElementById('pf').style.width='0%';
-
-  const user=JSON.parse(localStorage.getItem('sl_user')||'{}');
-  const fullText=srtData.map(i=>i.x.trim()).join('\n');
-
-  // شريط التقدم أثناء الانتظار
-  let p=0;
-  const iv=setInterval(()=>{p=Math.min(p+2,85);document.getElementById('pf').style.width=p+'%';document.getElementById('pt').textContent='جاري التوليد... '+p+'%'},600);
-
-  try{
-    // إذا كانت العينة موجودة محلياً ولم تُرفع بعد، أرفعها مع الطلب
-    // دائماً نرسل JSON — أبسط وأكثر توافقاً
-    const res = await fetch(BE+'/api/dub', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        text: fullText,
-        lang: lang,
-        email: user.email || '',
-        feature: 'dub',
-        voice_mode: voiceMode
-      }),
-      signal: AbortSignal.timeout(60000)
-    });
-
-    clearInterval(iv);
-    document.getElementById('pf').style.width='100%';
-
-    const d=await res.json();
-    if(d.success && d.audio_url){
-      prog.classList.remove('on'); btn.disabled=false;
-      document.getElementById('dubAud').src=d.audio_url;
-      document.getElementById('dubAud').classList.add('show');
-      document.getElementById('dubDl').href=d.audio_url;
-      document.getElementById('dubDl').classList.add('show');
-      const method=d.method==='xtts_v2'?'بصوتك (XTTS v2) 🎤':'بصوت افتراضي (gTTS)';
-      showToast('✅ تم التوليد '+method, 4000);
-      return;
-    }
-    showToast('❌ '+(d.error||'فشل التوليد'));
-  }catch(e){
-    clearInterval(iv);
-    showToast('❌ تعذر الاتصال بالخادم');
-  }
-  document.getElementById('pf').style.width='0%';
-  prog.classList.remove('on'); btn.disabled=false;
-}
-</script>
+<!-- رابط Colab — يتغير عند كل جلسة -->
+<div id="colabBar" style="position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.85);padding:10px 16px;display:flex;gap:8px;z-index:999;border-top:1px solid rgba(167,139,250,.2)">
+  <input id="colabUrl" type="text" placeholder="🔗 الصق رابط Colab ngrok هنا..."
+    style="flex:1;padding:8px 12px;border-radius:8px;border:1px solid rgba(167,139,250,.3);background:rgba(255,255,255,.05);color:#fff;font-size:.85rem;outline:none">
+  <button onclick="setBackendUrl(document.getElementById('colabUrl').value)"
+    style="padding:8px 16px;background:linear-gradient(135deg,#7c3aed,#2563eb);border:none;border-radius:8px;color:#fff;font-weight:700;cursor:pointer">
+    تطبيق
+  </button>
+  <button onclick="document.getElementById('colabBar').style.display='none'"
+    style="padding:8px 12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:#9ca3af;cursor:pointer">
+    ✕
+  </button>
+</div>
+<script src="script.js"></script>
 </body>
 </html>
