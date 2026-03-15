@@ -10,7 +10,85 @@
 </head>
 <body>
 <div class="page">
-  <!-- ... جميع الأكواد السابقة ... -->
+  <div class="top-bar">
+    <a class="logo" href="index.html">
+      <img src="logo.gif" onerror="this.src='logo.png'" alt="logo">
+      <span>sl-Dubbing & Translation</span>
+    </a>
+    <div class="user-zone" id="hdr"><a href="login.html" class="btn-login">تسجيل الدخول</a></div>
+  </div>
+
+  <div class="tool-header">
+    <a href="index.html" class="back-btn">← رجوع</a>
+    <h1>🎬 دبلجة AI</h1>
+  </div>
+
+  <div class="tool-box">
+
+    <!-- ── اختيار الصوت ── -->
+    <label class="lbl">اختر الصوت:</label>
+    <div style="display:flex;gap:12px;margin-bottom:24px">
+      <div class="voice-choice active" id="vc-default" onclick="selectVoice('gtts',this)"
+        style="flex:1;padding:16px;border:2px solid rgba(96,165,250,.3);border-radius:14px;cursor:pointer;text-align:center;background:rgba(96,165,250,.06);transition:all .3s">
+        <div style="font-size:1.8rem">🤖</div>
+        <div style="font-weight:700;color:#60a5fa;margin-top:6px">صوت افتراضي</div>
+        <div style="font-size:.78rem;color:#6b7280;margin-top:3px">سريع ومجاني</div>
+      </div>
+      <div class="voice-choice" id="vc-abdu" onclick="selectVoice('xtts',this)"
+        style="flex:1;padding:16px;border:2px solid rgba(167,139,250,.2);border-radius:14px;cursor:pointer;text-align:center;background:rgba(124,58,237,.04);transition:all .3s">
+        <div style="font-size:1.8rem">🎙️</div>
+        <div style="font-weight:700;color:#a78bfa;margin-top:6px">صوت ABDU SELAM</div>
+        <div style="font-size:.78rem;color:#6b7280;margin-top:3px">نبرة حقيقية بكل اللغات</div>
+      </div>
+    </div>
+
+    <!-- ── اللغة ── -->
+    <label class="lbl">اختر لغة الدبلجة:</label>
+    <div class="lang-grid" id="langs">
+      <button class="lang-btn active" onclick="selectLang('ar',this)"><span class="lang-flag">🇸🇦</span><span>العربية</span></button>
+      <button class="lang-btn" onclick="selectLang('en',this)"><span class="lang-flag">🇺🇸</span><span>English</span></button>
+      <button class="lang-btn" onclick="selectLang('es',this)"><span class="lang-flag">🇪🇸</span><span>Español</span></button>
+      <button class="lang-btn" onclick="selectLang('fr',this)"><span class="lang-flag">🇫🇷</span><span>Français</span></button>
+      <button class="lang-btn" onclick="selectLang('de',this)"><span class="lang-flag">🇩🇪</span><span>Deutsch</span></button>
+      <button class="lang-btn" onclick="selectLang('it',this)"><span class="lang-flag">🇮🇹</span><span>Italiano</span></button>
+      <button class="lang-btn" onclick="selectLang('ru',this)"><span class="lang-flag">🇷🇺</span><span>Русский</span></button>
+      <button class="lang-btn" onclick="selectLang('tr',this)"><span class="lang-flag">🇹🇷</span><span>Türkçe</span></button>
+      <button class="lang-btn" onclick="selectLang('zh',this)"><span class="lang-flag">🇨🇳</span><span>中文</span></button>
+      <button class="lang-btn" onclick="selectLang('hi',this)"><span class="lang-flag">🇮🇳</span><span>हिन्दी</span></button>
+      <button class="lang-btn" onclick="selectLang('fa',this)"><span class="lang-flag">🇮🇷</span><span>فارسی</span></button>
+      <button class="lang-btn" onclick="selectLang('sv',this)"><span class="lang-flag">🇸🇪</span><span>Svenska</span></button>
+      <button class="lang-btn" onclick="selectLang('nl',this)"><span class="lang-flag">🇳🇱</span><span>Nederlands</span></button>
+    </div>
+
+    <!-- ── SRT ── -->
+    <label class="lbl">ملف SRT:</label>
+    <div class="upload-area" onclick="document.getElementById('srtFile').click()">
+      <input type="file" id="srtFile" accept=".srt,.txt" onchange="loadSRTFile(event)">
+      <div style="font-size:2.2rem;margin-bottom:8px">📁</div>
+      <div style="color:#60a5fa;font-weight:600">اسحب أو انقر لرفع ملف SRT</div>
+      <div style="color:#6b7280;font-size:.82rem;margin-top:4px">يدعم .srt و .txt</div>
+    </div>
+    <textarea class="textarea" id="srtTxt" placeholder="أو الصق محتوى SRT هنا..." style="min-height:90px;font-family:monospace;font-size:.85rem"></textarea>
+    <button class="sec-btn" onclick="parseSRT()">📥 تحليل الملف</button>
+    <div class="srt-list" id="srtList"></div>
+
+    <!-- ── توليد ── -->
+    <div class="controls-row">
+      <div class="cg"><label>السرعة: <span class="cv" id="rv">1.0x</span></label><input type="range" id="rc" min=".5" max="1" step=".05" value="1" oninput="document.getElementById('rv').textContent=this.value+'x'"></div>
+      <div class="cg"><label>الصوت: <span class="cv" id="vv">1.0x</span></label><input type="range" id="vc" min=".2" max="2" step=".1" value="1" oninput="document.getElementById('vv').textContent=this.value+'x'"></div>
+    </div>
+
+    <button class="action-btn" id="dubBtn" onclick="genDub()">🎬 توليد الدبلجة</button>
+
+    <div class="prog-wrap" id="prog">
+      <div class="prog-bar"><div class="prog-fill" id="pf"></div></div>
+      <div class="prog-txt" id="pt">جاري توليد الدبلجة...</div>
+    </div>
+
+    <audio id="dubAud" controls></audio>
+    <a class="dl-btn" id="dubDl" download="dubbed.wav">⬇️ تحميل الدبلجة (WAV)</a>
+  </div>
+
   <footer>
     <p>ALHASHMI © 2026</p>
     <p style="margin-top:8px"><a href="privacy.html">سياسة الخصوصية</a></p>
@@ -19,78 +97,9 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// ================================
-// تعديل: رابط الخادم الجديد
-// ================================
 const BE = 'https://0475-34-124-191-219.ngrok-free.app';
-
-// إذا كان لديك كود في script.js، تأكد أن المتغير BE معرف هناك أيضاً
-// مثال توليد الدبلجة (يمكنك تعديله حسب كودك):
-async function genDub() {
-    const srtTxt = document.getElementById('srtTxt').value;
-    const lang = window.selectedLang || 'ar';
-    const voice_mode = window.selectedVoice || 'gtts';
-    const dubBtn = document.getElementById('dubBtn');
-    dubBtn.disabled = true;
-    showToast('جاري توليد الدبلجة...');
-    try {
-        const res = await fetch(`${BE}/api/dub`, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                text: srtTxt,
-                lang: lang,
-                voice_mode: voice_mode
-            })
-        });
-        const data = await res.json();
-        if (data.audio_url) {
-            document.getElementById('dubAud').src = data.audio_url;
-            document.getElementById('dubAud').classList.add('show');
-            document.getElementById('dubDl').href = data.audio_url;
-            document.getElementById('dubDl').classList.add('show');
-            showToast('تم توليد الدبلجة بنجاح!');
-        } else {
-            showToast(data.error || 'حدث خطأ أثناء التوليد');
-        }
-    } catch(e) {
-        showToast('تعذر الاتصال بالخادم');
-    }
-    dubBtn.disabled = false;
-}
-
-// اختيار الصوت
-function selectVoice(mode, el) {
-    window.selectedVoice = mode;
-    document.querySelectorAll('.voice-choice').forEach(v => v.classList.remove('active'));
-    el.classList.add('active');
-}
-
-// اختيار اللغة
-function selectLang(lang, el) {
-    window.selectedLang = lang;
-    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-    el.classList.add('active');
-}
-
-// رفع ملف SRT
-function loadSRTFile(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        document.getElementById('srtTxt').value = e.target.result;
-    };
-    reader.readAsText(file);
-}
-
-// Toast
-function showToast(msg) {
-    const toast = document.getElementById('toast');
-    toast.textContent = msg;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 3000);
-}
+// باقي كودك أو script.js سيستخدم هذا المتغير
 </script>
+<script src="script.js"></script>
 </body>
 </html>
