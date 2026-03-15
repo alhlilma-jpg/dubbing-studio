@@ -231,7 +231,7 @@ function handleLogin(e){
   e.preventDefault();
   const email=document.getElementById('em').value,pw=document.getElementById('pw').value;
   showToast('جاري التحقق...');
-  fetch(BE+'/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password:pw}),signal:AbortSignal.timeout(8000)})
+  fetch(BE+'/api/login',{method:'POST',headers:{'Content-Type':'application/json','ngrok-skip-browser-warning':'1'},body:JSON.stringify({email,password:pw}),signal:AbortSignal.timeout(8000)})
   .then(r=>r.json()).then(d=>{
     if(d.success)saveAndGo({email:d.email,name:d.email.split('@')[0],avatar:d.email[0].toUpperCase(),usage:d.usage||{tts:0,dub:0,srt:0},unlocked:d.unlocked||{tts:false,dub:false,srt:false}});
     else showToast('❌ '+(d.error||'بيانات غير صحيحة'));
